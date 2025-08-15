@@ -5,39 +5,40 @@
 int
 main(int argc, char** argv)
 {
-    nat8 mem[12] = {0};
+    pxn8 memory[12] = {0};
 
-    mem_copy_flipped(mem, "ciao", 2, 2);
+    pxMemoryCopyFlipped(memory, "ciao", 2, 2);
 
-    for (Int i = 0; i < 12; i += 1)
-        printf("[%-3u] ", mem[i]);
+    for (pxint i = 0; i < 12; i += 1)
+        printf("%03u ", memory[i]);
     printf("\n");
 
-    printf("%s\n", mem);
+    printf("%s\n\n", memory);
 
-    mem_copy_forw(mem, 4, 4, 1);
+    pxMemoryCopyForw(memory, 4, 4, 1);
 
-    for (Int i = 0; i < 12; i += 1)
-        printf("[%-3u] ", mem[i]);
+    for (pxint i = 0; i < 12; i += 1)
+        printf("%03u ", memory[i]);
     printf("\n");
 
-    printf("%s\n", mem);
+    printf("%s\n\n", memory);
 
-    mem_flip(mem, 2, 2);
+    pxMemoryFlip(memory, 2, 2);
 
-    for (Int i = 0; i < 12; i += 1)
-        printf("[%-3u] ", mem[i]);
+    for (pxint i = 0; i < 12; i += 1)
+        printf("%03u ", memory[i]);
     printf("\n");
 
-    printf("%s\n", mem);
+    printf("%s\n\n", memory);
 
-    mem_copy_back(mem + 2, 2, 2, 1);
+    pxMemoryCopyBack(memory + 2, 2, 2, 1);
 
-    for (Int i = 0; i < 12; i += 1)
-        printf("[%-3u] ", mem[i]);
+    for (pxint i = 0; i < 12; i += 1)
+        printf("%03u ", memory[i]);
     printf("\n");
 
-    printf("%s\n", mem);
+    printf("%s\n\n", memory);
 
-    printf("equal = %u\n", mem_is_equal(mem, "ciao", 4, 1));
+    printf("equal = %u\n",
+        pxMemoryIsEqual(memory, "ciao", 4, 1));
 }

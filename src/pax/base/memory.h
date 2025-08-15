@@ -1,35 +1,35 @@
-#ifndef PAX_BASE_MEMORY_H
-#define PAX_BASE_MEMORY_H
+#ifndef PX_BASE_MEMORY_H
+#define PX_BASE_MEMORY_H
 
 #include "number.h"
 
-static const Int MEMORY_KB = pax_as(Int, 1000);
-static const Int MEMORY_MB = pax_as(Int, 1000 * 1000);
-static const Int MEMORY_GB = pax_as(Int, 1000 * 1000 * 1000);
+#define PX_MEMORY_KB px_as(pxint, 1000)
+#define PX_MEMORY_MB px_as(pxint, 1000 * 1000)
+#define PX_MEMORY_GB px_as(pxint, 1000 * 1000 * 1000)
 
-static const Int MEMORY_KIB = pax_as(Int, 1024);
-static const Int MEMORY_MIB = pax_as(Int, 1024 * 1024);
-static const Int MEMORY_GIB = pax_as(Int, 1024 * 1024 * 1024);
-
-void*
-mem_zero(void* memory, Int length, Int stride);
+#define PX_MEMORY_KIB px_as(pxint, 1024)
+#define PX_MEMORY_MIB px_as(pxint, 1024 * 1024)
+#define PX_MEMORY_GIB px_as(pxint, 1024 * 1024 * 1024)
 
 void*
-mem_flip(void* memory, Int length, Int stride);
+pxMemoryZero(void* memory, pxint length, pxint stride);
 
 void*
-mem_copy(void* memory, void* value, Int length, Int stride);
+pxMemoryFlip(void* memory, pxint length, pxint stride);
 
 void*
-mem_copy_flipped(void* memory, void* value, Int length, Int stride);
+pxMemoryCopy(void* memory, void* value, pxint length, pxint stride);
 
 void*
-mem_copy_back(void* memory, Int length, Int offset, Int stride);
+pxMemoryCopyFlipped(void* memory, void* value, pxint length, pxint stride);
 
 void*
-mem_copy_forw(void* memory, Int length, Int offset, Int stride);
+pxMemoryCopyBack(void* memory, pxint length, pxint offset, pxint stride);
 
-bool8
-mem_is_equal(void* memory, void* value, Int length, Int stride);
+void*
+pxMemoryCopyForw(void* memory, pxint length, pxint offset, pxint stride);
 
-#endif // PAX_BASE_MEMORY_H
+pxb8
+pxMemoryIsEqual(void* memory, void* value, pxint length, pxint stride);
+
+#endif // PX_BASE_MEMORY_H

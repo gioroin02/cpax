@@ -5,11 +5,12 @@
 int
 main(int argc, char** argv)
 {
-    bool8   s0 = pax_sig_float32(-1.56);
-    float32 f0 = pax_abs_float32(-1.56);
+    pxb8  dir0 = pxDirectionFloat32(-1.56);
+    pxf32 mag0 = pxMagnitudeFloat32(-1.56);
 
-    bool8   s1 = pax_sig_float32(f0);
-    float32 f1 = pax_abs_float32(f0);
+    pxb8  dir1 = pxDirectionFloat32(mag0);
+    pxf32 mag1 = pxMagnitudeFloat32(mag0);
 
-    printf("%u, %f\n%u, %f\n", s0, f0, s1, f1);
+    printf("%u, %f\n%u, %f\n",
+        dir0, mag0, dir1, mag1);
 }

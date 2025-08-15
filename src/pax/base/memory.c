@@ -1,34 +1,34 @@
-#ifndef PAX_BASE_MEMORY_C
-#define PAX_BASE_MEMORY_C
+#ifndef PX_BASE_MEMORY_C
+#define PX_BASE_MEMORY_C
 
 #include "memory.h"
 
 void*
-mem_zero(void* memory, Int length, Int stride)
+pxMemoryZero(void* memory, pxint length, pxint stride)
 {
     if (length <= 0 || stride <= 0) return memory;
 
-    for (Int i = 0; i < length * stride; i += 1)
-        pax_as(nat8*, memory)[i] = 0;
+    for (pxint i = 0; i < length * stride; i += 1)
+        px_as(pxn8*, memory)[i] = 0;
 
     return memory;
 }
 
 void*
-mem_flip(void* memory, Int length, Int stride)
+pxMemoryFlip(void* memory, pxint length, pxint stride)
 {
     if (length <= 0 || stride <= 0) return memory;
 
-    Int l = 0;
-    Int r = stride * (length - 1);
+    pxint l = 0;
+    pxint r = stride * (length - 1);
 
     for (; l < r; l += stride, r -= stride) {
-        for (Int i = 0; i < stride; i += 1) {
-            nat8 left  = pax_as(nat8*, memory)[l + i];
-            nat8 right = pax_as(nat8*, memory)[r + i];
+        for (pxint i = 0; i < stride; i += 1) {
+            pxn8 left  = px_as(pxn8*, memory)[l + i];
+            pxn8 right = px_as(pxn8*, memory)[r + i];
 
-            pax_as(nat8*, memory)[l + i] = right;
-            pax_as(nat8*, memory)[r + i] = left;
+            px_as(pxn8*, memory)[l + i] = right;
+            px_as(pxn8*, memory)[r + i] = left;
         }
     }
 
@@ -36,27 +36,27 @@ mem_flip(void* memory, Int length, Int stride)
 }
 
 void*
-mem_copy(void* memory, void* value, Int length, Int stride)
+pxMemoryCopy(void* memory, void* value, pxint length, pxint stride)
 {
     if (length <= 0 || stride <= 0) return memory;
 
-    for (Int i = 0; i < length * stride; i += 1)
-        pax_as(nat8*, memory)[i] = pax_as(nat8*, value)[i];
+    for (pxint i = 0; i < length * stride; i += 1)
+        px_as(pxn8*, memory)[i] = px_as(pxn8*, value)[i];
 
     return memory;
 }
 
 void*
-mem_copy_flipped(void* memory, void* value, Int length, Int stride)
+pxMemoryCopyFlipped(void* memory, void* value, pxint length, pxint stride)
 {
     if (length <= 0 || stride <= 0) return memory;
 
-    for (Int i = 0; i < length; i += 1) {
-        Int k = (length - i - 1);
+    for (pxint i = 0; i < length; i += 1) {
+        pxint k = (length - i - 1);
 
-        for (Int j = 0; j < stride; j += 1) {
-            pax_as(nat8*, memory)[i * stride + j] =
-                pax_as(nat8*, value)[k * stride + j];
+        for (pxint j = 0; j < stride; j += 1) {
+            px_as(pxn8*, memory)[i * stride + j] =
+                px_as(pxn8*, value)[k * stride + j];
         }
     }
 
@@ -64,44 +64,44 @@ mem_copy_flipped(void* memory, void* value, Int length, Int stride)
 }
 
 void*
-mem_copy_back(void* memory, Int length, Int offset, Int stride)
+pxMemoryCopyBack(void* memory, pxint length, pxint offset, pxint stride)
 {
     if (length <= 0 || stride <= 0 || offset <= 0)
         return memory;
 
-    nat8* result = pax_as(nat8*, memory) - offset * stride;
+    pxn8* result = px_as(pxn8*, memory) - offset * stride;
 
-    for (Int i = 0; i < length * stride; i += 1)
-        result[i] = pax_as(nat8*, memory)[i];
+    for (pxint i = 0; i < length * stride; i += 1)
+        result[i] = px_as(pxn8*, memory)[i];
 
     return result;
 }
 
 void*
-mem_copy_forw(void* memory, Int length, Int offset, Int stride)
+pxMemoryCopyForw(void* memory, pxint length, pxint offset, pxint stride)
 {
     if (length <= 0 || stride <= 0 || offset <= 0)
         return memory;
 
-    nat8* result = pax_as(nat8*, memory) + offset * stride;
+    pxn8* result = px_as(pxn8*, memory) + offset * stride;
 
-    for (Int i = length * stride; i > 0; i -= 1)
-        result[i - 1] = pax_as(nat8*, memory)[i - 1];
+    for (pxint i = length * stride; i > 0; i -= 1)
+        result[i - 1] = px_as(pxn8*, memory)[i - 1];
 
     return result;
 }
 
-bool8
-mem_is_equal(void* memory, void* value, Int length, Int stride)
+pxb8
+pxMemoryIsEqual(void* memory, void* value, pxint length, pxint stride)
 {
     if (length <= 0 || stride <= 0) return 0;
 
-    for (Int i = 0; i < length * stride; i += 1) {
-        if (pax_as(nat8*, memory)[i] != pax_as(nat8*, value)[i])
+    for (pxint i = 0; i < length * stride; i += 1) {
+        if (px_as(pxn8*, memory)[i] != px_as(pxn8*, value)[i])
             return 0;
     }
 
     return 1;
 }
 
-#endif // PAX_BASE_MEMORY_C
+#endif // PX_BASE_MEMORY_C

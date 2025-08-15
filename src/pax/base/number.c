@@ -1,132 +1,132 @@
-#ifndef PAX_BASE_NUMBER_C
-#define PAX_BASE_NUMBER_C
+#ifndef PX_BASE_NUMBER_C
+#define PX_BASE_NUMBER_C
 
 #include "number.h"
 
-Nat
-pax_abs_int(Int value)
+pxnat
+pxMagnitudeInt(pxint value)
 {
     if (value < 0)
-        return -pax_as(Nat, value);
+        return -px_as(pxnat, value);
 
-    return pax_as(Nat, value);
+    return px_as(pxnat, value);
 }
 
-nat64
-pax_abs_int64(int64 value)
+pxn64
+pxMagnitudeInt64(pxi32 value)
 {
     if (value < 0)
-        return -pax_as(nat64, value);
+        return -px_as(pxn64, value);
 
-    return pax_as(nat64, value);
+    return px_as(pxn64, value);
 }
 
-nat32
-pax_abs_int32(int32 value)
+pxn32
+pxMagnitudeInt32(pxi32 value)
 {
     if (value < 0)
-        return -pax_as(nat32, value);
+        return -px_as(pxn32, value);
 
-    return pax_as(nat32, value);
+    return px_as(pxn32, value);
 }
 
-nat16
-pax_abs_int16(int16 value)
+pxn16
+pxMagnitudeInt16(pxi16 value)
 {
     if (value < 0)
-        return -pax_as(nat16, value);
+        return -px_as(pxn16, value);
 
-    return pax_as(nat16, value);
+    return px_as(pxn16, value);
 }
 
-nat8
-pax_abs_int8(int8 value)
+pxn8
+pxMagnitudeInt8(pxi8 value)
 {
     if (value < 0)
-        return -pax_as(nat8, value);
+        return -px_as(pxn8, value);
 
-    return pax_as(nat8, value);
+    return px_as(pxn8, value);
 }
 
-Float
-pax_abs_float(Float value)
+pxfloat
+pxMagnitudeFloat(pxfloat value)
 {
-    Nat* bits =
-        pax_as(Nat*, &value);
+    pxnat* bits =
+        px_as(pxnat*, &value);
 
-    *bits &= ~PAX_FLOAT_SIGN_MASK;
+    *bits &= ~PX_FLOAT_SIGN_MASK;
 
     return value;
 }
 
-float64
-pax_abs_float64(float64 value)
+pxf64
+pxMagnitudeFloat64(pxf64 value)
 {
-    nat64* bits =
-        pax_as(nat64*, &value);
+    pxn64* bits =
+        px_as(pxn64*, &value);
 
-    *bits &= ~PAX_FLOAT64_SIGN_MASK;
+    *bits &= ~PX_F64_SIGN_MASK;
 
     return value;
 }
 
-float32
-pax_abs_float32(float32 value)
+pxf32
+pxMagnitudeFloat32(pxf32 value)
 {
-    nat32* bits =
-        pax_as(nat32*, &value);
+    pxn32* bits =
+        px_as(pxn32*, &value);
 
-    *bits &= ~PAX_FLOAT32_SIGN_MASK;
+    *bits &= ~PX_F32_SIGN_MASK;
 
     return value;
 }
 
-bool8
-pax_sig_int(Int value)
+pxb8
+pxDirectionInt(pxint value)
 {
     return value < 0 ? 1 : 0;
 }
 
-bool8
-pax_sig_int64(int64 value)
+pxb8
+pxDirectionInt64(pxi32 value)
 {
     return value < 0 ? 1 : 0;
 }
 
-bool8
-pax_sig_int32(int32 value)
+pxb8
+pxDirectionInt32(pxi32 value)
 {
     return value < 0 ? 1 : 0;
 }
 
-bool8
-pax_sig_int16(int16 value)
+pxb8
+pxDirectionInt16(pxi16 value)
 {
     return value < 0 ? 1 : 0;
 }
 
-bool8
-pax_sig_int8(int8 value)
+pxb8
+pxDirectionInt8(pxi8 value)
 {
     return value < 0 ? 1 : 0;
 }
 
-bool8
-pax_sig_float(Float value)
+pxb8
+pxDirectionFloat(pxfloat value)
 {
     return value < 0 ? 1 : 0;
 }
 
-bool8
-pax_sig_float64(float64 value)
+pxb8
+pxDirectionFloat64(pxf64 value)
 {
     return value < 0 ? 1 : 0;
 }
 
-bool8
-pax_sig_float32(float32 value)
+pxb8
+pxDirectionFloat32(pxf32 value)
 {
     return value < 0 ? 1 : 0;
 }
 
-#endif // PAX_BASE_NUMBER_C
+#endif // PX_BASE_NUMBER_C

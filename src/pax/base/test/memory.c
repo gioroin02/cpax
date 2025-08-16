@@ -5,7 +5,7 @@
 int
 main(int argc, char** argv)
 {
-    pxn8 memory[12] = {0};
+    pxword8 memory[12] = {0};
 
     pxMemoryCopyFlipped(memory, "ciao", 2, 2);
 

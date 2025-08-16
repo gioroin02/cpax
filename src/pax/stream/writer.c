@@ -18,7 +18,7 @@ pxWriterFromBuffer8(PxBuffer8* buffer)
 pxint
 pxWriterFlush(PxWriter self, PxBuffer8* buffer)
 {
-    PxWriterProc* proc = px_as(PxWriterProc*, self.proc);
+    PxWriterProc* proc = pxCast(PxWriterProc*, self.proc);
 
     if (proc != 0)
         return proc(self.ctxt, buffer);
@@ -27,12 +27,12 @@ pxWriterFlush(PxWriter self, PxBuffer8* buffer)
 }
 
 pxint
-pxWriterByte(PxWriter self, PxBuffer8* buffer, pxn8 value)
+pxWriterByte(PxWriter self, PxBuffer8* buffer, pxword8 value)
 {
     if (buffer->size + 1 > buffer->length)
         pxWriterFlush(self, buffer);
 
-    return pxBuffer8WriteMemory8Tail(buffer, &value, 1);
+    return pxBuffer8WriteMemoryTail(buffer, &value, 1);
 }
 
 #endif // PX_STREAM_WRITER_C

@@ -18,7 +18,7 @@ pxReaderFromBuffer8(PxBuffer8* buffer)
 pxint
 pxReaderFill(PxReader self, PxBuffer8* buffer)
 {
-    PxReaderProc* proc = px_as(PxReaderProc*, self.proc);
+    PxReaderProc* proc = pxCast(PxReaderProc*, self.proc);
 
     if (proc != 0)
         return proc(self.ctxt, buffer);
@@ -26,7 +26,7 @@ pxReaderFill(PxReader self, PxBuffer8* buffer)
     return 0;
 }
 
-pxn8
+pxword8
 pxReaderPeek(PxReader self, PxBuffer8* buffer, pxint offset)
 {
     if (offset < 0) return 0;
@@ -48,7 +48,7 @@ pxReaderPeek(PxReader self, PxBuffer8* buffer, pxint offset)
     return pxBuffer8GetForwOr(buffer, offset, 0);
 }
 
-pxn8
+pxword8
 pxReaderMove(PxReader self, PxBuffer8* buffer, pxint offset)
 {
     if (offset < 0) return 0;

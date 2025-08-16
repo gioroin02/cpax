@@ -1,10 +1,10 @@
 #ifndef PX_STREAM_BUF8_C
 #define PX_STREAM_BUF8_C
 
-#include "buf8.h"
+#include "buffer8.h"
 
 PxBuffer8
-pxBuffer8Make(pxn8* memory, pxint length)
+pxBuffer8Make(pxword8* memory, pxint length)
 {
     if (memory == 0 || length <= 0)
         return (PxBuffer8) {0};
@@ -16,7 +16,7 @@ pxBuffer8Make(pxn8* memory, pxint length)
 }
 
 PxBuffer8
-pxBuffer8MakeFull(pxn8* memory, pxint length)
+pxBuffer8MakeFull(pxword8* memory, pxint length)
 {
     if (memory == 0 || length <= 0)
         return (PxBuffer8) {0};
@@ -32,8 +32,8 @@ pxBuffer8MakeFull(pxn8* memory, pxint length)
 PxBuffer8
 pxBuffer8Reserve(PxArena* arena, pxint length)
 {
-    pxn8* memory =
-        pxArenaReserveOne(arena, pxn8, length);
+    pxword8* memory =
+        pxArenaReserveManyOf(arena, pxword8, length);
 
     return pxBuffer8Make(memory, length);
 }
@@ -41,8 +41,8 @@ pxBuffer8Reserve(PxArena* arena, pxint length)
 PxBuffer8
 pxBuffer8ReserveFull(PxArena* arena, pxint length)
 {
-    pxn8* memory =
-        pxArenaReserveOne(arena, pxn8, length);
+    pxword8* memory =
+        pxArenaReserveManyOf(arena, pxword8, length);
 
     return pxBuffer8MakeFull(memory, length);
 }
@@ -60,7 +60,7 @@ pxBuffer8CopyAmount(PxArena* arena, PxBuffer8 value, pxint length)
 
     if (result.length <= 0) return result;
 
-    result.size = px_min(result.length, value.size);
+    result.size = pxMin(result.length, value.size);
     result.tail = result.size;
 
     for (pxint i = 0; i < result.size; i += 1)
@@ -70,7 +70,7 @@ pxBuffer8CopyAmount(PxArena* arena, PxBuffer8 value, pxint length)
 }
 
 PxBuffer8
-pxBuffer8CopyMemory(PxArena* arena, pxn8* memory, pxint length)
+pxBuffer8CopyMemory(PxArena* arena, pxword8* memory, pxint length)
 {
     PxBuffer8 result = pxBuffer8Reserve(arena, length);
 
@@ -107,8 +107,8 @@ pxBuffer8Fill(PxBuffer8* self)
 void
 pxBuffer8Normalize(PxBuffer8* self);
 
-pxb8
-pxBuffer8GetForw(PxBuffer8* self, pxint index, pxn8* value)
+pxbool8
+pxBuffer8GetForw(PxBuffer8* self, pxint index, pxword8* value)
 {
     if (index < 0 || index >= self->size)
         return 0;
@@ -121,8 +121,8 @@ pxBuffer8GetForw(PxBuffer8* self, pxint index, pxn8* value)
     return 1;
 }
 
-pxn8
-pxBuffer8GetForwOr(PxBuffer8* self, pxint index, pxn8 value)
+pxword8
+pxBuffer8GetForwOr(PxBuffer8* self, pxint index, pxword8 value)
 {
     if (index < 0 || index >= self->size)
         return value;
@@ -132,8 +132,8 @@ pxBuffer8GetForwOr(PxBuffer8* self, pxint index, pxn8 value)
     return self->memory[index];
 }
 
-pxb8
-pxBuffer8GetBack(PxBuffer8* self, pxint index, pxn8* value)
+pxbool8
+pxBuffer8GetBack(PxBuffer8* self, pxint index, pxword8* value)
 {
     if (index < 0 || index >= self->size)
         return 0;
@@ -146,8 +146,8 @@ pxBuffer8GetBack(PxBuffer8* self, pxint index, pxn8* value)
     return 1;
 }
 
-pxn8
-pxBuffer8GetBackOr(PxBuffer8* self, pxint index, pxn8 value)
+pxword8
+pxBuffer8GetBackOr(PxBuffer8* self, pxint index, pxword8 value)
 {
     if (index < 0 || index >= self->size)
         return value;
@@ -160,7 +160,7 @@ pxBuffer8GetBackOr(PxBuffer8* self, pxint index, pxn8 value)
 pxint
 pxBuffer8DropHead(PxBuffer8* self, pxint amount)
 {
-    amount = px_min(amount, self->size);
+    amount = pxMin(amount, self->size);
 
     if (amount > 0) {
         pxint next = self->head + amount;
@@ -175,7 +175,7 @@ pxBuffer8DropHead(PxBuffer8* self, pxint amount)
 pxint
 pxBuffer8DropTail(PxBuffer8* self, pxint amount)
 {
-    amount = px_min(amount, self->size);
+    amount = pxMin(amount, self->size);
 
     if (amount > 0) {
         pxint prev = self->tail + self->length - amount;
@@ -191,12 +191,12 @@ pxint
 pxBuffer8WriteHead(PxBuffer8* self, PxBuffer8* buffer);
 
 pxint
-pxBuffer8WriteMemory8Head(PxBuffer8* self, pxn8* memory, pxint length);
+pxBuffer8WriteMemoryHead(PxBuffer8* self, pxword8* memory, pxint length);
 
 pxint
 pxBuffer8WriteTail(PxBuffer8* self, PxBuffer8* buffer)
 {
-    pxint size = px_min(buffer->size, self->length - self->size);
+    pxint size = pxMin(buffer->size, self->length - self->size);
 
     if (size <= 0 || size > self->length) return 0;
 
@@ -217,9 +217,9 @@ pxBuffer8WriteTail(PxBuffer8* self, PxBuffer8* buffer)
 }
 
 pxint
-pxBuffer8WriteMemory8Tail(PxBuffer8* self, pxn8* memory, pxint length)
+pxBuffer8WriteMemoryTail(PxBuffer8* self, pxword8* memory, pxint length)
 {
-    pxint size = px_min(length, self->length - self->size);
+    pxint size = pxMin(length, self->length - self->size);
 
     if (size <= 0 || size > self->length) return 0;
 
@@ -237,7 +237,7 @@ pxBuffer8WriteMemory8Tail(PxBuffer8* self, pxn8* memory, pxint length)
 pxint
 pxBuffer8ReadHead(PxBuffer8* self, PxBuffer8* buffer)
 {
-    pxint size = px_min(self->size, buffer->length - buffer->size);
+    pxint size = pxMin(self->size, buffer->length - buffer->size);
 
     if (size <= 0 || size > self->size) return 0;
 
@@ -258,9 +258,9 @@ pxBuffer8ReadHead(PxBuffer8* self, PxBuffer8* buffer)
 }
 
 pxint
-pxBuffer8ReadMemory8Head(PxBuffer8* self, pxn8* memory, pxint length)
+pxBuffer8ReadMemoryHead(PxBuffer8* self, pxword8* memory, pxint length)
 {
-    pxint size = px_min(self->size, length);
+    pxint size = pxMin(self->size, length);
 
     if (size <= 0 || size > self->size) return 0;
 
@@ -279,18 +279,18 @@ pxint
 pxBuffer8ReadTail(PxBuffer8* self, PxBuffer8* buffer);
 
 pxint
-pxBuffer8ReadMemory8Tail(PxBuffer8* self, pxn8* memory, pxint length);
+pxBuffer8ReadMemoryTail(PxBuffer8* self, pxword8* memory, pxint length);
 
 pxint
 pxBuffer8PeekHead(PxBuffer8* self, PxBuffer8* buffer);
 
 pxint
-pxBuffer8PeekMemory8Head(PxBuffer8* self, pxn8* memory, pxint length);
+pxBuffer8PeekMemoryHead(PxBuffer8* self, pxword8* memory, pxint length);
 
 pxint
 pxBuffer8PeekTail(PxBuffer8* self, PxBuffer8* buffer);
 
 pxint
-pxBuffer8PeekMemory8Tail(PxBuffer8* self, pxn8* memory, pxint length);
+pxBuffer8PeekMemoryTail(PxBuffer8* self, pxword8* memory, pxint length);
 
 #endif // PX_STREAM_BUF8_C

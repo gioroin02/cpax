@@ -9,7 +9,7 @@ pxMemoryZero(void* memory, pxint length, pxint stride)
     if (length <= 0 || stride <= 0) return memory;
 
     for (pxint i = 0; i < length * stride; i += 1)
-        px_as(pxn8*, memory)[i] = 0;
+        pxCast(pxword8*, memory)[i] = 0;
 
     return memory;
 }
@@ -24,11 +24,11 @@ pxMemoryFlip(void* memory, pxint length, pxint stride)
 
     for (; l < r; l += stride, r -= stride) {
         for (pxint i = 0; i < stride; i += 1) {
-            pxn8 left  = px_as(pxn8*, memory)[l + i];
-            pxn8 right = px_as(pxn8*, memory)[r + i];
+            pxword8 left  = pxCast(pxword8*, memory)[l + i];
+            pxword8 right = pxCast(pxword8*, memory)[r + i];
 
-            px_as(pxn8*, memory)[l + i] = right;
-            px_as(pxn8*, memory)[r + i] = left;
+            pxCast(pxword8*, memory)[l + i] = right;
+            pxCast(pxword8*, memory)[r + i] = left;
         }
     }
 
@@ -41,7 +41,7 @@ pxMemoryCopy(void* memory, void* value, pxint length, pxint stride)
     if (length <= 0 || stride <= 0) return memory;
 
     for (pxint i = 0; i < length * stride; i += 1)
-        px_as(pxn8*, memory)[i] = px_as(pxn8*, value)[i];
+        pxCast(pxword8*, memory)[i] = pxCast(pxword8*, value)[i];
 
     return memory;
 }
@@ -55,8 +55,8 @@ pxMemoryCopyFlipped(void* memory, void* value, pxint length, pxint stride)
         pxint k = (length - i - 1);
 
         for (pxint j = 0; j < stride; j += 1) {
-            px_as(pxn8*, memory)[i * stride + j] =
-                px_as(pxn8*, value)[k * stride + j];
+            pxCast(pxword8*, memory)[i * stride + j] =
+                pxCast(pxword8*, value)[k * stride + j];
         }
     }
 
@@ -69,10 +69,10 @@ pxMemoryCopyBack(void* memory, pxint length, pxint offset, pxint stride)
     if (length <= 0 || stride <= 0 || offset <= 0)
         return memory;
 
-    pxn8* result = px_as(pxn8*, memory) - offset * stride;
+    pxword8* result = pxCast(pxword8*, memory) - offset * stride;
 
     for (pxint i = 0; i < length * stride; i += 1)
-        result[i] = px_as(pxn8*, memory)[i];
+        result[i] = pxCast(pxword8*, memory)[i];
 
     return result;
 }
@@ -83,21 +83,21 @@ pxMemoryCopyForw(void* memory, pxint length, pxint offset, pxint stride)
     if (length <= 0 || stride <= 0 || offset <= 0)
         return memory;
 
-    pxn8* result = px_as(pxn8*, memory) + offset * stride;
+    pxword8* result = pxCast(pxword8*, memory) + offset * stride;
 
     for (pxint i = length * stride; i > 0; i -= 1)
-        result[i - 1] = px_as(pxn8*, memory)[i - 1];
+        result[i - 1] = pxCast(pxword8*, memory)[i - 1];
 
     return result;
 }
 
-pxb8
+pxbool8
 pxMemoryIsEqual(void* memory, void* value, pxint length, pxint stride)
 {
     if (length <= 0 || stride <= 0) return 0;
 
     for (pxint i = 0; i < length * stride; i += 1) {
-        if (px_as(pxn8*, memory)[i] != px_as(pxn8*, value)[i])
+        if (pxCast(pxword8*, memory)[i] != pxCast(pxword8*, value)[i])
             return 0;
     }
 

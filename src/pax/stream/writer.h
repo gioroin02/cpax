@@ -1,7 +1,7 @@
 #ifndef PX_STREAM_WRITER_H
 #define PX_STREAM_WRITER_H
 
-#include "buf8.h"
+#include "buffer8.h"
 
 typedef pxint (PxWriterProc) (void*, PxBuffer8*);
 
@@ -19,6 +19,6 @@ pxint
 pxWriterFlush(PxWriter self, PxBuffer8* buffer);
 
 pxint
-pxWriterByte(PxWriter self, PxBuffer8* buffer, pxn8 value);
+pxWriterByte(PxWriter self, PxBuffer8* buffer, pxword8 value);
 
 #endif // PX_STREAM_WRITER_H

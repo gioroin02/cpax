@@ -3,7 +3,7 @@
 
 #include "utf16.h"
 
-pxbool16
+pxbool8
 pxUtf16Encode(PxUtf16* self, pxint32 value)
 {
     pxint units = pxUtf16UnitsToWrite(value);
@@ -15,12 +15,12 @@ pxUtf16Encode(PxUtf16* self, pxint32 value)
     switch (units) {
         case 1: self->a = pxCast(pxword16, value); break;
 
-        case 2:
+        case 2: {
             pxint32 temp = value - 0x10000;
 
             self->a = pxCast(pxword16, ((value >> 10) & 0xffff) | 0xd800);
             self->b = pxCast(pxword16, ((value >>  0) & 0x03ff) | 0xdc00);
-        break;
+        } break;
 
         default: return 0;
     }

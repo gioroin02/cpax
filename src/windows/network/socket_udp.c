@@ -23,11 +23,11 @@ typedef struct sockaddr_in6     PxSockUdpIp6;
 #define pxSockUdpIp4(x)  pxCast(PxSockUdpIp4*, x)
 #define pxSockUdpIp6(x)  pxCast(PxSockUdpIp6*, x)
 
-#define pxSockUdpIp4Addr(x) pxCast(void*,     pxSockUdpIp4(&x)->sin_addr.s_addr)
-#define pxSockUdpIp4Port(x) pxCast(pxword16*, pxSockUdpIp4(&x)->sin_port)
+#define pxSockUdpIp4Addr(x) pxCast(void*,     &pxSockUdpIp4(&x)->sin_addr.s_addr)
+#define pxSockUdpIp4Port(x) pxCast(pxword16*, &pxSockUdpIp4(&x)->sin_port)
 
 #define pxSockUdpIp6Addr(x) pxCast(void*,     pxSockUdpIp6(&x)->sin6_addr.s6_addr)
-#define pxSockUdpIp6Port(x) pxCast(pxword16*, pxSockUdpIp6(&x)->sin6_port)
+#define pxSockUdpIp6Port(x) pxCast(pxword16*, &pxSockUdpIp6(&x)->sin6_port)
 
 typedef struct PxWindowsSocketUdp
 {
@@ -54,7 +54,7 @@ pxWindowsSocketUdpCreate(PxArena* arena, PxAddressType type)
 
     if (result != 0) {
         result->handle  = socket(family, SOCK_DGRAM, 0);
-        result->address = {.ss_family = family};
+        result->address = (PxSockUdpData) {.ss_family = family};
 
         if (result->handle != INVALID_SOCKET)
             return result;
@@ -74,7 +74,7 @@ pxWindowsSocketUdpDestroy(PxWindowsSocketUdp* self)
         closesocket(self->handle);
 
     self->handle  = INVALID_SOCKET;
-    self->address = {0};
+    self->address = (PxSockUdpData) {0};
 }
 
 PxAddress
@@ -140,8 +140,8 @@ pxWindowsSocketUdpBind(PxWindowsSocketUdp* self, PxAddress address, pxword16 por
 
     switch (address.type) {
         case PX_ADDRESS_TYPE_IP4:
-            data = {.ss_family = AF_INET};
-            size = SOCK4_SIZE;
+            data = (PxSockUdpData) {.ss_family = AF_INET};
+            size = PX_SOCK_UDP_IP4_SIZE;
 
             pxMemoryCopy(pxSockUdpIp4Addr(self),
                 &address.ip4.memory, PX_ADDRESS_IP4_GROUPS, 1);
@@ -151,8 +151,8 @@ pxWindowsSocketUdpBind(PxWindowsSocketUdp* self, PxAddress address, pxword16 por
         break;
 
         case PX_ADDRESS_TYPE_IP6:
-            data = {.ss_family = AF_INET6};
-            size = SOCK6_SIZE;
+            data = (PxSockUdpData) {.ss_family = AF_INET6};
+            size = PX_SOCK_UDP_IP6_SIZE;
 
             pxMemoryCopy(pxSockUdpIp6Addr(self),
                 &address.ip6.memory, PX_ADDRESS_IP6_GROUPS, 2);
@@ -167,7 +167,7 @@ pxWindowsSocketUdpBind(PxWindowsSocketUdp* self, PxAddress address, pxword16 por
     if (bind(self->handle, pxSockUdpAddr(&data), size) == SOCKET_ERROR)
         return 0;
 
-    self.address = data;
+    self->address = data;
 
     return 1;
 }
@@ -186,8 +186,8 @@ pxWindowsSocketUdpConnect(PxWindowsSocketUdp* self, PxAddress address, pxword16 
 
     switch (address.type) {
         case PX_ADDRESS_TYPE_IP4:
-            data = {.ss_family = AF_INET};
-            size = SOCK4_SIZE;
+            data = (PxSockUdpData) {.ss_family = AF_INET};
+            size = PX_SOCK_UDP_IP4_SIZE;
 
             pxMemoryCopy(pxSockUdpIp4Addr(self),
                 &address.ip4.memory, PX_ADDRESS_IP4_GROUPS, 1);
@@ -197,8 +197,8 @@ pxWindowsSocketUdpConnect(PxWindowsSocketUdp* self, PxAddress address, pxword16 
         break;
 
         case PX_ADDRESS_TYPE_IP6:
-            data = {.ss_family = AF_INET6};
-            size = SOCK6_SIZE;
+            data = (PxSockUdpData) {.ss_family = AF_INET6};
+            size = PX_SOCK_UDP_IP6_SIZE;
 
             pxMemoryCopy(pxSockUdpIp6Addr(self),
                 &address.ip6.memory, PX_ADDRESS_IP6_GROUPS, 2);
@@ -213,7 +213,7 @@ pxWindowsSocketUdpConnect(PxWindowsSocketUdp* self, PxAddress address, pxword16 
     if (connect(self->handle, pxSockUdpAddr(&data), size) == SOCKET_ERROR)
         return 0;
 
-    self.address = data;
+    self->address = data;
 
     return 1;
 }
@@ -249,7 +249,7 @@ pxWindowsSocketUdpWriteMemory(PxWindowsSocketUdp* self, pxword8* memory, pxint l
 {
     for (pxint i = 0; i < length;) {
         char* mem = pxCast(char*, memory + i);
-        char* len = pxCast(int,   length + i);
+        int   len = pxCast(int,   length + i);
 
         pxint amount = send(self->handle, mem, len, 0);
 
@@ -267,7 +267,7 @@ pxWindowsSocketUdpReadMemory(PxWindowsSocketUdp* self, pxword8* memory, pxint le
 {
     for (pxint i = 0; i < length;) {
         char* mem = pxCast(char*, memory + i);
-        char* len = pxCast(int,   length + i);
+        int   len = pxCast(int,   length + i);
 
         pxint amount = recv(self->handle, mem, len, 0);
 

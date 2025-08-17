@@ -1,0 +1,4 @@
+#ifndef PX_STRUCTURE_QUEUE_C
+#define PX_STRUCTURE_QUEUE_C
+
+#endif // PX_STRUCTURE_QUEUE_C

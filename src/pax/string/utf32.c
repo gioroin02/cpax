@@ -3,7 +3,7 @@
 
 #include "utf32.h"
 
-pxbool16
+pxbool8
 pxUtf32Encode(PxUtf32* self, pxint32 value)
 {
     pxint units = pxUtf32UnitsToWrite(value);

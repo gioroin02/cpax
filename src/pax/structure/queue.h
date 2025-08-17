@@ -1,0 +1,4 @@
+#ifndef PX_STRUCTURE_QUEUE_H
+#define PX_STRUCTURE_QUEUE_H
+
+#endif // PX_STRUCTURE_QUEUE_H

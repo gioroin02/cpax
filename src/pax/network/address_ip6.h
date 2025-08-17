@@ -23,7 +23,7 @@ typedef struct PxAddressIp6
 PxAddressIp6;
 
 pxbool8
-pxAddressIp6FromString8(PxAddressIp6* self, PxString8 string);
+pxAddressIp6FromString(PxAddressIp6* self, PxString8 string);
 
 pxbool8
 pxAddressIp6IsEqual(PxAddressIp6 self, PxAddressIp6 value);

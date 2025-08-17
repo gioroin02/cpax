@@ -21,7 +21,7 @@ typedef struct PxUtf32
 }
 PxUtf32;
 
-pxbool16
+pxbool8
 pxUtf32Encode(PxUtf32* self, pxint32 value);
 
 pxint
@@ -30,7 +30,7 @@ pxUtf32WriteMemoryForw(pxword32* memory, pxint length, pxint index, pxint32 valu
 pxint
 pxUtf32WriteMemoryBack(pxword32* memory, pxint length, pxint index, pxint32 value);
 
-pxbool16
+pxbool8
 pxUtf32Decode(PxUtf32* self, pxint32* value);
 
 pxint

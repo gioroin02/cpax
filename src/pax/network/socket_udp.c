@@ -1,11 +1,11 @@
 #ifndef PX_NETWORK_SOCKET_UDP_C
 #define PX_NETWORK_SOCKET_UDP_C
 
-#include "socket_tcp.h"
+#include "socket_udp.h"
 
 #if PX_SYSTEM == PX_SYSTEM_WINDOWS
 
-    #include "../../windows/network/socket_tcp.c"
+    #include "../../windows/network/socket_udp.c"
 
     #define __pxSocketUdpCreate__      pxWindowsSocketUdpCreate
     #define __pxSocketUdpDestroy__     pxWindowsSocketUdpDestroy

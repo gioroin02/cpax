@@ -7,18 +7,26 @@ typedef pxint (PxWriterProc) (void*, PxBuffer8*);
 
 typedef struct
 {
+    PxBuffer8* buffer;
+
     void* ctxt;
     void* proc;
 }
 PxWriter;
 
 PxWriter
-pxWriterFromBuffer8(PxBuffer8* buffer);
+pxWriterFromBuffer(PxBuffer8* target, PxBuffer8* buffer);
+
+PxBuffer8*
+pxWriterSetBuffer(PxWriter* self, PxBuffer8* buffer);
 
 pxint
-pxWriterFlush(PxWriter self, PxBuffer8* buffer);
+pxWriterFlush(PxWriter* self);
 
 pxint
-pxWriterByte(PxWriter self, PxBuffer8* buffer, pxword8 value);
+pxWriterByte(PxWriter* self, pxword8 value);
+
+pxint
+pxWriterString(PxWriter* self, PxString8 value);
 
 #endif // PX_STREAM_WRITER_H

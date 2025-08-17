@@ -3,11 +3,8 @@
 
 #include "memory.h"
 
-#define pxArenaReserveOneOf(arena, type) \
-    pxCast(type*, pxArenaReserve(arena, 1, pxSize(type)))
-
-#define pxArenaReserveManyOf(arena, type, amount) \
-    pxCast(type*, pxArenaReserve(arena, amount, pxSize(type)))
+#define pxArenaReserve(arena, type, amount) \
+    pxCast(type*, pxArenaReserveMemory(arena, amount, pxSize(type)))
 
 typedef struct
 {
@@ -21,10 +18,13 @@ PxArena
 pxArenaMake(pxword8* memory, pxint length);
 
 void*
-pxArenaReserve(PxArena* self, pxint amount, pxint stride);
+pxArenaReserveMemory(PxArena* self, pxint amount, pxint stride);
 
 pxbool8
-pxArenaRelease(PxArena* self, void* value);
+pxArenaReleaseMemory(PxArena* self, void* memory);
+
+void*
+pxArenaCopyMemory(PxArena* self, void* memory, pxint amount, pxint stride);
 
 void
 pxArenaClear(PxArena* self);

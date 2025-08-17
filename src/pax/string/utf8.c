@@ -30,7 +30,7 @@ pxUtf8Encode(PxUtf8* self, pxint32 value)
             self->a = pxCast(pxword8, ((value >> 18) & 0xff) | 0xf0);
             self->b = pxCast(pxword8, ((value >> 12) & 0x3f) | 0x80);
             self->c = pxCast(pxword8, ((value >>  6) & 0x3f) | 0x80);
-            self->c = pxCast(pxword8, ((value >>  0) & 0x3f) | 0x80);
+            self->d = pxCast(pxword8, ((value >>  0) & 0x3f) | 0x80);
         break;
 
         default: return 0;

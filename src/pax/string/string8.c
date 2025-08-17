@@ -7,7 +7,7 @@ PxString8
 pxString8FromUnicode(PxArena* arena, pxint32 value)
 {
     pxint    length = pxUtf8UnitsToWrite(value);
-    pxword8* result = pxArenaReserveManyOf(arena, pxword8, length);
+    pxword8* result = pxArenaReserve(arena, pxword8, length + 1);
 
     if (result == 0 || length <= 0)
         return (PxString8) {0};
@@ -29,7 +29,7 @@ pxString8Copy(PxArena* arena, PxString8 string)
 PxString8
 pxString8CopyMemory(PxArena* arena, pxword8* memory, pxint length)
 {
-    pxword8* result = pxArenaReserveManyOf(arena, pxword8, length);
+    pxword8* result = pxArenaReserve(arena, pxword8, length + 1);
 
     if (result == 0 || length <= 0)
         return (PxString8) {0};
@@ -51,8 +51,8 @@ pxString8Chain(PxString8 self, PxArena* arena, PxString8 value)
 PxString8
 pxString8ChainMemory(PxString8 self, PxArena* arena, pxword8* memory, pxint length)
 {
-    pxword8* result = pxArenaReserveManyOf(arena,
-        pxword8, self.length + length);
+    pxword8* result = pxArenaReserve(arena,
+        pxword8, self.length + length + 1);
 
     if (result == 0) return (PxString8) {0};
 
@@ -360,6 +360,38 @@ pxString8SplitMemory(PxString8 self, pxword8* memory, pxint length, PxString8* l
 
     if (right != 0)
         *right = pxString8Slice(self, index + length, stop);
+
+    return 1;
+}
+
+pxbool8
+pxString8Next(PxString8 self, pxint index, pxint* units, pxint32* value)
+{
+    if (index < 0 || index >= self.length)
+        return 0;
+
+    pxint step = pxUtf8ReadMemoryForw(self.memory,
+        self.length, index, value);
+
+    if (step == 0) return 0;
+
+    if (units != 0) *units = step;
+
+    return 1;
+}
+
+pxbool8
+pxString8Prev(PxString8 self, pxint index, pxint* units, pxint32* value)
+{
+    if (index < 0 || index >= self.length)
+        return 0;
+
+    pxint step = pxUtf8ReadMemoryBack(self.memory,
+        self.length, index, value);
+
+    if (step == 0) return 0;
+
+    if (units != 0) *units = step;
 
     return 1;
 }

@@ -2,6 +2,25 @@
 
 #include <stdio.h>
 
+void
+showString8(PxString8 self)
+{
+    pxint   units = 0;
+    pxint   index = 0;
+    pxint32 value = 0;
+
+    while (pxString8Next(self, index, &units, &value) != 0) {
+        printf("[%lli] %8li", index, value);
+
+        if (pxUnicodeIsAscii(value) != 0)
+            printf(" (%c)", pxCast(pxint8, value));
+
+        printf("\n");
+
+        index += units;
+    }
+}
+
 int
 main(int argc, char** argv)
 {
@@ -9,8 +28,14 @@ main(int argc, char** argv)
 
     PxArena arena = pxArenaMake(memory, pxSize(memory));
 
-    PxString8 str = pxString8CopyMemory(&arena,
+    PxString8 str1 = pxString8CopyMemory(&arena,
         pxCast(pxword8*, "ciao"), 4);
 
-    printf("%.*s\n", pxCast(int, str.length), str.memory);
+    PxString8 str2 = pxString8FromUnicode(&arena, 0x1f600);
+
+    showString8(str1);
+
+    printf("\n");
+
+    showString8(str2);
 }

@@ -6,7 +6,7 @@
 typedef struct
 {
     pxword8* memory;
-    pxint length;
+    pxint    length;
 }
 PxString8;
 
@@ -99,5 +99,11 @@ pxString8Split(PxString8 self, PxString8 pivot, PxString8* left, PxString8* righ
 
 pxbool8
 pxString8SplitMemory(PxString8 self, pxword8* memory, pxint length, PxString8* left, PxString8* right);
+
+pxbool8
+pxString8Next(PxString8 self, pxint index, pxint* units, pxint32* value);
+
+pxbool8
+pxString8Prev(PxString8 self, pxint index, pxint* units, pxint32* value);
 
 #endif // PX_STRING_STRING8_H

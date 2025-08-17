@@ -76,10 +76,16 @@ pxint
 pxBuffer8WriteMemoryHead(PxBuffer8* self, pxword8* memory, pxint length);
 
 pxint
+pxBuffer8WriteStringHead(PxBuffer8* self, PxString8 string);
+
+pxint
 pxBuffer8WriteTail(PxBuffer8* self, PxBuffer8* buffer);
 
 pxint
 pxBuffer8WriteMemoryTail(PxBuffer8* self, pxword8* memory, pxint length);
+
+pxint
+pxBuffer8WriteStringTail(PxBuffer8* self, PxString8 string);
 
 /* PxBuffer8 reading */
 
@@ -89,11 +95,17 @@ pxBuffer8ReadHead(PxBuffer8* self, PxBuffer8* buffer);
 pxint
 pxBuffer8ReadMemoryHead(PxBuffer8* self, pxword8* memory, pxint length);
 
+PxString8
+pxBuffer8ReadStringHead(PxBuffer8* self, PxArena* arena, pxint length);
+
 pxint
 pxBuffer8ReadTail(PxBuffer8* self, PxBuffer8* buffer);
 
 pxint
 pxBuffer8ReadMemoryTail(PxBuffer8* self, pxword8* memory, pxint length);
+
+PxString8
+pxBuffer8ReadStringTail(PxBuffer8* self, PxArena* arena, pxint length);
 
 /* PxBuffer8 peeking */
 
@@ -103,10 +115,16 @@ pxBuffer8PeekHead(PxBuffer8* self, PxBuffer8* buffer);
 pxint
 pxBuffer8PeekMemoryHead(PxBuffer8* self, pxword8* memory, pxint length);
 
+PxString8
+pxBuffer8PeekStringHead(PxBuffer8* self, PxArena* arena, pxint length);
+
 pxint
 pxBuffer8PeekTail(PxBuffer8* self, PxBuffer8* buffer);
 
 pxint
 pxBuffer8PeekMemoryTail(PxBuffer8* self, pxword8* memory, pxint length);
+
+PxString8
+pxBuffer8PeekStringTail(PxBuffer8* self, PxArena* arena, pxint length);
 
 #endif // PX_STREAM_BUF8_H

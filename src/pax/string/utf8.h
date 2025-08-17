@@ -8,7 +8,8 @@
 
 typedef struct
 {
-    union {
+    union
+    {
         struct {
             pxword8 a, b, c, d;
         };

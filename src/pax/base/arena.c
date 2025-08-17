@@ -16,7 +16,7 @@ pxArenaMake(pxword8* memory, pxint length)
 }
 
 void*
-pxArenaReserve(PxArena* self, pxint amount, pxint stride)
+pxArenaReserveMemory(PxArena* self, pxint amount, pxint stride)
 {
     pxint length = amount * stride;
 
@@ -36,9 +36,23 @@ pxArenaReserve(PxArena* self, pxint amount, pxint stride)
 }
 
 pxbool8
-pxArenaRelease(PxArena* self, void* value)
+pxArenaReleaseMemory(PxArena* self, void* memory)
 {
     return 0;
+}
+
+void*
+pxArenaCopyMemory(PxArena* self, void* memory, pxint amount, pxint stride)
+{
+    if (memory == 0 || amount <= 0 || stride <= 0)
+        return 0;
+
+    void* result = pxArenaReserveMemory(self, amount, stride);
+
+    if (result != 0)
+        pxMemoryCopy(result, memory, amount, stride);
+
+    return result;
 }
 
 void

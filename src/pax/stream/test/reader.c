@@ -2,6 +2,23 @@
 
 #include <stdio.h>
 
+void
+readBytePerByte(PxReader* reader)
+{
+    pxword8 word = pxReaderPeek(reader, 0);
+
+    while (word != 0) {
+        printf("%3u", word);
+
+        if (pxUnicodeIsAscii(word) != 0)
+            printf(" (%c)", word);
+
+        printf("\n");
+
+        word = pxReaderDrop(reader, 1);
+    }
+}
+
 int
 main(int argc, char** argv)
 {
@@ -12,14 +29,16 @@ main(int argc, char** argv)
     PxBuffer8 source = pxBuffer8Reserve(&arena, 256);
     PxBuffer8 buffer = pxBuffer8Reserve(&arena, 256);
 
+    PxReader reader = pxReaderFromBuffer(&source, &buffer);
+
     pxBuffer8WriteMemoryTail(&source, pxCast(pxword8*, "ciao"), 4);
 
-    PxReader reader = pxReaderFromBuffer8(&source);
-    pxword8  word   = pxReaderPeek(reader, &buffer, 0);
+    readBytePerByte(&reader);
 
-    while (word != 0) {
-        printf("%c\n", word);
+    pxBuffer8WriteMemoryTail(&source, pxCast(pxword8*, "ciao"), 4);
 
-        word = pxReaderMove(reader, &buffer, 1);
-    }
+    PxString8 line = pxReaderLine(&reader, &arena, 16);
+
+    printf("%.*s\n", pxCast(int, line.length),
+        line.memory);
 }

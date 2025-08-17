@@ -136,58 +136,58 @@ typedef unsigned short pxbool16;
 
 /* Integer magnitude */
 
-pxword
-pxMagnitudeInt(pxint value);
-
-pxword64
-pxMagnitudeInt64(pxint64 value);
-
-pxword32
-pxMagnitudeInt32(pxint32 value);
+pxword8
+pxMagnitudeInt8(pxint8 value);
 
 pxword16
 pxMagnitudeInt16(pxint16 value);
 
-pxword8
-pxMagnitudeInt8(pxint8 value);
+pxword32
+pxMagnitudeInt32(pxint32 value);
+
+pxword64
+pxMagnitudeInt64(pxint64 value);
+
+pxword
+pxMagnitudeInt(pxint value);
 
 /* Floating magnitude */
-
-pxfloat
-pxMagnitudeFloat(pxfloat value);
-
-pxfloat64
-pxMagnitudeFloat64(pxfloat64 value);
 
 pxfloat32
 pxMagnitudeFloat32(pxfloat32 value);
 
+pxfloat64
+pxMagnitudeFloat64(pxfloat64 value);
+
+pxfloat
+pxMagnitudeFloat(pxfloat value);
+
 /* Integer direction */
 
 pxbool8
-pxDirectionInt(pxint value);
-
-pxbool8
-pxDirectionInt64(pxint64 value);
-
-pxbool8
-pxDirectionInt32(pxint32 value);
+pxDirectionInt8(pxint8 value);
 
 pxbool8
 pxDirectionInt16(pxint16 value);
 
 pxbool8
-pxDirectionInt8(pxint8 value);
+pxDirectionInt32(pxint32 value);
+
+pxbool8
+pxDirectionInt64(pxint64 value);
+
+pxbool8
+pxDirectionInt(pxint value);
 
 /* Floating sign */
 
 pxbool8
-pxDirectionFloat(pxfloat value);
+pxDirectionFloat32(pxfloat32 value);
 
 pxbool8
 pxDirectionFloat64(pxfloat64 value);
 
 pxbool8
-pxDirectionFloat32(pxfloat32 value);
+pxDirectionFloat(pxfloat value);
 
 #endif // PX_BASE_NUMBER_H

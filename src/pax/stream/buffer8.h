@@ -1,5 +1,5 @@
-#ifndef PX_STREAM_BUF8_H
-#define PX_STREAM_BUF8_H
+#ifndef PX_STREAM_BUFFER8_H
+#define PX_STREAM_BUFFER8_H
 
 #include "import.h"
 
@@ -127,4 +127,4 @@ pxBuffer8PeekMemoryTail(PxBuffer8* self, pxword8* memory, pxint length);
 PxString8
 pxBuffer8PeekStringTail(PxBuffer8* self, PxArena* arena, pxint length);
 
-#endif // PX_STREAM_BUF8_H
+#endif // PX_STREAM_BUFFER8_H

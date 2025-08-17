@@ -1,27 +1,27 @@
-#ifndef PX_STREAM_BUFFER8_C
-#define PX_STREAM_BUFFER8_C
+#ifndef PX_STREAM_BUFFER32_C
+#define PX_STREAM_BUFFER32_C
 
-#include "buffer8.h"
+#include "buffer32.h"
 
-PxBuffer8
-pxBuffer8Make(pxword8* memory, pxint length)
+PxBuffer32
+pxBuffer32Make(pxword32* memory, pxint length)
 {
     if (memory == 0 || length <= 0)
-        return (PxBuffer8) {0};
+        return (PxBuffer32) {0};
 
-    return (PxBuffer8) {
+    return (PxBuffer32) {
         .memory = memory,
         .length = length,
     };
 }
 
-PxBuffer8
-pxBuffer8MakeFull(pxword8* memory, pxint length)
+PxBuffer32
+pxBuffer32MakeFull(pxword32* memory, pxint length)
 {
     if (memory == 0 || length <= 0)
-        return (PxBuffer8) {0};
+        return (PxBuffer32) {0};
 
-    return (PxBuffer8) {
+    return (PxBuffer32) {
         .memory = memory,
         .length = length,
         .size   = length,
@@ -29,34 +29,34 @@ pxBuffer8MakeFull(pxword8* memory, pxint length)
     };
 }
 
-PxBuffer8
-pxBuffer8Reserve(PxArena* arena, pxint length)
+PxBuffer32
+pxBuffer32Reserve(PxArena* arena, pxint length)
 {
-    pxword8* memory =
-        pxArenaReserve(arena, pxword8, length);
+    pxword32* memory =
+        pxArenaReserve(arena, pxword32, length);
 
-    return pxBuffer8Make(memory, length);
+    return pxBuffer32Make(memory, length);
 }
 
-PxBuffer8
-pxBuffer8ReserveFull(PxArena* arena, pxint length)
+PxBuffer32
+pxBuffer32ReserveFull(PxArena* arena, pxint length)
 {
-    pxword8* memory =
-        pxArenaReserve(arena, pxword8, length);
+    pxword32* memory =
+        pxArenaReserve(arena, pxword32, length);
 
-    return pxBuffer8MakeFull(memory, length);
+    return pxBuffer32MakeFull(memory, length);
 }
 
-PxBuffer8
-pxBuffer8Copy(PxArena* arena, PxBuffer8 value)
+PxBuffer32
+pxBuffer32Copy(PxArena* arena, PxBuffer32 value)
 {
-    return pxBuffer8CopyAmount(arena, value, value.length);
+    return pxBuffer32CopyAmount(arena, value, value.length);
 }
 
-PxBuffer8
-pxBuffer8CopyAmount(PxArena* arena, PxBuffer8 value, pxint length)
+PxBuffer32
+pxBuffer32CopyAmount(PxArena* arena, PxBuffer32 value, pxint length)
 {
-    PxBuffer8 result = pxBuffer8Reserve(arena, length);
+    PxBuffer32 result = pxBuffer32Reserve(arena, length);
 
     if (result.length <= 0) return result;
 
@@ -69,23 +69,23 @@ pxBuffer8CopyAmount(PxArena* arena, PxBuffer8 value, pxint length)
     return result;
 }
 
-PxBuffer8
-pxBuffer8CopyMemory(PxArena* arena, pxword8* memory, pxint length)
+PxBuffer32
+pxBuffer32CopyMemory(PxArena* arena, pxword32* memory, pxint length)
 {
-    PxBuffer8 result = pxBuffer8Reserve(arena, length);
+    PxBuffer32 result = pxBuffer32Reserve(arena, length);
 
     if (result.length <= 0) return result;
 
     result.size = result.length;
     result.tail = result.length;
 
-    pxMemoryCopy(result.memory, memory, result.size, 1);
+    pxMemoryCopy(result.memory, memory, result.size, 4);
 
     return result;
 }
 
 void
-pxBuffer8Clear(PxBuffer8* self)
+pxBuffer32Clear(PxBuffer32* self)
 {
     self->size = 0;
     self->head = 0;
@@ -93,7 +93,7 @@ pxBuffer8Clear(PxBuffer8* self)
 }
 
 void
-pxBuffer8Fill(PxBuffer8* self)
+pxBuffer32Fill(PxBuffer32* self)
 {
     pxint diff = self->length - self->size;
 
@@ -105,32 +105,32 @@ pxBuffer8Fill(PxBuffer8* self)
 }
 
 void
-pxBuffer8Normalize(PxBuffer8* self)
+pxBuffer32Normalize(PxBuffer32* self)
 {
-    pxword8* memory = self->memory;
-    pxint    length = self->tail;
-    pxint    offset = self->head;
+    pxword32* memory = self->memory;
+    pxint     length = self->tail;
+    pxint     offset = self->head;
 
     if (self->head > self->tail) {
         memory = self->memory + self->length - self->head;
         offset = self->head - self->tail;
 
         pxMemoryFlip(self->memory + self->head,
-            self->length - self->head, 1);
+            self->length - self->head, 4);
 
-        pxMemoryFlip(self->memory, self->tail, 1);
-        pxMemoryFlip(self->memory, self->length, 1);
+        pxMemoryFlip(self->memory, self->tail, 4);
+        pxMemoryFlip(self->memory, self->length, 4);
     }
 
     if (offset > 0 && self->head > 0)
-        pxMemoryCopyBack(memory + offset, length, offset, 1);
+        pxMemoryCopyBack(memory + offset, length, offset, 4);
 
     self->head = 0;
     self->tail = self->size;
 }
 
-pxbool8
-pxBuffer8GetForw(PxBuffer8* self, pxint index, pxword8* value)
+pxbool32
+pxBuffer32GetForw(PxBuffer32* self, pxint index, pxword32* value)
 {
     if (index < 0 || index >= self->size)
         return 0;
@@ -143,8 +143,8 @@ pxBuffer8GetForw(PxBuffer8* self, pxint index, pxword8* value)
     return 1;
 }
 
-pxword8
-pxBuffer8GetForwOr(PxBuffer8* self, pxint index, pxword8 value)
+pxword32
+pxBuffer32GetForwOr(PxBuffer32* self, pxint index, pxword32 value)
 {
     if (index < 0 || index >= self->size)
         return value;
@@ -154,8 +154,8 @@ pxBuffer8GetForwOr(PxBuffer8* self, pxint index, pxword8 value)
     return self->memory[index];
 }
 
-pxbool8
-pxBuffer8GetBack(PxBuffer8* self, pxint index, pxword8* value)
+pxbool32
+pxBuffer32GetBack(PxBuffer32* self, pxint index, pxword32* value)
 {
     if (index < 0 || index >= self->size)
         return 0;
@@ -168,8 +168,8 @@ pxBuffer8GetBack(PxBuffer8* self, pxint index, pxword8* value)
     return 1;
 }
 
-pxword8
-pxBuffer8GetBackOr(PxBuffer8* self, pxint index, pxword8 value)
+pxword32
+pxBuffer32GetBackOr(PxBuffer32* self, pxint index, pxword32 value)
 {
     if (index < 0 || index >= self->size)
         return value;
@@ -180,7 +180,7 @@ pxBuffer8GetBackOr(PxBuffer8* self, pxint index, pxword8 value)
 }
 
 pxint
-pxBuffer8DropHead(PxBuffer8* self, pxint amount)
+pxBuffer32DropHead(PxBuffer32* self, pxint amount)
 {
     amount = pxMin(amount, self->size);
 
@@ -195,7 +195,7 @@ pxBuffer8DropHead(PxBuffer8* self, pxint amount)
 }
 
 pxint
-pxBuffer8DropTail(PxBuffer8* self, pxint amount)
+pxBuffer32DropTail(PxBuffer32* self, pxint amount)
 {
     amount = pxMin(amount, self->size);
 
@@ -210,7 +210,7 @@ pxBuffer8DropTail(PxBuffer8* self, pxint amount)
 }
 
 pxint
-pxBuffer8WriteHead(PxBuffer8* self, PxBuffer8* buffer)
+pxBuffer32WriteHead(PxBuffer32* self, PxBuffer32* buffer)
 {
     pxint size = pxMin(buffer->size, self->length - self->size);
 
@@ -233,7 +233,7 @@ pxBuffer8WriteHead(PxBuffer8* self, PxBuffer8* buffer)
 }
 
 pxint
-pxBuffer8WriteMemoryHead(PxBuffer8* self, pxword8* memory, pxint length)
+pxBuffer32WriteMemoryHead(PxBuffer32* self, pxword32* memory, pxint length)
 {
     pxint size = pxMin(length, self->length - self->size);
 
@@ -251,13 +251,13 @@ pxBuffer8WriteMemoryHead(PxBuffer8* self, pxword8* memory, pxint length)
 }
 
 pxint
-pxBuffer8WriteStringHead(PxBuffer8* self, PxString8 string)
+pxBuffer32WriteStringHead(PxBuffer32* self, PxString32 string)
 {
-    return pxBuffer8WriteMemoryHead(self, string.memory, string.length);
+    return pxBuffer32WriteMemoryHead(self, string.memory, string.length);
 }
 
 pxint
-pxBuffer8WriteTail(PxBuffer8* self, PxBuffer8* buffer)
+pxBuffer32WriteTail(PxBuffer32* self, PxBuffer32* buffer)
 {
     pxint size = pxMin(buffer->size, self->length - self->size);
 
@@ -280,7 +280,7 @@ pxBuffer8WriteTail(PxBuffer8* self, PxBuffer8* buffer)
 }
 
 pxint
-pxBuffer8WriteMemoryTail(PxBuffer8* self, pxword8* memory, pxint length)
+pxBuffer32WriteMemoryTail(PxBuffer32* self, pxword32* memory, pxint length)
 {
     pxint size = pxMin(length, self->length - self->size);
 
@@ -298,13 +298,13 @@ pxBuffer8WriteMemoryTail(PxBuffer8* self, pxword8* memory, pxint length)
 }
 
 pxint
-pxBuffer8WriteStringTail(PxBuffer8* self, PxString8 string)
+pxBuffer32WriteStringTail(PxBuffer32* self, PxString32 string)
 {
-    return pxBuffer8WriteMemoryTail(self, string.memory, string.length);
+    return pxBuffer32WriteMemoryTail(self, string.memory, string.length);
 }
 
 pxint
-pxBuffer8ReadHead(PxBuffer8* self, PxBuffer8* buffer)
+pxBuffer32ReadHead(PxBuffer32* self, PxBuffer32* buffer)
 {
     pxint size = pxMin(self->size, buffer->length - buffer->size);
 
@@ -327,7 +327,7 @@ pxBuffer8ReadHead(PxBuffer8* self, PxBuffer8* buffer)
 }
 
 pxint
-pxBuffer8ReadMemoryHead(PxBuffer8* self, pxword8* memory, pxint length)
+pxBuffer32ReadMemoryHead(PxBuffer32* self, pxword32* memory, pxint length)
 {
     pxint size = pxMin(self->size, length);
 
@@ -344,29 +344,29 @@ pxBuffer8ReadMemoryHead(PxBuffer8* self, pxword8* memory, pxint length)
     return size;
 }
 
-PxString8
-pxBuffer8ReadStringHead(PxBuffer8* self, PxArena* arena, pxint length)
+PxString32
+pxBuffer32ReadStringHead(PxBuffer32* self, PxArena* arena, pxint length)
 {
     pxint size = pxMin(self->size, length);
 
-    if (size <= 0 || size > self->size) return (PxString8) {0};
+    if (size <= 0 || size > self->size) return (PxString32) {0};
 
-    pxword8* result = pxArenaReserve(arena, pxword8, size + 1);
+    pxword32* result = pxArenaReserve(arena, pxword32, size + 1);
 
     if (result != 0) {
-        pxBuffer8ReadMemoryHead(self, result, size);
+        pxBuffer32ReadMemoryHead(self, result, size);
 
-        return (PxString8) {
+        return (PxString32) {
             .memory = result,
             .length = size,
         };
     }
 
-    return (PxString8) {0};
+    return (PxString32) {0};
 }
 
 pxint
-pxBuffer8ReadTail(PxBuffer8* self, PxBuffer8* buffer)
+pxBuffer32ReadTail(PxBuffer32* self, PxBuffer32* buffer)
 {
     pxint size = pxMin(self->size, buffer->length - buffer->size);
 
@@ -389,7 +389,7 @@ pxBuffer8ReadTail(PxBuffer8* self, PxBuffer8* buffer)
 }
 
 pxint
-pxBuffer8ReadMemoryTail(PxBuffer8* self, pxword8* memory, pxint length)
+pxBuffer32ReadMemoryTail(PxBuffer32* self, pxword32* memory, pxint length)
 {
     pxint size = pxMin(self->size, length);
 
@@ -406,29 +406,29 @@ pxBuffer8ReadMemoryTail(PxBuffer8* self, pxword8* memory, pxint length)
     return size;
 }
 
-PxString8
-pxBuffer8ReadStringTail(PxBuffer8* self, PxArena* arena, pxint length)
+PxString32
+pxBuffer32ReadStringTail(PxBuffer32* self, PxArena* arena, pxint length)
 {
     pxint size = pxMin(self->size, length);
 
-    if (size <= 0 || size > self->size) return (PxString8) {0};
+    if (size <= 0 || size > self->size) return (PxString32) {0};
 
-    pxword8* result = pxArenaReserve(arena, pxword8, size + 1);
+    pxword32* result = pxArenaReserve(arena, pxword32, size + 1);
 
     if (result != 0) {
-        pxBuffer8ReadMemoryTail(self, result, size);
+        pxBuffer32ReadMemoryTail(self, result, size);
 
-        return (PxString8) {
+        return (PxString32) {
             .memory = result,
             .length = size,
         };
     }
 
-    return (PxString8) {0};
+    return (PxString32) {0};
 }
 
 pxint
-pxBuffer8PeekHead(PxBuffer8* self, PxBuffer8* buffer)
+pxBuffer32PeekHead(PxBuffer32* self, PxBuffer32* buffer)
 {
     pxint size = pxMin(self->size, buffer->length - buffer->size);
 
@@ -446,7 +446,7 @@ pxBuffer8PeekHead(PxBuffer8* self, PxBuffer8* buffer)
 }
 
 pxint
-pxBuffer8PeekMemoryHead(PxBuffer8* self, pxword8* memory, pxint length)
+pxBuffer32PeekMemoryHead(PxBuffer32* self, pxword32* memory, pxint length)
 {
     pxint size = pxMin(self->size, length);
 
@@ -458,29 +458,29 @@ pxBuffer8PeekMemoryHead(PxBuffer8* self, pxword8* memory, pxint length)
     return size;
 }
 
-PxString8
-pxBuffer8PeekStringHead(PxBuffer8* self, PxArena* arena, pxint length)
+PxString32
+pxBuffer32PeekStringHead(PxBuffer32* self, PxArena* arena, pxint length)
 {
     pxint size = pxMin(self->size, length);
 
-    if (size <= 0 || size > self->size) return (PxString8) {0};
+    if (size <= 0 || size > self->size) return (PxString32) {0};
 
-    pxword8* result = pxArenaReserve(arena, pxword8, size + 1);
+    pxword32* result = pxArenaReserve(arena, pxword32, size + 1);
 
     if (result != 0) {
-        pxBuffer8PeekMemoryHead(self, result, size);
+        pxBuffer32PeekMemoryHead(self, result, size);
 
-        return (PxString8) {
+        return (PxString32) {
             .memory = result,
             .length = size,
         };
     }
 
-    return (PxString8) {0};
+    return (PxString32) {0};
 }
 
 pxint
-pxBuffer8PeekTail(PxBuffer8* self, PxBuffer8* buffer)
+pxBuffer32PeekTail(PxBuffer32* self, PxBuffer32* buffer)
 {
     pxint size = pxMin(self->size, buffer->length - buffer->size);
 
@@ -501,7 +501,7 @@ pxBuffer8PeekTail(PxBuffer8* self, PxBuffer8* buffer)
 }
 
 pxint
-pxBuffer8PeekMemoryTail(PxBuffer8* self, pxword8* memory, pxint length)
+pxBuffer32PeekMemoryTail(PxBuffer32* self, pxword32* memory, pxint length)
 {
     pxint size = pxMin(self->size, length);
 
@@ -516,25 +516,25 @@ pxBuffer8PeekMemoryTail(PxBuffer8* self, pxword8* memory, pxint length)
     return size;
 }
 
-PxString8
-pxBuffer8PeekStringTail(PxBuffer8* self, PxArena* arena, pxint length)
+PxString32
+pxBuffer32PeekStringTail(PxBuffer32* self, PxArena* arena, pxint length)
 {
     pxint size = pxMin(self->size, length);
 
-    if (size <= 0 || size > self->size) return (PxString8) {0};
+    if (size <= 0 || size > self->size) return (PxString32) {0};
 
-    pxword8* result = pxArenaReserve(arena, pxword8, size + 1);
+    pxword32* result = pxArenaReserve(arena, pxword32, size + 1);
 
     if (result != 0) {
-        pxBuffer8PeekMemoryTail(self, result, size);
+        pxBuffer32PeekMemoryTail(self, result, size);
 
-        return (PxString8) {
+        return (PxString32) {
             .memory = result,
             .length = size,
         };
     }
 
-    return (PxString8) {0};
+    return (PxString32) {0};
 }
 
-#endif // PX_STREAM_BUFFER8_C
+#endif // PX_STREAM_BUFFER32_C

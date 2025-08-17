@@ -1,10 +1,10 @@
-#ifndef PX_FORMAT_STRING8_C
-#define PX_FORMAT_STRING8_C
+#ifndef PX_FORMAT_STRING16_C
+#define PX_FORMAT_STRING16_C
 
 #include "string8.h"
 
 pxbool8
-pxWord8FromString8(pxword8* self, PxFormatOptions options, PxString8 string)
+pxWord8FromString16(pxword8* self, PxFormatOptions options, PxString16 string)
 {
     PxFormatFlag flags = options.flags;
     pxword8      radix = options.radix;
@@ -48,7 +48,7 @@ pxWord8FromString8(pxword8* self, PxFormatOptions options, PxString8 string)
 }
 
 pxbool8
-pxWord16FromString8(pxword16* self, PxFormatOptions options, PxString8 string)
+pxWord16FromString16(pxword16* self, PxFormatOptions options, PxString16 string)
 {
     PxFormatFlag flags = options.flags;
     pxword8      radix = options.radix;
@@ -92,7 +92,7 @@ pxWord16FromString8(pxword16* self, PxFormatOptions options, PxString8 string)
 }
 
 pxbool8
-pxWord32FromString8(pxword32* self, PxFormatOptions options, PxString8 string)
+pxWord32FromString16(pxword32* self, PxFormatOptions options, PxString16 string)
 {
     PxFormatFlag flags = options.flags;
     pxword8      radix = options.radix;
@@ -136,7 +136,7 @@ pxWord32FromString8(pxword32* self, PxFormatOptions options, PxString8 string)
 }
 
 pxbool8
-pxWord64FromString8(pxword64* self, PxFormatOptions options, PxString8 string)
+pxWord64FromString16(pxword64* self, PxFormatOptions options, PxString16 string)
 {
     PxFormatFlag flags = options.flags;
     pxword8      radix = options.radix;
@@ -180,7 +180,7 @@ pxWord64FromString8(pxword64* self, PxFormatOptions options, PxString8 string)
 }
 
 pxbool8
-pxWordFromString8(pxword* self, PxFormatOptions options, PxString8 string)
+pxWordFromString16(pxword* self, PxFormatOptions options, PxString16 string)
 {
     PxFormatFlag flags = options.flags;
     pxword8      radix = options.radix;
@@ -224,7 +224,7 @@ pxWordFromString8(pxword* self, PxFormatOptions options, PxString8 string)
 }
 
 pxbool8
-pxInt8FromString8(pxint8* self, PxFormatOptions options, PxString8 string)
+pxInt8FromString16(pxint8* self, PxFormatOptions options, PxString16 string)
 {
     PxFormatFlag flags = options.flags;
     pxint8       radix = options.radix;
@@ -287,7 +287,7 @@ pxInt8FromString8(pxint8* self, PxFormatOptions options, PxString8 string)
 }
 
 pxbool8
-pxInt16FromString8(pxint16* self, PxFormatOptions options, PxString8 string)
+pxInt16FromString16(pxint16* self, PxFormatOptions options, PxString16 string)
 {
     PxFormatFlag flags = options.flags;
     pxint8       radix = options.radix;
@@ -350,7 +350,7 @@ pxInt16FromString8(pxint16* self, PxFormatOptions options, PxString8 string)
 }
 
 pxbool8
-pxInt32FromString8(pxint32* self, PxFormatOptions options, PxString8 string)
+pxInt32FromString16(pxint32* self, PxFormatOptions options, PxString16 string)
 {
     PxFormatFlag flags = options.flags;
     pxint8       radix = options.radix;
@@ -413,7 +413,7 @@ pxInt32FromString8(pxint32* self, PxFormatOptions options, PxString8 string)
 }
 
 pxbool8
-pxInt64FromString8(pxint64* self, PxFormatOptions options, PxString8 string)
+pxInt64FromString16(pxint64* self, PxFormatOptions options, PxString16 string)
 {
     PxFormatFlag flags = options.flags;
     pxint8       radix = options.radix;
@@ -476,7 +476,7 @@ pxInt64FromString8(pxint64* self, PxFormatOptions options, PxString8 string)
 }
 
 pxbool8
-pxIntFromString8(pxint* self, PxFormatOptions options, PxString8 string)
+pxIntFromString16(pxint* self, PxFormatOptions options, PxString16 string)
 {
     PxFormatFlag flags = options.flags;
     pxint8       radix = options.radix;
@@ -538,4 +538,4 @@ pxIntFromString8(pxint* self, PxFormatOptions options, PxString8 string)
     return 1;
 }
 
-#endif // PX_FORMAT_STRING8_C
+#endif // PX_FORMAT_STRING16_C

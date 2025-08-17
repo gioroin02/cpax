@@ -3,31 +3,13 @@
 
 #include "number.h"
 
-pxword
-pxMagnitudeInt(pxint value)
+pxword8
+pxMagnitudeInt8(pxint8 value)
 {
     if (value < 0)
-        return -pxCast(pxword, value);
+        return -pxCast(pxword8, value);
 
-    return pxCast(pxword, value);
-}
-
-pxword64
-pxMagnitudeInt64(pxint64 value)
-{
-    if (value < 0)
-        return -pxCast(pxword64, value);
-
-    return pxCast(pxword64, value);
-}
-
-pxword32
-pxMagnitudeInt32(pxint32 value)
-{
-    if (value < 0)
-        return -pxCast(pxword32, value);
-
-    return pxCast(pxword32, value);
+    return pxCast(pxword8, value);
 }
 
 pxword16
@@ -39,22 +21,40 @@ pxMagnitudeInt16(pxint16 value)
     return pxCast(pxword16, value);
 }
 
-pxword8
-pxMagnitudeInt8(pxint8 value)
+pxword32
+pxMagnitudeInt32(pxint32 value)
 {
     if (value < 0)
-        return -pxCast(pxword8, value);
+        return -pxCast(pxword32, value);
 
-    return pxCast(pxword8, value);
+    return pxCast(pxword32, value);
 }
 
-pxfloat
-pxMagnitudeFloat(pxfloat value)
+pxword64
+pxMagnitudeInt64(pxint64 value)
 {
-    pxword* bits =
-        pxCast(pxword*, &value);
+    if (value < 0)
+        return -pxCast(pxword64, value);
 
-    *bits &= ~PX_FLOAT_SIGN_MASK;
+    return pxCast(pxword64, value);
+}
+
+pxword
+pxMagnitudeInt(pxint value)
+{
+    if (value < 0)
+        return -pxCast(pxword, value);
+
+    return pxCast(pxword, value);
+}
+
+pxfloat32
+pxMagnitudeFloat32(pxfloat32 value)
+{
+    pxword32* bits =
+        pxCast(pxword32*, &value);
+
+    *bits &= ~PX_FLOAT32_SIGN_MASK;
 
     return value;
 }
@@ -70,31 +70,19 @@ pxMagnitudeFloat64(pxfloat64 value)
     return value;
 }
 
-pxfloat32
-pxMagnitudeFloat32(pxfloat32 value)
+pxfloat
+pxMagnitudeFloat(pxfloat value)
 {
-    pxword32* bits =
-        pxCast(pxword32*, &value);
+    pxword* bits =
+        pxCast(pxword*, &value);
 
-    *bits &= ~PX_FLOAT32_SIGN_MASK;
+    *bits &= ~PX_FLOAT_SIGN_MASK;
 
     return value;
 }
 
 pxbool8
-pxDirectionInt(pxint value)
-{
-    return value < 0 ? 1 : 0;
-}
-
-pxbool8
-pxDirectionInt64(pxint64 value)
-{
-    return value < 0 ? 1 : 0;
-}
-
-pxbool8
-pxDirectionInt32(pxint32 value)
+pxDirectionInt8(pxint8 value)
 {
     return value < 0 ? 1 : 0;
 }
@@ -106,13 +94,25 @@ pxDirectionInt16(pxint16 value)
 }
 
 pxbool8
-pxDirectionInt8(pxint8 value)
+pxDirectionInt32(pxint32 value)
 {
     return value < 0 ? 1 : 0;
 }
 
 pxbool8
-pxDirectionFloat(pxfloat value)
+pxDirectionInt64(pxint64 value)
+{
+    return value < 0 ? 1 : 0;
+}
+
+pxbool8
+pxDirectionInt(pxint value)
+{
+    return value < 0 ? 1 : 0;
+}
+
+pxbool8
+pxDirectionFloat32(pxfloat32 value)
 {
     return value < 0 ? 1 : 0;
 }
@@ -124,7 +124,7 @@ pxDirectionFloat64(pxfloat64 value)
 }
 
 pxbool8
-pxDirectionFloat32(pxfloat32 value)
+pxDirectionFloat(pxfloat value)
 {
     return value < 0 ? 1 : 0;
 }

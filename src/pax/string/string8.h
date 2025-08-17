@@ -3,7 +3,7 @@
 
 #include "utf8.h"
 
-typedef struct
+typedef struct PxString8
 {
     pxword8* memory;
     pxint    length;

@@ -4,14 +4,14 @@
 #include "reader.h"
 
 PxReader
-pxReaderFromBuffer(PxBuffer8* source, PxBuffer8* buffer)
+pxBufferReader(PxBuffer8* self, PxBuffer8* buffer)
 {
-    if (source == 0 || buffer == 0)
+    if (self == 0 || buffer == 0)
         return (PxReader) {0};
 
     return (PxReader) {
         .buffer = buffer,
-        .ctxt   = source,
+        .ctxt   = self,
         .proc   = &pxBuffer8ReadHead,
     };
 }

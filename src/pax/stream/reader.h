@@ -5,7 +5,7 @@
 
 typedef pxint (PxReaderProc) (void*, PxBuffer8*);
 
-typedef struct
+typedef struct PxReader
 {
     PxBuffer8* buffer;
 
@@ -15,7 +15,7 @@ typedef struct
 PxReader;
 
 PxReader
-pxReaderFromBuffer(PxBuffer8* source, PxBuffer8* buffer);
+pxBufferReader(PxBuffer8* self, PxBuffer8* buffer);
 
 PxBuffer8*
 pxReaderSetBuffer(PxReader* self, PxBuffer8* buffer);

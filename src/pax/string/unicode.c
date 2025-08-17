@@ -66,4 +66,54 @@ pxAsciiIsSpace(pxint32 value)
     return 0;
 }
 
+pxword
+pxAsciiDigitValue(pxint32 value, pxword radix)
+{
+    switch (value) {
+        case 48:
+        case 49:
+        case 50:
+        case 51:
+        case 52:
+        case 53:
+        case 54:
+        case 55:
+        case 56:
+        case 57: {
+            pxword result = value - 48;
+
+            if (radix >= 2 && radix <= 16 && result < radix)
+                return result;
+        } break;
+
+        case 65:
+        case 66:
+        case 67:
+        case 68:
+        case 69:
+        case 70: {
+            pxword result = value - 55;
+
+            if (radix >= 11 && radix <= 16 && result < radix)
+                return result;
+        } break;
+
+        case 97:
+        case 98:
+        case 99:
+        case 100:
+        case 101:
+        case 102: {
+            pxword result = value - 87;
+
+            if (radix >= 11 && radix <= 16 && result < radix)
+                return result;
+        } break;
+
+        default: break;
+    }
+
+    return radix;
+}
+
 #endif // PX_STRING_UNICODE_C

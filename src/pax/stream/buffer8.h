@@ -3,7 +3,7 @@
 
 #include "import.h"
 
-typedef struct
+typedef struct PxBuffer8
 {
     pxword8* memory;
     pxint    length;

@@ -29,7 +29,7 @@ main(int argc, char** argv)
     PxBuffer8 source = pxBuffer8Reserve(&arena, 256);
     PxBuffer8 buffer = pxBuffer8Reserve(&arena, 256);
 
-    PxReader reader = pxReaderFromBuffer(&source, &buffer);
+    PxReader reader = pxBufferReader(&source, &buffer);
 
     pxBuffer8WriteMemoryTail(&source, pxCast(pxword8*, "ciao"), 4);
 

@@ -6,7 +6,7 @@
 #define PX_UTF8_MIN_UNITS pxCast(pxint, 1)
 #define PX_UTF8_MAX_UNITS pxCast(pxint, 4)
 
-typedef struct
+typedef struct PxUtf8
 {
     union
     {

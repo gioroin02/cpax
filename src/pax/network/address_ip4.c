@@ -1,0 +1,43 @@
+#ifndef PX_NETWORK_ADDRESS_IP4_C
+#define PX_NETWORK_ADDRESS_IP4_C
+
+#include "address_ip4.h"
+
+pxbool8
+pxAddressIp4FromString8(PxAddressIp4* self, PxString8 string)
+{
+    PxAddressIp4 temp = {0};
+
+    PxFormatOptions options = pxFormatOptions(10,
+        PX_FORMAT_FLAG_LEADING_ZERO);
+
+    pxint groups = pxString8ContainsMemory(string, ".", 1);
+
+    if (groups != PX_ADDRESS_IP4_GROUPS - 1) return 0;
+
+    PxString8 left  = {0};
+    PxString8 right = string;
+
+    for (pxint i = 0; i < PX_ADDRESS_IP4_GROUPS; i += 1) {
+        pxString8SplitMemory(right, ".", 1, &left, &right);
+
+        if (pxWord8FromString8(&temp.memory[i], options, left) == 0)
+            return 0;
+    }
+
+    if (self != 0) {
+        pxMemoryCopy(self->memory, temp.memory,
+            PX_ADDRESS_IP4_GROUPS, 1);
+    }
+
+    return 1;
+}
+
+pxbool8
+pxAddressIp4IsEqual(PxAddressIp4 self, PxAddressIp4 value)
+{
+    return pxMemoryIsEqual(self.memory, value.memory,
+        PX_ADDRESS_IP4_GROUPS, 1);
+}
+
+#endif // PX_NETWORK_ADDRESS_IP4_C

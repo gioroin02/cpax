@@ -3,7 +3,7 @@
 
 #include "import.h"
 
-typedef enum
+typedef enum PxByteOrder
 {
     PX_BYTE_ORDER_NONE,
     PX_BYTE_ORDER_NETWORK,

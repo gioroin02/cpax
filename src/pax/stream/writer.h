@@ -5,7 +5,7 @@
 
 typedef pxint (PxWriterProc) (void*, PxBuffer8*);
 
-typedef struct
+typedef struct PxWriter
 {
     PxBuffer8* buffer;
 
@@ -15,7 +15,7 @@ typedef struct
 PxWriter;
 
 PxWriter
-pxWriterFromBuffer(PxBuffer8* target, PxBuffer8* buffer);
+pxBufferWriter(PxBuffer8* self, PxBuffer8* buffer);
 
 PxBuffer8*
 pxWriterSetBuffer(PxWriter* self, PxBuffer8* buffer);

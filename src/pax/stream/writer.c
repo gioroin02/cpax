@@ -4,14 +4,14 @@
 #include "writer.h"
 
 PxWriter
-pxWriterFromBuffer(PxBuffer8* target, PxBuffer8* buffer)
+pxBufferWriter(PxBuffer8* self, PxBuffer8* buffer)
 {
-    if (target == 0 || buffer == 0)
+    if (self == 0 || buffer == 0)
         return (PxWriter) {0};
 
     return (PxWriter) {
         .buffer = buffer,
-        .ctxt   = target,
+        .ctxt   = self,
         .proc   = &pxBuffer8WriteTail,
     };
 }

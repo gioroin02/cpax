@@ -6,7 +6,7 @@
 #define pxArenaReserve(arena, type, amount) \
     pxCast(type*, pxArenaReserveMemory(arena, amount, pxSize(type)))
 
-typedef struct
+typedef struct PxArena
 {
     pxword8* memory;
     pxint    length;

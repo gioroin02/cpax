@@ -3,8 +3,8 @@
 
 #include "unicode.h"
 
-pxbool8
-pxUnicodeIsValid(pxint32 value)
+pxb8
+pxUnicodeIsValid(pxi32 value)
 {
     if (value >= 0x0 && value <= 0xd7ff)
         return 1;
@@ -15,8 +15,8 @@ pxUnicodeIsValid(pxint32 value)
     return 0;
 }
 
-pxbool8
-pxUnicodeIsSurrogate(pxint32 value)
+pxb8
+pxUnicodeIsSurrogate(pxi32 value)
 {
     if (value >= 0xd800 && value <= 0xdfff)
         return 1;
@@ -24,8 +24,8 @@ pxUnicodeIsSurrogate(pxint32 value)
     return 0;
 }
 
-pxbool8
-pxUnicodeIsSurrogateLow(pxint32 value)
+pxb8
+pxUnicodeIsSurrogateLow(pxi32 value)
 {
     if (value >= 0xdc00 && value <= 0xdfff)
         return 1;
@@ -33,8 +33,8 @@ pxUnicodeIsSurrogateLow(pxint32 value)
     return 0;
 }
 
-pxbool8
-pxUnicodeIsSurrogateHigh(pxint32 value)
+pxb8
+pxUnicodeIsSurrogateHigh(pxi32 value)
 {
     if (value >= 0xd800 && value <= 0xdbff)
         return 1;
@@ -42,14 +42,14 @@ pxUnicodeIsSurrogateHigh(pxint32 value)
     return 0;
 }
 
-pxbool8
-pxUnicodeIsAscii(pxint32 value)
+pxb8
+pxUnicodeIsAscii(pxi32 value)
 {
     return value < 128 ? 1 : 0;
 }
 
-pxbool8
-pxAsciiIsSpace(pxint32 value)
+pxb8
+pxAsciiIsSpace(pxi32 value)
 {
     switch (value) {
         case 9:
@@ -66,9 +66,12 @@ pxAsciiIsSpace(pxint32 value)
     return 0;
 }
 
-pxword
-pxAsciiDigitValue(pxint32 value, pxword radix)
+pxunsig
+pxAsciiDigitValue(pxi32 value, pxunsig radix)
 {
+    pxunsig result = radix;
+    pxunsig temp   = 0;
+
     switch (value) {
         case 48:
         case 49:
@@ -79,41 +82,41 @@ pxAsciiDigitValue(pxint32 value, pxword radix)
         case 54:
         case 55:
         case 56:
-        case 57: {
-            pxword result = value - 48;
+        case 57:
+            temp = value - 48;
 
-            if (radix >= 2 && radix <= 16 && result < radix)
-                return result;
-        } break;
+            if (radix >= 2 && radix <= 16 && temp < radix)
+                result = temp;
+        break;
 
         case 65:
         case 66:
         case 67:
         case 68:
         case 69:
-        case 70: {
-            pxword result = value - 55;
+        case 70:
+            temp = value - 55;
 
-            if (radix >= 11 && radix <= 16 && result < radix)
-                return result;
-        } break;
+            if (radix >= 11 && radix <= 16 && temp < radix)
+                result = temp;
+        break;
 
         case 97:
         case 98:
         case 99:
         case 100:
         case 101:
-        case 102: {
-            pxword result = value - 87;
+        case 102:
+            temp = value - 87;
 
-            if (radix >= 11 && radix <= 16 && result < radix)
-                return result;
-        } break;
+            if (radix >= 11 && radix <= 16 && temp < radix)
+                result = temp;
+        break;
 
         default: break;
     }
 
-    return radix;
+    return result;
 }
 
 #endif // PX_STRING_UNICODE_C

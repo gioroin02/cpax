@@ -3,7 +3,7 @@
 
 #include "import.h"
 
-pxbool8
+pxb8
 pxNetworkStart();
 
 void

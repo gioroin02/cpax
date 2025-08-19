@@ -12,24 +12,24 @@
 #define PX_MEMORY_GIB pxCast(pxint, 1024 * 1024 * 1024)
 
 void*
-pxMemoryZero(void* memory, pxint length, pxint stride);
+pxMemoryZero(void* memory, pxint amount, pxint stride);
 
 void*
-pxMemoryFlip(void* memory, pxint length, pxint stride);
+pxMemoryFlip(void* memory, pxint amount, pxint stride);
 
 void*
-pxMemoryCopy(void* memory, void* value, pxint length, pxint stride);
+pxMemoryCopy(void* memory, void* value, pxint amount, pxint stride);
 
 void*
-pxMemoryCopyFlipped(void* memory, void* value, pxint length, pxint stride);
+pxMemoryCopyFlipped(void* memory, void* value, pxint amount, pxint stride);
 
 void*
-pxMemoryCopyBack(void* memory, pxint length, pxint offset, pxint stride);
+pxMemoryCopyBack(void* memory, pxint amount, pxint offset, pxint stride);
 
 void*
-pxMemoryCopyForw(void* memory, pxint length, pxint offset, pxint stride);
+pxMemoryCopyForw(void* memory, pxint amount, pxint offset, pxint stride);
 
-pxbool8
-pxMemoryIsEqual(void* memory, void* value, pxint length, pxint stride);
+pxb8
+pxMemoryIsEqual(void* memory, void* value, pxint amount, pxint stride);
 
 #endif // PX_BASE_MEMORY_H

@@ -16,63 +16,81 @@ PxByteOrder
 pxByteOrder();
 
 void*
-pxMemoryNetFromLocal(void* memory, pxint length, pxint stride);
+pxMemoryNetFromLocal(void* memory, pxint amount, pxint stride);
 
 void*
-pxMemoryNetCopyLocal(void* memory, void* value, pxint length, pxint stride);
+pxMemoryNetCopyLocal(void* memory, void* value, pxint amount, pxint stride);
 
-pxword16
-pxWord16NetFromLocal(pxword16 value);
+pxu16
+pxUnsig16NetFromLocal(pxu16 value);
 
-pxword32
-pxWord32NetFromLocal(pxword32 value);
+pxu32
+pxUnsig32NetFromLocal(pxu32 value);
 
-pxword64
-pxWord64NetFromLocal(pxword64 value);
+pxu64
+pxUnsig64NetFromLocal(pxu64 value);
 
-pxword16
-pxInt16NetFromLocal(pxint16 value);
+pxunsig
+pxUnsigNetFromLocal(pxunsig value);
 
-pxword32
-pxInt32NetFromLocal(pxint32 value);
+pxu16
+pxInt16NetFromLocal(pxi16 value);
 
-pxword64
-pxInt64NetFromLocal(pxint64 value);
+pxu32
+pxInt32NetFromLocal(pxi32 value);
 
-pxword32
-pxFloat32NetFromLocal(pxfloat32 value);
+pxu64
+pxInt64NetFromLocal(pxi64 value);
 
-pxword64
-pxFloat64NetFromLocal(pxfloat64 value);
+pxunsig
+pxIntNetFromLocal(pxint value);
+
+pxu32
+pxFloat32NetFromLocal(pxf32 value);
+
+pxu64
+pxFloat64NetFromLocal(pxf64 value);
+
+pxunsig
+pxFloatNetFromLocal(pxfloat value);
 
 void*
-pxMemoryLocalFromNet(void* memory, pxint length, pxint stride);
+pxMemoryLocalFromNet(void* memory, pxint amount, pxint stride);
 
 void*
-pxMemoryLocalCopyNet(void* memory, void* value, pxint length, pxint stride);
+pxMemoryLocalCopyNet(void* memory, void* value, pxint amount, pxint stride);
 
-pxword16
-pxWord16LocalFromNet(pxword16 value);
+pxu16
+pxUnsig16LocalFromNet(pxu16 value);
 
-pxword32
-pxWord32LocalFromNet(pxword32 value);
+pxu32
+pxUnsig32LocalFromNet(pxu32 value);
 
-pxword64
-pxWord64LocalFromNet(pxword64 value);
+pxu64
+pxUnsig64LocalFromNet(pxu64 value);
 
-pxint16
-pxInt16LocalFromNet(pxword16 value);
+pxunsig
+pxUnsigLocalFromNet(pxunsig value);
 
-pxint32
-pxInt32LocalFromNet(pxword32 value);
+pxi16
+pxInt16LocalFromNet(pxu16 value);
 
-pxint64
-pxInt64LocalFromNet(pxword64 value);
+pxi32
+pxInt32LocalFromNet(pxu32 value);
 
-pxfloat32
-pxFloat32LocalFromNet(pxword32 value);
+pxi64
+pxInt64LocalFromNet(pxu64 value);
 
-pxfloat64
-pxFloat64LocalFromNet(pxword64 value);
+pxint
+pxIntLocalFromNet(pxunsig value);
+
+pxf32
+pxFloat32LocalFromNet(pxu32 value);
+
+pxf64
+pxFloat64LocalFromNet(pxu64 value);
+
+pxfloat
+pxFloatLocalFromNet(pxunsig value);
 
 #endif // PX_MEMORY_BYTE_ORDER_H

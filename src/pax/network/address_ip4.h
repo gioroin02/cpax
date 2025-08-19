@@ -13,18 +13,18 @@ typedef struct PxAddressIp4
     union
     {
         struct {
-            pxword8 a, b, c, d;
+            pxu8 a, b, c, d;
         };
 
-        pxword8 memory[PX_ADDRESS_IP4_GROUPS];
+        pxu8 memory[PX_ADDRESS_IP4_GROUPS];
     };
 }
 PxAddressIp4;
 
-pxbool8
+pxb8
 pxAddressIp4FromString(PxAddressIp4* self, PxString8 string);
 
-pxbool8
+pxb8
 pxAddressIp4IsEqual(PxAddressIp4 self, PxAddressIp4 value);
 
 #endif // PX_NETWORK_ADDRESS_IP4_H

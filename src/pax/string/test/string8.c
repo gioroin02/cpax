@@ -5,15 +5,15 @@
 void
 showString8(PxString8 self)
 {
-    pxint   units = 0;
-    pxint   index = 0;
-    pxint32 value = 0;
+    pxint units = 0;
+    pxint index = 0;
+    pxi32 value = 0;
 
     while (pxString8Next(self, index, &units, &value) != 0) {
         printf("[%lli] %8li", index, value);
 
         if (pxUnicodeIsAscii(value) != 0)
-            printf(" (%c)", pxCast(pxint8, value));
+            printf(" (%c)", pxCast(pxi8, value));
 
         printf("\n");
 
@@ -24,12 +24,12 @@ showString8(PxString8 self)
 int
 main(int argc, char** argv)
 {
-    pxword8 memory[PX_MEMORY_KIB] = {0};
+    pxu8 memory[PX_MEMORY_KIB] = {0};
 
     PxArena arena = pxArenaMake(memory, pxSize(memory));
 
     PxString8 str1 = pxString8CopyMemory(&arena,
-        pxCast(pxword8*, "ciao"), 4);
+        pxCast(pxu8*, "ciao"), 4);
 
     PxString8 str2 = pxString8FromUnicode(&arena, 0x1f600);
 

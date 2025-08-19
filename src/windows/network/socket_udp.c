@@ -23,11 +23,11 @@ typedef struct sockaddr_in6     PxSockUdpIp6;
 #define pxSockUdpIp4(x)  pxCast(PxSockUdpIp4*, x)
 #define pxSockUdpIp6(x)  pxCast(PxSockUdpIp6*, x)
 
-#define pxSockUdpIp4Addr(x) pxCast(void*,     &pxSockUdpIp4(&x)->sin_addr.s_addr)
-#define pxSockUdpIp4Port(x) pxCast(pxword16*, &pxSockUdpIp4(&x)->sin_port)
+#define pxSockUdpIp4Addr(x) pxCast(void*,  &pxSockUdpIp4(&x)->sin_addr.s_addr)
+#define pxSockUdpIp4Port(x) pxCast(pxu16*, &pxSockUdpIp4(&x)->sin_port)
 
-#define pxSockUdpIp6Addr(x) pxCast(void*,     pxSockUdpIp6(&x)->sin6_addr.s6_addr)
-#define pxSockUdpIp6Port(x) pxCast(pxword16*, &pxSockUdpIp6(&x)->sin6_port)
+#define pxSockUdpIp6Addr(x) pxCast(void*,  pxSockUdpIp6(&x)->sin6_addr.s6_addr)
+#define pxSockUdpIp6Port(x) pxCast(pxu16*, &pxSockUdpIp6(&x)->sin6_port)
 
 typedef struct PxWindowsSocketUdp
 {
@@ -103,7 +103,7 @@ pxWindowsSocketUdpGetAddress(PxWindowsSocketUdp* self)
     return result;
 }
 
-pxword16
+pxu16
 pxWindowsSocketUdpGetPort(PxWindowsSocketUdp* self)
 {
     PxAddress result = {.type = PX_ADDRESS_TYPE_NONE};
@@ -121,8 +121,8 @@ pxWindowsSocketUdpGetPort(PxWindowsSocketUdp* self)
     return 0;
 }
 
-pxbool8
-pxWindowsSocketUdpBind(PxWindowsSocketUdp* self, PxAddress address, pxword16 port)
+pxb8
+pxWindowsSocketUdpBind(PxWindowsSocketUdp* self, PxAddress address, pxu16 port)
 {
     pxint family = 0;
 
@@ -178,8 +178,8 @@ pxWindowsSocketUdpListen(PxWindowsSocketUdp* self)
     listen(self->handle, SOMAXCONN);
 }
 
-pxbool8
-pxWindowsSocketUdpConnect(PxWindowsSocketUdp* self, PxAddress address, pxword16 port)
+pxb8
+pxWindowsSocketUdpConnect(PxWindowsSocketUdp* self, PxAddress address, pxu16 port)
 {
     PxSockUdpData data = {0};
     pxint         size = 0;
@@ -245,7 +245,7 @@ pxWindowsSocketUdpAccept(PxWindowsSocketUdp* self, PxArena* arena)
 }
 
 pxint
-pxWindowsSocketUdpWriteMemory(PxWindowsSocketUdp* self, pxword8* memory, pxint length)
+pxWindowsSocketUdpWriteMemory(PxWindowsSocketUdp* self, pxu8* memory, pxint length)
 {
     for (pxint i = 0; i < length;) {
         char* mem = pxCast(char*, memory + i);
@@ -263,7 +263,7 @@ pxWindowsSocketUdpWriteMemory(PxWindowsSocketUdp* self, pxword8* memory, pxint l
 }
 
 pxint
-pxWindowsSocketUdpReadMemory(PxWindowsSocketUdp* self, pxword8* memory, pxint length)
+pxWindowsSocketUdpReadMemory(PxWindowsSocketUdp* self, pxu8* memory, pxint length)
 {
     for (pxint i = 0; i < length;) {
         char* mem = pxCast(char*, memory + i);

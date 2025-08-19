@@ -30,10 +30,10 @@ pxAddressAny(PxAddressType type);
 PxAddress
 pxAddressLocalHost(PxAddressType type);
 
-pxbool8
+pxb8
 pxAddressFromString(PxAddress* self, PxAddressType type, PxString8 string);
 
-pxbool8
+pxb8
 pxAddressIsEqual(PxAddress self, PxAddress value);
 
 #endif // PX_NETWORK_ADDRESS_H

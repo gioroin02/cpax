@@ -40,7 +40,7 @@ pxReaderFill(PxReader* self)
     return 0;
 }
 
-pxword8
+pxu8
 pxReaderDrop(PxReader* self, pxint offset)
 {
     if (offset < 0) return 0;
@@ -59,7 +59,7 @@ pxReaderDrop(PxReader* self, pxint offset)
     return pxBuffer8GetForwOr(self->buffer, 0, 0);
 }
 
-pxword8
+pxu8
 pxReaderPeek(PxReader* self, pxint offset)
 {
     if (offset < 0) return 0;
@@ -106,12 +106,12 @@ pxReaderPeekLine(PxReader* self, PxArena* arena, pxint length)
 {
     if (length <= 0) return (PxString8) {0};
 
-    pxint   diff = 0;
-    pxword8 word = pxReaderPeek(self, diff);
+    pxint diff = 0;
+    pxu8  byte = pxReaderPeek(self, diff);
 
-    while (word != 0 && word != 10 && diff <= length) {
+    while (byte != 0 && byte != 10 && diff <= length) {
         diff += 1;
-        word  = pxReaderPeek(self, diff);
+        byte  = pxReaderPeek(self, diff);
     }
 
     return pxReaderPeekString(self, arena, diff);
@@ -122,8 +122,8 @@ pxReaderString(PxReader* self, PxArena* arena, pxint length)
 {
     if (length <= 0) return (PxString8) {0};
 
-    pxint    offset = pxArenaOffset(arena);
-    pxword8* result = pxArenaReserve(arena, pxword8, length + 1);
+    pxint offset = pxArenaOffset(arena);
+    pxu8* result = pxArenaReserve(arena, pxu8, length + 1);
 
     if (result == 0) return (PxString8) {0};
 
@@ -152,18 +152,18 @@ pxReaderLine(PxReader* self, PxArena* arena, pxint length)
 {
     if (length <= 0) return (PxString8) {0};
 
-    pxint    offset = pxArenaOffset(arena);
-    pxword8* result = pxArenaReserve(arena, pxword8, length + 1);
-    pxint    diff   = 0;
-    pxword8  word   = pxReaderPeek(self, diff);
+    pxint offset = pxArenaOffset(arena);
+    pxu8* result = pxArenaReserve(arena, pxu8, length + 1);
+    pxint diff   = 0;
+    pxu8  byte   = pxReaderPeek(self, diff);
 
     if (result == 0) return (PxString8) {0};
 
-    while (word != 0 && word != 10 && diff <= length) {
-        result[diff] = word;
+    while (byte != 0 && byte != 10 && diff <= length) {
+        result[diff] = byte;
 
         diff += 1;
-        word  = pxReaderPeek(self, diff);
+        byte  = pxReaderPeek(self, diff);
     }
 
     if (diff < length) pxArenaRewind(arena, offset + diff + 1);

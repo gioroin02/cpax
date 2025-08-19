@@ -9,7 +9,7 @@
 
 #include <winsock2.h>
 
-pxbool8
+pxb8
 pxWindowsNetworkStart()
 {
     WSADATA data = {0};

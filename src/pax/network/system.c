@@ -16,7 +16,7 @@
 
 #endif
 
-pxbool8
+pxb8
 pxNetworkStart()
 {
     return __pxNetworkStart__();

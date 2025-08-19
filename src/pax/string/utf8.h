@@ -11,44 +11,44 @@ typedef struct PxUtf8
     union
     {
         struct {
-            pxword8 a, b, c, d;
+            pxu8 a, b, c, d;
         };
 
-        pxword8 memory[PX_UTF8_MAX_UNITS];
+        pxu8 memory[PX_UTF8_MAX_UNITS];
     };
 
     pxint size;
 }
 PxUtf8;
 
-pxbool8
-pxUtf8Encode(PxUtf8* self, pxint32 value);
+pxb8
+pxUtf8Encode(PxUtf8* self, pxi32 value);
 
 pxint
-pxUtf8WriteMemoryForw(pxword8* memory, pxint length, pxint index, pxint32 value);
+pxUtf8WriteMemoryForw(pxu8* memory, pxint length, pxint index, pxi32 value);
 
 pxint
-pxUtf8WriteMemoryBack(pxword8* memory, pxint length, pxint index, pxint32 value);
+pxUtf8WriteMemoryBack(pxu8* memory, pxint length, pxint index, pxi32 value);
 
-pxbool8
-pxUtf8Decode(PxUtf8* self, pxint32* value);
-
-pxint
-pxUtf8ReadMemoryForw(pxword8* memory, pxint length, pxint index, pxint32* value);
+pxb8
+pxUtf8Decode(PxUtf8* self, pxi32* value);
 
 pxint
-pxUtf8ReadMemoryBack(pxword8* memory, pxint length, pxint index, pxint32* value);
+pxUtf8ReadMemoryForw(pxu8* memory, pxint length, pxint index, pxi32* value);
 
 pxint
-pxUtf8UnitsToWrite(pxint32 value);
+pxUtf8ReadMemoryBack(pxu8* memory, pxint length, pxint index, pxi32* value);
 
 pxint
-pxUtf8UnitsToRead(pxword8 value);
+pxUtf8UnitsToWrite(pxi32 value);
 
-pxbool8
-pxUtf8IsTrailing(pxword8 value);
+pxint
+pxUtf8UnitsToRead(pxu8 value);
 
-pxbool8
-pxUtf8IsOverlong(pxint32 value, pxint units);
+pxb8
+pxUtf8IsTrailing(pxu8 value);
+
+pxb8
+pxUtf8IsOverlong(pxi32 value, pxint units);
 
 #endif // PX_STRING_UTF8_H

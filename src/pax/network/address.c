@@ -43,7 +43,7 @@ pxAddressLocalHost(PxAddressType type)
     return result;
 }
 
-pxbool8
+pxb8
 pxAddressFromString(PxAddress* self, PxAddressType type, PxString8 string)
 {
     if (self == 0) return 0;
@@ -63,7 +63,7 @@ pxAddressFromString(PxAddress* self, PxAddressType type, PxString8 string)
     return 0;
 }
 
-pxbool8
+pxb8
 pxAddressIsEqual(PxAddress self, PxAddress value)
 {
     if (self.type != value.type) return 0;

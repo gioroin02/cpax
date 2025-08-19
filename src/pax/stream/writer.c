@@ -41,7 +41,7 @@ pxWriterFlush(PxWriter* self)
 }
 
 pxint
-pxWriterByte(PxWriter* self, pxword8 value)
+pxWriterByte(PxWriter* self, pxu8 value)
 {
     if (self->buffer->size + 1 > self->buffer->length)
         pxWriterFlush(self);

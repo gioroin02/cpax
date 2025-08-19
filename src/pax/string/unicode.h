@@ -136,25 +136,25 @@ typedef enum PxAscii
 }
 PxAscii;
 
-pxbool8
-pxUnicodeIsValid(pxint32 value);
+pxb8
+pxUnicodeIsValid(pxi32 value);
 
-pxbool8
-pxUnicodeIsSurrogate(pxint32 value);
+pxb8
+pxUnicodeIsSurrogate(pxi32 value);
 
-pxbool8
-pxUnicodeIsSurrogateLow(pxint32 value);
+pxb8
+pxUnicodeIsSurrogateLow(pxi32 value);
 
-pxbool8
-pxUnicodeIsSurrogateHigh(pxint32 value);
+pxb8
+pxUnicodeIsSurrogateHigh(pxi32 value);
 
-pxbool8
-pxUnicodeIsAscii(pxint32 value);
+pxb8
+pxUnicodeIsAscii(pxi32 value);
 
-pxbool8
-pxAsciiIsSpace(pxint32 value);
+pxb8
+pxAsciiIsSpace(pxi32 value);
 
-pxword
-pxAsciiDigitValue(pxint32 value, pxword radix);
+pxunsig
+pxAsciiDigitValue(pxi32 value, pxunsig radix);
 
 #endif // PX_STRING_UNICODE_H

@@ -24,7 +24,7 @@ pxWindowsMemoryReserve(pxint amount)
 {
     pxint stride = pxWindowsMemoryPageSize();
 
-    if (amount <= 0 || stride > PX_WORD32_MAX / amount)
+    if (amount <= 0 || stride > PX_U32_MAX / amount)
         return (PxArena) {0};
 
     void* result = VirtualAlloc(0, pxCast(DWORD, amount * stride),

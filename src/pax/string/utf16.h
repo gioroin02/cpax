@@ -11,38 +11,38 @@ typedef struct PxUtf16
     union
     {
         struct {
-            pxword16 a, b;
+            pxu16 a, b;
         };
 
-        pxword16 memory[PX_UTF16_MAX_UNITS];
+        pxu16 memory[PX_UTF16_MAX_UNITS];
     };
 
     pxint size;
 }
 PxUtf16;
 
-pxbool8
-pxUtf16Encode(PxUtf16* self, pxint32 value);
+pxb8
+pxUtf16Encode(PxUtf16* self, pxi32 value);
 
 pxint
-pxUtf16WriteMemoryForw(pxword16* memory, pxint length, pxint index, pxint32 value);
+pxUtf16WriteMemoryForw(pxu16* memory, pxint length, pxint index, pxi32 value);
 
 pxint
-pxUtf16WriteMemoryBack(pxword16* memory, pxint length, pxint index, pxint32 value);
+pxUtf16WriteMemoryBack(pxu16* memory, pxint length, pxint index, pxi32 value);
 
-pxbool8
-pxUtf16Decode(PxUtf16* self, pxint32* value);
-
-pxint
-pxUtf16ReadMemoryForw(pxword16* memory, pxint length, pxint index, pxint32* value);
+pxb8
+pxUtf16Decode(PxUtf16* self, pxi32* value);
 
 pxint
-pxUtf16ReadMemoryBack(pxword16* memory, pxint length, pxint index, pxint32* value);
+pxUtf16ReadMemoryForw(pxu16* memory, pxint length, pxint index, pxi32* value);
 
 pxint
-pxUtf16UnitsToWrite(pxint32 value);
+pxUtf16ReadMemoryBack(pxu16* memory, pxint length, pxint index, pxi32* value);
 
 pxint
-pxUtf16UnitsToRead(pxword16 value);
+pxUtf16UnitsToWrite(pxi32 value);
+
+pxint
+pxUtf16UnitsToRead(pxu16 value);
 
 #endif // PX_STRING_UTF16_H

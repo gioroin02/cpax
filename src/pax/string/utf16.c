@@ -3,8 +3,8 @@
 
 #include "utf16.h"
 
-pxbool8
-pxUtf16Encode(PxUtf16* self, pxint32 value)
+pxb8
+pxUtf16Encode(PxUtf16* self, pxi32 value)
 {
     pxint units = pxUtf16UnitsToWrite(value);
 
@@ -13,14 +13,12 @@ pxUtf16Encode(PxUtf16* self, pxint32 value)
     self->size = 0;
 
     switch (units) {
-        case 1: self->a = pxCast(pxword16, value); break;
+        case 1: self->a = pxCast(pxu16, value); break;
 
-        case 2: {
-            pxint32 temp = value - 0x10000;
-
-            self->a = pxCast(pxword16, ((value >> 10) & 0xffff) | 0xd800);
-            self->b = pxCast(pxword16, ((value >>  0) & 0x03ff) | 0xdc00);
-        } break;
+        case 2:
+            self->a = pxCast(pxu16, (((value - 0x10000) >> 10) & 0xffff) | 0xd800);
+            self->b = pxCast(pxu16, (((value - 0x10000) >>  0) & 0x03ff) | 0xdc00);
+        break;
 
         default: return 0;
     }
@@ -31,7 +29,7 @@ pxUtf16Encode(PxUtf16* self, pxint32 value)
 }
 
 pxint
-pxUtf16WriteMemoryForw(pxword16* memory, pxint length, pxint index, pxint32 value)
+pxUtf16WriteMemoryForw(pxu16* memory, pxint length, pxint index, pxi32 value)
 {
     PxUtf16 utf16 = {0};
 
@@ -47,7 +45,7 @@ pxUtf16WriteMemoryForw(pxword16* memory, pxint length, pxint index, pxint32 valu
 }
 
 pxint
-pxUtf16WriteMemoryBack(pxword16* memory, pxint length, pxint index, pxint32 value)
+pxUtf16WriteMemoryBack(pxu16* memory, pxint length, pxint index, pxi32 value)
 {
     PxUtf16 utf16 = {0};
 
@@ -62,11 +60,11 @@ pxUtf16WriteMemoryBack(pxword16* memory, pxint length, pxint index, pxint32 valu
     return utf16.size;
 }
 
-pxbool8
-pxUtf16Decode(PxUtf16* self, pxint32* value)
+pxb8
+pxUtf16Decode(PxUtf16* self, pxi32* value)
 {
-    pxint   units = pxUtf16UnitsToRead(self->memory[0]);
-    pxint32 temp  = 0;
+    pxint units = pxUtf16UnitsToRead(self->memory[0]);
+    pxi32 temp  = 0;
 
     if (self->size != units) return 0;
 
@@ -77,9 +75,9 @@ pxUtf16Decode(PxUtf16* self, pxint32* value)
             if (pxUnicodeIsSurrogateHigh(self->b) == 0)
                 return 0;
 
-            temp  = 0x10000;
             temp += (self->a - 0xd800) << 10;
             temp += (self->b - 0xdc00) <<  0;
+            temp += 0x10000;
         break;
 
         default: return 0;
@@ -93,7 +91,7 @@ pxUtf16Decode(PxUtf16* self, pxint32* value)
 }
 
 pxint
-pxUtf16ReadMemoryForw(pxword16* memory, pxint length, pxint index, pxint32* value)
+pxUtf16ReadMemoryForw(pxu16* memory, pxint length, pxint index, pxi32* value)
 {
     PxUtf16 utf16 = {0};
 
@@ -112,7 +110,7 @@ pxUtf16ReadMemoryForw(pxword16* memory, pxint length, pxint index, pxint32* valu
 }
 
 pxint
-pxUtf16ReadMemoryBack(pxword16* memory, pxint length, pxint index, pxint32* value)
+pxUtf16ReadMemoryBack(pxu16* memory, pxint length, pxint index, pxi32* value)
 {
     PxUtf16 utf16 = {0};
     pxint   start = index;
@@ -140,7 +138,7 @@ pxUtf16ReadMemoryBack(pxword16* memory, pxint length, pxint index, pxint32* valu
 }
 
 pxint
-pxUtf16UnitsToWrite(pxint32 value)
+pxUtf16UnitsToWrite(pxi32 value)
 {
     if (value >=     0x0 && value <=   0xd7ff) return 1;
     if (value >=  0xe000 && value <=   0xffff) return 1;
@@ -150,7 +148,7 @@ pxUtf16UnitsToWrite(pxint32 value)
 }
 
 pxint
-pxUtf16UnitsToRead(pxword16 value)
+pxUtf16UnitsToRead(pxu16 value)
 {
     if (value >=    0x0 && value <= 0xd7ff) return 1;
     if (value >= 0xd800 && value <= 0xdbff) return 2;

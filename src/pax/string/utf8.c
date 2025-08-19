@@ -3,8 +3,8 @@
 
 #include "utf8.h"
 
-pxbool8
-pxUtf8Encode(PxUtf8* self, pxint32 value)
+pxb8
+pxUtf8Encode(PxUtf8* self, pxi32 value)
 {
     pxint units = pxUtf8UnitsToWrite(value);
 
@@ -13,24 +13,24 @@ pxUtf8Encode(PxUtf8* self, pxint32 value)
     self->size = 0;
 
     switch (units) {
-        case 1: self->a = pxCast(pxword8, value); break;
+        case 1: self->a = pxCast(pxu8, value); break;
 
         case 2:
-            self->a = pxCast(pxword8, ((value >> 6) & 0xff) | 0xc0);
-            self->b = pxCast(pxword8, ((value >> 0) & 0x3f) | 0x80);
+            self->a = pxCast(pxu8, ((value >> 6) & 0xff) | 0xc0);
+            self->b = pxCast(pxu8, ((value >> 0) & 0x3f) | 0x80);
         break;
 
         case 3:
-            self->a = pxCast(pxword8, ((value >> 12) & 0xff) | 0xe0);
-            self->b = pxCast(pxword8, ((value >>  6) & 0x3f) | 0x80);
-            self->c = pxCast(pxword8, ((value >>  0) & 0x3f) | 0x80);
+            self->a = pxCast(pxu8, ((value >> 12) & 0xff) | 0xe0);
+            self->b = pxCast(pxu8, ((value >>  6) & 0x3f) | 0x80);
+            self->c = pxCast(pxu8, ((value >>  0) & 0x3f) | 0x80);
         break;
 
         case 4:
-            self->a = pxCast(pxword8, ((value >> 18) & 0xff) | 0xf0);
-            self->b = pxCast(pxword8, ((value >> 12) & 0x3f) | 0x80);
-            self->c = pxCast(pxword8, ((value >>  6) & 0x3f) | 0x80);
-            self->d = pxCast(pxword8, ((value >>  0) & 0x3f) | 0x80);
+            self->a = pxCast(pxu8, ((value >> 18) & 0xff) | 0xf0);
+            self->b = pxCast(pxu8, ((value >> 12) & 0x3f) | 0x80);
+            self->c = pxCast(pxu8, ((value >>  6) & 0x3f) | 0x80);
+            self->d = pxCast(pxu8, ((value >>  0) & 0x3f) | 0x80);
         break;
 
         default: return 0;
@@ -42,7 +42,7 @@ pxUtf8Encode(PxUtf8* self, pxint32 value)
 }
 
 pxint
-pxUtf8WriteMemoryForw(pxword8* memory, pxint length, pxint index, pxint32 value)
+pxUtf8WriteMemoryForw(pxu8* memory, pxint length, pxint index, pxi32 value)
 {
     PxUtf8 utf8 = {0};
 
@@ -58,7 +58,7 @@ pxUtf8WriteMemoryForw(pxword8* memory, pxint length, pxint index, pxint32 value)
 }
 
 pxint
-pxUtf8WriteMemoryBack(pxword8* memory, pxint length, pxint index, pxint32 value)
+pxUtf8WriteMemoryBack(pxu8* memory, pxint length, pxint index, pxi32 value)
 {
     PxUtf8 utf8 = {0};
 
@@ -73,11 +73,11 @@ pxUtf8WriteMemoryBack(pxword8* memory, pxint length, pxint index, pxint32 value)
     return utf8.size;
 }
 
-pxbool8
-pxUtf8Decode(PxUtf8* self, pxint32* value)
+pxb8
+pxUtf8Decode(PxUtf8* self, pxi32* value)
 {
-    pxint   units = pxUtf8UnitsToRead(self->memory[0]);
-    pxint32 temp  = 0;
+    pxint units = pxUtf8UnitsToRead(self->memory[0]);
+    pxi32 temp  = 0;
 
     if (self->size != units) return 0;
 
@@ -125,7 +125,7 @@ pxUtf8Decode(PxUtf8* self, pxint32* value)
 }
 
 pxint
-pxUtf8ReadMemoryForw(pxword8* memory, pxint length, pxint index, pxint32* value)
+pxUtf8ReadMemoryForw(pxu8* memory, pxint length, pxint index, pxi32* value)
 {
     PxUtf8 utf8 = {0};
 
@@ -144,7 +144,7 @@ pxUtf8ReadMemoryForw(pxword8* memory, pxint length, pxint index, pxint32* value)
 }
 
 pxint
-pxUtf8ReadMemoryBack(pxword8* memory, pxint length, pxint index, pxint32* value)
+pxUtf8ReadMemoryBack(pxu8* memory, pxint length, pxint index, pxi32* value)
 {
     PxUtf8 utf8  = {0};
     pxint  start = index;
@@ -172,7 +172,7 @@ pxUtf8ReadMemoryBack(pxword8* memory, pxint length, pxint index, pxint32* value)
 }
 
 pxint
-pxUtf8UnitsToWrite(pxint32 value)
+pxUtf8UnitsToWrite(pxi32 value)
 {
     if (value >=     0x0 && value <=     0x7f) return 1;
     if (value >=    0x80 && value <=    0x7ff) return 2;
@@ -184,7 +184,7 @@ pxUtf8UnitsToWrite(pxint32 value)
 }
 
 pxint
-pxUtf8UnitsToRead(pxword8 value)
+pxUtf8UnitsToRead(pxu8 value)
 {
     if (value >=  0x0 && value <= 0x7f) return 1;
     if (value >= 0xc0 && value <= 0xdf) return 2;
@@ -194,14 +194,14 @@ pxUtf8UnitsToRead(pxword8 value)
     return 0;
 }
 
-pxbool8
-pxUtf8IsTrailing(pxword8 value)
+pxb8
+pxUtf8IsTrailing(pxu8 value)
 {
     return (value & 0xc0) == 0x80 ? 1 : 0;
 }
 
-pxbool8
-pxUtf8IsOverlong(pxint32 value, pxint units)
+pxb8
+pxUtf8IsOverlong(pxi32 value, pxint units)
 {
     if (value >=     0xc080 && value <=     0xc1ff && units == 2) return 1;
     if (value >=   0xe08080 && value <=   0xe09fff && units == 3) return 1;

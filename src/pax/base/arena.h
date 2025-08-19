@@ -8,19 +8,19 @@
 
 typedef struct PxArena
 {
-    pxword8* memory;
-    pxint    length;
-    pxint    offset;
+    pxu8* memory;
+    pxint length;
+    pxint offset;
 }
 PxArena;
 
 PxArena
-pxArenaMake(pxword8* memory, pxint length);
+pxArenaMake(pxu8* memory, pxint length);
 
 void*
 pxArenaReserveMemory(PxArena* self, pxint amount, pxint stride);
 
-pxbool8
+pxb8
 pxArenaReleaseMemory(PxArena* self, void* memory);
 
 void*
@@ -32,7 +32,7 @@ pxArenaClear(PxArena* self);
 pxint
 pxArenaOffset(PxArena* self);
 
-pxbool8
+pxb8
 pxArenaRewind(PxArena* self, pxint offset);
 
 pxint

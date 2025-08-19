@@ -6,9 +6,9 @@
 PxByteOrder
 pxByteOrder()
 {
-    pxword16 word = 0x0001;
+    pxu16 word = 0x0001;
 
-    switch (pxCast(pxword8*, &word)[0]) {
+    switch (pxCast(pxu8*, &word)[0]) {
         case 0:
             return PX_BYTE_ORDER_NETWORK;
 
@@ -22,213 +22,279 @@ pxByteOrder()
 }
 
 void*
-pxMemoryNetFromLocal(void* memory, pxint length, pxint stride)
+pxMemoryNetFromLocal(void* memory, pxint amount, pxint stride)
 {
     if (pxByteOrder() == PX_BYTE_ORDER_REVERSE)
-        return pxMemoryFlip(memory, length, stride);
+        return pxMemoryFlip(memory, amount, stride);
 
     return memory;
 }
 
 void*
-pxMemoryNetCopyLocal(void* memory, void* value, pxint length, pxint stride)
+pxMemoryNetCopyLocal(void* memory, void* value, pxint amount, pxint stride)
 {
     if (pxByteOrder() == PX_BYTE_ORDER_REVERSE)
-        return pxMemoryCopyFlipped(memory, value, length, stride);
+        return pxMemoryCopyFlipped(memory, value, amount, stride);
 
-    return pxMemoryCopy(memory, value, length, stride);
+    return pxMemoryCopy(memory, value, amount, stride);
 }
 
-pxword16
-pxWord16NetFromLocal(pxword16 value)
+pxu16
+pxUnsig16NetFromLocal(pxu16 value)
 {
-    pxword16 result = 0;
+    pxu16 result = 0;
 
     pxMemoryNetCopyLocal(&result,
-        &value, 2, 1);
+        &value, 1, PX_U16_SIZE);
 
     return result;
 }
 
-pxword32
-pxWord32NetFromLocal(pxword32 value)
+pxu32
+pxUnsig32NetFromLocal(pxu32 value)
 {
-    pxword32 result = 0;
+    pxu32 result = 0;
 
     pxMemoryNetCopyLocal(&result,
-        &value, 4, 1);
+        &value, 1, PX_U32_SIZE);
 
     return result;
 }
 
-pxword64
-pxWord64NetFromLocal(pxword64 value)
+pxu64
+pxUnsig64NetFromLocal(pxu64 value)
 {
-    pxword64 result = 0;
+    pxu64 result = 0;
 
     pxMemoryNetCopyLocal(&result,
-        &value, 8, 1);
+        &value, 1, PX_U64_SIZE);
 
     return result;
 }
 
-pxword16
-pxInt16NetFromLocal(pxint16 value)
+pxunsig
+pxUnsigNetFromLocal(pxunsig value)
 {
-    pxword16 result = 0;
+    pxunsig result = 0;
 
     pxMemoryNetCopyLocal(&result,
-        &value, 2, 1);
+        &value, 1, PX_UNSIG_SIZE);
 
     return result;
 }
 
-pxword32
-pxInt32NetFromLocal(pxint32 value)
+pxu16
+pxInt16NetFromLocal(pxi16 value)
 {
-    pxword32 result = 0;
+    pxu16 result = 0;
 
     pxMemoryNetCopyLocal(&result,
-        &value, 4, 1);
+        &value, 1, PX_I16_SIZE);
 
     return result;
 }
 
-pxword64
-pxInt64NetFromLocal(pxint64 value)
+pxu32
+pxInt32NetFromLocal(pxi32 value)
 {
-    pxword64 result = 0;
+    pxu32 result = 0;
 
     pxMemoryNetCopyLocal(&result,
-        &value, 8, 1);
+        &value, 1, PX_I32_SIZE);
 
     return result;
 }
 
-pxword32
-pxFloat32NetFromLocal(pxfloat32 value)
+pxu64
+pxInt64NetFromLocal(pxi64 value)
 {
-    pxword32 result = 0;
+    pxu64 result = 0;
 
     pxMemoryNetCopyLocal(&result,
-        &value, 4, 1);
+        &value, 1, PX_I64_SIZE);
 
     return result;
 }
 
-pxword64
-pxFloat64NetFromLocal(pxfloat64 value)
+pxunsig
+pxIntNetFromLocal(pxint value)
 {
-    pxword64 result = 0;
+    pxunsig result = 0;
 
     pxMemoryNetCopyLocal(&result,
-        &value, 8, 1);
+        &value, 1, PX_INT_SIZE);
+
+    return result;
+}
+
+pxu32
+pxFloat32NetFromLocal(pxf32 value)
+{
+    pxu32 result = 0;
+
+    pxMemoryNetCopyLocal(&result,
+        &value, 1, PX_F32_SIZE);
+
+    return result;
+}
+
+pxu64
+pxFloat64NetFromLocal(pxf64 value)
+{
+    pxu64 result = 0;
+
+    pxMemoryNetCopyLocal(&result,
+        &value, 1, PX_F64_SIZE);
+
+    return result;
+}
+
+pxunsig
+pxFloatNetFromLocal(pxfloat value)
+{
+    pxunsig result = 0;
+
+    pxMemoryNetCopyLocal(&result,
+        &value, 1, PX_FLOAT_SIZE);
 
     return result;
 }
 
 void*
-pxMemoryLocalFromNet(void* memory, pxint length, pxint stride)
+pxMemoryLocalFromNet(void* memory, pxint amount, pxint stride)
 {
     if (pxByteOrder() == PX_BYTE_ORDER_REVERSE)
-        return pxMemoryFlip(memory, length, stride);
+        return pxMemoryFlip(memory, amount, stride);
 
     return memory;
 }
 
 void*
-pxMemoryLocalCopyNet(void* memory, void* value, pxint length, pxint stride)
+pxMemoryLocalCopyNet(void* memory, void* value, pxint amount, pxint stride)
 {
     if (pxByteOrder() == PX_BYTE_ORDER_REVERSE)
-        return pxMemoryCopyFlipped(memory, value, length, stride);
+        return pxMemoryCopyFlipped(memory, value, amount, stride);
 
-    return pxMemoryCopy(memory, value, length, stride);
+    return pxMemoryCopy(memory, value, amount, stride);
 }
 
-pxword16
-pxWord16LocalFromNet(pxword16 value)
+pxu16
+pxUnsig16LocalFromNet(pxu16 value)
 {
-    pxword16 result = 0;
+    pxu16 result = 0;
 
     pxMemoryLocalCopyNet(&result,
-        &value, 2, 1);
+        &value, 1, PX_U16_SIZE);
 
     return result;
 }
 
-pxword32
-pxWord32LocalFromNet(pxword32 value)
+pxu32
+pxUnsig32LocalFromNet(pxu32 value)
 {
-    pxword32 result = 0;
+    pxu32 result = 0;
 
     pxMemoryLocalCopyNet(&result,
-        &value, 4, 1);
+        &value, 1, PX_U32_SIZE);
 
     return result;
 }
 
-pxword64
-pxWord64LocalFromNet(pxword64 value)
+pxu64
+pxUnsig64LocalFromNet(pxu64 value)
 {
-    pxword64 result = 0;
+    pxu64 result = 0;
 
     pxMemoryLocalCopyNet(&result,
-        &value, 8, 1);
+        &value, 1, PX_U64_SIZE);
 
     return result;
 }
 
-pxint16
-pxInt16LocalFromNet(pxword16 value)
+pxunsig
+pxUnsigLocalFromNet(pxunsig value)
 {
-    pxint16 result = 0;
+    pxunsig result = 0;
 
     pxMemoryLocalCopyNet(&result,
-        &value, 2, 1);
+        &value, 1, PX_UNSIG_SIZE);
 
     return result;
 }
 
-pxint32
-pxInt32LocalFromNet(pxword32 value)
+pxi16
+pxInt16LocalFromNet(pxu16 value)
 {
-    pxint32 result = 0;
+    pxi16 result = 0;
 
     pxMemoryLocalCopyNet(&result,
-        &value, 4, 1);
+        &value, 1, PX_I64_SIZE);
 
     return result;
 }
 
-pxint64
-pxInt64LocalFromNet(pxword64 value)
+pxi32
+pxInt32LocalFromNet(pxu32 value)
 {
-    pxint64 result = 0;
+    pxi32 result = 0;
 
     pxMemoryLocalCopyNet(&result,
-        &value, 8, 1);
+        &value, 1, PX_I32_SIZE);
 
     return result;
 }
 
-pxfloat32
-pxFloat32LocalFromNet(pxword32 value)
+pxi64
+pxInt64LocalFromNet(pxu64 value)
 {
-    pxfloat32 result = 0;
+    pxi64 result = 0;
 
     pxMemoryLocalCopyNet(&result,
-        &value, 4, 1);
+        &value, 1, PX_I64_SIZE);
 
     return result;
 }
 
-pxfloat64
-pxFloat64LocalFromNet(pxword64 value)
+pxint
+pxIntLocalFromNet(pxunsig value)
 {
-    pxfloat64 result = 0;
+    pxint result = 0;
 
     pxMemoryLocalCopyNet(&result,
-        &value, 8, 1);
+        &value, 1, PX_INT_SIZE);
+
+    return result;
+}
+
+pxf32
+pxFloat32LocalFromNet(pxu32 value)
+{
+    pxf32 result = 0;
+
+    pxMemoryLocalCopyNet(&result,
+        &value, 1, PX_F32_SIZE);
+
+    return result;
+}
+
+pxf64
+pxFloat64LocalFromNet(pxu64 value)
+{
+    pxf64 result = 0;
+
+    pxMemoryLocalCopyNet(&result,
+        &value, 1, PX_F64_SIZE);
+
+    return result;
+}
+
+pxfloat
+pxFloatLocalFromNet(pxunsig value)
+{
+    pxfloat result = 0;
+
+    pxMemoryLocalCopyNet(&result,
+        &value, 1, PX_FLOAT_SIZE);
 
     return result;
 }

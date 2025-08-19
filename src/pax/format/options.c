@@ -4,7 +4,7 @@
 #include "options.h"
 
 PxFormatOptions
-pxFormatOptionsRadix(pxword8 radix)
+pxFormatOptionsRadix(pxu8 radix)
 {
     return (PxFormatOptions) {
         .radix = radix
@@ -12,7 +12,7 @@ pxFormatOptionsRadix(pxword8 radix)
 }
 
 PxFormatOptions
-pxFormatOptions(pxword8 radix, PxFormatFlag flags)
+pxFormatOptions(pxu8 radix, PxFormatFlag flags)
 {
     if (flags < 0)
         return (PxFormatOptions) {0};

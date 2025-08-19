@@ -3,69 +3,69 @@
 
 #include "number.h"
 
-pxword8
-pxMagnitudeInt8(pxint8 value)
+pxu8
+pxMagnitudeInt8(pxi8 value)
 {
     if (value < 0)
-        return -pxCast(pxword8, value);
+        return -pxCast(pxu8, value);
 
-    return pxCast(pxword8, value);
+    return pxCast(pxu8, value);
 }
 
-pxword16
-pxMagnitudeInt16(pxint16 value)
+pxu16
+pxMagnitudeInt16(pxi16 value)
 {
     if (value < 0)
-        return -pxCast(pxword16, value);
+        return -pxCast(pxu16, value);
 
-    return pxCast(pxword16, value);
+    return pxCast(pxu16, value);
 }
 
-pxword32
-pxMagnitudeInt32(pxint32 value)
+pxu32
+pxMagnitudeInt32(pxi32 value)
 {
     if (value < 0)
-        return -pxCast(pxword32, value);
+        return -pxCast(pxu32, value);
 
-    return pxCast(pxword32, value);
+    return pxCast(pxu32, value);
 }
 
-pxword64
-pxMagnitudeInt64(pxint64 value)
+pxu64
+pxMagnitudeInt64(pxi64 value)
 {
     if (value < 0)
-        return -pxCast(pxword64, value);
+        return -pxCast(pxu64, value);
 
-    return pxCast(pxword64, value);
+    return pxCast(pxu64, value);
 }
 
-pxword
+pxunsig
 pxMagnitudeInt(pxint value)
 {
     if (value < 0)
-        return -pxCast(pxword, value);
+        return -pxCast(pxunsig, value);
 
-    return pxCast(pxword, value);
+    return pxCast(pxunsig, value);
 }
 
-pxfloat32
-pxMagnitudeFloat32(pxfloat32 value)
+pxf32
+pxMagnitudeFloat32(pxf32 value)
 {
-    pxword32* bits =
-        pxCast(pxword32*, &value);
+    pxu32* bits =
+        pxCast(pxu32*, &value);
 
-    *bits &= ~PX_FLOAT32_SIGN_MASK;
+    *bits &= ~PX_F32_SIGN_MASK;
 
     return value;
 }
 
-pxfloat64
-pxMagnitudeFloat64(pxfloat64 value)
+pxf64
+pxMagnitudeFloat64(pxf64 value)
 {
-    pxword64* bits =
-        pxCast(pxword64*, &value);
+    pxu64* bits =
+        pxCast(pxu64*, &value);
 
-    *bits &= ~PX_FLOAT64_SIGN_MASK;
+    *bits &= ~PX_F64_SIGN_MASK;
 
     return value;
 }
@@ -73,60 +73,84 @@ pxMagnitudeFloat64(pxfloat64 value)
 pxfloat
 pxMagnitudeFloat(pxfloat value)
 {
-    pxword* bits =
-        pxCast(pxword*, &value);
+    pxunsig* bits =
+        pxCast(pxunsig*, &value);
 
     *bits &= ~PX_FLOAT_SIGN_MASK;
 
     return value;
 }
 
-pxbool8
-pxDirectionInt8(pxint8 value)
+pxi8
+pxDirectionInt8(pxi8 value)
 {
-    return value < 0 ? 1 : 0;
+    if (value > 0) return +1;
+    if (value < 0) return -1;
+
+    return 0;
 }
 
-pxbool8
-pxDirectionInt16(pxint16 value)
+pxi8
+pxDirectionInt16(pxi16 value)
 {
-    return value < 0 ? 1 : 0;
+    if (value > 0) return +1;
+    if (value < 0) return -1;
+
+    return 0;
 }
 
-pxbool8
-pxDirectionInt32(pxint32 value)
+pxi8
+pxDirectionInt32(pxi32 value)
 {
-    return value < 0 ? 1 : 0;
+    if (value > 0) return +1;
+    if (value < 0) return -1;
+
+    return 0;
 }
 
-pxbool8
-pxDirectionInt64(pxint64 value)
+pxi8
+pxDirectionInt64(pxi64 value)
 {
-    return value < 0 ? 1 : 0;
+    if (value > 0) return +1;
+    if (value < 0) return -1;
+
+    return 0;
 }
 
-pxbool8
+pxi8
 pxDirectionInt(pxint value)
 {
-    return value < 0 ? 1 : 0;
+    if (value > 0) return +1;
+    if (value < 0) return -1;
+
+    return 0;
 }
 
-pxbool8
-pxDirectionFloat32(pxfloat32 value)
+pxi8
+pxDirectionFloat32(pxf32 value)
 {
-    return value < 0 ? 1 : 0;
+    if (value > 0) return +1;
+    if (value < 0) return -1;
+
+    return 0;
 }
 
-pxbool8
-pxDirectionFloat64(pxfloat64 value)
+pxi8
+pxDirectionFloat64(pxf64 value)
 {
-    return value < 0 ? 1 : 0;
+    if (value > 0) return +1;
+    if (value < 0) return -1;
+
+    return 0;
 }
 
-pxbool8
+pxi8
 pxDirectionFloat(pxfloat value)
 {
-    return value < 0 ? 1 : 0;
+    if (value > 0) return +1;
+    if (value < 0) return -1;
+
+    return 0;
 }
 
 #endif // PX_BASE_NUMBER_C

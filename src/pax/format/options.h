@@ -14,14 +14,14 @@ PxFormatFlag;
 typedef struct PxFormatOptions
 {
     PxFormatFlag flags;
-    pxword8      radix;
+    pxu8         radix;
 }
 PxFormatOptions;
 
 PxFormatOptions
-pxFormatOptionsRadix(pxword8 radix);
+pxFormatOptionsRadix(pxu8 radix);
 
 PxFormatOptions
-pxFormatOptions(pxword8 radix, PxFormatFlag flags);
+pxFormatOptions(pxu8 radix, PxFormatFlag flags);
 
 #endif // PX_FORMAT_OPTIONS_H

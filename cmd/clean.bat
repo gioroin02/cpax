@@ -1,8 +1,6 @@
 echo off
 
-mkdir bin
-
-del bin\*.exe
-del bin\*.pdb
+del *.exe
+del *.pdb
 
 cls

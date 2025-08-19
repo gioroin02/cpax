@@ -24,7 +24,7 @@ pxint
 pxWriterFlush(PxWriter* self);
 
 pxint
-pxWriterByte(PxWriter* self, pxword8 value);
+pxWriterByte(PxWriter* self, pxu8 value);
 
 pxint
 pxWriterString(PxWriter* self, PxString8 value);

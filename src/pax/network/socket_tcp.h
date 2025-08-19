@@ -14,17 +14,17 @@ pxSocketTcpDestroy(PxSocketTcp self);
 PxAddress
 pxSocketTcpGetAddress(PxSocketTcp self);
 
-pxword16
+pxu16
 pxSocketTcpGetPort(PxSocketTcp self);
 
-pxbool8
-pxSocketTcpBind(PxSocketTcp self, PxAddress address, pxword16 port);
+pxb8
+pxSocketTcpBind(PxSocketTcp self, PxAddress address, pxu16 port);
 
 void
 pxSocketTcpListen(PxSocketTcp self);
 
-pxbool8
-pxSocketTcpConnect(PxSocketTcp self, PxAddress address, pxword16 port);
+pxb8
+pxSocketTcpConnect(PxSocketTcp self, PxAddress address, pxu16 port);
 
 PxSocketTcp
 pxSocketTcpAccept(PxSocketTcp self, PxArena* arena);
@@ -33,13 +33,13 @@ pxint
 pxSocketTcpWrite(PxSocketTcp self, PxBuffer8* buffer);
 
 pxint
-pxSocketTcpWriteMemory(PxSocketTcp self, pxword8* memory, pxint length);
+pxSocketTcpWriteMemory(PxSocketTcp self, pxu8* memory, pxint length);
 
 pxint
 pxSocketTcpRead(PxSocketTcp self, PxBuffer8* buffer);
 
 pxint
-pxSocketTcpReadMemory(PxSocketTcp self, pxword8* memory, pxint length);
+pxSocketTcpReadMemory(PxSocketTcp self, pxu8* memory, pxint length);
 
 PxReader
 pxSocketTcpReader(PxSocketTcp self, PxBuffer8* buffer);

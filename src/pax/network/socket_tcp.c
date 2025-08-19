@@ -42,14 +42,14 @@ pxSocketTcpGetAddress(PxSocketTcp self)
     return __pxSocketTcpGetAddress__(self);
 }
 
-pxword16
+pxu16
 pxSocketTcpGetPort(PxSocketTcp self)
 {
     return __pxSocketTcpGetPort__(self);
 }
 
-pxbool8
-pxSocketTcpBind(PxSocketTcp self, PxAddress address, pxword16 port)
+pxb8
+pxSocketTcpBind(PxSocketTcp self, PxAddress address, pxu16 port)
 {
     return __pxSocketTcpBind__(self, address, port);
 }
@@ -60,8 +60,8 @@ pxSocketTcpListen(PxSocketTcp self)
     return __pxSocketTcpListen__(self);
 }
 
-pxbool8
-pxSocketTcpConnect(PxSocketTcp self, PxAddress address, pxword16 port)
+pxb8
+pxSocketTcpConnect(PxSocketTcp self, PxAddress address, pxu16 port)
 {
     return __pxSocketTcpConnect__(self, address, port);
 }
@@ -77,8 +77,8 @@ pxSocketTcpWrite(PxSocketTcp self, PxBuffer8* buffer)
 {
     pxBuffer8Normalize(buffer);
 
-    pxword8* memory = buffer->memory;
-    pxint    size   = buffer->size;
+    pxu8* memory = buffer->memory;
+    pxint size   = buffer->size;
 
     if (size <= 0) return 0;
 
@@ -91,7 +91,7 @@ pxSocketTcpWrite(PxSocketTcp self, PxBuffer8* buffer)
 }
 
 pxint
-pxSocketTcpWriteMemory(PxSocketTcp self, pxword8* memory, pxint length)
+pxSocketTcpWriteMemory(PxSocketTcp self, pxu8* memory, pxint length)
 {
     return __pxSocketTcpWriteMemory__(self, memory, length);
 }
@@ -101,8 +101,8 @@ pxSocketTcpRead(PxSocketTcp self, PxBuffer8* buffer)
 {
     pxBuffer8Normalize(buffer);
 
-    pxword8* memory = buffer->memory + buffer->size;
-    pxint    size   = buffer->length - buffer->size;
+    pxu8* memory = buffer->memory + buffer->size;
+    pxint size   = buffer->length - buffer->size;
 
     if (size <= 0) return 0;
 
@@ -115,7 +115,7 @@ pxSocketTcpRead(PxSocketTcp self, PxBuffer8* buffer)
 }
 
 pxint
-pxSocketTcpReadMemory(PxSocketTcp self, pxword8* memory, pxint length)
+pxSocketTcpReadMemory(PxSocketTcp self, pxu8* memory, pxint length)
 {
     return __pxSocketTcpReadMemory__(self, memory, length);
 }

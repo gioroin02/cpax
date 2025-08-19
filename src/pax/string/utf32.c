@@ -3,8 +3,8 @@
 
 #include "utf32.h"
 
-pxbool8
-pxUtf32Encode(PxUtf32* self, pxint32 value)
+pxb8
+pxUtf32Encode(PxUtf32* self, pxi32 value)
 {
     pxint units = pxUtf32UnitsToWrite(value);
 
@@ -14,7 +14,7 @@ pxUtf32Encode(PxUtf32* self, pxint32 value)
 
     switch (units) {
         case 1:
-            self->a = pxCast(pxword32, value);
+            self->a = pxCast(pxu32, value);
         break;
 
         default: return 0;
@@ -26,7 +26,7 @@ pxUtf32Encode(PxUtf32* self, pxint32 value)
 }
 
 pxint
-pxUtf32WriteMemoryForw(pxword32* memory, pxint length, pxint index, pxint32 value)
+pxUtf32WriteMemoryForw(pxu32* memory, pxint length, pxint index, pxi32 value)
 {
     PxUtf32 utf32 = {0};
 
@@ -42,7 +42,7 @@ pxUtf32WriteMemoryForw(pxword32* memory, pxint length, pxint index, pxint32 valu
 }
 
 pxint
-pxUtf32WriteMemoryBack(pxword32* memory, pxint length, pxint index, pxint32 value)
+pxUtf32WriteMemoryBack(pxu32* memory, pxint length, pxint index, pxi32 value)
 {
     PxUtf32 utf32 = {0};
 
@@ -57,11 +57,11 @@ pxUtf32WriteMemoryBack(pxword32* memory, pxint length, pxint index, pxint32 valu
     return utf32.size;
 }
 
-pxbool8
-pxUtf32Decode(PxUtf32* self, pxint32* value)
+pxb8
+pxUtf32Decode(PxUtf32* self, pxi32* value)
 {
-    pxint   units = pxUtf32UnitsToRead(self->memory[0]);
-    pxint32 temp  = 0;
+    pxint units = pxUtf32UnitsToRead(self->memory[0]);
+    pxi32 temp  = 0;
 
     if (self->size != units) return 0;
 
@@ -79,7 +79,7 @@ pxUtf32Decode(PxUtf32* self, pxint32* value)
 }
 
 pxint
-pxUtf32ReadMemoryForw(pxword32* memory, pxint length, pxint index, pxint32* value)
+pxUtf32ReadMemoryForw(pxu32* memory, pxint length, pxint index, pxi32* value)
 {
     PxUtf32 utf32 = {0};
 
@@ -98,7 +98,7 @@ pxUtf32ReadMemoryForw(pxword32* memory, pxint length, pxint index, pxint32* valu
 }
 
 pxint
-pxUtf32ReadMemoryBack(pxword32* memory, pxint length, pxint index, pxint32* value)
+pxUtf32ReadMemoryBack(pxu32* memory, pxint length, pxint index, pxi32* value)
 {
     PxUtf32 utf32 = {.size = 1};
 
@@ -116,7 +116,7 @@ pxUtf32ReadMemoryBack(pxword32* memory, pxint length, pxint index, pxint32* valu
 }
 
 pxint
-pxUtf32UnitsToWrite(pxint32 value)
+pxUtf32UnitsToWrite(pxi32 value)
 {
     if (value >=    0x0 && value <=   0xd7ff) return 1;
     if (value >= 0xe000 && value <= 0x10ffff) return 1;
@@ -125,7 +125,7 @@ pxUtf32UnitsToWrite(pxint32 value)
 }
 
 pxint
-pxUtf32UnitsToRead(pxword32 value)
+pxUtf32UnitsToRead(pxu32 value)
 {
     if (value >=    0x0 && value <=   0xd7ff) return 1;
     if (value >= 0xe000 && value <= 0x10ffff) return 1;

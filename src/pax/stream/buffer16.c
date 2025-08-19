@@ -4,7 +4,7 @@
 #include "buffer16.h"
 
 PxBuffer16
-pxBuffer16Make(pxword16* memory, pxint length)
+pxBuffer16Make(pxu16* memory, pxint length)
 {
     if (memory == 0 || length <= 0)
         return (PxBuffer16) {0};
@@ -16,7 +16,7 @@ pxBuffer16Make(pxword16* memory, pxint length)
 }
 
 PxBuffer16
-pxBuffer16MakeFull(pxword16* memory, pxint length)
+pxBuffer16MakeFull(pxu16* memory, pxint length)
 {
     if (memory == 0 || length <= 0)
         return (PxBuffer16) {0};
@@ -32,8 +32,8 @@ pxBuffer16MakeFull(pxword16* memory, pxint length)
 PxBuffer16
 pxBuffer16Reserve(PxArena* arena, pxint length)
 {
-    pxword16* memory =
-        pxArenaReserve(arena, pxword16, length);
+    pxu16* memory =
+        pxArenaReserve(arena, pxu16, length);
 
     return pxBuffer16Make(memory, length);
 }
@@ -41,8 +41,8 @@ pxBuffer16Reserve(PxArena* arena, pxint length)
 PxBuffer16
 pxBuffer16ReserveFull(PxArena* arena, pxint length)
 {
-    pxword16* memory =
-        pxArenaReserve(arena, pxword16, length);
+    pxu16* memory =
+        pxArenaReserve(arena, pxu16, length);
 
     return pxBuffer16MakeFull(memory, length);
 }
@@ -70,7 +70,7 @@ pxBuffer16CopyAmount(PxArena* arena, PxBuffer16 value, pxint length)
 }
 
 PxBuffer16
-pxBuffer16CopyMemory(PxArena* arena, pxword16* memory, pxint length)
+pxBuffer16CopyMemory(PxArena* arena, pxu16* memory, pxint length)
 {
     PxBuffer16 result = pxBuffer16Reserve(arena, length);
 
@@ -107,9 +107,9 @@ pxBuffer16Fill(PxBuffer16* self)
 void
 pxBuffer16Normalize(PxBuffer16* self)
 {
-    pxword16* memory = self->memory;
-    pxint     length = self->tail;
-    pxint     offset = self->head;
+    pxu16* memory = self->memory;
+    pxint  length = self->tail;
+    pxint  offset = self->head;
 
     if (self->head > self->tail) {
         memory = self->memory + self->length - self->head;
@@ -129,8 +129,8 @@ pxBuffer16Normalize(PxBuffer16* self)
     self->tail = self->size;
 }
 
-pxbool16
-pxBuffer16GetForw(PxBuffer16* self, pxint index, pxword16* value)
+pxb8
+pxBuffer16GetForw(PxBuffer16* self, pxint index, pxu16* value)
 {
     if (index < 0 || index >= self->size)
         return 0;
@@ -143,8 +143,8 @@ pxBuffer16GetForw(PxBuffer16* self, pxint index, pxword16* value)
     return 1;
 }
 
-pxword16
-pxBuffer16GetForwOr(PxBuffer16* self, pxint index, pxword16 value)
+pxu16
+pxBuffer16GetForwOr(PxBuffer16* self, pxint index, pxu16 value)
 {
     if (index < 0 || index >= self->size)
         return value;
@@ -154,8 +154,8 @@ pxBuffer16GetForwOr(PxBuffer16* self, pxint index, pxword16 value)
     return self->memory[index];
 }
 
-pxbool16
-pxBuffer16GetBack(PxBuffer16* self, pxint index, pxword16* value)
+pxb8
+pxBuffer16GetBack(PxBuffer16* self, pxint index, pxu16* value)
 {
     if (index < 0 || index >= self->size)
         return 0;
@@ -168,8 +168,8 @@ pxBuffer16GetBack(PxBuffer16* self, pxint index, pxword16* value)
     return 1;
 }
 
-pxword16
-pxBuffer16GetBackOr(PxBuffer16* self, pxint index, pxword16 value)
+pxu16
+pxBuffer16GetBackOr(PxBuffer16* self, pxint index, pxu16 value)
 {
     if (index < 0 || index >= self->size)
         return value;
@@ -233,7 +233,7 @@ pxBuffer16WriteHead(PxBuffer16* self, PxBuffer16* buffer)
 }
 
 pxint
-pxBuffer16WriteMemoryHead(PxBuffer16* self, pxword16* memory, pxint length)
+pxBuffer16WriteMemoryHead(PxBuffer16* self, pxu16* memory, pxint length)
 {
     pxint size = pxMin(length, self->length - self->size);
 
@@ -280,7 +280,7 @@ pxBuffer16WriteTail(PxBuffer16* self, PxBuffer16* buffer)
 }
 
 pxint
-pxBuffer16WriteMemoryTail(PxBuffer16* self, pxword16* memory, pxint length)
+pxBuffer16WriteMemoryTail(PxBuffer16* self, pxu16* memory, pxint length)
 {
     pxint size = pxMin(length, self->length - self->size);
 
@@ -327,7 +327,7 @@ pxBuffer16ReadHead(PxBuffer16* self, PxBuffer16* buffer)
 }
 
 pxint
-pxBuffer16ReadMemoryHead(PxBuffer16* self, pxword16* memory, pxint length)
+pxBuffer16ReadMemoryHead(PxBuffer16* self, pxu16* memory, pxint length)
 {
     pxint size = pxMin(self->size, length);
 
@@ -351,7 +351,7 @@ pxBuffer16ReadStringHead(PxBuffer16* self, PxArena* arena, pxint length)
 
     if (size <= 0 || size > self->size) return (PxString16) {0};
 
-    pxword16* result = pxArenaReserve(arena, pxword16, size + 1);
+    pxu16* result = pxArenaReserve(arena, pxu16, size + 1);
 
     if (result != 0) {
         pxBuffer16ReadMemoryHead(self, result, size);
@@ -389,7 +389,7 @@ pxBuffer16ReadTail(PxBuffer16* self, PxBuffer16* buffer)
 }
 
 pxint
-pxBuffer16ReadMemoryTail(PxBuffer16* self, pxword16* memory, pxint length)
+pxBuffer16ReadMemoryTail(PxBuffer16* self, pxu16* memory, pxint length)
 {
     pxint size = pxMin(self->size, length);
 
@@ -413,7 +413,7 @@ pxBuffer16ReadStringTail(PxBuffer16* self, PxArena* arena, pxint length)
 
     if (size <= 0 || size > self->size) return (PxString16) {0};
 
-    pxword16* result = pxArenaReserve(arena, pxword16, size + 1);
+    pxu16* result = pxArenaReserve(arena, pxu16, size + 1);
 
     if (result != 0) {
         pxBuffer16ReadMemoryTail(self, result, size);
@@ -446,7 +446,7 @@ pxBuffer16PeekHead(PxBuffer16* self, PxBuffer16* buffer)
 }
 
 pxint
-pxBuffer16PeekMemoryHead(PxBuffer16* self, pxword16* memory, pxint length)
+pxBuffer16PeekMemoryHead(PxBuffer16* self, pxu16* memory, pxint length)
 {
     pxint size = pxMin(self->size, length);
 
@@ -465,7 +465,7 @@ pxBuffer16PeekStringHead(PxBuffer16* self, PxArena* arena, pxint length)
 
     if (size <= 0 || size > self->size) return (PxString16) {0};
 
-    pxword16* result = pxArenaReserve(arena, pxword16, size + 1);
+    pxu16* result = pxArenaReserve(arena, pxu16, size + 1);
 
     if (result != 0) {
         pxBuffer16PeekMemoryHead(self, result, size);
@@ -501,7 +501,7 @@ pxBuffer16PeekTail(PxBuffer16* self, PxBuffer16* buffer)
 }
 
 pxint
-pxBuffer16PeekMemoryTail(PxBuffer16* self, pxword16* memory, pxint length)
+pxBuffer16PeekMemoryTail(PxBuffer16* self, pxu16* memory, pxint length)
 {
     pxint size = pxMin(self->size, length);
 
@@ -523,7 +523,7 @@ pxBuffer16PeekStringTail(PxBuffer16* self, PxArena* arena, pxint length)
 
     if (size <= 0 || size > self->size) return (PxString16) {0};
 
-    pxword16* result = pxArenaReserve(arena, pxword16, size + 1);
+    pxu16* result = pxArenaReserve(arena, pxu16, size + 1);
 
     if (result != 0) {
         pxBuffer16PeekMemoryTail(self, result, size);

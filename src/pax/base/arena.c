@@ -4,7 +4,7 @@
 #include "arena.h"
 
 PxArena
-pxArenaMake(pxword8* memory, pxint length)
+pxArenaMake(pxu8* memory, pxint length)
 {
     if (memory == 0 || length <= 0)
         return (PxArena) {0};
@@ -35,7 +35,7 @@ pxArenaReserveMemory(PxArena* self, pxint amount, pxint stride)
     return self->memory + start;
 }
 
-pxbool8
+pxb8
 pxArenaReleaseMemory(PxArena* self, void* memory)
 {
     return 0;
@@ -67,7 +67,7 @@ pxArenaOffset(PxArena* self)
     return self->offset;
 }
 
-pxbool8
+pxb8
 pxArenaRewind(PxArena* self, pxint offset)
 {
     if (offset < 0 || offset >= self->length)

@@ -13,19 +13,19 @@ typedef struct PxAddressIp6
     union
     {
         struct {
-            pxword16 a, b, c, d;
-            pxword16 e, f, g, h;
+            pxu16 a, b, c, d;
+            pxu16 e, f, g, h;
         };
 
-        pxword16 memory[PX_ADDRESS_IP6_GROUPS];
+        pxu16 memory[PX_ADDRESS_IP6_GROUPS];
     };
 }
 PxAddressIp6;
 
-pxbool8
+pxb8
 pxAddressIp6FromString(PxAddressIp6* self, PxString8 string);
 
-pxbool8
+pxb8
 pxAddressIp6IsEqual(PxAddressIp6 self, PxAddressIp6 value);
 
 #endif // PX_NETWORK_ADDRESS_IP6_H

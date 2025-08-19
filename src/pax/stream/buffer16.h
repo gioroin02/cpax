@@ -5,21 +5,21 @@
 
 typedef struct PxBuffer16
 {
-    pxword16* memory;
-    pxint     length;
-    pxint     size;
-    pxint     head;
-    pxint     tail;
+    pxu16* memory;
+    pxint  length;
+    pxint  size;
+    pxint  head;
+    pxint  tail;
 }
 PxBuffer16;
 
 /* PxBuffer16 */
 
 PxBuffer16
-pxBuffer16Make(pxword16* memory, pxint length);
+pxBuffer16Make(pxu16* memory, pxint length);
 
 PxBuffer16
-pxBuffer16MakeFull(pxword16* memory, pxint length);
+pxBuffer16MakeFull(pxu16* memory, pxint length);
 
 PxBuffer16
 pxBuffer16Reserve(PxArena* arena, pxint length);
@@ -34,7 +34,7 @@ PxBuffer16
 pxBuffer16CopyAmount(PxArena* arena, PxBuffer16 value, pxint amount);
 
 PxBuffer16
-pxBuffer16CopyMemory(PxArena* arena, pxword16* memory, pxint length);
+pxBuffer16CopyMemory(PxArena* arena, pxu16* memory, pxint length);
 
 void
 pxBuffer16Clear(PxBuffer16* self);
@@ -47,17 +47,17 @@ pxBuffer16Normalize(PxBuffer16* self);
 
 /* PxBuffer16 getting */
 
-pxbool16
-pxBuffer16GetForw(PxBuffer16* self, pxint index, pxword16* value);
+pxb8
+pxBuffer16GetForw(PxBuffer16* self, pxint index, pxu16* value);
 
-pxword16
-pxBuffer16GetForwOr(PxBuffer16* self, pxint index, pxword16 value);
+pxu16
+pxBuffer16GetForwOr(PxBuffer16* self, pxint index, pxu16 value);
 
-pxbool16
-pxBuffer16GetBack(PxBuffer16* self, pxint index, pxword16* value);
+pxb8
+pxBuffer16GetBack(PxBuffer16* self, pxint index, pxu16* value);
 
-pxword16
-pxBuffer16GetBackOr(PxBuffer16* self, pxint index, pxword16 value);
+pxu16
+pxBuffer16GetBackOr(PxBuffer16* self, pxint index, pxu16 value);
 
 /* PxBuffer16 dropping */
 
@@ -73,7 +73,7 @@ pxint
 pxBuffer16WriteHead(PxBuffer16* self, PxBuffer16* buffer);
 
 pxint
-pxBuffer16WriteMemoryHead(PxBuffer16* self, pxword16* memory, pxint length);
+pxBuffer16WriteMemoryHead(PxBuffer16* self, pxu16* memory, pxint length);
 
 pxint
 pxBuffer16WriteStringHead(PxBuffer16* self, PxString16 string);
@@ -82,7 +82,7 @@ pxint
 pxBuffer16WriteTail(PxBuffer16* self, PxBuffer16* buffer);
 
 pxint
-pxBuffer16WriteMemoryTail(PxBuffer16* self, pxword16* memory, pxint length);
+pxBuffer16WriteMemoryTail(PxBuffer16* self, pxu16* memory, pxint length);
 
 pxint
 pxBuffer16WriteStringTail(PxBuffer16* self, PxString16 string);
@@ -93,7 +93,7 @@ pxint
 pxBuffer16ReadHead(PxBuffer16* self, PxBuffer16* buffer);
 
 pxint
-pxBuffer16ReadMemoryHead(PxBuffer16* self, pxword16* memory, pxint length);
+pxBuffer16ReadMemoryHead(PxBuffer16* self, pxu16* memory, pxint length);
 
 PxString16
 pxBuffer16ReadStringHead(PxBuffer16* self, PxArena* arena, pxint length);
@@ -102,7 +102,7 @@ pxint
 pxBuffer16ReadTail(PxBuffer16* self, PxBuffer16* buffer);
 
 pxint
-pxBuffer16ReadMemoryTail(PxBuffer16* self, pxword16* memory, pxint length);
+pxBuffer16ReadMemoryTail(PxBuffer16* self, pxu16* memory, pxint length);
 
 PxString16
 pxBuffer16ReadStringTail(PxBuffer16* self, PxArena* arena, pxint length);
@@ -113,7 +113,7 @@ pxint
 pxBuffer16PeekHead(PxBuffer16* self, PxBuffer16* buffer);
 
 pxint
-pxBuffer16PeekMemoryHead(PxBuffer16* self, pxword16* memory, pxint length);
+pxBuffer16PeekMemoryHead(PxBuffer16* self, pxu16* memory, pxint length);
 
 PxString16
 pxBuffer16PeekStringHead(PxBuffer16* self, PxArena* arena, pxint length);
@@ -122,7 +122,7 @@ pxint
 pxBuffer16PeekTail(PxBuffer16* self, PxBuffer16* buffer);
 
 pxint
-pxBuffer16PeekMemoryTail(PxBuffer16* self, pxword16* memory, pxint length);
+pxBuffer16PeekMemoryTail(PxBuffer16* self, pxu16* memory, pxint length);
 
 PxString16
 pxBuffer16PeekStringTail(PxBuffer16* self, PxArena* arena, pxint length);

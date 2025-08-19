@@ -23,10 +23,10 @@ pxReaderSetBuffer(PxReader* self, PxBuffer8* buffer);
 pxint
 pxReaderFill(PxReader* self);
 
-pxword8
+pxu8
 pxReaderDrop(PxReader* self, pxint offset);
 
-pxword8
+pxu8
 pxReaderPeek(PxReader* self, pxint offset);
 
 PxString8

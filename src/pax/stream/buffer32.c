@@ -4,7 +4,7 @@
 #include "buffer32.h"
 
 PxBuffer32
-pxBuffer32Make(pxword32* memory, pxint length)
+pxBuffer32Make(pxu32* memory, pxint length)
 {
     if (memory == 0 || length <= 0)
         return (PxBuffer32) {0};
@@ -16,7 +16,7 @@ pxBuffer32Make(pxword32* memory, pxint length)
 }
 
 PxBuffer32
-pxBuffer32MakeFull(pxword32* memory, pxint length)
+pxBuffer32MakeFull(pxu32* memory, pxint length)
 {
     if (memory == 0 || length <= 0)
         return (PxBuffer32) {0};
@@ -32,8 +32,8 @@ pxBuffer32MakeFull(pxword32* memory, pxint length)
 PxBuffer32
 pxBuffer32Reserve(PxArena* arena, pxint length)
 {
-    pxword32* memory =
-        pxArenaReserve(arena, pxword32, length);
+    pxu32* memory =
+        pxArenaReserve(arena, pxu32, length);
 
     return pxBuffer32Make(memory, length);
 }
@@ -41,8 +41,8 @@ pxBuffer32Reserve(PxArena* arena, pxint length)
 PxBuffer32
 pxBuffer32ReserveFull(PxArena* arena, pxint length)
 {
-    pxword32* memory =
-        pxArenaReserve(arena, pxword32, length);
+    pxu32* memory =
+        pxArenaReserve(arena, pxu32, length);
 
     return pxBuffer32MakeFull(memory, length);
 }
@@ -70,7 +70,7 @@ pxBuffer32CopyAmount(PxArena* arena, PxBuffer32 value, pxint length)
 }
 
 PxBuffer32
-pxBuffer32CopyMemory(PxArena* arena, pxword32* memory, pxint length)
+pxBuffer32CopyMemory(PxArena* arena, pxu32* memory, pxint length)
 {
     PxBuffer32 result = pxBuffer32Reserve(arena, length);
 
@@ -107,9 +107,9 @@ pxBuffer32Fill(PxBuffer32* self)
 void
 pxBuffer32Normalize(PxBuffer32* self)
 {
-    pxword32* memory = self->memory;
-    pxint     length = self->tail;
-    pxint     offset = self->head;
+    pxu32* memory = self->memory;
+    pxint  length = self->tail;
+    pxint  offset = self->head;
 
     if (self->head > self->tail) {
         memory = self->memory + self->length - self->head;
@@ -129,8 +129,8 @@ pxBuffer32Normalize(PxBuffer32* self)
     self->tail = self->size;
 }
 
-pxbool32
-pxBuffer32GetForw(PxBuffer32* self, pxint index, pxword32* value)
+pxb8
+pxBuffer32GetForw(PxBuffer32* self, pxint index, pxu32* value)
 {
     if (index < 0 || index >= self->size)
         return 0;
@@ -143,8 +143,8 @@ pxBuffer32GetForw(PxBuffer32* self, pxint index, pxword32* value)
     return 1;
 }
 
-pxword32
-pxBuffer32GetForwOr(PxBuffer32* self, pxint index, pxword32 value)
+pxu32
+pxBuffer32GetForwOr(PxBuffer32* self, pxint index, pxu32 value)
 {
     if (index < 0 || index >= self->size)
         return value;
@@ -154,8 +154,8 @@ pxBuffer32GetForwOr(PxBuffer32* self, pxint index, pxword32 value)
     return self->memory[index];
 }
 
-pxbool32
-pxBuffer32GetBack(PxBuffer32* self, pxint index, pxword32* value)
+pxb8
+pxBuffer32GetBack(PxBuffer32* self, pxint index, pxu32* value)
 {
     if (index < 0 || index >= self->size)
         return 0;
@@ -168,8 +168,8 @@ pxBuffer32GetBack(PxBuffer32* self, pxint index, pxword32* value)
     return 1;
 }
 
-pxword32
-pxBuffer32GetBackOr(PxBuffer32* self, pxint index, pxword32 value)
+pxu32
+pxBuffer32GetBackOr(PxBuffer32* self, pxint index, pxu32 value)
 {
     if (index < 0 || index >= self->size)
         return value;
@@ -233,7 +233,7 @@ pxBuffer32WriteHead(PxBuffer32* self, PxBuffer32* buffer)
 }
 
 pxint
-pxBuffer32WriteMemoryHead(PxBuffer32* self, pxword32* memory, pxint length)
+pxBuffer32WriteMemoryHead(PxBuffer32* self, pxu32* memory, pxint length)
 {
     pxint size = pxMin(length, self->length - self->size);
 
@@ -280,7 +280,7 @@ pxBuffer32WriteTail(PxBuffer32* self, PxBuffer32* buffer)
 }
 
 pxint
-pxBuffer32WriteMemoryTail(PxBuffer32* self, pxword32* memory, pxint length)
+pxBuffer32WriteMemoryTail(PxBuffer32* self, pxu32* memory, pxint length)
 {
     pxint size = pxMin(length, self->length - self->size);
 
@@ -327,7 +327,7 @@ pxBuffer32ReadHead(PxBuffer32* self, PxBuffer32* buffer)
 }
 
 pxint
-pxBuffer32ReadMemoryHead(PxBuffer32* self, pxword32* memory, pxint length)
+pxBuffer32ReadMemoryHead(PxBuffer32* self, pxu32* memory, pxint length)
 {
     pxint size = pxMin(self->size, length);
 
@@ -351,7 +351,7 @@ pxBuffer32ReadStringHead(PxBuffer32* self, PxArena* arena, pxint length)
 
     if (size <= 0 || size > self->size) return (PxString32) {0};
 
-    pxword32* result = pxArenaReserve(arena, pxword32, size + 1);
+    pxu32* result = pxArenaReserve(arena, pxu32, size + 1);
 
     if (result != 0) {
         pxBuffer32ReadMemoryHead(self, result, size);
@@ -389,7 +389,7 @@ pxBuffer32ReadTail(PxBuffer32* self, PxBuffer32* buffer)
 }
 
 pxint
-pxBuffer32ReadMemoryTail(PxBuffer32* self, pxword32* memory, pxint length)
+pxBuffer32ReadMemoryTail(PxBuffer32* self, pxu32* memory, pxint length)
 {
     pxint size = pxMin(self->size, length);
 
@@ -413,7 +413,7 @@ pxBuffer32ReadStringTail(PxBuffer32* self, PxArena* arena, pxint length)
 
     if (size <= 0 || size > self->size) return (PxString32) {0};
 
-    pxword32* result = pxArenaReserve(arena, pxword32, size + 1);
+    pxu32* result = pxArenaReserve(arena, pxu32, size + 1);
 
     if (result != 0) {
         pxBuffer32ReadMemoryTail(self, result, size);
@@ -446,7 +446,7 @@ pxBuffer32PeekHead(PxBuffer32* self, PxBuffer32* buffer)
 }
 
 pxint
-pxBuffer32PeekMemoryHead(PxBuffer32* self, pxword32* memory, pxint length)
+pxBuffer32PeekMemoryHead(PxBuffer32* self, pxu32* memory, pxint length)
 {
     pxint size = pxMin(self->size, length);
 
@@ -465,7 +465,7 @@ pxBuffer32PeekStringHead(PxBuffer32* self, PxArena* arena, pxint length)
 
     if (size <= 0 || size > self->size) return (PxString32) {0};
 
-    pxword32* result = pxArenaReserve(arena, pxword32, size + 1);
+    pxu32* result = pxArenaReserve(arena, pxu32, size + 1);
 
     if (result != 0) {
         pxBuffer32PeekMemoryHead(self, result, size);
@@ -501,7 +501,7 @@ pxBuffer32PeekTail(PxBuffer32* self, PxBuffer32* buffer)
 }
 
 pxint
-pxBuffer32PeekMemoryTail(PxBuffer32* self, pxword32* memory, pxint length)
+pxBuffer32PeekMemoryTail(PxBuffer32* self, pxu32* memory, pxint length)
 {
     pxint size = pxMin(self->size, length);
 
@@ -523,7 +523,7 @@ pxBuffer32PeekStringTail(PxBuffer32* self, PxArena* arena, pxint length)
 
     if (size <= 0 || size > self->size) return (PxString32) {0};
 
-    pxword32* result = pxArenaReserve(arena, pxword32, size + 1);
+    pxu32* result = pxArenaReserve(arena, pxu32, size + 1);
 
     if (result != 0) {
         pxBuffer32PeekMemoryTail(self, result, size);

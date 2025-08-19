@@ -5,24 +5,24 @@
 void
 readBytePerByte(PxReader* reader)
 {
-    pxword8 word = pxReaderPeek(reader, 0);
+    pxu8 byte = pxReaderPeek(reader, 0);
 
-    while (word != 0) {
-        printf("%3u", word);
+    while (byte != 0) {
+        printf("%3u", byte);
 
-        if (pxUnicodeIsAscii(word) != 0)
-            printf(" (%c)", word);
+        if (pxUnicodeIsAscii(byte) != 0)
+            printf(" (%c)", byte);
 
         printf("\n");
 
-        word = pxReaderDrop(reader, 1);
+        byte = pxReaderDrop(reader, 1);
     }
 }
 
 int
 main(int argc, char** argv)
 {
-    pxword8 memory[PX_MEMORY_KIB] = {0};
+    pxu8 memory[PX_MEMORY_KIB] = {0};
 
     PxArena arena = pxArenaMake(memory, pxSize(memory));
 
@@ -31,11 +31,11 @@ main(int argc, char** argv)
 
     PxReader reader = pxBufferReader(&source, &buffer);
 
-    pxBuffer8WriteMemoryTail(&source, pxCast(pxword8*, "ciao"), 4);
+    pxBuffer8WriteMemoryTail(&source, pxCast(pxu8*, "ciao\narrivederci"), 16);
 
     readBytePerByte(&reader);
 
-    pxBuffer8WriteMemoryTail(&source, pxCast(pxword8*, "ciao"), 4);
+    pxBuffer8WriteMemoryTail(&source, pxCast(pxu8*, "ciao\narrivederci"), 16);
 
     PxString8 line = pxReaderLine(&reader, &arena, 16);
 

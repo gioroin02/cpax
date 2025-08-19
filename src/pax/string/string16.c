@@ -4,10 +4,10 @@
 #include "string16.h"
 
 PxString16
-pxString16FromUnicode(PxArena* arena, pxint32 value)
+pxString16FromUnicode(PxArena* arena, pxi32 value)
 {
-    pxint    length = pxUtf16UnitsToWrite(value);
-    pxword16* result = pxArenaReserve(arena, pxword16, length + 1);
+    pxint  length = pxUtf16UnitsToWrite(value);
+    pxu16* result = pxArenaReserve(arena, pxu16, length + 1);
 
     if (result == 0 || length <= 0)
         return (PxString16) {0};
@@ -27,9 +27,9 @@ pxString16Copy(PxArena* arena, PxString16 string)
 }
 
 PxString16
-pxString16CopyMemory(PxArena* arena, pxword16* memory, pxint length)
+pxString16CopyMemory(PxArena* arena, pxu16* memory, pxint length)
 {
-    pxword16* result = pxArenaReserve(arena, pxword16, length + 1);
+    pxu16* result = pxArenaReserve(arena, pxu16, length + 1);
 
     if (result == 0 || length <= 0)
         return (PxString16) {0};
@@ -49,10 +49,10 @@ pxString16Chain(PxString16 self, PxArena* arena, PxString16 value)
 }
 
 PxString16
-pxString16ChainMemory(PxString16 self, PxArena* arena, pxword16* memory, pxint length)
+pxString16ChainMemory(PxString16 self, PxArena* arena, pxu16* memory, pxint length)
 {
-    pxword16* result = pxArenaReserve(arena,
-        pxword16, self.length + length + 1);
+    pxu16* result = pxArenaReserve(arena,
+        pxu16, self.length + length + 1);
 
     if (result == 0) return (PxString16) {0};
 
@@ -65,8 +65,8 @@ pxString16ChainMemory(PxString16 self, PxArena* arena, pxword16* memory, pxint l
     };
 }
 
-pxbool16
-pxString16Get(PxString16 self, pxint index, pxword16* value)
+pxb8
+pxString16Get(PxString16 self, pxint index, pxu16* value)
 {
     if (index < 0 || index >= self.length)
         return 0;
@@ -77,8 +77,8 @@ pxString16Get(PxString16 self, pxint index, pxword16* value)
     return 1;
 }
 
-pxword16
-pxString16GetOr(PxString16 self, pxint index, pxword16 value)
+pxu16
+pxString16GetOr(PxString16 self, pxint index, pxu16 value)
 {
     if (index < 0 || index >= self.length)
         return value;
@@ -86,14 +86,14 @@ pxString16GetOr(PxString16 self, pxint index, pxword16 value)
     return self.memory[index];
 }
 
-pxbool16
+pxb8
 pxString16IsEqual(PxString16 self, PxString16 value)
 {
     return pxString16IsEqualMemory(self, value.memory, value.length);
 }
 
-pxbool16
-pxString16IsEqualMemory(PxString16 self, pxword16* memory, pxint length)
+pxb8
+pxString16IsEqualMemory(PxString16 self, pxu16* memory, pxint length)
 {
     if (self.length == length)
         return pxMemoryIsEqual(self.memory, memory, length, 1);
@@ -101,14 +101,14 @@ pxString16IsEqualMemory(PxString16 self, pxword16* memory, pxint length)
     return 0;
 }
 
-pxbool16
+pxb8
 pxString16BeginsWith(PxString16 self, PxString16 value)
 {
     return pxString16BeginsWithMemory(self, value.memory, value.length);
 }
 
-pxbool16
-pxString16BeginsWithMemory(PxString16 self, pxword16* memory, pxint length)
+pxb8
+pxString16BeginsWithMemory(PxString16 self, pxu16* memory, pxint length)
 {
     PxString16 slice =
         pxString16SliceLength(self, 0, length);
@@ -116,14 +116,14 @@ pxString16BeginsWithMemory(PxString16 self, pxword16* memory, pxint length)
     return pxString16IsEqualMemory(slice, memory, length);
 }
 
-pxbool16
+pxb8
 pxString16EndsWith(PxString16 self, PxString16 value)
 {
     return pxString16EndsWithMemory(self, value.memory, value.length);
 }
 
-pxbool16
-pxString16EndsWithMemory(PxString16 self, pxword16* memory, pxint length)
+pxb8
+pxString16EndsWithMemory(PxString16 self, pxu16* memory, pxint length)
 {
     PxString16 slice =
         pxString16SliceLength(self, self.length - length, length);
@@ -138,7 +138,7 @@ pxString16Contains(PxString16 self, PxString16 value)
 }
 
 pxint
-pxString16ContainsMemory(PxString16 self, pxword16* memory, pxint length)
+pxString16ContainsMemory(PxString16 self, pxu16* memory, pxint length)
 {
     pxint result = 0;
 
@@ -168,7 +168,7 @@ pxString16SliceLength(PxString16 self, pxint index, pxint length)
     if (index < 0 || index + length > self.length)
         return (PxString16) {0};
 
-    pxword16* memory = self.memory + index;
+    pxu16* memory = self.memory + index;
 
     return (PxString16) {
         .memory = memory,
@@ -184,7 +184,7 @@ pxString16TrimSpaces(PxString16 self)
     pxint stop  = self.length;
 
     for (; start < stop; start += units) {
-        pxint32 unicode = 0;
+        pxi32 unicode = 0;
 
         units = pxUtf16ReadMemoryForw(self.memory,
             self.length, start, &unicode);
@@ -196,7 +196,7 @@ pxString16TrimSpaces(PxString16 self)
     }
 
     for (; start < stop; stop -= units) {
-        pxint32 unicode = 0;
+        pxi32 unicode = 0;
 
         units = pxUtf16ReadMemoryBack(self.memory,
             self.length, stop - 1, &unicode);
@@ -218,7 +218,7 @@ pxString16TrimSpacesHead(PxString16 self)
     pxint stop  = self.length;
 
     for (; start < stop; start += units) {
-        pxint32 unicode = 0;
+        pxi32 unicode = 0;
 
         units = pxUtf16ReadMemoryForw(self.memory,
             self.length, start, &unicode);
@@ -240,7 +240,7 @@ pxString16TrimSpacesTail(PxString16 self)
     pxint stop  = self.length;
 
     for (; start < stop; stop -= units) {
-        pxint32 unicode = 0;
+        pxi32 unicode = 0;
 
         units = pxUtf16ReadMemoryBack(self.memory,
             self.length, stop - 1, &unicode);
@@ -264,7 +264,7 @@ pxString16TrimPrefix(PxString16 self, PxString16 prefix)
 }
 
 PxString16
-pxString16TrimPrefixMemory(PxString16 self, pxword16* memory, pxint length)
+pxString16TrimPrefixMemory(PxString16 self, pxu16* memory, pxint length)
 {
     if (pxString16BeginsWithMemory(self, memory, length) != 0)
         return pxString16Slice(self, length, self.length);
@@ -282,7 +282,7 @@ pxString16TrimSuffix(PxString16 self, PxString16 suffix)
 }
 
 PxString16
-pxString16TrimSuffixMemory(PxString16 self, pxword16* memory, pxint length)
+pxString16TrimSuffixMemory(PxString16 self, pxu16* memory, pxint length)
 {
     if (pxString16EndsWithMemory(self, memory, length) != 0)
         return pxString16Slice(self, 0, self.length - length);
@@ -290,14 +290,14 @@ pxString16TrimSuffixMemory(PxString16 self, pxword16* memory, pxint length)
     return pxString16SliceLength(self, 0, self.length);
 }
 
-pxbool16
+pxb8
 pxString16FindFirst(PxString16 self, pxint start, PxString16 value, pxint* index)
 {
     return pxString16FindFirstMemory(self, start, value.memory, value.length, index);
 }
 
-pxbool16
-pxString16FindFirstMemory(PxString16 self, pxint start, pxword16* memory, pxint length, pxint* index)
+pxb8
+pxString16FindFirstMemory(PxString16 self, pxint start, pxu16* memory, pxint length, pxint* index)
 {
     start = pxClamp(start, 0, self.length);
 
@@ -315,14 +315,14 @@ pxString16FindFirstMemory(PxString16 self, pxint start, pxword16* memory, pxint 
     return 0;
 }
 
-pxbool16
+pxb8
 pxString16FindLast(PxString16 self, pxint start, PxString16 value, pxint* index)
 {
     return pxString16FindLastMemory(self, start, value.memory, value.length, index);
 }
 
-pxbool16
-pxString16FindLastMemory(PxString16 self, pxint start, pxword16* memory, pxint length, pxint* index)
+pxb8
+pxString16FindLastMemory(PxString16 self, pxint start, pxu16* memory, pxint length, pxint* index)
 {
     start = pxClamp(start, 0, self.length);
 
@@ -340,14 +340,14 @@ pxString16FindLastMemory(PxString16 self, pxint start, pxword16* memory, pxint l
     return 0;
 }
 
-pxbool16
+pxb8
 pxString16Split(PxString16 self, PxString16 pivot, PxString16* left, PxString16* right)
 {
     return pxString16SplitMemory(self, pivot.memory, pivot.length, left, right);
 }
 
-pxbool16
-pxString16SplitMemory(PxString16 self, pxword16* memory, pxint length, PxString16* left, PxString16* right)
+pxb8
+pxString16SplitMemory(PxString16 self, pxu16* memory, pxint length, PxString16* left, PxString16* right)
 {
     pxint start = 0;
     pxint stop  = self.length;
@@ -364,8 +364,8 @@ pxString16SplitMemory(PxString16 self, pxword16* memory, pxint length, PxString1
     return 1;
 }
 
-pxbool16
-pxString16Next(PxString16 self, pxint index, pxint* units, pxint32* value)
+pxb8
+pxString16Next(PxString16 self, pxint index, pxint* units, pxi32* value)
 {
     if (index < 0 || index >= self.length)
         return 0;
@@ -380,8 +380,8 @@ pxString16Next(PxString16 self, pxint index, pxint* units, pxint32* value)
     return 1;
 }
 
-pxbool16
-pxString16Prev(PxString16 self, pxint index, pxint* units, pxint32* value)
+pxb8
+pxString16Prev(PxString16 self, pxint index, pxint* units, pxi32* value)
 {
     if (index < 0 || index >= self.length)
         return 0;

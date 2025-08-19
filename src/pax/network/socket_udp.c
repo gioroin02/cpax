@@ -42,14 +42,14 @@ pxSocketUdpGetAddress(PxSocketUdp self)
     return __pxSocketUdpGetAddress__(self);
 }
 
-pxword16
+pxu16
 pxSocketUdpGetPort(PxSocketUdp self)
 {
     return __pxSocketUdpGetPort__(self);
 }
 
-pxbool8
-pxSocketUdpBind(PxSocketUdp self, PxAddress address, pxword16 port)
+pxb8
+pxSocketUdpBind(PxSocketUdp self, PxAddress address, pxu16 port)
 {
     return __pxSocketUdpBind__(self, address, port);
 }
@@ -60,8 +60,8 @@ pxSocketUdpListen(PxSocketUdp self)
     return __pxSocketUdpListen__(self);
 }
 
-pxbool8
-pxSocketUdpConnect(PxSocketUdp self, PxAddress address, pxword16 port)
+pxb8
+pxSocketUdpConnect(PxSocketUdp self, PxAddress address, pxu16 port)
 {
     return __pxSocketUdpConnect__(self, address, port);
 }
@@ -77,8 +77,8 @@ pxSocketUdpWrite(PxSocketUdp self, PxBuffer8* buffer)
 {
     pxBuffer8Normalize(buffer);
 
-    pxword8* memory = buffer->memory;
-    pxint    size   = buffer->size;
+    pxu8* memory = buffer->memory;
+    pxint size   = buffer->size;
 
     if (size <= 0) return 0;
 
@@ -91,7 +91,7 @@ pxSocketUdpWrite(PxSocketUdp self, PxBuffer8* buffer)
 }
 
 pxint
-pxSocketUdpWriteMemory(PxSocketUdp self, pxword8* memory, pxint length)
+pxSocketUdpWriteMemory(PxSocketUdp self, pxu8* memory, pxint length)
 {
     return __pxSocketUdpWriteMemory__(self, memory, length);
 }
@@ -101,8 +101,8 @@ pxSocketUdpRead(PxSocketUdp self, PxBuffer8* buffer)
 {
     pxBuffer8Normalize(buffer);
 
-    pxword8* memory = buffer->memory + buffer->size;
-    pxint    size   = buffer->length - buffer->size;
+    pxu8* memory = buffer->memory + buffer->size;
+    pxint size   = buffer->length - buffer->size;
 
     if (size <= 0) return 0;
 
@@ -115,7 +115,7 @@ pxSocketUdpRead(PxSocketUdp self, PxBuffer8* buffer)
 }
 
 pxint
-pxSocketUdpReadMemory(PxSocketUdp self, pxword8* memory, pxint length)
+pxSocketUdpReadMemory(PxSocketUdp self, pxu8* memory, pxint length)
 {
     return __pxSocketUdpReadMemory__(self, memory, length);
 }

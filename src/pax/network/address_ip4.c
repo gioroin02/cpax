@@ -3,7 +3,7 @@
 
 #include "address_ip4.h"
 
-pxbool8
+pxb8
 pxAddressIp4FromString(PxAddressIp4* self, PxString8 string)
 {
     PxAddressIp4 temp = {0};
@@ -12,7 +12,7 @@ pxAddressIp4FromString(PxAddressIp4* self, PxString8 string)
         PX_FORMAT_FLAG_LEADING_ZERO);
 
     pxint groups = pxString8ContainsMemory(string,
-        pxCast(pxword8*, "."), 1);
+        pxCast(pxu8*, "."), 1);
 
     if (groups != PX_ADDRESS_IP4_GROUPS - 1) return 0;
 
@@ -20,21 +20,19 @@ pxAddressIp4FromString(PxAddressIp4* self, PxString8 string)
     PxString8 right = string;
 
     for (pxint i = 0; i < PX_ADDRESS_IP4_GROUPS; i += 1) {
-        pxString8SplitMemory(right, pxCast(pxword8*, "."), 1, &left, &right);
+        pxString8SplitMemory(right, pxCast(pxu8*, "."), 1, &left, &right);
 
-        if (pxWord8FromString8(&temp.memory[i], options, left) == 0)
+        if (pxUnsig8FromString8(&temp.memory[i], options, left) == 0)
             return 0;
     }
 
-    if (self != 0) {
-        pxMemoryCopy(self->memory, temp.memory,
-            PX_ADDRESS_IP4_GROUPS, 1);
-    }
+    if (self != 0)
+        pxMemoryCopy(self->memory, temp.memory, PX_ADDRESS_IP4_GROUPS, 1);
 
     return 1;
 }
 
-pxbool8
+pxb8
 pxAddressIp4IsEqual(PxAddressIp4 self, PxAddressIp4 value)
 {
     return pxMemoryIsEqual(self.memory, value.memory,

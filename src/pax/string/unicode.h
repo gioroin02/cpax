@@ -154,6 +154,21 @@ pxUnicodeIsAscii(pxi32 value);
 pxb8
 pxAsciiIsSpace(pxi32 value);
 
+pxb8
+pxAsciiIsNumeric(pxi32 value, pxunsig radix);
+
+pxb8
+pxAsciiIsDigit(pxi32 value, pxunsig radix);
+
+pxb8
+pxAsciiIsLetter(pxi32 value);
+
+pxb8
+pxAsciiIsLetterUpper(pxi32 value);
+
+pxb8
+pxAsciiIsLetterLower(pxi32 value);
+
 pxunsig
 pxAsciiDigitValue(pxi32 value, pxunsig radix);
 

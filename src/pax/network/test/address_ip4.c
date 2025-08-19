@@ -9,8 +9,7 @@ main(int argc, char** argv)
 
     PxAddressIp4 address = {0};
 
-    PxString8 string = pxString8CopyMemory(&arena,
-        pxCast(pxu8*, "192.168.65.65"), 13);
+    PxString8 string = pxString8Copy(&arena, pxStr8("192.168.65.65"));
 
     pxAddressIp4FromString(&address, string);
 

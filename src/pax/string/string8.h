@@ -3,6 +3,9 @@
 
 #include "utf8.h"
 
+#define pxStr8(x) \
+    ((PxString8) {.memory = pxCast(pxu8*, x), .length = pxSize(x) - 1})
+
 typedef struct PxString8
 {
     pxu8* memory;

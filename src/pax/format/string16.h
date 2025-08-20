@@ -3,6 +3,40 @@
 
 #include "options.h"
 
+/* String from number */
+
+PxString16
+pxString16FromUnsig8(PxArena* arena, PxFormatOptions options, pxu8 value);
+
+PxString16
+pxString16FromUnsig16(PxArena* arena, PxFormatOptions options, pxu16 value);
+
+PxString16
+pxString16FromUnsig32(PxArena* arena, PxFormatOptions options, pxu32 value);
+
+PxString16
+pxString16FromUnsig64(PxArena* arena, PxFormatOptions options, pxu64 value);
+
+PxString16
+pxString16FromUnsig(PxArena* arena, PxFormatOptions options, pxunsig value);
+
+PxString16
+pxString16FromInt8(PxArena* arena, PxFormatOptions options, pxi8 value);
+
+PxString16
+pxString16FromInt16(PxArena* arena, PxFormatOptions options, pxi16 value);
+
+PxString16
+pxString16FromInt32(PxArena* arena, PxFormatOptions options, pxi32 value);
+
+PxString16
+pxString16FromInt64(PxArena* arena, PxFormatOptions options, pxi64 value);
+
+PxString16
+pxString16FromInt(PxArena* arena, PxFormatOptions options, pxint value);
+
+/* Number from string */
+
 pxb8
 pxUnsig8FromString16(pxu8* self, PxFormatOptions options, PxString16 string);
 

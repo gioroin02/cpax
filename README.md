@@ -2,11 +2,8 @@
 
 Things to add:
 
-1. Number to string conversions
-    `in format:(string8, string16, string32)`
+1. Non-connected UDP sockets
+    - `in network:socket_udp`
 
-2. Non-connected UDP sockets
-    `in network:socket_udp`
-
-3. Array
-    `in strucure`
+2. Array
+    - `in strucure`

@@ -83,19 +83,19 @@ pxWindowsSocketTcpGetAddress(PxWindowsSocketTcp* self)
     PxAddress result = {.type = PX_ADDRESS_TYPE_NONE};
 
     switch (self->address.ss_family) {
-        case AF_INET:
+        case AF_INET: {
             result.type = PX_ADDRESS_TYPE_IP4;
 
             pxMemoryCopy(&result.ip4.memory, pxSockTcpIp4Addr(self),
                 PX_ADDRESS_IP4_GROUPS, 1);
-        break;
+        } break;
 
-        case AF_INET6:
+        case AF_INET6: {
             result.type = PX_ADDRESS_TYPE_IP6;
 
             pxMemoryCopy(&result.ip6.memory, pxSockTcpIp6Addr(self),
                 PX_ADDRESS_IP6_GROUPS, 2);
-        break;
+        } break;
 
         default: break;
     }
@@ -139,7 +139,7 @@ pxWindowsSocketTcpBind(PxWindowsSocketTcp* self, PxAddress address, pxu16 port)
     pxint         size = 0;
 
     switch (address.type) {
-        case PX_ADDRESS_TYPE_IP4:
+        case PX_ADDRESS_TYPE_IP4: {
             data = (PxSockTcpData) {.ss_family = AF_INET};
             size = PX_SOCK_TCP_IP4_SIZE;
 
@@ -148,9 +148,9 @@ pxWindowsSocketTcpBind(PxWindowsSocketTcp* self, PxAddress address, pxu16 port)
 
             pxMemoryNetCopyLocal(pxSockTcpIp4Port(self),
                 &port, 1, 2);
-        break;
+        } break;
 
-        case PX_ADDRESS_TYPE_IP6:
+        case PX_ADDRESS_TYPE_IP6: {
             data = (PxSockTcpData) {.ss_family = AF_INET6};
             size = PX_SOCK_TCP_IP6_SIZE;
 
@@ -159,7 +159,7 @@ pxWindowsSocketTcpBind(PxWindowsSocketTcp* self, PxAddress address, pxu16 port)
 
             pxMemoryNetCopyLocal(pxSockTcpIp4Port(self),
                 &port, 1, 2);
-        break;
+        } break;
 
         default: return 0;
     }
@@ -185,7 +185,7 @@ pxWindowsSocketTcpConnect(PxWindowsSocketTcp* self, PxAddress address, pxu16 por
     pxint         size = 0;
 
     switch (address.type) {
-        case PX_ADDRESS_TYPE_IP4:
+        case PX_ADDRESS_TYPE_IP4: {
             data = (PxSockTcpData) {.ss_family = AF_INET};
             size = PX_SOCK_TCP_IP4_SIZE;
 
@@ -194,9 +194,9 @@ pxWindowsSocketTcpConnect(PxWindowsSocketTcp* self, PxAddress address, pxu16 por
 
             pxMemoryNetCopyLocal(pxSockTcpIp4Port(self),
                 &port, 1, 2);
-        break;
+        } break;
 
-        case PX_ADDRESS_TYPE_IP6:
+        case PX_ADDRESS_TYPE_IP6: {
             data = (PxSockTcpData) {.ss_family = AF_INET6};
             size = PX_SOCK_TCP_IP6_SIZE;
 
@@ -205,7 +205,7 @@ pxWindowsSocketTcpConnect(PxWindowsSocketTcp* self, PxAddress address, pxu16 por
 
             pxMemoryNetCopyLocal(pxSockTcpIp4Port(self),
                 &port, 1, 2);
-        break;
+        } break;
 
         default: return 0;
     }

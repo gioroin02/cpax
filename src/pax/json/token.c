@@ -321,17 +321,20 @@ pxJsonPeekNumber(PxReader* reader, PxArena* arena)
     result.length = string.length;
 
     switch (result.type) {
-        case PX_JSON_TOKEN_UNSIGNED:
+        case PX_JSON_TOKEN_UNSIGNED: {
             if (pxUnsigFromString8(&result.uvalue, options, string) != 0)
                 return result;
+        } break;
 
-        case PX_JSON_TOKEN_INTEGER:
+        case PX_JSON_TOKEN_INTEGER: {
             if (pxIntFromString8(&result.ivalue, options, string) != 0)
                 return result;
+        } break;
 
-        case PX_JSON_TOKEN_FLOATING:
+        case PX_JSON_TOKEN_FLOATING: {
             if (1 /* pxFloatFromString8(&result.fvalue, options, string) != 0 */)
                 return result;
+        } break;
 
         default: break;
     }

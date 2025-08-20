@@ -83,19 +83,19 @@ pxWindowsSocketUdpGetAddress(PxWindowsSocketUdp* self)
     PxAddress result = {.type = PX_ADDRESS_TYPE_NONE};
 
     switch (self->address.ss_family) {
-        case AF_INET:
+        case AF_INET: {
             result.type = PX_ADDRESS_TYPE_IP4;
 
             pxMemoryCopy(&result.ip4.memory, pxSockUdpIp4Addr(self),
                 PX_ADDRESS_IP4_GROUPS, 1);
-        break;
+        } break;
 
-        case AF_INET6:
+        case AF_INET6: {
             result.type = PX_ADDRESS_TYPE_IP6;
 
             pxMemoryCopy(&result.ip6.memory, pxSockUdpIp6Addr(self),
                 PX_ADDRESS_IP6_GROUPS, 2);
-        break;
+        } break;
 
         default: break;
     }
@@ -139,7 +139,7 @@ pxWindowsSocketUdpBind(PxWindowsSocketUdp* self, PxAddress address, pxu16 port)
     pxint         size = 0;
 
     switch (address.type) {
-        case PX_ADDRESS_TYPE_IP4:
+        case PX_ADDRESS_TYPE_IP4: {
             data = (PxSockUdpData) {.ss_family = AF_INET};
             size = PX_SOCK_UDP_IP4_SIZE;
 
@@ -148,9 +148,9 @@ pxWindowsSocketUdpBind(PxWindowsSocketUdp* self, PxAddress address, pxu16 port)
 
             pxMemoryNetCopyLocal(pxSockUdpIp4Port(self),
                 &port, 1, 2);
-        break;
+        } break;
 
-        case PX_ADDRESS_TYPE_IP6:
+        case PX_ADDRESS_TYPE_IP6: {
             data = (PxSockUdpData) {.ss_family = AF_INET6};
             size = PX_SOCK_UDP_IP6_SIZE;
 
@@ -159,7 +159,7 @@ pxWindowsSocketUdpBind(PxWindowsSocketUdp* self, PxAddress address, pxu16 port)
 
             pxMemoryNetCopyLocal(pxSockUdpIp4Port(self),
                 &port, 1, 2);
-        break;
+        } break;
 
         default: return 0;
     }
@@ -185,7 +185,7 @@ pxWindowsSocketUdpConnect(PxWindowsSocketUdp* self, PxAddress address, pxu16 por
     pxint         size = 0;
 
     switch (address.type) {
-        case PX_ADDRESS_TYPE_IP4:
+        case PX_ADDRESS_TYPE_IP4: {
             data = (PxSockUdpData) {.ss_family = AF_INET};
             size = PX_SOCK_UDP_IP4_SIZE;
 
@@ -194,9 +194,9 @@ pxWindowsSocketUdpConnect(PxWindowsSocketUdp* self, PxAddress address, pxu16 por
 
             pxMemoryNetCopyLocal(pxSockUdpIp4Port(self),
                 &port, 1, 2);
-        break;
+        } break;
 
-        case PX_ADDRESS_TYPE_IP6:
+        case PX_ADDRESS_TYPE_IP6: {
             data = (PxSockUdpData) {.ss_family = AF_INET6};
             size = PX_SOCK_UDP_IP6_SIZE;
 
@@ -205,7 +205,7 @@ pxWindowsSocketUdpConnect(PxWindowsSocketUdp* self, PxAddress address, pxu16 por
 
             pxMemoryNetCopyLocal(pxSockUdpIp4Port(self),
                 &port, 1, 2);
-        break;
+        } break;
 
         default: return 0;
     }

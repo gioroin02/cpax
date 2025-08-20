@@ -15,14 +15,9 @@ pxAddressIp6FromString(PxAddressIp6* self, PxString8 string)
     PxString8 right = {0};
     PxString8 group = {0};
 
-    pxint groups = 0;
-    pxint pivot  = 0;
-    pxint start  = 0;
-    pxint stop   = 0;
-
     switch (pxString8Contains(string, pxStr8("::"))) {
-        case 0:
-            groups = pxString8Contains(string, pxStr8(":"));
+        case 0: {
+            pxint groups = pxString8Contains(string, pxStr8(":"));
 
             if (groups != PX_ADDRESS_IP6_GROUPS - 1) return 0;
 
@@ -32,14 +27,14 @@ pxAddressIp6FromString(PxAddressIp6* self, PxString8 string)
                 if (pxUnsig16FromString8(&temp.memory[i], options, group) == 0)
                     return 0;
             }
-        break;
+        } break;
 
-        case 1:
+        case 1: {
             pxString8Split(string, pxStr8("::"), &left, &right);
 
-            pivot = pxString8Contains(left, pxStr8(":")) + 1;
-            start = 0;
-            stop  = PX_ADDRESS_IP6_GROUPS - 1;
+            pxint pivot = pxString8Contains(left, pxStr8(":")) + 1;
+            pxint start = 0;
+            pxint stop  = PX_ADDRESS_IP6_GROUPS - 1;
 
             if (pivot >= stop) return 0;
 
@@ -65,7 +60,7 @@ pxAddressIp6FromString(PxAddressIp6* self, PxString8 string)
                 if (pxUnsig16FromString8(&temp.memory[i], options, group) == 0)
                     return 0;
             }
-        break;
+        } break;
 
         default: return 0;
     }

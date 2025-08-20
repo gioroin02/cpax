@@ -89,8 +89,6 @@ pxAsciiIsNumeric(pxi32 value, pxunsig radix)
 pxb8
 pxAsciiIsDigit(pxi32 value, pxunsig radix)
 {
-    pxunsig temp = 0;
-
     switch (value) {
         case PX_ASCII_ZERO:
         case PX_ASCII_ONE:
@@ -101,36 +99,36 @@ pxAsciiIsDigit(pxi32 value, pxunsig radix)
         case PX_ASCII_SIX:
         case PX_ASCII_SEVEN:
         case PX_ASCII_EIGHT:
-        case PX_ASCII_NINE:
-            temp = value - PX_ASCII_ZERO;
+        case PX_ASCII_NINE: {
+            pxunsig digit = value - PX_ASCII_ZERO;
 
-            if (radix >= 2 && radix <= 16 && temp < radix)
+            if (radix >= 2 && radix <= 16 && digit < radix)
                 return 1;
-        break;
+        } break;
 
         case PX_ASCII_UPPER_A:
         case PX_ASCII_UPPER_B:
         case PX_ASCII_UPPER_C:
         case PX_ASCII_UPPER_D:
         case PX_ASCII_UPPER_E:
-        case PX_ASCII_UPPER_F:
-            temp = value - PX_ASCII_UPPER_A - 10;
+        case PX_ASCII_UPPER_F: {
+            pxunsig digit = value - PX_ASCII_UPPER_A - 10;
 
-            if (radix >= 11 && radix <= 16 && temp < radix)
+            if (radix >= 11 && radix <= 16 && digit < radix)
                 return 1;
-        break;
+        } break;
 
         case PX_ASCII_LOWER_A:
         case PX_ASCII_LOWER_B:
         case PX_ASCII_LOWER_C:
         case PX_ASCII_LOWER_D:
         case PX_ASCII_LOWER_E:
-        case PX_ASCII_LOWER_F:
-            temp = value - PX_ASCII_LOWER_A - 10;
+        case PX_ASCII_LOWER_F: {
+            pxunsig digit = value - PX_ASCII_LOWER_A - 10;
 
-            if (radix >= 11 && radix <= 16 && temp < radix)
+            if (radix >= 11 && radix <= 16 && digit < radix)
                 return 1;
-        break;
+        } break;
 
         default: break;
     }
@@ -168,12 +166,27 @@ pxAsciiIsLetterLower(pxi32 value)
     return 0;
 }
 
-pxunsig
-pxAsciiDigitValue(pxi32 value, pxunsig radix)
+pxi32
+pxAsciiDigitFromValue(pxunsig value, pxunsig radix, pxb8 upper)
 {
-    pxunsig result = radix;
-    pxunsig temp   = 0;
+    pxunsig digit = value % radix;
 
+    if (digit >= 0 && digit <= 9)
+        return pxCast(pxi32, digit) + PX_ASCII_ZERO;
+
+    if (digit >= 10 && digit <= 15) {
+        if (upper != 0)
+            return pxCast(pxi32, digit) + PX_ASCII_UPPER_A - 10;
+
+        return pxCast(pxi32, digit) + PX_ASCII_LOWER_A - 10;
+    }
+
+    return PX_ASCII_NULL;
+}
+
+pxunsig
+pxAsciiValueFromDigit(pxi32 value, pxunsig radix)
+{
     switch (value) {
         case PX_ASCII_ZERO:
         case PX_ASCII_ONE:
@@ -184,41 +197,41 @@ pxAsciiDigitValue(pxi32 value, pxunsig radix)
         case PX_ASCII_SIX:
         case PX_ASCII_SEVEN:
         case PX_ASCII_EIGHT:
-        case PX_ASCII_NINE:
-            temp = value - PX_ASCII_ZERO;
+        case PX_ASCII_NINE: {
+            pxunsig digit = value - PX_ASCII_ZERO;
 
-            if (radix >= 2 && radix <= 16 && temp < radix)
-                result = temp;
-        break;
+            if (radix >= 2 && radix <= 16 && digit < radix)
+                return digit;
+        } break;
 
         case PX_ASCII_UPPER_A:
         case PX_ASCII_UPPER_B:
         case PX_ASCII_UPPER_C:
         case PX_ASCII_UPPER_D:
         case PX_ASCII_UPPER_E:
-        case PX_ASCII_UPPER_F:
-            temp = value - PX_ASCII_UPPER_A - 10;
+        case PX_ASCII_UPPER_F: {
+            pxunsig digit = value - PX_ASCII_UPPER_A - 10;
 
-            if (radix >= 11 && radix <= 16 && temp < radix)
-                result = temp;
-        break;
+            if (radix >= 11 && radix <= 16 && digit < radix)
+                return digit;
+        } break;
 
         case PX_ASCII_LOWER_A:
         case PX_ASCII_LOWER_B:
         case PX_ASCII_LOWER_C:
         case PX_ASCII_LOWER_D:
         case PX_ASCII_LOWER_E:
-        case PX_ASCII_LOWER_F:
-            temp = value - PX_ASCII_LOWER_A - 10;
+        case PX_ASCII_LOWER_F: {
+            pxunsig digit = value - PX_ASCII_LOWER_A - 10;
 
-            if (radix >= 11 && radix <= 16 && temp < radix)
-                result = temp;
-        break;
+            if (radix >= 11 && radix <= 16 && digit < radix)
+                return digit;
+        } break;
 
         default: break;
     }
 
-    return result;
+    return radix;
 }
 
 #endif // PX_STRING_UNICODE_C

@@ -169,7 +169,10 @@ pxAsciiIsLetterUpper(pxi32 value);
 pxb8
 pxAsciiIsLetterLower(pxi32 value);
 
+pxi32
+pxAsciiDigitFromValue(pxunsig value, pxunsig radix, pxb8 upper);
+
 pxunsig
-pxAsciiDigitValue(pxi32 value, pxunsig radix);
+pxAsciiValueFromDigit(pxi32 value, pxunsig radix);
 
 #endif // PX_STRING_UNICODE_H

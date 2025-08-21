@@ -38,7 +38,6 @@ PxJsonEventType;
 typedef struct PxJsonEvent
 {
     PxJsonEventType type;
-    PxJsonLayerType parent;
 
     PxString8 string;
     PxString8 name;
@@ -61,45 +60,39 @@ PxJsonEvent
 pxJsonEventError(PxString8 string, PxString8 error);
 
 PxJsonEvent
-pxJsonEventObjectOpen(PxString8 string);
+pxJsonEventObjectOpen();
 
 PxJsonEvent
-pxJsonEventObjectClose(PxString8 string);
+pxJsonEventObjectClose();
 
 PxJsonEvent
-pxJsonEventArrayOpen(PxString8 string);
+pxJsonEventArrayOpen();
 
 PxJsonEvent
-pxJsonEventArrayClose(PxString8 string);
+pxJsonEventArrayClose();
 
 PxJsonEvent
-pxJsonEventName();
+pxJsonEventName(PxString8 name);
 
 PxJsonEvent
-pxJsonEventString(PxString8 string);
+pxJsonEventString(PxString8 string, PxString8 name);
 
 PxJsonEvent
-pxJsonEventUnsigned(PxString8 string, pxunsig value);
+pxJsonEventUnsigned(pxunsig value, PxString8 name);
 
 PxJsonEvent
-pxJsonEventInteger(PxString8 string, pxint value);
+pxJsonEventInteger(pxint value, PxString8 name);
 
 PxJsonEvent
-pxJsonEventFloating(PxString8 string, pxfloat value);
+pxJsonEventFloating(pxfloat value, PxString8 name);
 
 PxJsonEvent
-pxJsonEventBoolean(PxString8 string, pxbool value);
+pxJsonEventBoolean(pxbool value, PxString8 name);
 
 PxJsonEvent
-pxJsonEventNull(PxString8 string);
+pxJsonEventNull(PxString8 name);
 
 PxJsonEvent
 pxJsonEventCount();
-
-PxJsonEvent
-pxJsonEventObject(PxJsonEvent value, PxString8 name);
-
-PxJsonEvent
-pxJsonEventArray(PxJsonEvent value);
 
 #endif // PX_JSON_EVENT_H

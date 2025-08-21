@@ -22,104 +22,102 @@ pxJsonEventError(PxString8 string, PxString8 error)
 }
 
 PxJsonEvent
-pxJsonEventObjectOpen(PxString8 string)
+pxJsonEventObjectOpen()
 {
     return (PxJsonEvent) {
-        .type   = PX_JSON_EVENT_OBJECT_OPEN,
-        .string = string,
+        .type = PX_JSON_EVENT_OBJECT_OPEN,
     };
 }
 
 PxJsonEvent
-pxJsonEventObjectClose(PxString8 string)
+pxJsonEventObjectClose()
 {
     return (PxJsonEvent) {
-        .type   = PX_JSON_EVENT_OBJECT_CLOSE,
-        .string = string,
+        .type = PX_JSON_EVENT_OBJECT_CLOSE,
     };
 }
 
 PxJsonEvent
-pxJsonEventArrayOpen(PxString8 string)
+pxJsonEventArrayOpen()
 {
     return (PxJsonEvent) {
-        .type   = PX_JSON_EVENT_ARRAY_OPEN,
-        .string = string,
+        .type = PX_JSON_EVENT_ARRAY_OPEN,
     };
 }
 
 PxJsonEvent
-pxJsonEventArrayClose(PxString8 string)
+pxJsonEventArrayClose()
 {
     return (PxJsonEvent) {
-        .type   = PX_JSON_EVENT_ARRAY_CLOSE,
-        .string = string,
+        .type = PX_JSON_EVENT_ARRAY_CLOSE,
     };
 }
 
 PxJsonEvent
-pxJsonEventName()
+pxJsonEventName(PxString8 name)
 {
     return (PxJsonEvent) {
         .type = PX_JSON_EVENT_NAME,
+        .name = name,
     };
 }
 
 PxJsonEvent
-pxJsonEventString(PxString8 string)
+pxJsonEventString(PxString8 string, PxString8 name)
 {
     return (PxJsonEvent) {
         .type   = PX_JSON_EVENT_STRING,
         .string = string,
+        .name   = name,
     };
 }
 
 PxJsonEvent
-pxJsonEventUnsigned(PxString8 string, pxunsig value)
+pxJsonEventUnsigned(pxunsig value, PxString8 name)
 {
     return (PxJsonEvent) {
         .type   = PX_JSON_EVENT_UNSIGNED,
-        .string = string,
         .uvalue = value,
+        .name   = name,
     };
 }
 
 PxJsonEvent
-pxJsonEventInteger(PxString8 string, pxint value)
+pxJsonEventInteger(pxint value, PxString8 name)
 {
     return (PxJsonEvent) {
         .type   = PX_JSON_EVENT_INTEGER,
-        .string = string,
         .ivalue = value,
+        .name   = name,
     };
 }
 
 PxJsonEvent
-pxJsonEventFloating(PxString8 string, pxfloat value)
+pxJsonEventFloating(pxfloat value, PxString8 name)
 {
     return (PxJsonEvent) {
         .type   = PX_JSON_EVENT_FLOATING,
-        .string = string,
         .fvalue = value,
+        .name   = name,
     };
 }
 
 PxJsonEvent
-pxJsonEventBoolean(PxString8 string, pxbool value)
+pxJsonEventBoolean(pxbool value, PxString8 name)
 {
     return (PxJsonEvent) {
         .type   = PX_JSON_EVENT_BOOLEAN,
-        .string = string,
         .bvalue = value,
+        .name   = name,
     };
 }
 
 PxJsonEvent
-pxJsonEventNull(PxString8 string)
+pxJsonEventNull(PxString8 name)
 {
     return (PxJsonEvent) {
-        .type   = PX_JSON_EVENT_NULL,
-        .string = string,
+        .type = PX_JSON_EVENT_NULL,
+        .name = name,
     };
 }
 
@@ -129,23 +127,6 @@ pxJsonEventCount()
     return (PxJsonEvent) {
         .type = PX_JSON_EVENT_COUNT,
     };
-}
-
-PxJsonEvent
-pxJsonEventObject(PxJsonEvent value, PxString8 name)
-{
-    value.parent = PX_JSON_LAYER_OBJECT;
-    value.name   = name;
-
-    return value;
-}
-
-PxJsonEvent
-pxJsonEventArray(PxJsonEvent value)
-{
-    value.parent = PX_JSON_LAYER_ARRAY;
-
-    return value;
 }
 
 #endif // PX_JSON_EVENT_C

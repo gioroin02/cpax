@@ -19,9 +19,26 @@
 #define PURPLE(expr) FRONT_PURPLE expr COLOR_RESET
 #define AZURE(expr)  FRONT_AZURE  expr COLOR_RESET
 
-static const PxString8 ENTITY = pxStr8(
-    "{ \"flags\": [16, 32], \"code\": 156, \"name\": \"player\", \"coords\": {\"x\": 1, \"y\": 2} } { \"flags\": [], \"code\": 55"
-);
+typedef struct Entity
+{
+    PxString8 name;
+    pxunsig   code;
+}
+Entity;
+
+void
+jsonWriteEntity(Entity* self, PxJsonWriter* writer, PxArena* arena)
+{
+    pxJsonWriterNext(writer, arena, pxJsonEventObjectOpen());
+
+    pxJsonWriterNext(writer, arena,
+        pxJsonEventString(self->name, pxStr8("name")));
+
+    pxJsonWriterNext(writer, arena,
+        pxJsonEventUnsigned(self->code, pxStr8("code")));
+
+    pxJsonWriterNext(writer, arena, pxJsonEventObjectClose());
+}
 
 void
 showJsonEvent(PxJsonReader* reader, PxArena* arena)
@@ -124,12 +141,17 @@ main(int argc, char** argv)
     PxBuffer8 source = pxBuffer8Reserve(&arena, 256);
     PxBuffer8 buffer = pxBuffer8Reserve(&arena, 256);
 
-    pxBuffer8WriteStringTail(&source, ENTITY);
+    PxJsonWriter writer = pxJsonWriterMake(&arena, 16,
+        pxBufferWriter(&source, &buffer));
+
+    jsonWriteEntity(&(Entity) {.name = pxStr8("gio"), .code = 156}, &writer, &arena);
 
     printf(YELLOW("[start]") "\n%.*s\n" YELLOW("[stop]") "\n",
         pxCast(int, source.size), source.memory);
 
     printf("\n");
+
+    pxBuffer8Clear(&buffer);
 
     PxJsonReader reader = pxJsonReaderMake(&arena, 16,
         pxBufferReader(&source, &buffer));

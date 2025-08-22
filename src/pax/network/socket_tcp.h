@@ -29,17 +29,17 @@ pxSocketTcpConnect(PxSocketTcp self, PxAddress address, pxu16 port);
 PxSocketTcp
 pxSocketTcpAccept(PxSocketTcp self, PxArena* arena);
 
-pxint
+pxiword
 pxSocketTcpWrite(PxSocketTcp self, PxBuffer8* buffer);
 
-pxint
-pxSocketTcpWriteMemory(PxSocketTcp self, pxu8* memory, pxint length);
+pxiword
+pxSocketTcpWriteMemory(PxSocketTcp self, pxu8* memory, pxiword length);
 
-pxint
+pxiword
 pxSocketTcpRead(PxSocketTcp self, PxBuffer8* buffer);
 
-pxint
-pxSocketTcpReadMemory(PxSocketTcp self, pxu8* memory, pxint length);
+pxiword
+pxSocketTcpReadMemory(PxSocketTcp self, pxu8* memory, pxiword length);
 
 PxReader
 pxSocketTcpReader(PxSocketTcp self, PxBuffer8* buffer);

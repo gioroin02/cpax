@@ -4,7 +4,7 @@
 #include "arena.h"
 
 PxArena
-pxArenaMake(pxu8* memory, pxint length)
+pxArenaMake(pxu8* memory, pxiword length)
 {
     if (memory == 0 || length <= 0)
         return (PxArena) {0};
@@ -16,14 +16,14 @@ pxArenaMake(pxu8* memory, pxint length)
 }
 
 void*
-pxArenaReserveMemory(PxArena* self, pxint amount, pxint stride)
+pxArenaReserveMemory(PxArena* self, pxiword amount, pxiword stride)
 {
-    pxint length = amount * stride;
+    pxiword length = amount * stride;
 
     if (amount <= 0 || stride <= 0) return 0;
 
-    pxint start = pxArenaAlignForw(self, stride);
-    pxint stop  = start + length;
+    pxiword start = pxArenaAlignForw(self, stride);
+    pxiword stop  = start + length;
 
     if (start < self->offset || stop > self->length)
         return 0;
@@ -42,7 +42,7 @@ pxArenaReleaseMemory(PxArena* self, void* memory)
 }
 
 void*
-pxArenaCopyMemory(PxArena* self, void* memory, pxint amount, pxint stride)
+pxArenaCopyMemory(PxArena* self, void* memory, pxiword amount, pxiword stride)
 {
     if (memory == 0 || amount <= 0 || stride <= 0)
         return 0;
@@ -61,14 +61,14 @@ pxArenaClear(PxArena* self)
     self->offset = 0;
 }
 
-pxint
+pxiword
 pxArenaOffset(PxArena* self)
 {
     return self->offset;
 }
 
 pxb8
-pxArenaRewind(PxArena* self, pxint offset)
+pxArenaRewind(PxArena* self, pxiword offset)
 {
     if (offset < 0 || offset >= self->length)
         return 0;
@@ -78,12 +78,12 @@ pxArenaRewind(PxArena* self, pxint offset)
     return 1;
 }
 
-pxint
-pxArenaAlignForw(PxArena* self, pxint align)
+pxiword
+pxArenaAlignForw(PxArena* self, pxiword align)
 {
     if (align <= 0) return self->offset;
 
-    pxint diff = self->offset % align;
+    pxiword diff = self->offset % align;
 
     if (diff != 0)
         return self->offset + align - diff;

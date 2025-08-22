@@ -17,7 +17,7 @@ typedef struct PxJsonReader
 PxJsonReader;
 
 PxJsonReader
-pxJsonReaderMake(PxArena* arena, pxint length, PxReader reader);
+pxJsonReaderMake(PxArena* arena, pxiword length, PxReader reader);
 
 PxJsonEvent
 pxJsonReaderNext(PxJsonReader* self, PxArena* arena);

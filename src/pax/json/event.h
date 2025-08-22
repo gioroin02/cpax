@@ -35,20 +35,27 @@ typedef enum PxJsonEventType
 }
 PxJsonEventType;
 
+typedef struct PxJsonEventError
+{
+    PxString8 message;
+    PxString8 subject;
+}
+PxJsonEventError;
+
 typedef struct PxJsonEvent
 {
     PxJsonEventType type;
-
-    PxString8 string;
-    PxString8 name;
+    PxString8       name;
 
     union
     {
-        PxString8 error;
-        pxunsig   uvalue;
-        pxint     ivalue;
-        pxfloat   fvalue;
-        pxbool    bvalue;
+        PxJsonEventError error;
+
+        PxString8 svalue;
+        pxuword   uvalue;
+        pxiword   ivalue;
+        pxfword   fvalue;
+        pxbword   bvalue;
     };
 }
 PxJsonEvent;
@@ -57,7 +64,7 @@ PxJsonEvent
 pxJsonEventNone();
 
 PxJsonEvent
-pxJsonEventError(PxString8 string, PxString8 error);
+pxJsonEventError(PxString8 subject, PxString8 message);
 
 PxJsonEvent
 pxJsonEventObjectOpen();
@@ -75,19 +82,19 @@ PxJsonEvent
 pxJsonEventName(PxString8 name);
 
 PxJsonEvent
-pxJsonEventString(PxString8 string, PxString8 name);
+pxJsonEventString(PxString8 value, PxString8 name);
 
 PxJsonEvent
-pxJsonEventUnsigned(pxunsig value, PxString8 name);
+pxJsonEventUnsigned(pxuword value, PxString8 name);
 
 PxJsonEvent
-pxJsonEventInteger(pxint value, PxString8 name);
+pxJsonEventInteger(pxiword value, PxString8 name);
 
 PxJsonEvent
-pxJsonEventFloating(pxfloat value, PxString8 name);
+pxJsonEventFloating(pxfword value, PxString8 name);
 
 PxJsonEvent
-pxJsonEventBoolean(pxbool value, PxString8 name);
+pxJsonEventBoolean(pxbword value, PxString8 name);
 
 PxJsonEvent
 pxJsonEventNull(PxString8 name);

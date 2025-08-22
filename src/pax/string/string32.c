@@ -6,8 +6,8 @@
 PxString32
 pxString32FromUnicode(PxArena* arena, pxi32 value)
 {
-    pxint  length = pxUtf32UnitsToWrite(value);
-    pxu32* result = pxArenaReserve(arena, pxu32, length + 1);
+    pxiword length = pxUtf32UnitsToWrite(value);
+    pxu32*  result = pxArenaReserve(arena, pxu32, length + 1);
 
     if (result == 0 || length <= 0)
         return (PxString32) {0};
@@ -27,7 +27,7 @@ pxString32Copy(PxArena* arena, PxString32 string)
 }
 
 PxString32
-pxString32CopyMemory(PxArena* arena, pxu32* memory, pxint length)
+pxString32CopyMemory(PxArena* arena, pxu32* memory, pxiword length)
 {
     pxu32* result = pxArenaReserve(arena, pxu32, length + 1);
 
@@ -49,7 +49,7 @@ pxString32Chain(PxString32 self, PxArena* arena, PxString32 value)
 }
 
 PxString32
-pxString32ChainMemory(PxString32 self, PxArena* arena, pxu32* memory, pxint length)
+pxString32ChainMemory(PxString32 self, PxArena* arena, pxu32* memory, pxiword length)
 {
     pxu32* result = pxArenaReserve(arena,
         pxu32, self.length + length + 1);
@@ -66,7 +66,7 @@ pxString32ChainMemory(PxString32 self, PxArena* arena, pxu32* memory, pxint leng
 }
 
 pxb8
-pxString32Get(PxString32 self, pxint index, pxu32* value)
+pxString32Get(PxString32 self, pxiword index, pxu32* value)
 {
     if (index < 0 || index >= self.length)
         return 0;
@@ -78,7 +78,7 @@ pxString32Get(PxString32 self, pxint index, pxu32* value)
 }
 
 pxu32
-pxString32GetOr(PxString32 self, pxint index, pxu32 value)
+pxString32GetOr(PxString32 self, pxiword index, pxu32 value)
 {
     if (index < 0 || index >= self.length)
         return value;
@@ -93,7 +93,7 @@ pxString32IsEqual(PxString32 self, PxString32 value)
 }
 
 pxb8
-pxString32IsEqualMemory(PxString32 self, pxu32* memory, pxint length)
+pxString32IsEqualMemory(PxString32 self, pxu32* memory, pxiword length)
 {
     if (self.length == length)
         return pxMemoryIsEqual(self.memory, memory, length, 1);
@@ -108,7 +108,7 @@ pxString32BeginsWith(PxString32 self, PxString32 value)
 }
 
 pxb8
-pxString32BeginsWithMemory(PxString32 self, pxu32* memory, pxint length)
+pxString32BeginsWithMemory(PxString32 self, pxu32* memory, pxiword length)
 {
     PxString32 slice =
         pxString32SliceLength(self, 0, length);
@@ -123,7 +123,7 @@ pxString32EndsWith(PxString32 self, PxString32 value)
 }
 
 pxb8
-pxString32EndsWithMemory(PxString32 self, pxu32* memory, pxint length)
+pxString32EndsWithMemory(PxString32 self, pxu32* memory, pxiword length)
 {
     PxString32 slice =
         pxString32SliceLength(self, self.length - length, length);
@@ -131,20 +131,20 @@ pxString32EndsWithMemory(PxString32 self, pxu32* memory, pxint length)
     return pxString32IsEqualMemory(slice, memory, length);
 }
 
-pxint
+pxiword
 pxString32Contains(PxString32 self, PxString32 value)
 {
     return pxString32ContainsMemory(self, value.memory, value.length);
 }
 
-pxint
-pxString32ContainsMemory(PxString32 self, pxu32* memory, pxint length)
+pxiword
+pxString32ContainsMemory(PxString32 self, pxu32* memory, pxiword length)
 {
-    pxint result = 0;
+    pxiword result = 0;
 
     if (self.length < length) return result;
 
-    for (pxint i = 0; i < self.length - length; i += 1) {
+    for (pxiword i = 0; i < self.length - length; i += 1) {
         PxString32 slice = pxString32SliceLength(self, i, length);
 
         if (pxString32IsEqualMemory(slice, memory, length) != 0)
@@ -155,13 +155,13 @@ pxString32ContainsMemory(PxString32 self, pxu32* memory, pxint length)
 }
 
 PxString32
-pxString32Slice(PxString32 self, pxint start, pxint stop)
+pxString32Slice(PxString32 self, pxiword start, pxiword stop)
 {
     return pxString32SliceLength(self, start, stop - start);
 }
 
 PxString32
-pxString32SliceLength(PxString32 self, pxint index, pxint length)
+pxString32SliceLength(PxString32 self, pxiword index, pxiword length)
 {
     if (length <= 0) return (PxString32) {0};
 
@@ -179,9 +179,9 @@ pxString32SliceLength(PxString32 self, pxint index, pxint length)
 PxString32
 pxString32TrimSpaces(PxString32 self)
 {
-    pxint units = 0;
-    pxint start = 0;
-    pxint stop  = self.length;
+    pxiword units = 0;
+    pxiword start = 0;
+    pxiword stop  = self.length;
 
     for (; start < stop; start += units) {
         pxi32 unicode = 0;
@@ -213,9 +213,9 @@ pxString32TrimSpaces(PxString32 self)
 PxString32
 pxString32TrimSpacesHead(PxString32 self)
 {
-    pxint units = 0;
-    pxint start = 0;
-    pxint stop  = self.length;
+    pxiword units = 0;
+    pxiword start = 0;
+    pxiword stop  = self.length;
 
     for (; start < stop; start += units) {
         pxi32 unicode = 0;
@@ -235,9 +235,9 @@ pxString32TrimSpacesHead(PxString32 self)
 PxString32
 pxString32TrimSpacesTail(PxString32 self)
 {
-    pxint units = 0;
-    pxint start = 0;
-    pxint stop  = self.length;
+    pxiword units = 0;
+    pxiword start = 0;
+    pxiword stop  = self.length;
 
     for (; start < stop; stop -= units) {
         pxi32 unicode = 0;
@@ -264,7 +264,7 @@ pxString32TrimPrefix(PxString32 self, PxString32 prefix)
 }
 
 PxString32
-pxString32TrimPrefixMemory(PxString32 self, pxu32* memory, pxint length)
+pxString32TrimPrefixMemory(PxString32 self, pxu32* memory, pxiword length)
 {
     if (pxString32BeginsWithMemory(self, memory, length) != 0)
         return pxString32Slice(self, length, self.length);
@@ -282,7 +282,7 @@ pxString32TrimSuffix(PxString32 self, PxString32 suffix)
 }
 
 PxString32
-pxString32TrimSuffixMemory(PxString32 self, pxu32* memory, pxint length)
+pxString32TrimSuffixMemory(PxString32 self, pxu32* memory, pxiword length)
 {
     if (pxString32EndsWithMemory(self, memory, length) != 0)
         return pxString32Slice(self, 0, self.length - length);
@@ -291,17 +291,17 @@ pxString32TrimSuffixMemory(PxString32 self, pxu32* memory, pxint length)
 }
 
 pxb8
-pxString32FindFirst(PxString32 self, pxint start, PxString32 value, pxint* index)
+pxString32FindFirst(PxString32 self, pxiword start, PxString32 value, pxiword* index)
 {
     return pxString32FindFirstMemory(self, start, value.memory, value.length, index);
 }
 
 pxb8
-pxString32FindFirstMemory(PxString32 self, pxint start, pxu32* memory, pxint length, pxint* index)
+pxString32FindFirstMemory(PxString32 self, pxiword start, pxu32* memory, pxiword length, pxiword* index)
 {
     start = pxClamp(start, 0, self.length);
 
-    for (pxint i = start; i < self.length; i += 1) {
+    for (pxiword i = start; i < self.length; i += 1) {
         PxString32 slice = pxString32SliceLength(self, i, length);
 
         if (pxString32IsEqualMemory(slice, memory, length) == 0)
@@ -316,17 +316,17 @@ pxString32FindFirstMemory(PxString32 self, pxint start, pxu32* memory, pxint len
 }
 
 pxb8
-pxString32FindLast(PxString32 self, pxint start, PxString32 value, pxint* index)
+pxString32FindLast(PxString32 self, pxiword start, PxString32 value, pxiword* index)
 {
     return pxString32FindLastMemory(self, start, value.memory, value.length, index);
 }
 
 pxb8
-pxString32FindLastMemory(PxString32 self, pxint start, pxu32* memory, pxint length, pxint* index)
+pxString32FindLastMemory(PxString32 self, pxiword start, pxu32* memory, pxiword length, pxiword* index)
 {
     start = pxClamp(start, 0, self.length);
 
-    for (pxint i = start; i > 0; i -= 1) {
+    for (pxiword i = start; i > 0; i -= 1) {
         PxString32 slice = pxString32SliceLength(self, i - length, length);
 
         if (pxString32IsEqualMemory(slice, memory, length) == 0)
@@ -347,11 +347,11 @@ pxString32Split(PxString32 self, PxString32 pivot, PxString32* left, PxString32*
 }
 
 pxb8
-pxString32SplitMemory(PxString32 self, pxu32* memory, pxint length, PxString32* left, PxString32* right)
+pxString32SplitMemory(PxString32 self, pxu32* memory, pxiword length, PxString32* left, PxString32* right)
 {
-    pxint start = 0;
-    pxint stop  = self.length;
-    pxint index = self.length;
+    pxiword start = 0;
+    pxiword stop  = self.length;
+    pxiword index = self.length;
 
     if (pxString32FindFirstMemory(self, start, memory, length, &index) == 0)
         return 0;
@@ -365,12 +365,12 @@ pxString32SplitMemory(PxString32 self, pxu32* memory, pxint length, PxString32* 
 }
 
 pxb8
-pxString32Next(PxString32 self, pxint index, pxint* units, pxi32* value)
+pxString32Next(PxString32 self, pxiword index, pxiword* units, pxi32* value)
 {
     if (index < 0 || index >= self.length)
         return 0;
 
-    pxint step = pxUtf32ReadMemoryForw(self.memory,
+    pxiword step = pxUtf32ReadMemoryForw(self.memory,
         self.length, index, value);
 
     if (step == 0) return 0;
@@ -381,12 +381,12 @@ pxString32Next(PxString32 self, pxint index, pxint* units, pxi32* value)
 }
 
 pxb8
-pxString32Prev(PxString32 self, pxint index, pxint* units, pxi32* value)
+pxString32Prev(PxString32 self, pxiword index, pxiword* units, pxi32* value)
 {
     if (index < 0 || index >= self.length)
         return 0;
 
-    pxint step = pxUtf32ReadMemoryBack(self.memory,
+    pxiword step = pxUtf32ReadMemoryBack(self.memory,
         self.length, index, value);
 
     if (step == 0) return 0;

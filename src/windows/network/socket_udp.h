@@ -29,10 +29,10 @@ pxWindowsSocketUdpConnect(PxWindowsSocketUdp* self, PxAddress address, pxu16 por
 PxWindowsSocketUdp*
 pxWindowsSocketUdpAccept(PxWindowsSocketUdp* self, PxArena* arena);
 
-pxint
-pxWindowsSocketUdpWriteMemory(PxWindowsSocketUdp* self, pxu8* memory, pxint length);
+pxiword
+pxWindowsSocketUdpWriteMemory(PxWindowsSocketUdp* self, pxu8* memory, pxiword length);
 
-pxint
-pxWindowsSocketUdpReadMemory(PxWindowsSocketUdp* self, pxu8* memory, pxint length);
+pxiword
+pxWindowsSocketUdpReadMemory(PxWindowsSocketUdp* self, pxu8* memory, pxiword length);
 
 #endif // PX_WINDOWS_NETWORK_SOCKET_UDP_H

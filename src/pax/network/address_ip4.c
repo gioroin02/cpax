@@ -11,17 +11,17 @@ pxAddressIp4FromString(PxAddressIp4* self, PxString8 string)
     PxFormatOptions options = pxFormatOptions(10,
         PX_FORMAT_FLAG_LEADING_ZERO);
 
-    pxint groups = pxString8Contains(string, pxStr8("."));
+    pxiword groups = pxString8Contains(string, pxs8("."));
 
     if (groups != PX_ADDRESS_IP4_GROUPS - 1) return 0;
 
     PxString8 left  = {0};
     PxString8 right = string;
 
-    for (pxint i = 0; i < PX_ADDRESS_IP4_GROUPS; i += 1) {
-        pxString8Split(right, pxStr8("."), &left, &right);
+    for (pxiword i = 0; i < PX_ADDRESS_IP4_GROUPS; i += 1) {
+        pxString8Split(right, pxs8("."), &left, &right);
 
-        if (pxUnsig8FromString8(&temp.memory[i], options, left) == 0)
+        if (pxU8FromString8(&temp.memory[i], options, left) == 0)
             return 0;
     }
 

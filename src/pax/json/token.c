@@ -12,73 +12,69 @@ pxJsonTokenNone()
 }
 
 PxJsonToken
-pxJsonTokenError(PxString8 string, PxString8 error)
+pxJsonTokenError(PxString8 subject, PxString8 message)
 {
     return (PxJsonToken) {
         .type   = PX_JSON_TOKEN_ERROR,
-        .length = string.length,
-        .string = string,
-        .error  = error,
+        .length = subject.length,
+        .error = {
+            .message = message,
+            .subject = subject,
+        },
     };
 }
 
 PxJsonToken
-pxJsonTokenObjectOpen(PxString8 string)
+pxJsonTokenObjectOpen()
 {
     return (PxJsonToken) {
         .type   = PX_JSON_TOKEN_OBJECT_OPEN,
-        .length = string.length,
-        .string = string,
+        .length = 1,
     };
 }
 
 PxJsonToken
-pxJsonTokenObjectClose(PxString8 string)
+pxJsonTokenObjectClose()
 {
     return (PxJsonToken) {
         .type   = PX_JSON_TOKEN_OBJECT_CLOSE,
-        .length = string.length,
-        .string = string,
+        .length = 1,
     };
 }
 
 PxJsonToken
-pxJsonTokenArrayOpen(PxString8 string)
+pxJsonTokenArrayOpen()
 {
     return (PxJsonToken) {
         .type   = PX_JSON_TOKEN_ARRAY_OPEN,
-        .length = string.length,
-        .string = string,
+        .length = 1,
     };
 }
 
 PxJsonToken
-pxJsonTokenArrayClose(PxString8 string)
+pxJsonTokenArrayClose()
 {
     return (PxJsonToken) {
         .type   = PX_JSON_TOKEN_ARRAY_CLOSE,
-        .length = string.length,
-        .string = string,
+        .length = 1,
     };
 }
 
 PxJsonToken
-pxJsonTokenColon(PxString8 string)
+pxJsonTokenColon()
 {
     return (PxJsonToken) {
         .type   = PX_JSON_TOKEN_COLON,
-        .length = string.length,
-        .string = string,
+        .length = 1,
     };
 }
 
 PxJsonToken
-pxJsonTokenComma(PxString8 string)
+pxJsonTokenComma()
 {
     return (PxJsonToken) {
         .type   = PX_JSON_TOKEN_COMMA,
-        .length = string.length,
-        .string = string,
+        .length = 1,
     };
 }
 
@@ -88,50 +84,70 @@ pxJsonTokenString(PxString8 string)
     return (PxJsonToken) {
         .type   = PX_JSON_TOKEN_STRING,
         .length = string.length + 2,
-        .string = string,
+        .svalue = string,
     };
 }
 
 PxJsonToken
-pxJsonTokenUnsigned(PxString8 string, pxunsig value)
+pxJsonTokenUnsigned(PxString8 string)
 {
+    PxFormatOptions options =
+        pxFormatOptions(10, PX_FORMAT_FLAG_LEADING_PLUS);
+
+    pxuword value = 0;
+
+    if (pxUWordFromString8(&value, options, string) == 0)
+        return pxJsonTokenError(string, pxs8("Invalid number"));
+
     return (PxJsonToken) {
         .type   = PX_JSON_TOKEN_UNSIGNED,
         .length = string.length,
-        .string = string,
         .uvalue = value,
     };
 }
 
 PxJsonToken
-pxJsonTokenInteger(PxString8 string, pxint value)
+pxJsonTokenInteger(PxString8 string)
 {
+    PxFormatOptions options =
+        pxFormatOptions(10, PX_FORMAT_FLAG_LEADING_PLUS);
+
+    pxiword value = 0;
+
+    if (pxIWordFromString8(&value, options, string) == 0)
+        return pxJsonTokenError(string, pxs8("Invalid number"));
+
     return (PxJsonToken) {
         .type   = PX_JSON_TOKEN_INTEGER,
         .length = string.length,
-        .string = string,
         .ivalue = value,
     };
 }
 
 PxJsonToken
-pxJsonTokenFloating(PxString8 string, pxfloat value)
+pxJsonTokenFloating(PxString8 string)
 {
+    PxFormatOptions options =
+        pxFormatOptions(10, PX_FORMAT_FLAG_LEADING_PLUS);
+
+    pxfword value = 0;
+
+    if (1 /* pxFWordFromString8(&value, options, string) == 0 */)
+        return pxJsonTokenError(string, pxs8("Not implemented yet"));
+
     return (PxJsonToken) {
         .type   = PX_JSON_TOKEN_FLOATING,
         .length = string.length,
-        .string = string,
         .fvalue = value,
     };
 }
 
 PxJsonToken
-pxJsonTokenBoolean(PxString8 string, pxbool value)
+pxJsonTokenBoolean(PxString8 string, pxbword value)
 {
     return (PxJsonToken) {
-        .type   = PX_JSON_TOKEN_COMMA,
+        .type   = PX_JSON_TOKEN_BOOLEAN,
         .length = string.length,
-        .string = string,
         .bvalue = value,
     };
 }
@@ -142,7 +158,6 @@ pxJsonTokenNull(PxString8 string)
     return (PxJsonToken) {
         .type   = PX_JSON_TOKEN_NULL,
         .length = string.length,
-        .string = string,
     };
 }
 
@@ -193,60 +208,61 @@ pxJsonPeek(PxReader* reader, PxArena* arena)
         default: break;
     }
 
-    PxString8 error  = pxString8Copy(arena, pxStr8("Unkown symbol"));
-    PxString8 string = pxString8FromUnicode(arena, byte);
+    PxString8 message = pxString8Copy(arena, pxs8("Unkown symbol"));
+    PxString8 subject = pxString8FromUnicode(arena, byte);
 
-    return pxJsonTokenError(string, error);
+    return pxJsonTokenError(subject, message);
 }
 
 PxJsonToken
 pxJsonPeekSymbol(PxReader* reader, PxArena* arena)
 {
-    pxint offset = 1;
-    pxu8  byte   = pxReaderPeek(reader, 0);
+    pxiword offset = 1;
+    pxu8    byte   = pxReaderPeek(reader, 0);
 
     PxString8 string = pxString8FromUnicode(arena, byte);
 
     switch (byte) {
         case PX_ASCII_BRACE_LEFT:
-            return pxJsonTokenObjectOpen(string);
+            return pxJsonTokenObjectOpen();
 
         case PX_ASCII_BRACE_RIGHT:
-            return pxJsonTokenObjectClose(string);
+            return pxJsonTokenObjectClose();
 
         case PX_ASCII_SQUARE_LEFT:
-            return pxJsonTokenArrayOpen(string);
+            return pxJsonTokenArrayOpen();
 
         case PX_ASCII_SQUARE_RIGHT:
-            return pxJsonTokenArrayClose(string);
+            return pxJsonTokenArrayClose();
 
         case PX_ASCII_COLON:
-            return pxJsonTokenColon(string);
+            return pxJsonTokenColon();
 
         case PX_ASCII_COMMA:
-            return pxJsonTokenComma(string);
+            return pxJsonTokenComma();
 
         default: break;
     }
 
-    PxString8 error = pxString8Copy(arena, pxStr8("Unkown symbol"));
+    PxString8 message =
+        pxString8Copy(arena, pxs8("Unkown symbol"));
 
-    return pxJsonTokenError(string, error);
+    return pxJsonTokenError(string, message);
 }
 
 PxJsonToken
 pxJsonPeekString(PxReader* reader, PxArena* arena)
 {
-    pxint offset = 0;
-    pxu8  byte   = pxReaderPeek(reader, offset);
+    pxiword offset = 0;
+    pxu8    byte   = pxReaderPeek(reader, offset);
 
     if (byte != PX_ASCII_QUOTE) {
-        PxString8 error = pxString8Copy(arena,
-            pxStr8("Invalid string, expected opening {\"}"));
+        PxString8 message = pxString8Copy(arena,
+            pxs8("Invalid string, expected opening {\"}"));
 
-        PxString8 string = pxString8FromUnicode(arena, byte);
+        PxString8 subject = pxString8FromUnicode(arena, byte);
 
-        return pxJsonTokenError(string, error);
+        return pxJsonTokenError(subject, message);
     }
 
     do {
@@ -255,12 +271,12 @@ pxJsonPeekString(PxReader* reader, PxArena* arena)
     } while (byte != PX_ASCII_QUOTE);
 
     if (byte != PX_ASCII_QUOTE) {
-        PxString8 error = pxString8Copy(arena,
-            pxStr8("Invalid string, expected closing {\"}"));
+        PxString8 message = pxString8Copy(arena,
+            pxs8("Invalid string, expected closing {\"}"));
 
-        PxString8 string = pxString8FromUnicode(arena, byte);
+        PxString8 subject = pxString8FromUnicode(arena, byte);
 
-        return pxJsonTokenError(string, error);
+        return pxJsonTokenError(subject, message);
     }
 
     PxString8 string = pxReaderPeekString(reader, arena, offset);
@@ -272,10 +288,10 @@ pxJsonPeekString(PxReader* reader, PxArena* arena)
 PxJsonToken
 pxJsonPeekNumber(PxReader* reader, PxArena* arena)
 {
-    pxint offset = 0;
-    pxu8  byte   = pxReaderPeek(reader, offset);
+    pxiword offset = 0;
+    pxu8    byte   = pxReaderPeek(reader, offset);
 
-    PxJsonToken result = pxJsonTokenNone();
+    PxJsonTokenType type = PX_JSON_TOKEN_NONE;
 
     while (pxAsciiIsNumeric(byte, 10) != 0) {
         switch (byte) {
@@ -290,19 +306,19 @@ pxJsonPeekNumber(PxReader* reader, PxArena* arena)
             case PX_ASCII_SEVEN:
             case PX_ASCII_EIGHT:
             case PX_ASCII_NINE:
-                if (result.type == PX_JSON_TOKEN_NONE)
-                    result.type = PX_JSON_TOKEN_UNSIGNED;
+                if (type == PX_JSON_TOKEN_NONE)
+                    type = PX_JSON_TOKEN_UNSIGNED;
             break;
 
             case PX_ASCII_MINUS:
-                if (result.type == PX_JSON_TOKEN_NONE)
-                    result.type = PX_JSON_TOKEN_INTEGER;
+                if (type == PX_JSON_TOKEN_NONE)
+                    type = PX_JSON_TOKEN_INTEGER;
             break;
 
             case PX_ASCII_POINT:
             case PX_ASCII_LOWER_E:
             case PX_ASCII_UPPER_E:
-                result.type = PX_JSON_TOKEN_FLOATING;
+                type = PX_JSON_TOKEN_FLOATING;
             break;
 
             default: break;
@@ -312,52 +328,40 @@ pxJsonPeekNumber(PxReader* reader, PxArena* arena)
         byte    = pxReaderPeek(reader, offset);
     }
 
-    PxFormatOptions options =
-        pxFormatOptions(10, PX_FORMAT_FLAG_LEADING_PLUS);
-
     PxString8 string = pxReaderPeekString(reader, arena, offset);
 
-    result.string = string;
-    result.length = string.length;
+    switch (type) {
+        case PX_JSON_TOKEN_UNSIGNED:
+            return pxJsonTokenUnsigned(string);
 
-    switch (result.type) {
-        case PX_JSON_TOKEN_UNSIGNED: {
-            if (pxUnsigFromString8(&result.uvalue, options, string) != 0)
-                return result;
-        } break;
+        case PX_JSON_TOKEN_INTEGER:
+            return pxJsonTokenInteger(string);
 
-        case PX_JSON_TOKEN_INTEGER: {
-            if (pxIntFromString8(&result.ivalue, options, string) != 0)
-                return result;
-        } break;
-
-        case PX_JSON_TOKEN_FLOATING: {
-            if (1 /* pxFloatFromString8(&result.fvalue, options, string) != 0 */)
-                return result;
-        } break;
+        case PX_JSON_TOKEN_FLOATING:
+            return pxJsonTokenFloating(string);
 
         default: break;
     }
 
-    PxString8 error = pxString8Copy(arena,
-        pxStr8("Invalid number, syntactic or overflow"));
+    PxString8 message = pxString8Copy(arena,
+        pxs8("Invalid number, syntactic or overflow"));
 
-    return pxJsonTokenError(string, error);
+    return pxJsonTokenError(string, message);
 }
 
 PxJsonToken
 pxJsonPeekWord(PxReader* reader, PxArena* arena)
 {
-    pxint offset = 0;
-    pxu8  byte   = pxReaderPeek(reader, offset);
+    pxiword offset = 0;
+    pxu8    byte   = pxReaderPeek(reader, offset);
 
     if (pxAsciiIsLetter(byte) == 0) {
-        PxString8 error = pxString8Copy(arena,
-            pxStr8("Invalid key word, expected opening letter"));
+        PxString8 subject = pxString8Copy(arena,
+            pxs8("Invalid key word, expected opening letter"));
 
-        PxString8 string = pxString8FromUnicode(arena, byte);
+        PxString8 message = pxString8FromUnicode(arena, byte);
 
-        return pxJsonTokenError(string, error);
+        return pxJsonTokenError(subject, message);
     }
 
     do {
@@ -367,18 +371,19 @@ pxJsonPeekWord(PxReader* reader, PxArena* arena)
 
     PxString8 string = pxReaderPeekString(reader, arena, offset);
 
-    if (pxString8IsEqual(string, pxStr8("true")) != 0)
+    if (pxString8IsEqual(string, pxs8("true")) != 0)
         return pxJsonTokenBoolean(string, 1);
 
-    if (pxString8IsEqual(string, pxStr8("false")) != 0)
+    if (pxString8IsEqual(string, pxs8("false")) != 0)
         return pxJsonTokenBoolean(string, 0);
 
-    if (pxString8IsEqual(string, pxStr8("null")) != 0)
+    if (pxString8IsEqual(string, pxs8("null")) != 0)
         return pxJsonTokenNull(string);
 
-    PxString8 error = pxString8Copy(arena, pxStr8("Invalid key word"));
+    PxString8 message =
+        pxString8Copy(arena, pxs8("Invalid key word"));
 
-    return pxJsonTokenError(string, error);
+    return pxJsonTokenError(string, message);
 }
 
 PxJsonToken
@@ -431,10 +436,10 @@ pxJsonNext(PxReader* reader, PxArena* arena)
     }
 
     if (result.type == PX_JSON_TOKEN_NONE) {
-        PxString8 error  = pxString8Copy(arena, pxStr8("Unkown symbol"));
-        PxString8 string = pxString8FromUnicode(arena, byte);
+        PxString8 message = pxString8Copy(arena, pxs8("Unkown symbol"));
+        PxString8 subject = pxString8FromUnicode(arena, byte);
 
-        result = pxJsonTokenError(string, error);
+        result = pxJsonTokenError(subject, message);
     } else
         pxReaderDrop(reader, result.length);
 
@@ -444,8 +449,8 @@ pxJsonNext(PxReader* reader, PxArena* arena)
 pxu8
 pxJsonSkipSpaces(PxReader* reader)
 {
-    pxint offset = 0;
-    pxu8  byte   = pxReaderPeek(reader, 0);
+    pxiword offset = 0;
+    pxu8    byte   = pxReaderPeek(reader, 0);
 
     while (pxAsciiIsSpace(byte) != 0) {
         offset += 1;

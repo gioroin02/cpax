@@ -38,23 +38,23 @@
 
 typedef struct
 {
-    pxu8* memory;
-    pxint length;
-    pxint stride;
-    pxint size;
-    pxint head;
-    pxint tail;
+    pxu8*   memory;
+    pxiword length;
+    pxiword stride;
+    pxiword size;
+    pxiword head;
+    pxiword tail;
 }
 PxQueue;
 
 PxQueue
-pxQueueReserveMemory(PxArena* arena, pxint length, pxint stride);
+pxQueueReserveMemory(PxArena* arena, pxiword length, pxiword stride);
 
 PxQueue
 pxQueueCopy(PxArena* arena, PxQueue* value);
 
 PxQueue
-pxQueueCopyAmount(PxArena* arena, PxQueue* value, pxint amount);
+pxQueueCopyAmount(PxArena* arena, PxQueue* value, pxiword amount);
 
 void
 pxQueueClear(PxQueue* self);
@@ -63,10 +63,10 @@ void
 pxQueueFill(PxQueue* self);
 
 pxb8
-pxQueueInsertHeadMemory(PxQueue* self, void* memory, pxint stride);
+pxQueueInsertHeadMemory(PxQueue* self, void* memory, pxiword stride);
 
 pxb8
-pxQueueInsertTailMemory(PxQueue* self, void* memory, pxint stride);
+pxQueueInsertTailMemory(PxQueue* self, void* memory, pxiword stride);
 
 pxb8
 pxQueueCreateHead(PxQueue* self);
@@ -75,10 +75,10 @@ pxb8
 pxQueueCreateTail(PxQueue* self);
 
 pxb8
-pxQueueRemoveHeadMemory(PxQueue* self, void* memory, pxint stride);
+pxQueueRemoveHeadMemory(PxQueue* self, void* memory, pxiword stride);
 
 pxb8
-pxQueueRemoveTailMemory(PxQueue* self, void* memory, pxint stride);
+pxQueueRemoveTailMemory(PxQueue* self, void* memory, pxiword stride);
 
 pxb8
 pxQueueDropHead(PxQueue* self);
@@ -87,21 +87,21 @@ pxb8
 pxQueueDropTail(PxQueue* self);
 
 pxb8
-pxQueueUpdateMemory(PxQueue* self, pxint index, void* memory, pxint stride);
+pxQueueUpdateMemory(PxQueue* self, pxiword index, void* memory, pxiword stride);
 
 pxb8
-pxQueueUpdateHeadMemory(PxQueue* self, void* memory, pxint stride);
+pxQueueUpdateHeadMemory(PxQueue* self, void* memory, pxiword stride);
 
 pxb8
-pxQueueUpdateTailMemory(PxQueue* self, void* memory, pxint stride);
+pxQueueUpdateTailMemory(PxQueue* self, void* memory, pxiword stride);
 
 pxb8
-pxQueueReadMemory(PxQueue* self, pxint index, void* memory, pxint stride);
+pxQueueReadMemory(PxQueue* self, pxiword index, void* memory, pxiword stride);
 
 pxb8
-pxQueueReadHeadMemory(PxQueue* self, void* memory, pxint stride);
+pxQueueReadHeadMemory(PxQueue* self, void* memory, pxiword stride);
 
 pxb8
-pxQueueReadTailMemory(PxQueue* self, void* memory, pxint stride);
+pxQueueReadTailMemory(PxQueue* self, void* memory, pxiword stride);
 
 #endif // PX_STRUCTURE_QUEUE_H

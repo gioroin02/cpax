@@ -27,20 +27,27 @@ typedef enum PxJsonTokenType
 }
 PxJsonTokenType;
 
+typedef struct PxJsonTokenError
+{
+    PxString8 message;
+    PxString8 subject;
+}
+PxJsonTokenError;
+
 typedef struct PxJsonToken
 {
     PxJsonTokenType type;
-
-    PxString8 string;
-    pxint     length;
+    pxiword         length;
 
     union
     {
-        PxString8 error;
-        pxunsig   uvalue;
-        pxint     ivalue;
-        pxfloat   fvalue;
-        pxbool    bvalue;
+        PxJsonTokenError error;
+
+        PxString8 svalue;
+        pxuword   uvalue;
+        pxiword   ivalue;
+        pxfword   fvalue;
+        pxbword   bvalue;
     };
 }
 PxJsonToken;
@@ -49,40 +56,40 @@ PxJsonToken
 pxJsonTokenNone();
 
 PxJsonToken
-pxJsonTokenError(PxString8 string, PxString8 error);
+pxJsonTokenError(PxString8 subject, PxString8 message);
 
 PxJsonToken
-pxJsonTokenObjectOpen(PxString8 string);
+pxJsonTokenObjectOpen();
 
 PxJsonToken
-pxJsonTokenObjectClose(PxString8 string);
+pxJsonTokenObjectClose();
 
 PxJsonToken
-pxJsonTokenArrayOpen(PxString8 string);
+pxJsonTokenArrayOpen();
 
 PxJsonToken
-pxJsonTokenArrayClose(PxString8 string);
+pxJsonTokenArrayClose();
 
 PxJsonToken
-pxJsonTokenColon(PxString8 string);
+pxJsonTokenColon();
 
 PxJsonToken
-pxJsonTokenComma(PxString8 string);
+pxJsonTokenComma();
 
 PxJsonToken
 pxJsonTokenString(PxString8 string);
 
 PxJsonToken
-pxJsonTokenUnsigned(PxString8 string, pxunsig value);
+pxJsonTokenUnsigned(PxString8 string);
 
 PxJsonToken
-pxJsonTokenInteger(PxString8 string, pxint value);
+pxJsonTokenInteger(PxString8 string);
 
 PxJsonToken
-pxJsonTokenFloating(PxString8 string, pxfloat vlaue);
+pxJsonTokenFloating(PxString8 string);
 
 PxJsonToken
-pxJsonTokenBoolean(PxString8 string, pxbool value);
+pxJsonTokenBoolean(PxString8 string, pxbword value);
 
 PxJsonToken
 pxJsonTokenNull(PxString8 string);

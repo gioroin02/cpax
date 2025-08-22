@@ -3,33 +3,33 @@
 
 #include "number.h"
 
-#define PX_MEMORY_KB pxCast(pxint, 1000)
-#define PX_MEMORY_MB pxCast(pxint, 1000 * 1000)
-#define PX_MEMORY_GB pxCast(pxint, 1000 * 1000 * 1000)
+#define PX_MEMORY_KB pxCast(pxiword, 1000)
+#define PX_MEMORY_MB pxCast(pxiword, 1000 * 1000)
+#define PX_MEMORY_GB pxCast(pxiword, 1000 * 1000 * 1000)
 
-#define PX_MEMORY_KIB pxCast(pxint, 1024)
-#define PX_MEMORY_MIB pxCast(pxint, 1024 * 1024)
-#define PX_MEMORY_GIB pxCast(pxint, 1024 * 1024 * 1024)
-
-void*
-pxMemoryZero(void* memory, pxint amount, pxint stride);
+#define PX_MEMORY_KIB pxCast(pxiword, 1024)
+#define PX_MEMORY_MIB pxCast(pxiword, 1024 * 1024)
+#define PX_MEMORY_GIB pxCast(pxiword, 1024 * 1024 * 1024)
 
 void*
-pxMemoryFlip(void* memory, pxint amount, pxint stride);
+pxMemoryZero(void* memory, pxiword amount, pxiword stride);
 
 void*
-pxMemoryCopy(void* memory, void* value, pxint amount, pxint stride);
+pxMemoryFlip(void* memory, pxiword amount, pxiword stride);
 
 void*
-pxMemoryCopyFlipped(void* memory, void* value, pxint amount, pxint stride);
+pxMemoryCopy(void* memory, void* value, pxiword amount, pxiword stride);
 
 void*
-pxMemoryCopyBack(void* memory, pxint amount, pxint offset, pxint stride);
+pxMemoryCopyFlipped(void* memory, void* value, pxiword amount, pxiword stride);
 
 void*
-pxMemoryCopyForw(void* memory, pxint amount, pxint offset, pxint stride);
+pxMemoryCopyBack(void* memory, pxiword amount, pxiword offset, pxiword stride);
+
+void*
+pxMemoryCopyForw(void* memory, pxiword amount, pxiword offset, pxiword stride);
 
 pxb8
-pxMemoryIsEqual(void* memory, void* value, pxint amount, pxint stride);
+pxMemoryIsEqual(void* memory, void* value, pxiword amount, pxiword stride);
 
 #endif // PX_BASE_MEMORY_H

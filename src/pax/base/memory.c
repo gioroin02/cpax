@@ -4,26 +4,26 @@
 #include "memory.h"
 
 void*
-pxMemoryZero(void* memory, pxint amount, pxint stride)
+pxMemoryZero(void* memory, pxiword amount, pxiword stride)
 {
     if (amount <= 0 || stride <= 0) return memory;
 
-    for (pxint i = 0; i < amount * stride; i += 1)
+    for (pxiword i = 0; i < amount * stride; i += 1)
         pxCast(pxu8*, memory)[i] = 0;
 
     return memory;
 }
 
 void*
-pxMemoryFlip(void* memory, pxint amount, pxint stride)
+pxMemoryFlip(void* memory, pxiword amount, pxiword stride)
 {
     if (amount <= 0 || stride <= 0) return memory;
 
-    pxint l = 0;
-    pxint r = stride * (amount - 1);
+    pxiword l = 0;
+    pxiword r = stride * (amount - 1);
 
     for (; l < r; l += stride, r -= stride) {
-        for (pxint i = 0; i < stride; i += 1) {
+        for (pxiword i = 0; i < stride; i += 1) {
             pxu8 left  = pxCast(pxu8*, memory)[l + i];
             pxu8 right = pxCast(pxu8*, memory)[r + i];
 
@@ -36,25 +36,25 @@ pxMemoryFlip(void* memory, pxint amount, pxint stride)
 }
 
 void*
-pxMemoryCopy(void* memory, void* value, pxint amount, pxint stride)
+pxMemoryCopy(void* memory, void* value, pxiword amount, pxiword stride)
 {
     if (amount <= 0 || stride <= 0) return memory;
 
-    for (pxint i = 0; i < amount * stride; i += 1)
+    for (pxiword i = 0; i < amount * stride; i += 1)
         pxCast(pxu8*, memory)[i] = pxCast(pxu8*, value)[i];
 
     return memory;
 }
 
 void*
-pxMemoryCopyFlipped(void* memory, void* value, pxint amount, pxint stride)
+pxMemoryCopyFlipped(void* memory, void* value, pxiword amount, pxiword stride)
 {
     if (amount <= 0 || stride <= 0) return memory;
 
-    for (pxint i = 0; i < amount; i += 1) {
-        pxint k = (amount - i - 1);
+    for (pxiword i = 0; i < amount; i += 1) {
+        pxiword k = (amount - i - 1);
 
-        for (pxint j = 0; j < stride; j += 1) {
+        for (pxiword j = 0; j < stride; j += 1) {
             pxCast(pxu8*, memory)[i * stride + j] =
                 pxCast(pxu8*, value)[k * stride + j];
         }
@@ -64,39 +64,39 @@ pxMemoryCopyFlipped(void* memory, void* value, pxint amount, pxint stride)
 }
 
 void*
-pxMemoryCopyBack(void* memory, pxint amount, pxint offset, pxint stride)
+pxMemoryCopyBack(void* memory, pxiword amount, pxiword offset, pxiword stride)
 {
     if (amount <= 0 || stride <= 0 || offset <= 0)
         return memory;
 
     pxu8* result = pxCast(pxu8*, memory) - offset * stride;
 
-    for (pxint i = 0; i < amount * stride; i += 1)
+    for (pxiword i = 0; i < amount * stride; i += 1)
         result[i] = pxCast(pxu8*, memory)[i];
 
     return result;
 }
 
 void*
-pxMemoryCopyForw(void* memory, pxint amount, pxint offset, pxint stride)
+pxMemoryCopyForw(void* memory, pxiword amount, pxiword offset, pxiword stride)
 {
     if (amount <= 0 || stride <= 0 || offset <= 0)
         return memory;
 
     pxu8* result = pxCast(pxu8*, memory) + offset * stride;
 
-    for (pxint i = amount * stride; i > 0; i -= 1)
+    for (pxiword i = amount * stride; i > 0; i -= 1)
         result[i - 1] = pxCast(pxu8*, memory)[i - 1];
 
     return result;
 }
 
 pxb8
-pxMemoryIsEqual(void* memory, void* value, pxint amount, pxint stride)
+pxMemoryIsEqual(void* memory, void* value, pxiword amount, pxiword stride)
 {
     if (amount <= 0 || stride <= 0) return 0;
 
-    for (pxint i = 0; i < amount * stride; i += 1) {
+    for (pxiword i = 0; i < amount * stride; i += 1) {
         if (pxCast(pxu8*, memory)[i] != pxCast(pxu8*, value)[i])
             return 0;
     }

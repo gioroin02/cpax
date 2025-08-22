@@ -3,7 +3,7 @@
 
 #include "buffer8.h"
 
-typedef pxint (PxWriterProc) (void*, PxBuffer8*);
+typedef pxiword (PxWriterProc) (void*, PxBuffer8*);
 
 typedef struct PxWriter
 {
@@ -20,13 +20,13 @@ pxBufferWriter(PxBuffer8* self, PxBuffer8* buffer);
 PxBuffer8*
 pxWriterSetBuffer(PxWriter* self, PxBuffer8* buffer);
 
-pxint
+pxiword
 pxWriterFlush(PxWriter* self);
 
-pxint
+pxiword
 pxWriterByte(PxWriter* self, pxu8 value);
 
-pxint
+pxiword
 pxWriterString(PxWriter* self, PxString8 value);
 
 #endif // PX_STREAM_WRITER_H

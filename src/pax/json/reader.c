@@ -4,7 +4,7 @@
 #include "reader.h"
 
 PxJsonReader
-pxJsonReaderMake(PxArena* arena, pxint length, PxReader reader)
+pxJsonReaderMake(PxArena* arena, pxiword length, PxReader reader)
 {
     PxQueue stack =
         pxQueueReserve(arena, PxJsonLayerType, length);
@@ -33,7 +33,8 @@ pxJsonReaderNext(PxJsonReader* self, PxArena* arena)
 
         switch (token.type) {
             case PX_JSON_TOKEN_ERROR: {
-                result = pxJsonEventError(token.string, token.error);
+                result = pxJsonEventError(token.error.subject,
+                    token.error.message);
             } break;
 
             case PX_JSON_TOKEN_OBJECT_OPEN: {
@@ -108,9 +109,9 @@ pxJsonReaderNext(PxJsonReader* self, PxArena* arena)
 
             case PX_JSON_TOKEN_STRING: {
                 if (parent != PX_JSON_LAYER_OBJECT || self->colon != 0)
-                    result = pxJsonEventString(token.string, self->name);
+                    result = pxJsonEventString(token.svalue, self->name);
                 else
-                    self->name = token.string;
+                    self->name = token.svalue;
 
                 self->colon = 0;
                 self->comma = 0;

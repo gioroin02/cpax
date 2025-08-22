@@ -6,7 +6,7 @@
 pxb8
 pxUtf8Encode(PxUtf8* self, pxi32 value)
 {
-    pxint units = pxUtf8UnitsToWrite(value);
+    pxiword units = pxUtf8UnitsToWrite(value);
 
     pxMemoryZero(self->memory, PX_UTF8_MAX_UNITS, 1);
 
@@ -41,8 +41,8 @@ pxUtf8Encode(PxUtf8* self, pxi32 value)
     return 1;
 }
 
-pxint
-pxUtf8WriteMemoryForw(pxu8* memory, pxint length, pxint index, pxi32 value)
+pxiword
+pxUtf8WriteMemoryForw(pxu8* memory, pxiword length, pxiword index, pxi32 value)
 {
     PxUtf8 utf8 = {0};
 
@@ -51,14 +51,14 @@ pxUtf8WriteMemoryForw(pxu8* memory, pxint length, pxint index, pxi32 value)
     if (index < 0 || index + utf8.size > length)
         return 0;
 
-    for (pxint i = 0; i < utf8.size; i += 1)
+    for (pxiword i = 0; i < utf8.size; i += 1)
         memory[index + i] = utf8.memory[i];
 
     return utf8.size;
 }
 
-pxint
-pxUtf8WriteMemoryBack(pxu8* memory, pxint length, pxint index, pxi32 value)
+pxiword
+pxUtf8WriteMemoryBack(pxu8* memory, pxiword length, pxiword index, pxi32 value)
 {
     PxUtf8 utf8 = {0};
 
@@ -67,7 +67,7 @@ pxUtf8WriteMemoryBack(pxu8* memory, pxint length, pxint index, pxi32 value)
     if (index - utf8.size < 0 || index >= length)
         return 0;
 
-    for (pxint i = 0; i < utf8.size; i += 1)
+    for (pxiword i = 0; i < utf8.size; i += 1)
         memory[index - utf8.size + i] = utf8.memory[i];
 
     return utf8.size;
@@ -76,8 +76,8 @@ pxUtf8WriteMemoryBack(pxu8* memory, pxint length, pxint index, pxi32 value)
 pxb8
 pxUtf8Decode(PxUtf8* self, pxi32* value)
 {
-    pxint units = pxUtf8UnitsToRead(self->memory[0]);
-    pxi32 temp  = 0;
+    pxiword units = pxUtf8UnitsToRead(self->memory[0]);
+    pxi32   temp  = 0;
 
     if (self->size != units) return 0;
 
@@ -124,8 +124,8 @@ pxUtf8Decode(PxUtf8* self, pxi32* value)
     return 1;
 }
 
-pxint
-pxUtf8ReadMemoryForw(pxu8* memory, pxint length, pxint index, pxi32* value)
+pxiword
+pxUtf8ReadMemoryForw(pxu8* memory, pxiword length, pxiword index, pxi32* value)
 {
     PxUtf8 utf8 = {0};
 
@@ -135,7 +135,7 @@ pxUtf8ReadMemoryForw(pxu8* memory, pxint length, pxint index, pxi32* value)
     if (utf8.size <= 0 || index + utf8.size > length)
         return 0;
 
-    for (pxint i = 0; i < utf8.size; i += 1)
+    for (pxiword i = 0; i < utf8.size; i += 1)
         utf8.memory[i] = memory[index + i];
 
     if (pxUtf8Decode(&utf8, value) == 0) return 0;
@@ -143,11 +143,11 @@ pxUtf8ReadMemoryForw(pxu8* memory, pxint length, pxint index, pxi32* value)
     return utf8.size;
 }
 
-pxint
-pxUtf8ReadMemoryBack(pxu8* memory, pxint length, pxint index, pxi32* value)
+pxiword
+pxUtf8ReadMemoryBack(pxu8* memory, pxiword length, pxiword index, pxi32* value)
 {
-    PxUtf8 utf8  = {0};
-    pxint  start = index;
+    PxUtf8  utf8  = {0};
+    pxiword start = index;
 
     if (index < 0 || index >= length) return 0;
 
@@ -163,7 +163,7 @@ pxUtf8ReadMemoryBack(pxu8* memory, pxint length, pxint index, pxi32* value)
     if (utf8.size != pxUtf8UnitsToRead(memory[index]))
         return 0;
 
-    for (pxint i = 0; i < utf8.size; i += 1)
+    for (pxiword i = 0; i < utf8.size; i += 1)
         utf8.memory[i] = memory[index + i];
 
     if (pxUtf8Decode(&utf8, value) == 0) return 0;
@@ -171,7 +171,7 @@ pxUtf8ReadMemoryBack(pxu8* memory, pxint length, pxint index, pxi32* value)
     return utf8.size;
 }
 
-pxint
+pxiword
 pxUtf8UnitsToWrite(pxi32 value)
 {
     if (value >=     0x0 && value <=     0x7f) return 1;
@@ -183,7 +183,7 @@ pxUtf8UnitsToWrite(pxi32 value)
     return 0;
 }
 
-pxint
+pxiword
 pxUtf8UnitsToRead(pxu8 value)
 {
     if (value >=  0x0 && value <= 0x7f) return 1;
@@ -201,7 +201,7 @@ pxUtf8IsTrailing(pxu8 value)
 }
 
 pxb8
-pxUtf8IsOverlong(pxi32 value, pxint units)
+pxUtf8IsOverlong(pxi32 value, pxiword units)
 {
     if (value >=     0xc080 && value <=     0xc1ff && units == 2) return 1;
     if (value >=   0xe08080 && value <=   0xe09fff && units == 3) return 1;

@@ -4,7 +4,7 @@
 #include "number.h"
 
 pxu8
-pxMagnitudeInt8(pxi8 value)
+pxMagnitudeI8(pxi8 value)
 {
     if (value < 0)
         return -pxCast(pxu8, value);
@@ -13,7 +13,7 @@ pxMagnitudeInt8(pxi8 value)
 }
 
 pxu16
-pxMagnitudeInt16(pxi16 value)
+pxMagnitudeI16(pxi16 value)
 {
     if (value < 0)
         return -pxCast(pxu16, value);
@@ -22,7 +22,7 @@ pxMagnitudeInt16(pxi16 value)
 }
 
 pxu32
-pxMagnitudeInt32(pxi32 value)
+pxMagnitudeI32(pxi32 value)
 {
     if (value < 0)
         return -pxCast(pxu32, value);
@@ -31,7 +31,7 @@ pxMagnitudeInt32(pxi32 value)
 }
 
 pxu64
-pxMagnitudeInt64(pxi64 value)
+pxMagnitudeI64(pxi64 value)
 {
     if (value < 0)
         return -pxCast(pxu64, value);
@@ -39,17 +39,17 @@ pxMagnitudeInt64(pxi64 value)
     return pxCast(pxu64, value);
 }
 
-pxunsig
-pxMagnitudeInt(pxint value)
+pxuword
+pxMagnitudeIWord(pxiword value)
 {
     if (value < 0)
-        return -pxCast(pxunsig, value);
+        return -pxCast(pxuword, value);
 
-    return pxCast(pxunsig, value);
+    return pxCast(pxuword, value);
 }
 
 pxf32
-pxMagnitudeFloat32(pxf32 value)
+pxMagnitudeF32(pxf32 value)
 {
     pxu32* bits =
         pxCast(pxu32*, &value);
@@ -60,7 +60,7 @@ pxMagnitudeFloat32(pxf32 value)
 }
 
 pxf64
-pxMagnitudeFloat64(pxf64 value)
+pxMagnitudeF64(pxf64 value)
 {
     pxu64* bits =
         pxCast(pxu64*, &value);
@@ -70,19 +70,19 @@ pxMagnitudeFloat64(pxf64 value)
     return value;
 }
 
-pxfloat
-pxMagnitudeFloat(pxfloat value)
+pxfword
+pxMagnitudeFWord(pxfword value)
 {
-    pxunsig* bits =
-        pxCast(pxunsig*, &value);
+    pxuword* bits =
+        pxCast(pxuword*, &value);
 
-    *bits &= ~PX_FLOAT_SIGN_MASK;
+    *bits &= ~PX_FWORD_SIGN_MASK;
 
     return value;
 }
 
 pxi8
-pxDirectionInt8(pxi8 value)
+pxDirectionI8(pxi8 value)
 {
     if (value > 0) return +1;
     if (value < 0) return -1;
@@ -91,7 +91,7 @@ pxDirectionInt8(pxi8 value)
 }
 
 pxi8
-pxDirectionInt16(pxi16 value)
+pxDirectionI16(pxi16 value)
 {
     if (value > 0) return +1;
     if (value < 0) return -1;
@@ -100,7 +100,7 @@ pxDirectionInt16(pxi16 value)
 }
 
 pxi8
-pxDirectionInt32(pxi32 value)
+pxDirectionI32(pxi32 value)
 {
     if (value > 0) return +1;
     if (value < 0) return -1;
@@ -109,7 +109,7 @@ pxDirectionInt32(pxi32 value)
 }
 
 pxi8
-pxDirectionInt64(pxi64 value)
+pxDirectionI64(pxi64 value)
 {
     if (value > 0) return +1;
     if (value < 0) return -1;
@@ -118,7 +118,7 @@ pxDirectionInt64(pxi64 value)
 }
 
 pxi8
-pxDirectionInt(pxint value)
+pxDirectionIWord(pxiword value)
 {
     if (value > 0) return +1;
     if (value < 0) return -1;
@@ -127,7 +127,7 @@ pxDirectionInt(pxint value)
 }
 
 pxi8
-pxDirectionFloat32(pxf32 value)
+pxDirectionF32(pxf32 value)
 {
     if (value > 0) return +1;
     if (value < 0) return -1;
@@ -136,7 +136,7 @@ pxDirectionFloat32(pxf32 value)
 }
 
 pxi8
-pxDirectionFloat64(pxf64 value)
+pxDirectionF64(pxf64 value)
 {
     if (value > 0) return +1;
     if (value < 0) return -1;
@@ -145,7 +145,7 @@ pxDirectionFloat64(pxf64 value)
 }
 
 pxi8
-pxDirectionFloat(pxfloat value)
+pxDirectionFWord(pxfword value)
 {
     if (value > 0) return +1;
     if (value < 0) return -1;

@@ -29,10 +29,10 @@ pxWindowsSocketTcpConnect(PxWindowsSocketTcp* self, PxAddress address, pxu16 por
 PxWindowsSocketTcp*
 pxWindowsSocketTcpAccept(PxWindowsSocketTcp* self, PxArena* arena);
 
-pxint
-pxWindowsSocketTcpWriteMemory(PxWindowsSocketTcp* self, pxu8* memory, pxint length);
+pxiword
+pxWindowsSocketTcpWriteMemory(PxWindowsSocketTcp* self, pxu8* memory, pxiword length);
 
-pxint
-pxWindowsSocketTcpReadMemory(PxWindowsSocketTcp* self, pxu8* memory, pxint length);
+pxiword
+pxWindowsSocketTcpReadMemory(PxWindowsSocketTcp* self, pxu8* memory, pxiword length);
 
 #endif // PX_WINDOWS_NETWORK_SOCKET_TCP_H

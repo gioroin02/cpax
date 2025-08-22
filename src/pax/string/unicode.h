@@ -155,10 +155,10 @@ pxb8
 pxAsciiIsSpace(pxi32 value);
 
 pxb8
-pxAsciiIsNumeric(pxi32 value, pxunsig radix);
+pxAsciiIsNumeric(pxi32 value, pxuword radix);
 
 pxb8
-pxAsciiIsDigit(pxi32 value, pxunsig radix);
+pxAsciiIsDigit(pxi32 value, pxuword radix);
 
 pxb8
 pxAsciiIsLetter(pxi32 value);
@@ -170,9 +170,9 @@ pxb8
 pxAsciiIsLetterLower(pxi32 value);
 
 pxi32
-pxAsciiDigitFromValue(pxunsig value, pxunsig radix, pxb8 upper);
+pxAsciiDigitFromValue(pxuword value, pxuword radix, pxb8 upper);
 
-pxunsig
-pxAsciiValueFromDigit(pxi32 value, pxunsig radix);
+pxuword
+pxAsciiValueFromDigit(pxi32 value, pxuword radix);
 
 #endif // PX_STRING_UNICODE_H

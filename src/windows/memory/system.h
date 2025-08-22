@@ -3,11 +3,11 @@
 
 #include "import.h"
 
-pxint
+pxiword
 pxWindowsMemoryPageSize();
 
 PxArena
-pxWindowsMemoryReserve(pxint amount);
+pxWindowsMemoryReserve(pxiword amount);
 
 void
 pxWindowsMemoryRelease(PxArena* arena);

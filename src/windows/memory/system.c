@@ -9,20 +9,20 @@
 
 #include  <windows.h>
 
-pxint
+pxiword
 pxWindowsMemoryPageSize()
 {
     SYSTEM_INFO info = {0};
 
     GetSystemInfo(&info);
 
-    return pxCast(pxint, info.dwPageSize);
+    return pxCast(pxiword, info.dwPageSize);
 }
 
 PxArena
-pxWindowsMemoryReserve(pxint amount)
+pxWindowsMemoryReserve(pxiword amount)
 {
-    pxint stride = pxWindowsMemoryPageSize();
+    pxiword stride = pxWindowsMemoryPageSize();
 
     if (amount <= 0 || stride > PX_U32_MAX / amount)
         return (PxArena) {0};

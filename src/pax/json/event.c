@@ -12,12 +12,14 @@ pxJsonEventNone()
 }
 
 PxJsonEvent
-pxJsonEventError(PxString8 string, PxString8 error)
+pxJsonEventError(PxString8 subject, PxString8 message)
 {
     return (PxJsonEvent) {
         .type   = PX_JSON_EVENT_ERROR,
-        .string = string,
-        .error  = error,
+        .error  = {
+            .message = message,
+            .subject = subject,
+        },
     };
 }
 
@@ -63,17 +65,17 @@ pxJsonEventName(PxString8 name)
 }
 
 PxJsonEvent
-pxJsonEventString(PxString8 string, PxString8 name)
+pxJsonEventString(PxString8 value, PxString8 name)
 {
     return (PxJsonEvent) {
         .type   = PX_JSON_EVENT_STRING,
-        .string = string,
+        .svalue = value,
         .name   = name,
     };
 }
 
 PxJsonEvent
-pxJsonEventUnsigned(pxunsig value, PxString8 name)
+pxJsonEventUnsigned(pxuword value, PxString8 name)
 {
     return (PxJsonEvent) {
         .type   = PX_JSON_EVENT_UNSIGNED,
@@ -83,7 +85,7 @@ pxJsonEventUnsigned(pxunsig value, PxString8 name)
 }
 
 PxJsonEvent
-pxJsonEventInteger(pxint value, PxString8 name)
+pxJsonEventInteger(pxiword value, PxString8 name)
 {
     return (PxJsonEvent) {
         .type   = PX_JSON_EVENT_INTEGER,
@@ -93,7 +95,7 @@ pxJsonEventInteger(pxint value, PxString8 name)
 }
 
 PxJsonEvent
-pxJsonEventFloating(pxfloat value, PxString8 name)
+pxJsonEventFloating(pxfword value, PxString8 name)
 {
     return (PxJsonEvent) {
         .type   = PX_JSON_EVENT_FLOATING,
@@ -103,7 +105,7 @@ pxJsonEventFloating(pxfloat value, PxString8 name)
 }
 
 PxJsonEvent
-pxJsonEventBoolean(pxbool value, PxString8 name)
+pxJsonEventBoolean(pxbword value, PxString8 name)
 {
     return (PxJsonEvent) {
         .type   = PX_JSON_EVENT_BOOLEAN,

@@ -4,7 +4,7 @@
 #include "queue.h"
 
 PxQueue
-pxQueueReserveMemory(PxArena* arena, pxint length, pxint stride)
+pxQueueReserveMemory(PxArena* arena, pxiword length, pxiword stride)
 {
     if (length <= 0 || stride <= 0) return (PxQueue) {0};
 
@@ -26,11 +26,11 @@ pxQueueCopy(PxArena* arena, PxQueue* value)
 }
 
 PxQueue
-pxQueueCopyAmount(PxArena* arena, PxQueue* value, pxint amount)
+pxQueueCopyAmount(PxArena* arena, PxQueue* value, pxiword amount)
 {
     if (value == 0 || amount <= 0) return (PxQueue) {0};
 
-    pxint   stride = value->stride;
+    pxiword stride = value->stride;
     PxQueue result = pxQueueReserveMemory(arena, amount, stride);
 
     if (result.length <= 0) return result;
@@ -38,11 +38,11 @@ pxQueueCopyAmount(PxArena* arena, PxQueue* value, pxint amount)
     result.size = pxMin(result.length, value->size);
     result.tail = result.size;
 
-    for (pxint i = 0; i < result.size; i += 1) {
-        pxint j = (value->head + i) % value->length;
+    for (pxiword i = 0; i < result.size; i += 1) {
+        pxiword j = (value->head + i) % value->length;
 
-        pxMemoryCopy(result.memory + (i * stride),
-            value->memory + (j * stride), 1, stride);
+        pxMemoryCopy(result.memory + i * stride,
+            value->memory + j * stride, 1, stride);
     }
 
     return result;
@@ -59,52 +59,52 @@ pxQueueClear(PxQueue* self)
 void
 pxQueueFill(PxQueue* self)
 {
-    pxint diff = self->length - self->size;
+    pxiword diff = self->length - self->size;
 
     self->size = self->length;
     self->tail = self->head;
 
-    for (pxint i = 0; i < diff; i += 1) {
-        pxint j = (self->head + i) % self->length;
+    for (pxiword i = 0; i < diff; i += 1) {
+        pxiword j = (self->head + i) % self->length;
 
-        pxMemoryZero(self->memory + (i * self->stride),
+        pxMemoryZero(self->memory + i * self->stride,
             1, self->stride);
     }
 }
 
 pxb8
-pxQueueInsertHeadMemory(PxQueue* self, void* memory, pxint stride)
+pxQueueInsertHeadMemory(PxQueue* self, void* memory, pxiword stride)
 {
     if (self->size < 0 || self->size >= self->length)
         return 0;
 
     if (self->stride != stride || memory == 0) return 0;
 
-    pxint prev = self->head + self->length - 1;
+    pxiword prev = self->head + self->length - 1;
 
     self->size += 1;
     self->head  = prev % self->length;
 
-    pxint i = self->head;
+    pxiword i = self->head;
 
-    pxMemoryCopy(self->memory + (i * stride),
+    pxMemoryCopy(self->memory + i * stride,
         memory, 1, stride);
 
     return 1;
 }
 
 pxb8
-pxQueueInsertTailMemory(PxQueue* self, void* memory, pxint stride)
+pxQueueInsertTailMemory(PxQueue* self, void* memory, pxiword stride)
 {
     if (self->size < 0 || self->size >= self->length)
         return 0;
 
     if (self->stride != stride || memory == 0) return 0;
 
-    pxint next = self->tail + 1;
-    pxint i    = self->tail;
+    pxiword next = self->tail + 1;
+    pxiword i    = self->tail;
 
-    pxMemoryCopy(self->memory + (i * stride),
+    pxMemoryCopy(self->memory + i * stride,
         memory, 1, stride);
 
     self->size += 1;
@@ -116,19 +116,19 @@ pxQueueInsertTailMemory(PxQueue* self, void* memory, pxint stride)
 pxb8
 pxQueueCreateHead(PxQueue* self)
 {
-    pxint stride = self->stride;
+    pxiword stride = self->stride;
 
     if (self->size < 0 || self->size >= self->length)
         return 0;
 
-    pxint prev = self->head + self->length - 1;
+    pxiword prev = self->head + self->length - 1;
 
     self->size += 1;
     self->head  = prev % self->length;
 
-    pxint i = self->head;
+    pxiword i = self->head;
 
-    pxMemoryZero(self->memory + (i * stride),
+    pxMemoryZero(self->memory + i * stride,
         1, stride);
 
     return 1;
@@ -137,15 +137,15 @@ pxQueueCreateHead(PxQueue* self)
 pxb8
 pxQueueCreateTail(PxQueue* self)
 {
-    pxint stride = self->stride;
+    pxiword stride = self->stride;
 
     if (self->size < 0 || self->size >= self->length)
         return 0;
 
-    pxint next = self->tail + 1;
-    pxint i    = self->tail;
+    pxiword next = self->tail + 1;
+    pxiword i    = self->tail;
 
-    pxMemoryZero(self->memory + (i * stride),
+    pxMemoryZero(self->memory + i * stride,
         1, stride);
 
     self->size += 1;
@@ -155,17 +155,17 @@ pxQueueCreateTail(PxQueue* self)
 }
 
 pxb8
-pxQueueRemoveHeadMemory(PxQueue* self, void* memory, pxint stride)
+pxQueueRemoveHeadMemory(PxQueue* self, void* memory, pxiword stride)
 {
     if (self->size <= 0 || self->size > self->length)
         return 0;
 
-    pxint next = self->head + 1;
+    pxiword next = self->head + 1;
 
     if (memory != 0) {
-        pxint i = self->head;
+        pxiword i = self->head;
 
-        pxMemoryCopy(memory, self->memory + (i * stride),
+        pxMemoryCopy(memory, self->memory + i * stride,
             1, stride);
     }
 
@@ -176,26 +176,25 @@ pxQueueRemoveHeadMemory(PxQueue* self, void* memory, pxint stride)
 }
 
 pxb8
-pxQueueRemoveTailMemory(PxQueue* self, void* memory, pxint stride)
+pxQueueRemoveTailMemory(PxQueue* self, void* memory, pxiword stride)
 {
     if (self->size <= 0 || self->size > self->length)
         return 0;
 
-    pxint prev = self->tail + self->length - 1;
+    pxiword prev = self->tail + self->length - 1;
 
     self->size -= 1;
     self->tail  = prev % self->length;
 
     if (memory != 0) {
-        pxint i = self->tail;
+        pxiword i = self->tail;
 
-        pxMemoryCopy(memory, self->memory + (i * stride),
+        pxMemoryCopy(memory, self->memory + i * stride,
             1, stride);
     }
 
     return 1;
 }
-
 
 pxb8
 pxQueueDropHead(PxQueue* self)
@@ -203,7 +202,7 @@ pxQueueDropHead(PxQueue* self)
     if (self->size <= 0 || self->size > self->length)
         return 0;
 
-    pxint next = self->head + 1;
+    pxiword next = self->head + 1;
 
     self->size -= 1;
     self->head  = next % self->length;
@@ -217,7 +216,7 @@ pxQueueDropTail(PxQueue* self)
     if (self->size <= 0 || self->size > self->length)
         return 0;
 
-    pxint prev = self->tail + self->length - 1;
+    pxiword prev = self->tail + self->length - 1;
 
     self->size -= 1;
     self->tail  = prev % self->length;
@@ -226,35 +225,35 @@ pxQueueDropTail(PxQueue* self)
 }
 
 pxb8
-pxQueueUpdateMemory(PxQueue* self, pxint index, void* memory, pxint stride)
+pxQueueUpdateMemory(PxQueue* self, pxiword index, void* memory, pxiword stride)
 {
     if (index < 0 || index >= self->size)
         return 0;
 
     if (stride != self->stride || memory == 0) return 0;
 
-    pxint i = (self->head + index) % self->length;
+    pxiword i = (self->head + index) % self->length;
 
-    pxMemoryCopy(self->memory + (i * stride),
+    pxMemoryCopy(self->memory + i * stride,
         memory, 1, stride);
 
     return 1;
 }
 
 pxb8
-pxQueueUpdateHeadMemory(PxQueue* self, void* memory, pxint stride)
+pxQueueUpdateHeadMemory(PxQueue* self, void* memory, pxiword stride)
 {
     return pxQueueUpdateMemory(self, 0, memory, stride);
 }
 
 pxb8
-pxQueueUpdateTailMemory(PxQueue* self, void* memory, pxint stride)
+pxQueueUpdateTailMemory(PxQueue* self, void* memory, pxiword stride)
 {
     return pxQueueUpdateMemory(self, self->size - 1, memory, stride);
 }
 
 pxb8
-pxQueueReadMemory(PxQueue* self, pxint index, void* memory, pxint stride)
+pxQueueReadMemory(PxQueue* self, pxiword index, void* memory, pxiword stride)
 {
     if (index < 0 || index >= self->size)
         return 0;
@@ -262,23 +261,23 @@ pxQueueReadMemory(PxQueue* self, pxint index, void* memory, pxint stride)
     if (stride != self->stride) return 0;
 
     if (memory != 0) {
-        pxint i = (self->head + index) % self->length;
+        pxiword i = (self->head + index) % self->length;
 
-        pxMemoryCopy(memory,
-            self->memory + (i * stride), 1, stride);
+        pxMemoryCopy(memory, self->memory + i * stride,
+            1, stride);
     }
 
     return 1;
 }
 
 pxb8
-pxQueueReadHeadMemory(PxQueue* self, void* memory, pxint stride)
+pxQueueReadHeadMemory(PxQueue* self, void* memory, pxiword stride)
 {
     return pxQueueReadMemory(self, 0, memory, stride);
 }
 
 pxb8
-pxQueueReadTailMemory(PxQueue* self, void* memory, pxint stride)
+pxQueueReadTailMemory(PxQueue* self, void* memory, pxiword stride)
 {
     return pxQueueReadMemory(self, self->size - 1, memory, stride);
 }

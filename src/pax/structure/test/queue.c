@@ -17,7 +17,7 @@ main(int argc, char** argv)
     pxQueueCreateHead(&queue);
     pxQueueCreateHead(&queue);
 
-    for (pxint i = 0; i < queue.size; i += 1) {
+    for (pxiword i = 0; i < queue.size; i += 1) {
         pxi32 value = 0;
 
         pxQueueRead(&queue, i, pxi32, &value);
@@ -33,7 +33,7 @@ main(int argc, char** argv)
 
     printf("\n");
 
-    for (pxint i = 0; i < queue.size; i += 1) {
+    for (pxiword i = 0; i < queue.size; i += 1) {
         pxi32 value = 0;
 
         pxQueueRead(&queue, i, pxi32, &value);

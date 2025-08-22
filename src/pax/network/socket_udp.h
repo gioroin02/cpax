@@ -29,17 +29,17 @@ pxSocketUdpConnect(PxSocketUdp self, PxAddress address, pxu16 port);
 PxSocketUdp
 pxSocketUdpAccept(PxSocketUdp self, PxArena* arena);
 
-pxint
+pxiword
 pxSocketUdpWrite(PxSocketUdp self, PxBuffer8* buffer);
 
-pxint
-pxSocketUdpWriteMemory(PxSocketUdp self, pxu8* memory, pxint length);
+pxiword
+pxSocketUdpWriteMemory(PxSocketUdp self, pxu8* memory, pxiword length);
 
-pxint
+pxiword
 pxSocketUdpRead(PxSocketUdp self, PxBuffer8* buffer);
 
-pxint
-pxSocketUdpReadMemory(PxSocketUdp self, pxu8* memory, pxint length);
+pxiword
+pxSocketUdpReadMemory(PxSocketUdp self, pxu8* memory, pxiword length);
 
 PxReader
 pxSocketUdpReader(PxSocketUdp self, PxBuffer8* buffer);

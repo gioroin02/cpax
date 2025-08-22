@@ -4,6 +4,3 @@ Things to add:
 
 1. Non-connected UDP sockets
     - `in network:socket_udp`
-
-2. Array
-    - `in strucure`

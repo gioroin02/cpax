@@ -3,7 +3,7 @@
 
 #include "buffer8.h"
 
-typedef pxint (PxReaderProc) (void*, PxBuffer8*);
+typedef pxiword (PxReaderProc) (void*, PxBuffer8*);
 
 typedef struct PxReader
 {
@@ -20,25 +20,25 @@ pxBufferReader(PxBuffer8* self, PxBuffer8* buffer);
 PxBuffer8*
 pxReaderSetBuffer(PxReader* self, PxBuffer8* buffer);
 
-pxint
+pxiword
 pxReaderFill(PxReader* self);
 
 pxu8
-pxReaderDrop(PxReader* self, pxint offset);
+pxReaderDrop(PxReader* self, pxiword offset);
 
 pxu8
-pxReaderPeek(PxReader* self, pxint offset);
+pxReaderPeek(PxReader* self, pxiword offset);
 
 PxString8
-pxReaderPeekString(PxReader* self, PxArena* arena, pxint length);
+pxReaderPeekString(PxReader* self, PxArena* arena, pxiword length);
 
 PxString8
-pxReaderPeekLine(PxReader* self, PxArena* arena, pxint length);
+pxReaderPeekLine(PxReader* self, PxArena* arena, pxiword length);
 
 PxString8
-pxReaderString(PxReader* self, PxArena* arena, pxint length);
+pxReaderString(PxReader* self, PxArena* arena, pxiword length);
 
 PxString8
-pxReaderLine(PxReader* self, PxArena* arena, pxint length);
+pxReaderLine(PxReader* self, PxArena* arena, pxiword length);
 
 #endif // PX_STREAM_READER_H

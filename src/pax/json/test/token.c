@@ -19,9 +19,8 @@
 #define PURPLE(expr) FRONT_PURPLE expr COLOR_RESET
 #define AZURE(expr)  FRONT_AZURE  expr COLOR_RESET
 
-static const PxString8 ENTITY = pxStr8(
-    "{ \"flags\": [16, 32], \"code\": 156, \"name\": \"player\", \"coords\": {\"x\": 1, \"y\": 2} }"
-);
+#define ENTITY \
+    pxs8("{ \"flags\": [16, 32], \"code\": 156, \"name\": \"player\", \"coords\": {\"x\": -1, \"y\": +2, \"z\": null}, \"alive\": true, \"pause\": false }")
 
 static const char* const JSON_TOKEN_NAMES[] = {
     pxString(JSON_TOKEN_NONE),
@@ -49,17 +48,47 @@ showJsonToken(PxReader* reader, PxArena* arena)
     while (token.type != PX_JSON_TOKEN_COUNT) {
         token = pxJsonNext(reader, arena);
 
+        if (token.type == PX_JSON_TOKEN_COUNT) break;
+
         switch (token.type) {
-            case PX_JSON_TOKEN_ERROR:
-                printf(RED("%.*s"), pxCast(int, token.error.length),
-                    token.error.memory);
+            case PX_JSON_TOKEN_ERROR: {
+                PxString8 message = token.error.message;
+                PxString8 subject = token.error.subject;
+
+                printf(RED("%.*s: %.*s"),
+                    pxCast(int, message.length), message.memory,
+                    pxCast(int, subject.length), subject.memory);
 
                 token.type = PX_JSON_TOKEN_COUNT;
+            } break;
+
+            case PX_JSON_TOKEN_OBJECT_OPEN:
+                printf("OBJECT_OPEN");
+            break;
+
+            case PX_JSON_TOKEN_OBJECT_CLOSE:
+                printf("OBJECT_CLOSE");
+            break;
+
+            case PX_JSON_TOKEN_ARRAY_OPEN:
+                printf("ARRAY_OPEN");
+            break;
+
+            case PX_JSON_TOKEN_ARRAY_CLOSE:
+                printf("ARRAY_CLOSE");
+            break;
+
+            case PX_JSON_TOKEN_COLON:
+                printf("COLON");
+            break;
+
+            case PX_JSON_TOKEN_COMMA:
+                printf("COMMA");
             break;
 
             case PX_JSON_TOKEN_STRING:
-                printf(BLUE("'%.*s'"), pxCast(int, token.string.length),
-                    token.string.memory);
+                printf(BLUE("'%.*s'"),
+                    pxCast(int, token.svalue.length), token.svalue.memory);
             break;
 
             case PX_JSON_TOKEN_UNSIGNED:
@@ -78,12 +107,11 @@ showJsonToken(PxReader* reader, PxArena* arena)
                 printf("%s", token.bvalue != 0 ? GREEN("true") : RED("false"));
             break;
 
-            case PX_JSON_TOKEN_COUNT: break;
-
-            default:
-                printf("%.*s", pxCast(int, token.string.length),
-                    token.string.memory);
+            case PX_JSON_TOKEN_NULL:
+                printf(PURPLE("null"));
             break;
+
+            default: break;
         }
 
         printf("\n");

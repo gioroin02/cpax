@@ -5,36 +5,36 @@
 
 typedef struct PxBuffer8
 {
-    pxu8* memory;
-    pxint length;
-    pxint size;
-    pxint head;
-    pxint tail;
+    pxu8*   memory;
+    pxiword length;
+    pxiword size;
+    pxiword head;
+    pxiword tail;
 }
 PxBuffer8;
 
 /* PxBuffer8 */
 
 PxBuffer8
-pxBuffer8Make(pxu8* memory, pxint length);
+pxBuffer8Make(pxu8* memory, pxiword length);
 
 PxBuffer8
-pxBuffer8MakeFull(pxu8* memory, pxint length);
+pxBuffer8MakeFull(pxu8* memory, pxiword length);
 
 PxBuffer8
-pxBuffer8Reserve(PxArena* arena, pxint length);
+pxBuffer8Reserve(PxArena* arena, pxiword length);
 
 PxBuffer8
-pxBuffer8ReserveFull(PxArena* arena, pxint length);
+pxBuffer8ReserveFull(PxArena* arena, pxiword length);
 
 PxBuffer8
 pxBuffer8Copy(PxArena* arena, PxBuffer8 value);
 
 PxBuffer8
-pxBuffer8CopyAmount(PxArena* arena, PxBuffer8 value, pxint amount);
+pxBuffer8CopyAmount(PxArena* arena, PxBuffer8 value, pxiword amount);
 
 PxBuffer8
-pxBuffer8CopyMemory(PxArena* arena, pxu8* memory, pxint length);
+pxBuffer8CopyMemory(PxArena* arena, pxu8* memory, pxiword length);
 
 void
 pxBuffer8Clear(PxBuffer8* self);
@@ -48,83 +48,83 @@ pxBuffer8Normalize(PxBuffer8* self);
 /* PxBuffer8 getting */
 
 pxb8
-pxBuffer8GetForw(PxBuffer8* self, pxint index, pxu8* value);
+pxBuffer8GetForw(PxBuffer8* self, pxiword index, pxu8* value);
 
 pxu8
-pxBuffer8GetForwOr(PxBuffer8* self, pxint index, pxu8 value);
+pxBuffer8GetForwOr(PxBuffer8* self, pxiword index, pxu8 value);
 
 pxb8
-pxBuffer8GetBack(PxBuffer8* self, pxint index, pxu8* value);
+pxBuffer8GetBack(PxBuffer8* self, pxiword index, pxu8* value);
 
 pxu8
-pxBuffer8GetBackOr(PxBuffer8* self, pxint index, pxu8 value);
+pxBuffer8GetBackOr(PxBuffer8* self, pxiword index, pxu8 value);
 
 /* PxBuffer8 dropping */
 
-pxint
-pxBuffer8DropHead(PxBuffer8* self, pxint amount);
+pxiword
+pxBuffer8DropHead(PxBuffer8* self, pxiword amount);
 
-pxint
-pxBuffer8DropTail(PxBuffer8* self, pxint amount);
+pxiword
+pxBuffer8DropTail(PxBuffer8* self, pxiword amount);
 
 /* PxBuffer8 writing */
 
-pxint
+pxiword
 pxBuffer8WriteHead(PxBuffer8* self, PxBuffer8* buffer);
 
-pxint
-pxBuffer8WriteMemoryHead(PxBuffer8* self, pxu8* memory, pxint length);
+pxiword
+pxBuffer8WriteMemoryHead(PxBuffer8* self, pxu8* memory, pxiword length);
 
-pxint
+pxiword
 pxBuffer8WriteStringHead(PxBuffer8* self, PxString8 string);
 
-pxint
+pxiword
 pxBuffer8WriteTail(PxBuffer8* self, PxBuffer8* buffer);
 
-pxint
-pxBuffer8WriteMemoryTail(PxBuffer8* self, pxu8* memory, pxint length);
+pxiword
+pxBuffer8WriteMemoryTail(PxBuffer8* self, pxu8* memory, pxiword length);
 
-pxint
+pxiword
 pxBuffer8WriteStringTail(PxBuffer8* self, PxString8 string);
 
 /* PxBuffer8 reading */
 
-pxint
+pxiword
 pxBuffer8ReadHead(PxBuffer8* self, PxBuffer8* buffer);
 
-pxint
-pxBuffer8ReadMemoryHead(PxBuffer8* self, pxu8* memory, pxint length);
+pxiword
+pxBuffer8ReadMemoryHead(PxBuffer8* self, pxu8* memory, pxiword length);
 
 PxString8
-pxBuffer8ReadStringHead(PxBuffer8* self, PxArena* arena, pxint length);
+pxBuffer8ReadStringHead(PxBuffer8* self, PxArena* arena, pxiword length);
 
-pxint
+pxiword
 pxBuffer8ReadTail(PxBuffer8* self, PxBuffer8* buffer);
 
-pxint
-pxBuffer8ReadMemoryTail(PxBuffer8* self, pxu8* memory, pxint length);
+pxiword
+pxBuffer8ReadMemoryTail(PxBuffer8* self, pxu8* memory, pxiword length);
 
 PxString8
-pxBuffer8ReadStringTail(PxBuffer8* self, PxArena* arena, pxint length);
+pxBuffer8ReadStringTail(PxBuffer8* self, PxArena* arena, pxiword length);
 
 /* PxBuffer8 peeking */
 
-pxint
+pxiword
 pxBuffer8PeekHead(PxBuffer8* self, PxBuffer8* buffer);
 
-pxint
-pxBuffer8PeekMemoryHead(PxBuffer8* self, pxu8* memory, pxint length);
+pxiword
+pxBuffer8PeekMemoryHead(PxBuffer8* self, pxu8* memory, pxiword length);
 
 PxString8
-pxBuffer8PeekStringHead(PxBuffer8* self, PxArena* arena, pxint length);
+pxBuffer8PeekStringHead(PxBuffer8* self, PxArena* arena, pxiword length);
 
-pxint
+pxiword
 pxBuffer8PeekTail(PxBuffer8* self, PxBuffer8* buffer);
 
-pxint
-pxBuffer8PeekMemoryTail(PxBuffer8* self, pxu8* memory, pxint length);
+pxiword
+pxBuffer8PeekMemoryTail(PxBuffer8* self, pxu8* memory, pxiword length);
 
 PxString8
-pxBuffer8PeekStringTail(PxBuffer8* self, PxArena* arena, pxint length);
+pxBuffer8PeekStringTail(PxBuffer8* self, PxArena* arena, pxiword length);
 
 #endif // PX_STREAM_BUFFER8_H

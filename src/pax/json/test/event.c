@@ -19,26 +19,27 @@
 #define PURPLE(expr) FRONT_PURPLE expr COLOR_RESET
 #define AZURE(expr)  FRONT_AZURE  expr COLOR_RESET
 
-static const PxString8 ENTITY = pxStr8(
-    "{ \"flags\": [16, 32], \"code\": 156, \"name\": \"player\", \"coords\": {\"x\": 1, \"y\": 2} } { \"flags\": [], \"code\": 55"
-);
+#define ENTITY \
+    pxs8("{ \"flags\": [16, 32], \"code\": 156, \"name\": \"player\", \"coords\": {\"x\": -1, \"y\": +2, \"z\": null}, \"alive\": true, \"pause\": false }")
 
 void
 showJsonEvent(PxJsonReader* reader, PxArena* arena)
 {
     PxJsonEvent event = pxJsonEventNone();
 
-    pxint i = 0;
-
-    for (; i < 16 && event.type != PX_JSON_EVENT_COUNT; i += 1) {
+    while (event.type != PX_JSON_EVENT_COUNT) {
         event = pxJsonReaderNext(reader, arena);
 
         if (event.type == PX_JSON_EVENT_COUNT) break;
 
         switch (event.type) {
             case PX_JSON_EVENT_ERROR: {
-                printf(RED("%.*s"), pxCast(int, event.error.length),
-                    event.error.memory);
+                PxString8 message = event.error.message;
+                PxString8 subject = event.error.subject;
+
+                printf(RED("%.*s: %.*s"),
+                    pxCast(int, message.length), message.memory,
+                    pxCast(int, subject.length), subject.memory);
 
                 event.type = PX_JSON_EVENT_COUNT;
             } break;
@@ -71,7 +72,7 @@ showJsonEvent(PxJsonReader* reader, PxArena* arena)
                 }
 
                 printf(BLUE("'%.*s'"),
-                    pxCast(int, event.string.length), event.string.memory);
+                    pxCast(int, event.svalue.length), event.svalue.memory);
             } break;
 
             case PX_JSON_EVENT_UNSIGNED: {
@@ -108,6 +109,15 @@ showJsonEvent(PxJsonReader* reader, PxArena* arena)
                 }
 
                 printf("%s", event.bvalue != 0 ? GREEN("true") : RED("false"));
+            } break;
+
+            case PX_JSON_EVENT_NULL: {
+                if (event.name.length > 0) {
+                    printf(AZURE("'%.*s'") ": ", pxCast(int, event.name.length),
+                        event.name.memory);
+                }
+
+                printf(PURPLE("null"));
             } break;
 
             default: break;

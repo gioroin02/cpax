@@ -22,7 +22,7 @@ pxByteOrder()
 }
 
 void*
-pxMemoryNetFromLocal(void* memory, pxint amount, pxint stride)
+pxMemoryNetFromLocal(void* memory, pxiword amount, pxiword stride)
 {
     if (pxByteOrder() == PX_BYTE_ORDER_REVERSE)
         return pxMemoryFlip(memory, amount, stride);
@@ -31,7 +31,7 @@ pxMemoryNetFromLocal(void* memory, pxint amount, pxint stride)
 }
 
 void*
-pxMemoryNetCopyLocal(void* memory, void* value, pxint amount, pxint stride)
+pxMemoryNetCopyLocal(void* memory, void* value, pxiword amount, pxiword stride)
 {
     if (pxByteOrder() == PX_BYTE_ORDER_REVERSE)
         return pxMemoryCopyFlipped(memory, value, amount, stride);
@@ -40,7 +40,7 @@ pxMemoryNetCopyLocal(void* memory, void* value, pxint amount, pxint stride)
 }
 
 pxu16
-pxUnsig16NetFromLocal(pxu16 value)
+pxU16NetFromLocal(pxu16 value)
 {
     pxu16 result = 0;
 
@@ -51,7 +51,7 @@ pxUnsig16NetFromLocal(pxu16 value)
 }
 
 pxu32
-pxUnsig32NetFromLocal(pxu32 value)
+pxU32NetFromLocal(pxu32 value)
 {
     pxu32 result = 0;
 
@@ -62,7 +62,7 @@ pxUnsig32NetFromLocal(pxu32 value)
 }
 
 pxu64
-pxUnsig64NetFromLocal(pxu64 value)
+pxU64NetFromLocal(pxu64 value)
 {
     pxu64 result = 0;
 
@@ -72,19 +72,19 @@ pxUnsig64NetFromLocal(pxu64 value)
     return result;
 }
 
-pxunsig
-pxUnsigNetFromLocal(pxunsig value)
+pxuword
+pxUWordNetFromLocal(pxuword value)
 {
-    pxunsig result = 0;
+    pxuword result = 0;
 
     pxMemoryNetCopyLocal(&result,
-        &value, 1, PX_UNSIG_SIZE);
+        &value, 1, PX_UWORD_SIZE);
 
     return result;
 }
 
 pxu16
-pxInt16NetFromLocal(pxi16 value)
+pxI16NetFromLocal(pxi16 value)
 {
     pxu16 result = 0;
 
@@ -95,7 +95,7 @@ pxInt16NetFromLocal(pxi16 value)
 }
 
 pxu32
-pxInt32NetFromLocal(pxi32 value)
+pxI32NetFromLocal(pxi32 value)
 {
     pxu32 result = 0;
 
@@ -106,7 +106,7 @@ pxInt32NetFromLocal(pxi32 value)
 }
 
 pxu64
-pxInt64NetFromLocal(pxi64 value)
+pxI64NetFromLocal(pxi64 value)
 {
     pxu64 result = 0;
 
@@ -116,19 +116,19 @@ pxInt64NetFromLocal(pxi64 value)
     return result;
 }
 
-pxunsig
-pxIntNetFromLocal(pxint value)
+pxuword
+pxIWordNetFromLocal(pxiword value)
 {
-    pxunsig result = 0;
+    pxuword result = 0;
 
     pxMemoryNetCopyLocal(&result,
-        &value, 1, PX_INT_SIZE);
+        &value, 1, PX_IWORD_SIZE);
 
     return result;
 }
 
 pxu32
-pxFloat32NetFromLocal(pxf32 value)
+pxF32NetFromLocal(pxf32 value)
 {
     pxu32 result = 0;
 
@@ -139,7 +139,7 @@ pxFloat32NetFromLocal(pxf32 value)
 }
 
 pxu64
-pxFloat64NetFromLocal(pxf64 value)
+pxF64NetFromLocal(pxf64 value)
 {
     pxu64 result = 0;
 
@@ -149,19 +149,19 @@ pxFloat64NetFromLocal(pxf64 value)
     return result;
 }
 
-pxunsig
-pxFloatNetFromLocal(pxfloat value)
+pxuword
+pxFWordNetFromLocal(pxfword value)
 {
-    pxunsig result = 0;
+    pxuword result = 0;
 
     pxMemoryNetCopyLocal(&result,
-        &value, 1, PX_FLOAT_SIZE);
+        &value, 1, PX_FWORD_SIZE);
 
     return result;
 }
 
 void*
-pxMemoryLocalFromNet(void* memory, pxint amount, pxint stride)
+pxMemoryLocalFromNet(void* memory, pxiword amount, pxiword stride)
 {
     if (pxByteOrder() == PX_BYTE_ORDER_REVERSE)
         return pxMemoryFlip(memory, amount, stride);
@@ -170,7 +170,7 @@ pxMemoryLocalFromNet(void* memory, pxint amount, pxint stride)
 }
 
 void*
-pxMemoryLocalCopyNet(void* memory, void* value, pxint amount, pxint stride)
+pxMemoryLocalCopyNet(void* memory, void* value, pxiword amount, pxiword stride)
 {
     if (pxByteOrder() == PX_BYTE_ORDER_REVERSE)
         return pxMemoryCopyFlipped(memory, value, amount, stride);
@@ -179,7 +179,7 @@ pxMemoryLocalCopyNet(void* memory, void* value, pxint amount, pxint stride)
 }
 
 pxu16
-pxUnsig16LocalFromNet(pxu16 value)
+pxU16LocalFromNet(pxu16 value)
 {
     pxu16 result = 0;
 
@@ -190,7 +190,7 @@ pxUnsig16LocalFromNet(pxu16 value)
 }
 
 pxu32
-pxUnsig32LocalFromNet(pxu32 value)
+pxU32LocalFromNet(pxu32 value)
 {
     pxu32 result = 0;
 
@@ -201,7 +201,7 @@ pxUnsig32LocalFromNet(pxu32 value)
 }
 
 pxu64
-pxUnsig64LocalFromNet(pxu64 value)
+pxU64LocalFromNet(pxu64 value)
 {
     pxu64 result = 0;
 
@@ -211,19 +211,19 @@ pxUnsig64LocalFromNet(pxu64 value)
     return result;
 }
 
-pxunsig
-pxUnsigLocalFromNet(pxunsig value)
+pxuword
+pxUWordLocalFromNet(pxuword value)
 {
-    pxunsig result = 0;
+    pxuword result = 0;
 
     pxMemoryLocalCopyNet(&result,
-        &value, 1, PX_UNSIG_SIZE);
+        &value, 1, PX_UWORD_SIZE);
 
     return result;
 }
 
 pxi16
-pxInt16LocalFromNet(pxu16 value)
+pxI16LocalFromNet(pxu16 value)
 {
     pxi16 result = 0;
 
@@ -234,7 +234,7 @@ pxInt16LocalFromNet(pxu16 value)
 }
 
 pxi32
-pxInt32LocalFromNet(pxu32 value)
+pxI32LocalFromNet(pxu32 value)
 {
     pxi32 result = 0;
 
@@ -245,7 +245,7 @@ pxInt32LocalFromNet(pxu32 value)
 }
 
 pxi64
-pxInt64LocalFromNet(pxu64 value)
+pxI64LocalFromNet(pxu64 value)
 {
     pxi64 result = 0;
 
@@ -255,19 +255,19 @@ pxInt64LocalFromNet(pxu64 value)
     return result;
 }
 
-pxint
-pxIntLocalFromNet(pxunsig value)
+pxiword
+pxIWordLocalFromNet(pxuword value)
 {
-    pxint result = 0;
+    pxiword result = 0;
 
     pxMemoryLocalCopyNet(&result,
-        &value, 1, PX_INT_SIZE);
+        &value, 1, PX_IWORD_SIZE);
 
     return result;
 }
 
 pxf32
-pxFloat32LocalFromNet(pxu32 value)
+pxF32LocalFromNet(pxu32 value)
 {
     pxf32 result = 0;
 
@@ -278,7 +278,7 @@ pxFloat32LocalFromNet(pxu32 value)
 }
 
 pxf64
-pxFloat64LocalFromNet(pxu64 value)
+pxF64LocalFromNet(pxu64 value)
 {
     pxf64 result = 0;
 
@@ -288,13 +288,13 @@ pxFloat64LocalFromNet(pxu64 value)
     return result;
 }
 
-pxfloat
-pxFloatLocalFromNet(pxunsig value)
+pxfword
+pxFWordLocalFromNet(pxuword value)
 {
-    pxfloat result = 0;
+    pxfword result = 0;
 
     pxMemoryLocalCopyNet(&result,
-        &value, 1, PX_FLOAT_SIZE);
+        &value, 1, PX_FWORD_SIZE);
 
     return result;
 }

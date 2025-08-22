@@ -39,8 +39,8 @@ PxWindowsSocketUdp;
 PxWindowsSocketUdp*
 pxWindowsSocketUdpCreate(PxArena* arena, PxAddressType type)
 {
-    pxint offset = pxArenaOffset(arena);
-    pxint family = 0;
+    pxiword offset = pxArenaOffset(arena);
+    pxiword family = 0;
 
     switch (type) {
         case PX_ADDRESS_TYPE_IP4: family = AF_INET;  break;
@@ -124,7 +124,7 @@ pxWindowsSocketUdpGetPort(PxWindowsSocketUdp* self)
 pxb8
 pxWindowsSocketUdpBind(PxWindowsSocketUdp* self, PxAddress address, pxu16 port)
 {
-    pxint family = 0;
+    pxiword family = 0;
 
     switch (address.type) {
         case PX_ADDRESS_TYPE_IP4: family = AF_INET;  break;
@@ -136,7 +136,7 @@ pxWindowsSocketUdpBind(PxWindowsSocketUdp* self, PxAddress address, pxu16 port)
     if (self->address.ss_family != family) return 0;
 
     PxSockUdpData data = {0};
-    pxint         size = 0;
+    pxiword       size = 0;
 
     switch (address.type) {
         case PX_ADDRESS_TYPE_IP4: {
@@ -182,7 +182,7 @@ pxb8
 pxWindowsSocketUdpConnect(PxWindowsSocketUdp* self, PxAddress address, pxu16 port)
 {
     PxSockUdpData data = {0};
-    pxint         size = 0;
+    pxiword       size = 0;
 
     switch (address.type) {
         case PX_ADDRESS_TYPE_IP4: {
@@ -221,14 +221,14 @@ pxWindowsSocketUdpConnect(PxWindowsSocketUdp* self, PxAddress address, pxu16 por
 PxWindowsSocketUdp*
 pxWindowsSocketUdpAccept(PxWindowsSocketUdp* self, PxArena* arena)
 {
-    pxint offset = pxArenaOffset(arena);
+    pxiword offset = pxArenaOffset(arena);
 
     PxWindowsSocketUdp* result =
         pxArenaReserve(arena, PxWindowsSocketUdp, 1);
 
     if (result != 0) {
         PxSockUdpData data = {0};
-        pxint         size = PX_SOCK_UDP_DATA_SIZE;
+        pxiword       size = PX_SOCK_UDP_DATA_SIZE;
 
         result->handle = accept(self->handle,
             pxSockUdpAddr(&data), pxCast(int*, &size));
@@ -244,14 +244,14 @@ pxWindowsSocketUdpAccept(PxWindowsSocketUdp* self, PxArena* arena)
     return 0;
 }
 
-pxint
-pxWindowsSocketUdpWriteMemory(PxWindowsSocketUdp* self, pxu8* memory, pxint length)
+pxiword
+pxWindowsSocketUdpWriteMemory(PxWindowsSocketUdp* self, pxu8* memory, pxiword length)
 {
-    for (pxint i = 0; i < length;) {
+    for (pxiword i = 0; i < length;) {
         char* mem = pxCast(char*, memory + i);
         int   len = pxCast(int,   length + i);
 
-        pxint amount = send(self->handle, mem, len, 0);
+        pxiword amount = send(self->handle, mem, len, 0);
 
         if (amount > 0 && amount <= length - i)
             i += amount;
@@ -262,14 +262,14 @@ pxWindowsSocketUdpWriteMemory(PxWindowsSocketUdp* self, pxu8* memory, pxint leng
     return length;
 }
 
-pxint
-pxWindowsSocketUdpReadMemory(PxWindowsSocketUdp* self, pxu8* memory, pxint length)
+pxiword
+pxWindowsSocketUdpReadMemory(PxWindowsSocketUdp* self, pxu8* memory, pxiword length)
 {
-    for (pxint i = 0; i < length;) {
+    for (pxiword i = 0; i < length;) {
         char* mem = pxCast(char*, memory + i);
         int   len = pxCast(int,   length + i);
 
-        pxint amount = recv(self->handle, mem, len, 0);
+        pxiword amount = recv(self->handle, mem, len, 0);
 
         if (amount > 0 && amount <= length - i)
             i += amount;

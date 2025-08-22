@@ -4,7 +4,7 @@
 #include "writer.h"
 
 PxJsonWriter
-pxJsonWriterMake(PxArena* arena, pxint length, PxWriter writer)
+pxJsonWriterMake(PxArena* arena, pxiword length, PxWriter writer)
 {
     PxQueue stack =
         pxQueueReserve(arena, PxJsonLayerType, length);
@@ -91,7 +91,7 @@ pxJsonWriterNext(PxJsonWriter* self, PxArena* arena, PxJsonEvent event)
             }
 
             pxWriterByte(&self->writer, PX_ASCII_QUOTE);
-            pxWriterString(&self->writer, event.string);
+            pxWriterString(&self->writer, event.svalue);
             pxWriterByte(&self->writer, PX_ASCII_QUOTE);
 
             self->comma = 1;
@@ -110,7 +110,7 @@ pxJsonWriterNext(PxJsonWriter* self, PxArena* arena, PxJsonEvent event)
                 pxWriterByte(&self->writer, PX_ASCII_COLON);
             }
 
-            PxString8 string = pxString8FromUnsig(arena,
+            PxString8 string = pxString8FromUWord(arena,
                 pxFormatOptionsRadix(10), event.uvalue);
 
             pxWriterString(&self->writer, string);
@@ -131,7 +131,7 @@ pxJsonWriterNext(PxJsonWriter* self, PxArena* arena, PxJsonEvent event)
                 pxWriterByte(&self->writer, PX_ASCII_COLON);
             }
 
-            PxString8 string = pxString8FromInt(arena,
+            PxString8 string = pxString8FromIWord(arena,
                 pxFormatOptionsRadix(10), event.ivalue);
 
             pxWriterString(&self->writer, string);
@@ -157,9 +157,9 @@ pxJsonWriterNext(PxJsonWriter* self, PxArena* arena, PxJsonEvent event)
             }
 
             if (event.bvalue != 0)
-                pxWriterString(&self->writer, pxStr8("true"));
+                pxWriterString(&self->writer, pxs8("true"));
             else
-                pxWriterString(&self->writer, pxStr8("false"));
+                pxWriterString(&self->writer, pxs8("false"));
 
             self->comma = 1;
         } break;
@@ -177,7 +177,7 @@ pxJsonWriterNext(PxJsonWriter* self, PxArena* arena, PxJsonEvent event)
                 pxWriterByte(&self->writer, PX_ASCII_COLON);
             }
 
-            pxWriterString(&self->writer, pxStr8("null"));
+            pxWriterString(&self->writer, pxs8("null"));
 
             self->comma = 1;
         } break;

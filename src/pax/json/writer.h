@@ -13,7 +13,7 @@ typedef struct PxJsonWriter
 PxJsonWriter;
 
 PxJsonWriter
-pxJsonWriterMake(PxArena* arena, pxint length, PxWriter writer);
+pxJsonWriterMake(PxArena* arena, pxiword length, PxWriter writer);
 
 pxb8
 pxJsonWriterNext(PxJsonWriter* self, PxArena* arena, PxJsonEvent event);

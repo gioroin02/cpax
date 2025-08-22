@@ -17,14 +17,14 @@
 
 #endif
 
-pxint
+pxiword
 pxMemoryPageSize()
 {
     return __pxMemoryPageSize__();
 }
 
 PxArena
-pxMemoryReserve(pxint amount)
+pxMemoryReserve(pxiword amount)
 {
     return __pxMemoryReserve__(amount);
 }

@@ -22,7 +22,7 @@
 typedef struct Entity
 {
     PxString8 name;
-    pxunsig   code;
+    pxuword   code;
 }
 Entity;
 
@@ -32,10 +32,10 @@ jsonWriteEntity(Entity* self, PxJsonWriter* writer, PxArena* arena)
     pxJsonWriterNext(writer, arena, pxJsonEventObjectOpen());
 
     pxJsonWriterNext(writer, arena,
-        pxJsonEventString(self->name, pxStr8("name")));
+        pxJsonEventString(self->name, pxs8("name")));
 
     pxJsonWriterNext(writer, arena,
-        pxJsonEventUnsigned(self->code, pxStr8("code")));
+        pxJsonEventUnsigned(self->code, pxs8("code")));
 
     pxJsonWriterNext(writer, arena, pxJsonEventObjectClose());
 }
@@ -45,17 +45,19 @@ showJsonEvent(PxJsonReader* reader, PxArena* arena)
 {
     PxJsonEvent event = pxJsonEventNone();
 
-    pxint i = 0;
-
-    for (; i < 16 && event.type != PX_JSON_EVENT_COUNT; i += 1) {
+    while (event.type != PX_JSON_EVENT_COUNT) {
         event = pxJsonReaderNext(reader, arena);
 
         if (event.type == PX_JSON_EVENT_COUNT) break;
 
         switch (event.type) {
             case PX_JSON_EVENT_ERROR: {
-                printf(RED("%.*s"), pxCast(int, event.error.length),
-                    event.error.memory);
+                PxString8 message = event.error.message;
+                PxString8 subject = event.error.subject;
+
+                printf(RED("%.*s: %.*s"),
+                    pxCast(int, message.length), message.memory,
+                    pxCast(int, subject.length), subject.memory);
 
                 event.type = PX_JSON_EVENT_COUNT;
             } break;
@@ -88,7 +90,7 @@ showJsonEvent(PxJsonReader* reader, PxArena* arena)
                 }
 
                 printf(BLUE("'%.*s'"),
-                    pxCast(int, event.string.length), event.string.memory);
+                    pxCast(int, event.svalue.length), event.svalue.memory);
             } break;
 
             case PX_JSON_EVENT_UNSIGNED: {
@@ -144,7 +146,7 @@ main(int argc, char** argv)
     PxJsonWriter writer = pxJsonWriterMake(&arena, 16,
         pxBufferWriter(&source, &buffer));
 
-    jsonWriteEntity(&(Entity) {.name = pxStr8("gio"), .code = 156}, &writer, &arena);
+    jsonWriteEntity(&(Entity) {.name = pxs8("gio"), .code = 156}, &writer, &arena);
 
     printf(YELLOW("[start]") "\n%.*s\n" YELLOW("[stop]") "\n",
         pxCast(int, source.size), source.memory);

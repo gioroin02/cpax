@@ -70,7 +70,7 @@ pxAsciiIsSpace(pxi32 value)
 }
 
 pxb8
-pxAsciiIsNumeric(pxi32 value, pxunsig radix)
+pxAsciiIsNumeric(pxi32 value, pxuword radix)
 {
     switch (value) {
         case PX_ASCII_PLUS:
@@ -87,7 +87,7 @@ pxAsciiIsNumeric(pxi32 value, pxunsig radix)
 }
 
 pxb8
-pxAsciiIsDigit(pxi32 value, pxunsig radix)
+pxAsciiIsDigit(pxi32 value, pxuword radix)
 {
     switch (value) {
         case PX_ASCII_ZERO:
@@ -100,7 +100,7 @@ pxAsciiIsDigit(pxi32 value, pxunsig radix)
         case PX_ASCII_SEVEN:
         case PX_ASCII_EIGHT:
         case PX_ASCII_NINE: {
-            pxunsig digit = value - PX_ASCII_ZERO;
+            pxuword digit = value - PX_ASCII_ZERO;
 
             if (radix >= 2 && radix <= 16 && digit < radix)
                 return 1;
@@ -112,7 +112,7 @@ pxAsciiIsDigit(pxi32 value, pxunsig radix)
         case PX_ASCII_UPPER_D:
         case PX_ASCII_UPPER_E:
         case PX_ASCII_UPPER_F: {
-            pxunsig digit = value - PX_ASCII_UPPER_A - 10;
+            pxuword digit = value - PX_ASCII_UPPER_A - 10;
 
             if (radix >= 11 && radix <= 16 && digit < radix)
                 return 1;
@@ -124,7 +124,7 @@ pxAsciiIsDigit(pxi32 value, pxunsig radix)
         case PX_ASCII_LOWER_D:
         case PX_ASCII_LOWER_E:
         case PX_ASCII_LOWER_F: {
-            pxunsig digit = value - PX_ASCII_LOWER_A - 10;
+            pxuword digit = value - PX_ASCII_LOWER_A - 10;
 
             if (radix >= 11 && radix <= 16 && digit < radix)
                 return 1;
@@ -167,9 +167,9 @@ pxAsciiIsLetterLower(pxi32 value)
 }
 
 pxi32
-pxAsciiDigitFromValue(pxunsig value, pxunsig radix, pxb8 upper)
+pxAsciiDigitFromValue(pxuword value, pxuword radix, pxb8 upper)
 {
-    pxunsig digit = value % radix;
+    pxuword digit = value % radix;
 
     if (digit >= 0 && digit <= 9)
         return pxCast(pxi32, digit) + PX_ASCII_ZERO;
@@ -184,8 +184,8 @@ pxAsciiDigitFromValue(pxunsig value, pxunsig radix, pxb8 upper)
     return PX_ASCII_NULL;
 }
 
-pxunsig
-pxAsciiValueFromDigit(pxi32 value, pxunsig radix)
+pxuword
+pxAsciiValueFromDigit(pxi32 value, pxuword radix)
 {
     switch (value) {
         case PX_ASCII_ZERO:
@@ -198,7 +198,7 @@ pxAsciiValueFromDigit(pxi32 value, pxunsig radix)
         case PX_ASCII_SEVEN:
         case PX_ASCII_EIGHT:
         case PX_ASCII_NINE: {
-            pxunsig digit = value - PX_ASCII_ZERO;
+            pxuword digit = value - PX_ASCII_ZERO;
 
             if (radix >= 2 && radix <= 16 && digit < radix)
                 return digit;
@@ -210,7 +210,7 @@ pxAsciiValueFromDigit(pxi32 value, pxunsig radix)
         case PX_ASCII_UPPER_D:
         case PX_ASCII_UPPER_E:
         case PX_ASCII_UPPER_F: {
-            pxunsig digit = value - PX_ASCII_UPPER_A - 10;
+            pxuword digit = value - PX_ASCII_UPPER_A - 10;
 
             if (radix >= 11 && radix <= 16 && digit < radix)
                 return digit;
@@ -222,7 +222,7 @@ pxAsciiValueFromDigit(pxi32 value, pxunsig radix)
         case PX_ASCII_LOWER_D:
         case PX_ASCII_LOWER_E:
         case PX_ASCII_LOWER_F: {
-            pxunsig digit = value - PX_ASCII_LOWER_A - 10;
+            pxuword digit = value - PX_ASCII_LOWER_A - 10;
 
             if (radix >= 11 && radix <= 16 && digit < radix)
                 return digit;

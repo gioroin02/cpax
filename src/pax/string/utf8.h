@@ -3,8 +3,8 @@
 
 #include "unicode.h"
 
-#define PX_UTF8_MIN_UNITS pxCast(pxint, 1)
-#define PX_UTF8_MAX_UNITS pxCast(pxint, 4)
+#define PX_UTF8_MIN_UNITS pxCast(pxiword, 1)
+#define PX_UTF8_MAX_UNITS pxCast(pxiword, 4)
 
 typedef struct PxUtf8
 {
@@ -17,38 +17,38 @@ typedef struct PxUtf8
         pxu8 memory[PX_UTF8_MAX_UNITS];
     };
 
-    pxint size;
+    pxiword size;
 }
 PxUtf8;
 
 pxb8
 pxUtf8Encode(PxUtf8* self, pxi32 value);
 
-pxint
-pxUtf8WriteMemoryForw(pxu8* memory, pxint length, pxint index, pxi32 value);
+pxiword
+pxUtf8WriteMemoryForw(pxu8* memory, pxiword length, pxiword index, pxi32 value);
 
-pxint
-pxUtf8WriteMemoryBack(pxu8* memory, pxint length, pxint index, pxi32 value);
+pxiword
+pxUtf8WriteMemoryBack(pxu8* memory, pxiword length, pxiword index, pxi32 value);
 
 pxb8
 pxUtf8Decode(PxUtf8* self, pxi32* value);
 
-pxint
-pxUtf8ReadMemoryForw(pxu8* memory, pxint length, pxint index, pxi32* value);
+pxiword
+pxUtf8ReadMemoryForw(pxu8* memory, pxiword length, pxiword index, pxi32* value);
 
-pxint
-pxUtf8ReadMemoryBack(pxu8* memory, pxint length, pxint index, pxi32* value);
+pxiword
+pxUtf8ReadMemoryBack(pxu8* memory, pxiword length, pxiword index, pxi32* value);
 
-pxint
+pxiword
 pxUtf8UnitsToWrite(pxi32 value);
 
-pxint
+pxiword
 pxUtf8UnitsToRead(pxu8 value);
 
 pxb8
 pxUtf8IsTrailing(pxu8 value);
 
 pxb8
-pxUtf8IsOverlong(pxi32 value, pxint units);
+pxUtf8IsOverlong(pxi32 value, pxiword units);
 
 #endif // PX_STRING_UTF8_H

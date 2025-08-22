@@ -9,7 +9,7 @@ main(int argc, char** argv)
 
     pxMemoryCopyFlipped(memory, "ciao", 2, 2);
 
-    for (pxint i = 0; i < 12; i += 1)
+    for (pxiword i = 0; i < 12; i += 1)
         printf("%03u ", memory[i]);
     printf("\n");
 
@@ -17,7 +17,7 @@ main(int argc, char** argv)
 
     pxMemoryCopyForw(memory, 4, 4, 1);
 
-    for (pxint i = 0; i < 12; i += 1)
+    for (pxiword i = 0; i < 12; i += 1)
         printf("%03u ", memory[i]);
     printf("\n");
 
@@ -25,7 +25,7 @@ main(int argc, char** argv)
 
     pxMemoryFlip(memory, 2, 2);
 
-    for (pxint i = 0; i < 12; i += 1)
+    for (pxiword i = 0; i < 12; i += 1)
         printf("%03u ", memory[i]);
     printf("\n");
 
@@ -33,7 +33,7 @@ main(int argc, char** argv)
 
     pxMemoryCopyBack(memory + 2, 2, 2, 1);
 
-    for (pxint i = 0; i < 12; i += 1)
+    for (pxiword i = 0; i < 12; i += 1)
         printf("%03u ", memory[i]);
     printf("\n");
 

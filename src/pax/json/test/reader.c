@@ -22,12 +22,12 @@
 typedef struct Entity
 {
     PxString8 name;
-    pxunsig   code;
+    pxuword   code;
 }
 Entity;
 
 #define ENTITY \
-    pxStr8("{\"name\": \"gio\", \"code\": 156}")
+    pxs8("{\"name\": \"gio\", \"code\": 156}")
 
 void
 jsonReadEntity(Entity* self, PxJsonReader* reader, PxArena* arena)
@@ -41,12 +41,12 @@ jsonReadEntity(Entity* self, PxJsonReader* reader, PxArena* arena)
     while (event.type != PX_JSON_EVENT_OBJECT_CLOSE) {
         switch (event.type) {
             case PX_JSON_EVENT_STRING: {
-                if (pxString8IsEqual(event.name, pxStr8("name")))
-                    self->name = event.string;
+                if (pxString8IsEqual(event.name, pxs8("name")))
+                    self->name = event.svalue;
             } break;
 
             case PX_JSON_EVENT_UNSIGNED: {
-                if (pxString8IsEqual(event.name, pxStr8("code")))
+                if (pxString8IsEqual(event.name, pxs8("code")))
                     self->code = event.uvalue;
             } break;
 

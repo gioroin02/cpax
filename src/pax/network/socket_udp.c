@@ -72,17 +72,17 @@ pxSocketUdpAccept(PxSocketUdp self, PxArena* arena)
     return __pxSocketUdpAccept__(self, arena);
 }
 
-pxint
+pxiword
 pxSocketUdpWrite(PxSocketUdp self, PxBuffer8* buffer)
 {
     pxBuffer8Normalize(buffer);
 
-    pxu8* memory = buffer->memory;
-    pxint size   = buffer->size;
+    pxu8*   memory = buffer->memory;
+    pxiword size   = buffer->size;
 
     if (size <= 0) return 0;
 
-    pxint amount = __pxSocketUdpWriteMemory__(self, memory, size);
+    pxiword amount = __pxSocketUdpWriteMemory__(self, memory, size);
 
     buffer->size += amount;
     buffer->head  = (buffer->head + amount) % buffer->length;
@@ -90,23 +90,23 @@ pxSocketUdpWrite(PxSocketUdp self, PxBuffer8* buffer)
     return amount;
 }
 
-pxint
-pxSocketUdpWriteMemory(PxSocketUdp self, pxu8* memory, pxint length)
+pxiword
+pxSocketUdpWriteMemory(PxSocketUdp self, pxu8* memory, pxiword length)
 {
     return __pxSocketUdpWriteMemory__(self, memory, length);
 }
 
-pxint
+pxiword
 pxSocketUdpRead(PxSocketUdp self, PxBuffer8* buffer)
 {
     pxBuffer8Normalize(buffer);
 
-    pxu8* memory = buffer->memory + buffer->size;
-    pxint size   = buffer->length - buffer->size;
+    pxu8*   memory = buffer->memory + buffer->size;
+    pxiword size   = buffer->length - buffer->size;
 
     if (size <= 0) return 0;
 
-    pxint amount = __pxSocketUdpReadMemory__(self, memory, size);
+    pxiword amount = __pxSocketUdpReadMemory__(self, memory, size);
 
     buffer->size += amount;
     buffer->tail  = (buffer->tail + amount) % buffer->length;
@@ -114,8 +114,8 @@ pxSocketUdpRead(PxSocketUdp self, PxBuffer8* buffer)
     return amount;
 }
 
-pxint
-pxSocketUdpReadMemory(PxSocketUdp self, pxu8* memory, pxint length)
+pxiword
+pxSocketUdpReadMemory(PxSocketUdp self, pxu8* memory, pxiword length)
 {
     return __pxSocketUdpReadMemory__(self, memory, length);
 }

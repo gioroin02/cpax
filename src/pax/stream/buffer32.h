@@ -5,36 +5,36 @@
 
 typedef struct PxBuffer32
 {
-    pxu32* memory;
-    pxint  length;
-    pxint  size;
-    pxint  head;
-    pxint  tail;
+    pxu32*  memory;
+    pxiword length;
+    pxiword size;
+    pxiword head;
+    pxiword tail;
 }
 PxBuffer32;
 
 /* PxBuffer32 */
 
 PxBuffer32
-pxBuffer32Make(pxu32* memory, pxint length);
+pxBuffer32Make(pxu32* memory, pxiword length);
 
 PxBuffer32
-pxBuffer32MakeFull(pxu32* memory, pxint length);
+pxBuffer32MakeFull(pxu32* memory, pxiword length);
 
 PxBuffer32
-pxBuffer32Reserve(PxArena* arena, pxint length);
+pxBuffer32Reserve(PxArena* arena, pxiword length);
 
 PxBuffer32
-pxBuffer32ReserveFull(PxArena* arena, pxint length);
+pxBuffer32ReserveFull(PxArena* arena, pxiword length);
 
 PxBuffer32
 pxBuffer32Copy(PxArena* arena, PxBuffer32 value);
 
 PxBuffer32
-pxBuffer32CopyAmount(PxArena* arena, PxBuffer32 value, pxint amount);
+pxBuffer32CopyAmount(PxArena* arena, PxBuffer32 value, pxiword amount);
 
 PxBuffer32
-pxBuffer32CopyMemory(PxArena* arena, pxu32* memory, pxint length);
+pxBuffer32CopyMemory(PxArena* arena, pxu32* memory, pxiword length);
 
 void
 pxBuffer32Clear(PxBuffer32* self);
@@ -48,83 +48,83 @@ pxBuffer32Normalize(PxBuffer32* self);
 /* PxBuffer32 getting */
 
 pxb8
-pxBuffer32GetForw(PxBuffer32* self, pxint index, pxu32* value);
+pxBuffer32GetForw(PxBuffer32* self, pxiword index, pxu32* value);
 
 pxu32
-pxBuffer32GetForwOr(PxBuffer32* self, pxint index, pxu32 value);
+pxBuffer32GetForwOr(PxBuffer32* self, pxiword index, pxu32 value);
 
 pxb8
-pxBuffer32GetBack(PxBuffer32* self, pxint index, pxu32* value);
+pxBuffer32GetBack(PxBuffer32* self, pxiword index, pxu32* value);
 
 pxu32
-pxBuffer32GetBackOr(PxBuffer32* self, pxint index, pxu32 value);
+pxBuffer32GetBackOr(PxBuffer32* self, pxiword index, pxu32 value);
 
 /* PxBuffer32 dropping */
 
-pxint
-pxBuffer32DropHead(PxBuffer32* self, pxint amount);
+pxiword
+pxBuffer32DropHead(PxBuffer32* self, pxiword amount);
 
-pxint
-pxBuffer32DropTail(PxBuffer32* self, pxint amount);
+pxiword
+pxBuffer32DropTail(PxBuffer32* self, pxiword amount);
 
 /* PxBuffer32 writing */
 
-pxint
+pxiword
 pxBuffer32WriteHead(PxBuffer32* self, PxBuffer32* buffer);
 
-pxint
-pxBuffer32WriteMemoryHead(PxBuffer32* self, pxu32* memory, pxint length);
+pxiword
+pxBuffer32WriteMemoryHead(PxBuffer32* self, pxu32* memory, pxiword length);
 
-pxint
+pxiword
 pxBuffer32WriteStringHead(PxBuffer32* self, PxString32 string);
 
-pxint
+pxiword
 pxBuffer32WriteTail(PxBuffer32* self, PxBuffer32* buffer);
 
-pxint
-pxBuffer32WriteMemoryTail(PxBuffer32* self, pxu32* memory, pxint length);
+pxiword
+pxBuffer32WriteMemoryTail(PxBuffer32* self, pxu32* memory, pxiword length);
 
-pxint
+pxiword
 pxBuffer32WriteStringTail(PxBuffer32* self, PxString32 string);
 
 /* PxBuffer32 reading */
 
-pxint
+pxiword
 pxBuffer32ReadHead(PxBuffer32* self, PxBuffer32* buffer);
 
-pxint
-pxBuffer32ReadMemoryHead(PxBuffer32* self, pxu32* memory, pxint length);
+pxiword
+pxBuffer32ReadMemoryHead(PxBuffer32* self, pxu32* memory, pxiword length);
 
 PxString32
-pxBuffer32ReadStringHead(PxBuffer32* self, PxArena* arena, pxint length);
+pxBuffer32ReadStringHead(PxBuffer32* self, PxArena* arena, pxiword length);
 
-pxint
+pxiword
 pxBuffer32ReadTail(PxBuffer32* self, PxBuffer32* buffer);
 
-pxint
-pxBuffer32ReadMemoryTail(PxBuffer32* self, pxu32* memory, pxint length);
+pxiword
+pxBuffer32ReadMemoryTail(PxBuffer32* self, pxu32* memory, pxiword length);
 
 PxString32
-pxBuffer32ReadStringTail(PxBuffer32* self, PxArena* arena, pxint length);
+pxBuffer32ReadStringTail(PxBuffer32* self, PxArena* arena, pxiword length);
 
 /* PxBuffer32 peeking */
 
-pxint
+pxiword
 pxBuffer32PeekHead(PxBuffer32* self, PxBuffer32* buffer);
 
-pxint
-pxBuffer32PeekMemoryHead(PxBuffer32* self, pxu32* memory, pxint length);
+pxiword
+pxBuffer32PeekMemoryHead(PxBuffer32* self, pxu32* memory, pxiword length);
 
 PxString32
-pxBuffer32PeekStringHead(PxBuffer32* self, PxArena* arena, pxint length);
+pxBuffer32PeekStringHead(PxBuffer32* self, PxArena* arena, pxiword length);
 
-pxint
+pxiword
 pxBuffer32PeekTail(PxBuffer32* self, PxBuffer32* buffer);
 
-pxint
-pxBuffer32PeekMemoryTail(PxBuffer32* self, pxu32* memory, pxint length);
+pxiword
+pxBuffer32PeekMemoryTail(PxBuffer32* self, pxu32* memory, pxiword length);
 
 PxString32
-pxBuffer32PeekStringTail(PxBuffer32* self, PxArena* arena, pxint length);
+pxBuffer32PeekStringTail(PxBuffer32* self, PxArena* arena, pxiword length);
 
 #endif // PX_STREAM_BUFFER32_H

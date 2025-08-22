@@ -29,7 +29,7 @@ pxWriterSetBuffer(PxWriter* self, PxBuffer8* buffer)
     return result;
 }
 
-pxint
+pxiword
 pxWriterFlush(PxWriter* self)
 {
     PxWriterProc* proc = pxCast(PxWriterProc*, self->proc);
@@ -40,7 +40,7 @@ pxWriterFlush(PxWriter* self)
     return 0;
 }
 
-pxint
+pxiword
 pxWriterByte(PxWriter* self, pxu8 value)
 {
     if (self->buffer->size + 1 > self->buffer->length)
@@ -49,10 +49,10 @@ pxWriterByte(PxWriter* self, pxu8 value)
     return pxBuffer8WriteMemoryTail(self->buffer, &value, 1);
 }
 
-pxint
+pxiword
 pxWriterString(PxWriter* self, PxString8 value)
 {
-    for (pxint i = 0; i < value.length;) {
+    for (pxiword i = 0; i < value.length;) {
         i += pxBuffer8WriteMemoryTail(self->buffer,
             value.memory + i, value.length - i);
 

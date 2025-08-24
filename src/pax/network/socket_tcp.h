@@ -20,7 +20,7 @@ pxSocketTcpGetPort(PxSocketTcp self);
 pxb8
 pxSocketTcpBind(PxSocketTcp self, PxAddress address, pxu16 port);
 
-void
+pxb8
 pxSocketTcpListen(PxSocketTcp self);
 
 pxb8

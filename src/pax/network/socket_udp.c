@@ -56,7 +56,7 @@ pxSocketUdpBind(PxSocketUdp self, PxAddress address, pxu16 port)
     return __pxSocketUdpBind__(self, address, port);
 }
 
-void
+pxb8
 pxSocketUdpListen(PxSocketUdp self)
 {
     return __pxSocketUdpListen__(self);

@@ -20,7 +20,7 @@ pxWindowsSocketTcpGetPort(PxWindowsSocketTcp* self);
 pxb8
 pxWindowsSocketTcpBind(PxWindowsSocketTcp* self, PxAddress address, pxu16 port);
 
-void
+pxb8
 pxWindowsSocketTcpListen(PxWindowsSocketTcp* self);
 
 pxb8

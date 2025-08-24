@@ -20,7 +20,7 @@ pxSocketUdpGetPort(PxSocketUdp self);
 pxb8
 pxSocketUdpBind(PxSocketUdp self, PxAddress address, pxu16 port);
 
-void
+pxb8
 pxSocketUdpListen(PxSocketUdp self);
 
 pxb8

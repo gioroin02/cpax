@@ -86,14 +86,18 @@ pxWindowsSocketTcpGetAddress(PxWindowsSocketTcp* self)
         case AF_INET: {
             result.type = PX_ADDRESS_TYPE_IP4;
 
-            pxMemoryCopy(&result.ip4.memory, pxSockTcpIp4Addr(self),
+            void* addr = pxSockTcpIp4Addr(self->address);
+
+            pxMemoryCopy(&result.ip4.memory, addr,
                 PX_ADDRESS_IP4_GROUPS, 1);
         } break;
 
         case AF_INET6: {
             result.type = PX_ADDRESS_TYPE_IP6;
 
-            pxMemoryCopy(&result.ip6.memory, pxSockTcpIp6Addr(self),
+            void* addr = pxSockTcpIp6Addr(self->address);
+
+            pxMemoryCopy(&result.ip6.memory, addr,
                 PX_ADDRESS_IP6_GROUPS, 2);
         } break;
 
@@ -106,14 +110,12 @@ pxWindowsSocketTcpGetAddress(PxWindowsSocketTcp* self)
 pxu16
 pxWindowsSocketTcpGetPort(PxWindowsSocketTcp* self)
 {
-    PxAddress result = {.type = PX_ADDRESS_TYPE_NONE};
-
     switch (self->address.ss_family) {
         case AF_INET:
-            return *pxSockTcpIp4Port(self);
+            return *pxSockTcpIp4Port(self->address);
 
         case AF_INET6:
-            return *pxSockTcpIp6Port(self);
+            return *pxSockTcpIp6Port(self->address);
 
         default: break;
     }
@@ -140,24 +142,24 @@ pxWindowsSocketTcpBind(PxWindowsSocketTcp* self, PxAddress address, pxu16 port)
 
     switch (address.type) {
         case PX_ADDRESS_TYPE_IP4: {
-            data = (PxSockTcpData) {.ss_family = AF_INET};
-            size = PX_SOCK_TCP_IP4_SIZE;
+            data.ss_family = AF_INET;
+            size           = PX_SOCK_TCP_IP4_SIZE;
 
-            pxMemoryCopy(pxSockTcpIp4Addr(self),
+            pxMemoryCopy(pxSockTcpIp4Addr(data),
                 &address.ip4.memory, PX_ADDRESS_IP4_GROUPS, 1);
 
-            pxMemoryNetCopyLocal(pxSockTcpIp4Port(self),
+            pxMemoryNetCopyLocal(pxSockTcpIp4Port(data),
                 &port, 1, 2);
         } break;
 
         case PX_ADDRESS_TYPE_IP6: {
-            data = (PxSockTcpData) {.ss_family = AF_INET6};
-            size = PX_SOCK_TCP_IP6_SIZE;
+            data.ss_family = AF_INET6;
+            size           = PX_SOCK_TCP_IP6_SIZE;
 
-            pxMemoryCopy(pxSockTcpIp6Addr(self),
+            pxMemoryCopy(pxSockTcpIp6Addr(data),
                 &address.ip6.memory, PX_ADDRESS_IP6_GROUPS, 2);
 
-            pxMemoryNetCopyLocal(pxSockTcpIp6Port(self),
+            pxMemoryNetCopyLocal(pxSockTcpIp6Port(data),
                 &port, 1, 2);
         } break;
 
@@ -172,10 +174,13 @@ pxWindowsSocketTcpBind(PxWindowsSocketTcp* self, PxAddress address, pxu16 port)
     return 1;
 }
 
-void
+pxb8
 pxWindowsSocketTcpListen(PxWindowsSocketTcp* self)
 {
-    listen(self->handle, SOMAXCONN);
+    if (listen(self->handle, SOMAXCONN) == SOCKET_ERROR)
+        return 0;
+
+    return 1;
 }
 
 pxb8
@@ -186,24 +191,24 @@ pxWindowsSocketTcpConnect(PxWindowsSocketTcp* self, PxAddress address, pxu16 por
 
     switch (address.type) {
         case PX_ADDRESS_TYPE_IP4: {
-            data = (PxSockTcpData) {.ss_family = AF_INET};
-            size = PX_SOCK_TCP_IP4_SIZE;
+            data.ss_family = AF_INET;
+            size           = PX_SOCK_TCP_IP4_SIZE;
 
-            pxMemoryCopy(pxSockTcpIp4Addr(self),
+            pxMemoryCopy(pxSockTcpIp4Addr(data),
                 &address.ip4.memory, PX_ADDRESS_IP4_GROUPS, 1);
 
-            pxMemoryNetCopyLocal(pxSockTcpIp4Port(self),
+            pxMemoryNetCopyLocal(pxSockTcpIp4Port(data),
                 &port, 1, 2);
         } break;
 
         case PX_ADDRESS_TYPE_IP6: {
-            data = (PxSockTcpData) {.ss_family = AF_INET6};
-            size = PX_SOCK_TCP_IP6_SIZE;
+            data.ss_family = AF_INET6;
+            size           = PX_SOCK_TCP_IP6_SIZE;
 
-            pxMemoryCopy(pxSockTcpIp6Addr(self),
+            pxMemoryCopy(pxSockTcpIp6Addr(data),
                 &address.ip6.memory, PX_ADDRESS_IP6_GROUPS, 2);
 
-            pxMemoryNetCopyLocal(pxSockTcpIp6Port(self),
+            pxMemoryNetCopyLocal(pxSockTcpIp6Port(data),
                 &port, 1, 2);
         } break;
 

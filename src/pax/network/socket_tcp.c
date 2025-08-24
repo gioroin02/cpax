@@ -54,7 +54,7 @@ pxSocketTcpBind(PxSocketTcp self, PxAddress address, pxu16 port)
     return __pxSocketTcpBind__(self, address, port);
 }
 
-void
+pxb8
 pxSocketTcpListen(PxSocketTcp self)
 {
     return __pxSocketTcpListen__(self);

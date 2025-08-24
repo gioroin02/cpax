@@ -25,7 +25,7 @@ void*
 pxMemoryNetFromLocal(void* memory, pxiword amount, pxiword stride)
 {
     if (pxByteOrder() == PX_BYTE_ORDER_REVERSE)
-        return pxMemoryFlip(memory, amount, stride);
+        return pxMemoryFlip(memory, amount * stride, 1);
 
     return memory;
 }
@@ -34,9 +34,9 @@ void*
 pxMemoryNetCopyLocal(void* memory, void* value, pxiword amount, pxiword stride)
 {
     if (pxByteOrder() == PX_BYTE_ORDER_REVERSE)
-        return pxMemoryCopyFlipped(memory, value, amount, stride);
+        return pxMemoryCopyFlipped(memory, value, amount * stride, 1);
 
-    return pxMemoryCopy(memory, value, amount, stride);
+    return pxMemoryCopy(memory, value, amount * stride, 1);
 }
 
 pxu16
@@ -164,7 +164,7 @@ void*
 pxMemoryLocalFromNet(void* memory, pxiword amount, pxiword stride)
 {
     if (pxByteOrder() == PX_BYTE_ORDER_REVERSE)
-        return pxMemoryFlip(memory, amount, stride);
+        return pxMemoryFlip(memory, amount * stride, 1);
 
     return memory;
 }
@@ -173,9 +173,9 @@ void*
 pxMemoryLocalCopyNet(void* memory, void* value, pxiword amount, pxiword stride)
 {
     if (pxByteOrder() == PX_BYTE_ORDER_REVERSE)
-        return pxMemoryCopyFlipped(memory, value, amount, stride);
+        return pxMemoryCopyFlipped(memory, value, amount * stride, 1);
 
-    return pxMemoryCopy(memory, value, amount, stride);
+    return pxMemoryCopy(memory, value, amount * stride, 1);
 }
 
 pxu16

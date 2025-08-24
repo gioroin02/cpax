@@ -48,12 +48,11 @@ pxReaderDrop(PxReader* self, pxiword offset)
     for (pxiword i = 0; i < offset;) {
         i += pxBuffer8DropHead(self->buffer, offset - i);
 
-        if (pxReaderFill(self) == 0) {
-            if (i >= offset)
-                break;
-
-            return 0;
-        }
+        if (i < offset) {
+            if (pxReaderFill(self) == 0)
+                return 0;
+        } else
+            break;
     }
 
     return pxBuffer8GetForwOr(self->buffer, 0, 0);
@@ -85,20 +84,24 @@ pxReaderPeekString(PxReader* self, PxArena* arena, pxiword length)
 {
     if (length <= 0) return (PxString8) {0};
 
-    if (length > self->buffer->size) {
-        if (length > self->buffer->length) return (PxString8) {0};
+    pxiword offset = pxArenaOffset(arena);
+    pxu8*   result = pxArenaReserve(arena, pxu8, length + 1);
+    pxiword diff   = 0;
+    pxu8    byte   = pxReaderPeek(self, 0);
 
-        for (pxiword i = 0; i < length - self->buffer->size;) {
-            pxiword amount = pxReaderFill(self);
+    while (byte != 0 && diff <= length) {
+        result[diff] = byte;
 
-            if (amount != 0)
-                i += amount;
-            else
-                return (PxString8) {0};
-        }
+        diff += 1;
+        byte  = pxReaderPeek(self, diff);
     }
 
-    return pxBuffer8PeekStringHead(self->buffer, arena, length);
+    if (diff < length)
+        pxArenaRewind(arena, offset + diff + 1);
+
+    return (PxString8) {
+        .memory = result, .length = diff,
+    };
 }
 
 PxString8
@@ -106,15 +109,24 @@ pxReaderPeekLine(PxReader* self, PxArena* arena, pxiword length)
 {
     if (length <= 0) return (PxString8) {0};
 
-    pxiword diff = 0;
-    pxu8    byte = pxReaderPeek(self, diff);
+    pxiword offset = pxArenaOffset(arena);
+    pxu8*   result = pxArenaReserve(arena, pxu8, length + 1);
+    pxiword diff   = 0;
+    pxu8    byte   = pxReaderPeek(self, 0);
 
     while (byte != 0 && byte != 10 && diff <= length) {
+        result[diff] = byte;
+
         diff += 1;
         byte  = pxReaderPeek(self, diff);
     }
 
-    return pxReaderPeekString(self, arena, diff);
+    if (diff < length)
+        pxArenaRewind(arena, offset + diff + 1);
+
+    return (PxString8) {
+        .memory = result, .length = diff,
+    };
 }
 
 PxString8
@@ -124,26 +136,21 @@ pxReaderString(PxReader* self, PxArena* arena, pxiword length)
 
     pxiword offset = pxArenaOffset(arena);
     pxu8*   result = pxArenaReserve(arena, pxu8, length + 1);
+    pxiword diff   = 0;
+    pxu8    byte   = pxReaderPeek(self, 0);
 
-    if (result == 0) return (PxString8) {0};
+    while (byte != 0 && diff <= length) {
+        result[diff] = byte;
 
-    for (pxiword i = 0; i < length;) {
-        i += pxBuffer8ReadMemoryHead(self->buffer,
-            result + i, length - i);
-
-        if (pxReaderFill(self) == 0) {
-            if (i < length)
-                pxArenaRewind(arena, offset);
-            else
-                break;
-
-            return (PxString8) {0};
-        }
+        diff += 1;
+        byte  = pxReaderDrop(self, 1);
     }
 
+    if (diff < length)
+        pxArenaRewind(arena, offset + diff + 1);
+
     return (PxString8) {
-        .memory = result,
-        .length = length,
+        .memory = result, .length = diff,
     };
 }
 
@@ -155,22 +162,22 @@ pxReaderLine(PxReader* self, PxArena* arena, pxiword length)
     pxiword offset = pxArenaOffset(arena);
     pxu8*   result = pxArenaReserve(arena, pxu8, length + 1);
     pxiword diff   = 0;
-    pxu8    byte   = pxReaderPeek(self, diff);
-
-    if (result == 0) return (PxString8) {0};
+    pxu8    byte   = pxReaderPeek(self, 0);
 
     while (byte != 0 && byte != 10 && diff <= length) {
         result[diff] = byte;
 
         diff += 1;
-        byte  = pxReaderPeek(self, diff);
+        byte  = pxReaderDrop(self, 1);
     }
 
-    if (diff < length) pxArenaRewind(arena, offset + diff + 1);
+    byte = pxReaderDrop(self, 1);
+
+    if (diff < length)
+        pxArenaRewind(arena, offset + diff + 1);
 
     return (PxString8) {
-        .memory = result,
-        .length = diff,
+        .memory = result, .length = diff,
     };
 }
 

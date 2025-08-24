@@ -4,7 +4,26 @@
 #include "string32.h"
 
 PxString32
-pxString32FromUnicode(PxArena* arena, pxi32 value)
+pxString32FromMemory(void* memory, pxiword length)
+{
+    for (pxiword i = 0; i < length; i += 1) {
+        if (pxCast(pxu32*, memory)[i] != 0)
+            continue;
+
+        return (PxString32) {
+            .memory = memory,
+            .length = i,
+        };
+    }
+
+    return (PxString32) {
+        .memory = memory,
+        .length = length,
+    };
+}
+
+PxString32
+pxString32CopyUnicode(PxArena* arena, pxi32 value)
 {
     pxiword length = pxUtf32UnitsToWrite(value);
     pxu32*  result = pxArenaReserve(arena, pxu32, length + 1);

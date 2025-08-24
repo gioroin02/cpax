@@ -7,16 +7,18 @@
 
     #include "../../windows/network/socket_udp.c"
 
-    #define __pxSocketUdpCreate__      pxWindowsSocketUdpCreate
-    #define __pxSocketUdpDestroy__     pxWindowsSocketUdpDestroy
-    #define __pxSocketUdpGetAddress__  pxWindowsSocketUdpGetAddress
-    #define __pxSocketUdpGetPort__     pxWindowsSocketUdpGetPort
-    #define __pxSocketUdpBind__        pxWindowsSocketUdpBind
-    #define __pxSocketUdpListen__      pxWindowsSocketUdpListen
-    #define __pxSocketUdpConnect__     pxWindowsSocketUdpConnect
-    #define __pxSocketUdpAccept__      pxWindowsSocketUdpAccept
-    #define __pxSocketUdpWriteMemory__ pxWindowsSocketUdpWriteMemory
-    #define __pxSocketUdpReadMemory__  pxWindowsSocketUdpReadMemory
+    #define __pxSocketUdpCreate__          pxWindowsSocketUdpCreate
+    #define __pxSocketUdpDestroy__         pxWindowsSocketUdpDestroy
+    #define __pxSocketUdpGetAddress__      pxWindowsSocketUdpGetAddress
+    #define __pxSocketUdpGetPort__         pxWindowsSocketUdpGetPort
+    #define __pxSocketUdpBind__            pxWindowsSocketUdpBind
+    #define __pxSocketUdpListen__          pxWindowsSocketUdpListen
+    #define __pxSocketUdpConnect__         pxWindowsSocketUdpConnect
+    #define __pxSocketUdpAccept__          pxWindowsSocketUdpAccept
+    #define __pxSocketUdpWriteMemory__     pxWindowsSocketUdpWriteMemory
+    #define __pxSocketUdpWriteMemoryAddr__ pxWindowsSocketUdpWriteMemoryAddr
+    #define __pxSocketUdpReadMemory__      pxWindowsSocketUdpReadMemory
+    #define __pxSocketUdpReadMemoryAddr__  pxWindowsSocketUdpReadMemoryAddr
 
 #else
 
@@ -97,6 +99,30 @@ pxSocketUdpWriteMemory(PxSocketUdp self, pxu8* memory, pxiword length)
 }
 
 pxiword
+pxSocketUdpWriteAddr(PxSocketUdp self, PxBuffer8* buffer, PxAddress address, pxu16 port)
+{
+    pxBuffer8Normalize(buffer);
+
+    pxu8*   memory = buffer->memory;
+    pxiword size   = buffer->size;
+
+    if (size <= 0) return 0;
+
+    pxiword amount = __pxSocketUdpWriteMemoryAddr__(self, memory, size, address, port);
+
+    buffer->size += amount;
+    buffer->head  = (buffer->head + amount) % buffer->length;
+
+    return amount;
+}
+
+pxiword
+pxSocketUdpWriteMemoryAddr(PxSocketUdp self, pxu8* memory, pxiword length, PxAddress address, pxu16 port)
+{
+    return __pxSocketUdpWriteMemoryAddr__(self, memory, length, address, port);
+}
+
+pxiword
 pxSocketUdpRead(PxSocketUdp self, PxBuffer8* buffer)
 {
     pxBuffer8Normalize(buffer);
@@ -118,6 +144,30 @@ pxiword
 pxSocketUdpReadMemory(PxSocketUdp self, pxu8* memory, pxiword length)
 {
     return __pxSocketUdpReadMemory__(self, memory, length);
+}
+
+pxiword
+pxSocketUdpReadAddr(PxSocketUdp self, PxBuffer8* buffer, PxAddress* address, pxu16* port)
+{
+    pxBuffer8Normalize(buffer);
+
+    pxu8*   memory = buffer->memory + buffer->size;
+    pxiword size   = buffer->length - buffer->size;
+
+    if (size <= 0) return 0;
+
+    pxiword amount = __pxSocketUdpReadMemoryAddr__(self, memory, size, address, port);
+
+    buffer->size += amount;
+    buffer->tail  = (buffer->tail + amount) % buffer->length;
+
+    return amount;
+}
+
+pxiword
+pxSocketUdpReadMemoryAddr(PxSocketUdp self, pxu8* memory, pxiword length, PxAddress* address, pxu16* port)
+{
+    return __pxSocketUdpReadMemoryAddr__(self, memory, length, address, port);
 }
 
 PxWriter

@@ -4,7 +4,26 @@
 #include "string16.h"
 
 PxString16
-pxString16FromUnicode(PxArena* arena, pxi32 value)
+pxString16FromMemory(void* memory, pxiword length)
+{
+    for (pxiword i = 0; i < length; i += 1) {
+        if (pxCast(pxu16*, memory)[i] != 0)
+            continue;
+
+        return (PxString16) {
+            .memory = memory,
+            .length = i,
+        };
+    }
+
+    return (PxString16) {
+        .memory = memory,
+        .length = length,
+    };
+}
+
+PxString16
+pxString16CopyUnicode(PxArena* arena, pxi32 value)
 {
     pxiword length = pxUtf16UnitsToWrite(value);
     pxu16*  result = pxArenaReserve(arena, pxu16, length + 1);

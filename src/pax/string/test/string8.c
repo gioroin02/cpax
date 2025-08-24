@@ -29,7 +29,7 @@ main(int argc, char** argv)
     PxArena arena = pxArenaMake(memory, pxSize(memory));
 
     PxString8 str1 = pxString8Copy(&arena, pxs8("ciao"));
-    PxString8 str2 = pxString8FromUnicode(&arena, 0x1f600);
+    PxString8 str2 = pxString8CopyUnicode(&arena, 0x1f600);
 
     showString8(str1);
 

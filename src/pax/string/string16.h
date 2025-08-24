@@ -11,7 +11,10 @@ typedef struct PxString16
 PxString16;
 
 PxString16
-pxString16FromUnicode(PxArena* arena, pxi32 value);
+pxString16FromMemory(void* memory, pxiword length);
+
+PxString16
+pxString16CopyUnicode(PxArena* arena, pxi32 value);
 
 PxString16
 pxString16Copy(PxArena* arena, PxString16 string);

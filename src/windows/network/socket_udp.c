@@ -157,7 +157,7 @@ pxWindowsSocketUdpBind(PxWindowsSocketUdp* self, PxAddress address, pxu16 port)
             pxMemoryCopy(pxSockUdpIp6Addr(self),
                 &address.ip6.memory, PX_ADDRESS_IP6_GROUPS, 2);
 
-            pxMemoryNetCopyLocal(pxSockUdpIp4Port(self),
+            pxMemoryNetCopyLocal(pxSockUdpIp6Port(self),
                 &port, 1, 2);
         } break;
 
@@ -203,7 +203,7 @@ pxWindowsSocketUdpConnect(PxWindowsSocketUdp* self, PxAddress address, pxu16 por
             pxMemoryCopy(pxSockUdpIp6Addr(self),
                 &address.ip6.memory, PX_ADDRESS_IP6_GROUPS, 2);
 
-            pxMemoryNetCopyLocal(pxSockUdpIp4Port(self),
+            pxMemoryNetCopyLocal(pxSockUdpIp6Port(self),
                 &port, 1, 2);
         } break;
 
@@ -263,13 +263,43 @@ pxWindowsSocketUdpWriteMemory(PxWindowsSocketUdp* self, pxu8* memory, pxiword le
 }
 
 pxiword
-pxWindowsSocketUdpReadMemory(PxWindowsSocketUdp* self, pxu8* memory, pxiword length)
+pxWindowsSocketUdpWriteMemoryAddr(PxWindowsSocketUdp* self, pxu8* memory, pxiword length, PxAddress address, pxu16 port)
 {
+    PxSockUdpData data = {0};
+    pxiword       size = 0;
+
+    switch (address.type) {
+        case PX_ADDRESS_TYPE_IP4: {
+            data = (PxSockUdpData) {.ss_family = AF_INET};
+            size = PX_SOCK_UDP_IP4_SIZE;
+
+            pxMemoryCopy(pxSockUdpIp4Addr(self),
+                &address.ip4.memory, PX_ADDRESS_IP4_GROUPS, 1);
+
+            pxMemoryNetCopyLocal(pxSockUdpIp4Port(self),
+                &port, 1, 2);
+        } break;
+
+        case PX_ADDRESS_TYPE_IP6: {
+            data = (PxSockUdpData) {.ss_family = AF_INET6};
+            size = PX_SOCK_UDP_IP6_SIZE;
+
+            pxMemoryCopy(pxSockUdpIp6Addr(self),
+                &address.ip6.memory, PX_ADDRESS_IP6_GROUPS, 2);
+
+            pxMemoryNetCopyLocal(pxSockUdpIp6Port(self),
+                &port, 1, 2);
+        } break;
+
+        default: return 0;
+    }
+
     for (pxiword i = 0; i < length;) {
         char* mem = pxCast(char*, memory + i);
         int   len = pxCast(int,   length + i);
 
-        pxiword amount = recv(self->handle, mem, len, 0);
+        pxiword amount = sendto(self->handle, mem, len, 0,
+            pxSockUdpAddr(&data), size);
 
         if (amount > 0 && amount <= length - i)
             i += amount;
@@ -278,6 +308,38 @@ pxWindowsSocketUdpReadMemory(PxWindowsSocketUdp* self, pxu8* memory, pxiword len
     }
 
     return length;
+}
+
+pxiword
+pxWindowsSocketUdpReadMemory(PxWindowsSocketUdp* self, pxu8* memory, pxiword length)
+{
+    char* mem = pxCast(char*, memory);
+    int   len = pxCast(int,   length);
+
+    pxiword amount = recv(self->handle, mem, len, 0);
+
+    if (amount > 0 && amount <= length)
+        return amount;
+
+    return 0;
+}
+
+pxiword
+pxWindowsSocketUdpReadMemoryAddr(PxWindowsSocketUdp* self, pxu8* memory, pxiword length, PxAddress* address, pxu16* port)
+{
+    PxSockUdpData data = {0};
+    pxiword       size = PX_SOCK_UDP_DATA_SIZE;
+
+    char* mem = pxCast(char*, memory);
+    int   len = pxCast(int,   length);
+
+    pxiword amount = recvfrom(self->handle, mem, len, 0,
+        pxSockUdpAddr(&data), pxCast(int*, &size));
+
+    if (amount > 0 && amount <= length)
+        return amount;
+
+    return 0;
 }
 
 #endif // PX_WINDOWS_NETWORK_SOCKET_UDP_C

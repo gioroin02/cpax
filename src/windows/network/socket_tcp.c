@@ -157,7 +157,7 @@ pxWindowsSocketTcpBind(PxWindowsSocketTcp* self, PxAddress address, pxu16 port)
             pxMemoryCopy(pxSockTcpIp6Addr(self),
                 &address.ip6.memory, PX_ADDRESS_IP6_GROUPS, 2);
 
-            pxMemoryNetCopyLocal(pxSockTcpIp4Port(self),
+            pxMemoryNetCopyLocal(pxSockTcpIp6Port(self),
                 &port, 1, 2);
         } break;
 
@@ -203,7 +203,7 @@ pxWindowsSocketTcpConnect(PxWindowsSocketTcp* self, PxAddress address, pxu16 por
             pxMemoryCopy(pxSockTcpIp6Addr(self),
                 &address.ip6.memory, PX_ADDRESS_IP6_GROUPS, 2);
 
-            pxMemoryNetCopyLocal(pxSockTcpIp4Port(self),
+            pxMemoryNetCopyLocal(pxSockTcpIp6Port(self),
                 &port, 1, 2);
         } break;
 
@@ -265,19 +265,15 @@ pxWindowsSocketTcpWriteMemory(PxWindowsSocketTcp* self, pxu8* memory, pxiword le
 pxiword
 pxWindowsSocketTcpReadMemory(PxWindowsSocketTcp* self, pxu8* memory, pxiword length)
 {
-    for (pxiword i = 0; i < length;) {
-        char* mem = pxCast(char*, memory + i);
-        int   len = pxCast(int,   length + i);
+    char* mem = pxCast(char*, memory);
+    int   len = pxCast(int,   length);
 
-        pxiword amount = recv(self->handle, mem, len, 0);
+    pxiword amount = recv(self->handle, mem, len, 0);
 
-        if (amount > 0 && amount <= length - i)
-            i += amount;
-        else
-            return i;
-    }
+    if (amount > 0 && amount <= length)
+        return amount;
 
-    return length;
+    return 0;
 }
 
 #endif // PX_WINDOWS_NETWORK_SOCKET_TCP_C

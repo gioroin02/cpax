@@ -209,7 +209,7 @@ pxJsonPeek(PxReader* reader, PxArena* arena)
     }
 
     PxString8 message = pxString8Copy(arena, pxs8("Unkown symbol"));
-    PxString8 subject = pxString8FromUnicode(arena, byte);
+    PxString8 subject = pxString8CopyUnicode(arena, byte);
 
     return pxJsonTokenError(subject, message);
 }
@@ -220,7 +220,7 @@ pxJsonPeekSymbol(PxReader* reader, PxArena* arena)
     pxiword offset = 1;
     pxu8    byte   = pxReaderPeek(reader, 0);
 
-    PxString8 string = pxString8FromUnicode(arena, byte);
+    PxString8 string = pxString8CopyUnicode(arena, byte);
 
     switch (byte) {
         case PX_ASCII_BRACE_LEFT:
@@ -260,7 +260,7 @@ pxJsonPeekString(PxReader* reader, PxArena* arena)
         PxString8 message = pxString8Copy(arena,
             pxs8("Invalid string, expected opening {\"}"));
 
-        PxString8 subject = pxString8FromUnicode(arena, byte);
+        PxString8 subject = pxString8CopyUnicode(arena, byte);
 
         return pxJsonTokenError(subject, message);
     }
@@ -274,7 +274,7 @@ pxJsonPeekString(PxReader* reader, PxArena* arena)
         PxString8 message = pxString8Copy(arena,
             pxs8("Invalid string, expected closing {\"}"));
 
-        PxString8 subject = pxString8FromUnicode(arena, byte);
+        PxString8 subject = pxString8CopyUnicode(arena, byte);
 
         return pxJsonTokenError(subject, message);
     }
@@ -359,7 +359,7 @@ pxJsonPeekWord(PxReader* reader, PxArena* arena)
         PxString8 subject = pxString8Copy(arena,
             pxs8("Invalid key word, expected opening letter"));
 
-        PxString8 message = pxString8FromUnicode(arena, byte);
+        PxString8 message = pxString8CopyUnicode(arena, byte);
 
         return pxJsonTokenError(subject, message);
     }
@@ -437,7 +437,7 @@ pxJsonNext(PxReader* reader, PxArena* arena)
 
     if (result.type == PX_JSON_TOKEN_NONE) {
         PxString8 message = pxString8Copy(arena, pxs8("Unkown symbol"));
-        PxString8 subject = pxString8FromUnicode(arena, byte);
+        PxString8 subject = pxString8CopyUnicode(arena, byte);
 
         result = pxJsonTokenError(subject, message);
     } else

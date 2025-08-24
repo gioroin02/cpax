@@ -36,10 +36,22 @@ pxiword
 pxSocketUdpWriteMemory(PxSocketUdp self, pxu8* memory, pxiword length);
 
 pxiword
+pxSocketUdpWriteAddr(PxSocketUdp self, PxBuffer8* buffer, PxAddress address, pxu16 port);
+
+pxiword
+pxSocketUdpWriteMemoryAddr(PxSocketUdp self, pxu8* memory, pxiword length, PxAddress address, pxu16 port);
+
+pxiword
 pxSocketUdpRead(PxSocketUdp self, PxBuffer8* buffer);
 
 pxiword
 pxSocketUdpReadMemory(PxSocketUdp self, pxu8* memory, pxiword length);
+
+pxiword
+pxSocketUdpReadAddr(PxSocketUdp self, PxBuffer8* buffer, PxAddress* address, pxu16* port);
+
+pxiword
+pxSocketUdpReadMemoryAddr(PxSocketUdp self, pxu8* memory, pxiword length, PxAddress* address, pxu16* port);
 
 PxReader
 pxSocketUdpReader(PxSocketUdp self, PxBuffer8* buffer);

@@ -4,7 +4,26 @@
 #include "string8.h"
 
 PxString8
-pxString8FromUnicode(PxArena* arena, pxi32 value)
+pxString8FromMemory(void* memory, pxiword length)
+{
+    for (pxiword i = 0; i < length; i += 1) {
+        if (pxCast(pxu8*, memory)[i] != 0)
+            continue;
+
+        return (PxString8) {
+            .memory = memory,
+            .length = i,
+        };
+    }
+
+    return (PxString8) {
+        .memory = memory,
+        .length = length,
+    };
+}
+
+PxString8
+pxString8CopyUnicode(PxArena* arena, pxi32 value)
 {
     pxiword length = pxUtf8UnitsToWrite(value);
     pxu8*   result = pxArenaReserve(arena, pxu8, length + 1);

@@ -74,10 +74,12 @@ pxArrayInsertMemory(PxArray* self, pxiword index, void* memory, pxiword stride)
 
     if (self->stride != stride || memory == 0) return 0;
 
-    pxiword length = self->size - index;
+    if (index > 0) {
+        pxiword length = self->size - index;
 
-    pxMemoryCopyForw(self->memory + index * stride,
-        length, 1, stride);
+        pxMemoryCopyForw(self->memory + index * stride,
+            length, 1, stride);
+    }
 
     pxMemoryCopy(self->memory + index * stride,
         memory, 1, stride);
@@ -109,10 +111,12 @@ pxArrayCreate(PxArray* self, pxiword index)
 
     if (index < 0 || index > self->size) return 0;
 
-    pxiword length = self->size - index;
+    if (index > 0) {
+        pxiword length = self->size - index;
 
-    pxMemoryCopyForw(self->memory + index * stride,
-        length, 1, stride);
+        pxMemoryCopyForw(self->memory + index * stride,
+            length, 1, stride);
+    }
 
     pxMemoryZero(self->memory + index * stride, 1, stride);
 
@@ -146,10 +150,12 @@ pxArrayRemoveMemory(PxArray* self, pxiword index, void* memory, pxiword stride)
             1, stride);
     }
 
-    pxiword length = self->size - index;
+    if (index > 0) {
+        pxiword length = self->size - index;
 
-    pxMemoryCopyBack(self->memory + index * stride,
-        length, 1, stride);
+        pxMemoryCopyBack(self->memory + index * stride,
+            length, 1, stride);
+    }
 
     self->size -= 1;
 

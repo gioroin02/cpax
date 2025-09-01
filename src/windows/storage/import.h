@@ -1,0 +1,6 @@
+#ifndef PX_WINDOWS_STORAGE_IMPORT_H
+#define PX_WINDOWS_STORAGE_IMPORT_H
+
+#include "../../pax/storage/path.h"
+
+#endif // PX_WINDOWS_STORAGE_IMPORT_H

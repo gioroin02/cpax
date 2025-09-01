@@ -3,6 +3,9 @@
 
 #include "utf16.h"
 
+#define pxs16(x) \
+    ((PxString16) {.memory = pxCast(pxu16*, x), .length = pxSize(x) / 2 - 1})
+
 typedef struct PxString16
 {
     pxu16*  memory;

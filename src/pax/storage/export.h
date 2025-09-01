@@ -3,4 +3,6 @@
 
 #include "path.h"
 
+#include "directory.h"
+
 #endif // PX_STORAGE_EXPORT_H

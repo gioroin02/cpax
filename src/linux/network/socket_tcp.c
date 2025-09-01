@@ -60,10 +60,11 @@ pxLinuxSocketTcpCreate(PxArena* arena, PxAddressType type)
     if (result != 0) {
         result->handle = socket(family, SOCK_STREAM, 0);
 
-        result->address.ss_family = family;
+        if (result->handle != -1) {
+            result->address.ss_family = family;
 
-        if (result->handle != -1)
             return result;
+        }
     }
 
     pxArenaRewind(arena, offset);
@@ -74,10 +75,14 @@ pxLinuxSocketTcpCreate(PxArena* arena, PxAddressType type)
 void
 pxLinuxSocketTcpDestroy(PxLinuxSocketTcp* self)
 {
-    if (self == 0) return;
+    if (self == 0 || self->handle == -1)
+        return;
 
-    if (self->handle != -1)
-        close(self->handle);
+    pxiword result = 0;
+
+    do {
+        result = close(self->handle);
+    } while (result == -1 && errno == EINTR);
 
     self->handle  = -1;
     self->address = (PxSockData) {0};
@@ -243,8 +248,13 @@ pxLinuxSocketTcpConnect(PxLinuxSocketTcp* self, PxAddress address, pxu16 port)
         default: return 0;
     }
 
-    if (connect(self->handle, pxSock(&data), size) == -1)
-        return 0;
+    pxiword result = 0;
+
+    do {
+        result = connect(self->handle, pxSock(&data), size);
+    } while (result == -1 && errno == EINTR);
+
+    if (result == -1) return 0;
 
     self->address = data;
 
@@ -263,13 +273,16 @@ pxLinuxSocketTcpAccept(PxLinuxSocketTcp* self, PxArena* arena)
         PxSockData data = {0};
         pxiword    size = PX_SOCK_DATA_SIZE;
 
-        result->handle = accept(self->handle,
-            pxSock(&data), pxCast(PxSockSize*, &size));
+        do {
+            result->handle = accept(self->handle,
+                pxSock(&data), pxCast(PxSockSize*, &size));
+        } while (result->handle == -1 && errno == EINTR);
 
-        result->address = data;
+        if (result->handle != -1) {
+            result->address = data;
 
-        if (result->handle != -1)
             return result;
+        }
     }
 
     pxArenaRewind(arena, offset);
@@ -281,12 +294,15 @@ pxiword
 pxLinuxSocketTcpWriteMemory(PxLinuxSocketTcp* self, void* memory, pxiword amount, pxiword stride)
 {
     pxiword length = amount * stride;
+    pxiword temp   = 0;
 
     for (pxiword i = 0; i < length;) {
         char* mem = pxCast(char*, memory + i);
         int   len = pxCast(int,   length - i);
 
-        pxiword temp = send(self->handle, mem, len, 0);
+        do {
+            temp = send(self->handle, mem, len, 0);
+        } while (temp == -1 && errno == EINTR);
 
         if (temp > 0 && temp <= length - i)
             i += temp;
@@ -301,11 +317,14 @@ pxiword
 pxLinuxSocketTcpReadMemory(PxLinuxSocketTcp* self, void* memory, pxiword amount, pxiword stride)
 {
     pxiword length = amount * stride;
+    pxiword temp   = 0;
 
     char* mem = pxCast(char*, memory);
     int   len = pxCast(int,   length);
 
-    pxiword temp = recv(self->handle, mem, len, 0);
+    do {
+        temp = recv(self->handle, mem, len, 0);
+    } while (temp == -1 && errno == EINTR);
 
     if (temp > 0 && temp <= length)
         return temp;

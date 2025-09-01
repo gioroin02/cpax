@@ -60,10 +60,11 @@ pxWindowsSocketTcpCreate(PxArena* arena, PxAddressType type)
     if (result != 0) {
         result->handle = socket(family, SOCK_STREAM, 0);
 
-        result->address.ss_family = family;
+        if (result->handle != INVALID_SOCKET) {
+            result->address.ss_family = family;
 
-        if (result->handle != INVALID_SOCKET)
             return result;
+        }
     }
 
     pxArenaRewind(arena, offset);
@@ -266,10 +267,11 @@ pxWindowsSocketTcpAccept(PxWindowsSocketTcp* self, PxArena* arena)
         result->handle = accept(self->handle,
             pxSock(&data), pxCast(int*, &size));
 
-        result->address = data;
+        if (result->handle != INVALID_SOCKET) {
+            result->address = data;
 
-        if (result->handle != INVALID_SOCKET)
             return result;
+        }
     }
 
     pxArenaRewind(arena, offset);
@@ -281,12 +283,13 @@ pxiword
 pxWindowsSocketTcpWriteMemory(PxWindowsSocketTcp* self, void* memory, pxiword amount, pxiword stride)
 {
     pxiword length = amount * stride;
+    pxiword temp   = 0;
 
     for (pxiword i = 0; i < length;) {
         char* mem = pxCast(char*, memory + i);
         int   len = pxCast(int,   length - i);
 
-        pxiword temp = send(self->handle, mem, len, 0);
+        temp = send(self->handle, mem, len, 0);
 
         if (temp > 0 && temp <= length - i)
             i += temp;
@@ -301,11 +304,12 @@ pxiword
 pxWindowsSocketTcpReadMemory(PxWindowsSocketTcp* self, void* memory, pxiword amount, pxiword stride)
 {
     pxiword length = amount * stride;
+    pxiword temp   = 0;
 
     char* mem = pxCast(char*, memory);
     int   len = pxCast(int,   length);
 
-    pxiword temp = recv(self->handle, mem, len, 0);
+    temp = recv(self->handle, mem, len, 0);
 
     if (temp > 0 && temp <= length)
         return temp;

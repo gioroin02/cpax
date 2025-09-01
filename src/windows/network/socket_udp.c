@@ -60,10 +60,11 @@ pxWindowsSocketUdpCreate(PxArena* arena, PxAddressType type)
     if (result != 0) {
         result->handle = socket(family, SOCK_DGRAM, 0);
 
-        result->address.ss_family = family;
+        if (result->handle != INVALID_SOCKET) {
+            result->address.ss_family = family;
 
-        if (result->handle != INVALID_SOCKET)
             return result;
+        }
     }
 
     pxArenaRewind(arena, offset);
@@ -74,10 +75,10 @@ pxWindowsSocketUdpCreate(PxArena* arena, PxAddressType type)
 void
 pxWindowsSocketUdpDestroy(PxWindowsSocketUdp* self)
 {
-    if (self == 0) return;
+    if (self == 0 || self->handle == INVALID_SOCKET)
+        return;
 
-    if (self->handle != INVALID_SOCKET)
-        closesocket(self->handle);
+    closesocket(self->handle);
 
     self->handle  = INVALID_SOCKET;
     self->address = (PxSockData) {0};
@@ -266,10 +267,11 @@ pxWindowsSocketUdpAccept(PxWindowsSocketUdp* self, PxArena* arena)
         result->handle = accept(self->handle,
             pxSock(&data), pxCast(int*, &size));
 
-        result->address = data;
+        if (result->handle != INVALID_SOCKET) {
+            result->address = data;
 
-        if (result->handle != INVALID_SOCKET)
             return result;
+        }
     }
 
     pxArenaRewind(arena, offset);
@@ -281,12 +283,13 @@ pxiword
 pxWindowsSocketUdpWriteMemory(PxWindowsSocketUdp* self, void* memory, pxiword amount, pxiword stride)
 {
     pxiword length = amount * stride;
+    pxiword temp   = 0;
 
     for (pxiword i = 0; i < length;) {
         char* mem = pxCast(char*, memory + i);
         int   len = pxCast(int,   length - i);
 
-        pxiword temp = send(self->handle, mem, len, 0);
+        temp = send(self->handle, mem, len, 0);
 
         if (temp > 0 && temp <= length - i)
             i += temp;
@@ -336,12 +339,13 @@ pxWindowsSocketUdpWriteHostMemory(PxWindowsSocketUdp* self, void* memory, pxiwor
     }
 
     pxiword length = amount * stride;
+    pxiword temp   = 0;
 
     for (pxiword i = 0; i < length;) {
         char* mem = pxCast(char*, memory + i);
         int   len = pxCast(int,   length - i);
 
-        pxiword temp = sendto(self->handle, mem, len, 0,
+        temp = sendto(self->handle, mem, len, 0,
             pxSock(&data), size);
 
         if (temp > 0 && temp <= length - i)
@@ -357,11 +361,12 @@ pxiword
 pxWindowsSocketUdpReadMemory(PxWindowsSocketUdp* self, void* memory, pxiword amount, pxiword stride)
 {
     pxiword length = amount * stride;
+    pxiword temp   = 0;
 
     char* mem = pxCast(char*, memory);
     int   len = pxCast(int,   length);
 
-    pxiword temp = recv(self->handle, mem, len, 0);
+    temp = recv(self->handle, mem, len, 0);
 
     if (temp > 0 && temp <= length)
         return temp;
@@ -376,11 +381,12 @@ pxWindowsSocketUdpReadHostMemory(PxWindowsSocketUdp* self, void* memory, pxiword
     pxiword    size = PX_SOCK_DATA_SIZE;
 
     pxiword length = amount * stride;
+    pxiword temp   = 0;
 
     char* mem = pxCast(char*, memory);
     int   len = pxCast(int,   length);
 
-    pxiword temp = recvfrom(self->handle, mem, len, 0,
+    temp = recvfrom(self->handle, mem, len, 0,
         pxSock(&data), pxCast(int*, &size));
 
     if (temp <= 0 || temp > length) return 0;

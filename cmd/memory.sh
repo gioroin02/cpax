@@ -1,8 +1,10 @@
-set base="src/pax/base/export.c"
-set memory="src/pax/memory/export.c"
+base="src/pax/base/export.c"
+memory="src/pax/memory/export.c"
 
-set pax="$base $memory"
-set dir="src/pax/memory/test"
+pax="$base $memory"
 
-zig cc --std=c99 $src "$dir/order.c"  -o memory_order.exe
-zig cc --std=c99 $src "$dir/system.c" -o memory_system.exe
+src=$pax
+dir="src/pax/memory/test"
+
+gcc --std=c99 $src $dir/order.c  -o memory_order.exe
+gcc --std=c99 $src $dir/system.c -o memory_system.exe

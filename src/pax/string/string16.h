@@ -28,6 +28,9 @@ pxString16Chain(PxString16 self, PxArena* arena, PxString16 value);
 PxString16
 pxString16ChainMemory16(PxString16 self, PxArena* arena, pxu16* memory, pxiword length);
 
+PxString16
+pxString16Replace(PxString16 self, PxArena* arena, PxString16 value, PxString16 other);
+
 pxb8
 pxString16Get(PxString16 self, pxiword index, pxu16* value);
 

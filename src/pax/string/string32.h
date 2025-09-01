@@ -28,6 +28,9 @@ pxString32Chain(PxString32 self, PxArena* arena, PxString32 value);
 PxString32
 pxString32ChainMemory32(PxString32 self, PxArena* arena, pxu32* memory, pxiword length);
 
+PxString32
+pxString32Replace(PxString32 self, PxArena* arena, PxString32 value, PxString32 other);
+
 pxb8
 pxString32Get(PxString32 self, pxiword index, pxu32* value);
 

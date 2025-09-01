@@ -30,7 +30,7 @@ pxWindowsMemoryReserve(pxiword amount)
 
     pxiword length = amount * stride;
 
-    void* result = VirtualAlloc(0, pxCast(DWORD, length),
+    result = VirtualAlloc(0, pxCast(DWORD, length),
         MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
 
     if (result == 0) return (PxArena) {0};

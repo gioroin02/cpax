@@ -22,7 +22,7 @@ pxArenaReserveMemory(PxArena* self, pxiword amount, pxiword stride)
 
     if (amount <= 0 || stride <= 0) return 0;
 
-    pxiword start = pxArenaAlignForw(self, stride);
+    pxiword start = pxArenaAlignForw(self, 16);
     pxiword stop  = start + length;
 
     if (start < self->offset || stop > self->length)

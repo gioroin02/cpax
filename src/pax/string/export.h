@@ -11,4 +11,8 @@
 #include "string16.h"
 #include "string32.h"
 
+#include "convert.h"
+
+#include "list.h"
+
 #endif // PX_STRING_EXPORT_H

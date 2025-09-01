@@ -11,4 +11,8 @@
 #include "string16.c"
 #include "string32.c"
 
+#include "convert.c"
+
+#include "list.c"
+
 #endif // PX_STRING_EXPORT_C

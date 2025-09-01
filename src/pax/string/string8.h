@@ -33,6 +33,9 @@ pxString8Chain(PxString8 self, PxArena* arena, PxString8 value);
 PxString8
 pxString8ChainMemory8(PxString8 self, PxArena* arena, pxu8* memory, pxiword length);
 
+PxString8
+pxString8Replace(PxString8 self, PxArena* arena, PxString8 value, PxString8 other);
+
 pxb8
 pxString8Get(PxString8 self, pxiword index, pxu8* value);
 

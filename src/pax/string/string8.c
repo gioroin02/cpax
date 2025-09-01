@@ -84,6 +84,43 @@ pxString8ChainMemory8(PxString8 self, PxArena* arena, pxu8* memory, pxiword leng
     };
 }
 
+PxString8
+pxString8Replace(PxString8 self, PxArena* arena, PxString8 value, PxString8 other)
+{
+    pxiword length = self.length;
+    pxiword count  = pxString8Contains(self, value);
+
+    length -= count * value.length;
+    length += count * other.length;
+
+    pxu8* result = pxArenaReserve(arena, pxu8, length + 1);
+
+    if (result == 0) return (PxString8) {0};
+
+    pxiword start = 0;
+    pxiword stop  = 0;
+
+    for (pxiword i = 0; i < count; i += 1) {
+        pxString8FindFirst(self, start, value, &stop);
+
+        for (pxiword j = start; j < stop; j += 1)
+            result[j] = self.memory[j];
+
+        for (pxiword j = 0; j < other.length; j += 1)
+            result[stop + j] = other.memory[j];
+
+        start = stop + value.length;
+    }
+
+    for (pxiword j = start; j < self.length; j += 1)
+        result[j] = self.memory[j];
+
+    return (PxString8) {
+        .memory = result,
+        .length = length,
+    };
+}
+
 pxb8
 pxString8Get(PxString8 self, pxiword index, pxu8* value)
 {

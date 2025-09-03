@@ -5,10 +5,11 @@
 
 typedef struct PxStringNode
 {
-    pxu32*  memory;
+    pxu8*   memory;
     pxiword length;
 
     struct PxStringNode* next;
+    struct PxStringNode* prev;
 }
 PxStringNode;
 
@@ -31,28 +32,19 @@ PxStringList
 pxStringListFromString32(PxArena* arena, PxString32 string, PxString32 pivot);
 
 pxb8
-pxStringListInsertNodeHead(PxStringList* self, PxStringNode* value);
+pxStringListInsertNode(PxStringList* self, PxStringNode* value);
+
+PxStringNode*
+pxStringListRemoveNode(PxStringList* self);
 
 pxb8
-pxStringListInsertString8Head(PxStringList* self, PxArena* arena, PxString8 value, PxString8 pivot);
+pxStringListInsertString8(PxStringList* self, PxArena* arena, PxString8 value, PxString8 pivot);
 
 pxb8
-pxStringListInsertString16Head(PxStringList* self, PxArena* arena, PxString16 value, PxString16 pivot);
+pxStringListInsertString16(PxStringList* self, PxArena* arena, PxString16 value, PxString16 pivot);
 
 pxb8
-pxStringListInsertString32Head(PxStringList* self, PxArena* arena, PxString32 value, PxString32 pivot);
-
-pxb8
-pxStringListInsertNodeTail(PxStringList* self, PxStringNode* value);
-
-pxb8
-pxStringListInsertString8Tail(PxStringList* self, PxArena* arena, PxString8 value, PxString8 pivot);
-
-pxb8
-pxStringListInsertString16Tail(PxStringList* self, PxArena* arena, PxString16 value, PxString16 pivot);
-
-pxb8
-pxStringListInsertString32Tail(PxStringList* self, PxArena* arena, PxString32 value, PxString32 pivot);
+pxStringListInsertString32(PxStringList* self, PxArena* arena, PxString32 value, PxString32 pivot);
 
 PxString8
 pxString8FromStringList(PxArena* arena, PxStringList* value, PxString8 pivot, PxString8 prefix, PxString8 suffix);

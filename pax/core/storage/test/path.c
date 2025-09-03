@@ -21,4 +21,10 @@ main(int argc, char** argv)
     PxString8 string = pxStorageCurrentDirectory(&arena);
 
     printf("%s\n", string.memory);
+
+    pxPathInsertString8(&path, &arena, pxs8(".."), pxs8("/"));
+
+    string = pxString8FromPath(&arena, &path, pxs8("/"));
+
+    printf("%s\n", string.memory);
 }

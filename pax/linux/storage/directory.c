@@ -42,8 +42,7 @@ pxLinuxStorageCurrentDirectory(PxArena* arena)
     PxPath path =
         pxLinuxStorageCurrentDirectoryPath(arena);
 
-    return pxString8FromPath(arena, &path,
-        pxs8("/"), pxs8("/"), pxs8(""));
+    return pxString8FromPath(arena, &path, pxs8("/"));
 }
 
 #endif // PX_LINUX_STORAGE_DIRECTORY_C

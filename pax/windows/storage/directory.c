@@ -39,8 +39,7 @@ pxWindowsStorageCurrentDirectory(PxArena* arena)
     PxPath path =
         pxWindowsStorageCurrentDirectoryPath(arena);
 
-    return pxString8FromPath(arena, &path,
-        pxs8("/"), pxs8(""), pxs8(""));
+    return pxString8FromPath(arena, &path, pxs8("/"));
 }
 
 #endif // PX_WINDOWS_STORAGE_DIRECTORY_C

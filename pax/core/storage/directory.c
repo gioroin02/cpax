@@ -7,14 +7,14 @@
 
     #include "../../windows/storage/directory.c"
 
-    #define __pxStorageCurrentDirectoryList__ pxWindowsStorageCurrentDirectoryList
+    #define __pxStorageCurrentDirectoryPath__ pxWindowsStorageCurrentDirectoryPath
     #define __pxStorageCurrentDirectory__     pxWindowsStorageCurrentDirectory
 
 #elif PX_SYSTEM == PX_SYSTEM_LINUX
 
     #include "../../linux/storage/directory.c"
 
-    #define __pxStorageCurrentDirectoryList__ pxLinuxStorageCurrentDirectoryList
+    #define __pxStorageCurrentDirectoryPath__ pxLinuxStorageCurrentDirectoryPath
     #define __pxStorageCurrentDirectory__     pxLinuxStorageCurrentDirectory
 
 #else
@@ -23,10 +23,10 @@
 
 #endif
 
-PxStringList
-pxStorageCurrentDirectoryList(PxArena* arena)
+PxPath
+pxStorageCurrentDirectoryPath(PxArena* arena)
 {
-    return __pxStorageCurrentDirectoryList__(arena);
+    return __pxStorageCurrentDirectoryPath__(arena);
 }
 
 PxString8

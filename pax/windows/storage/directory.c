@@ -9,12 +9,12 @@
 
 #include <windows.h>
 
-PxStringList
-pxWindowsStorageCurrentDirectoryList(PxArena* arena)
+PxPath
+pxWindowsStorageCurrentDirectoryPath(PxArena* arena)
 {
     pxiword length = GetCurrentDirectoryW(0, 0);
 
-    if (length <= 0) return (PxStringList) {0};
+    if (length <= 0) return (PxPath) {0};
 
     pxiword offset = pxArenaOffset(arena);
     pxu16*  result = pxArenaReserve(arena, pxu16, length);
@@ -25,21 +25,21 @@ pxWindowsStorageCurrentDirectoryList(PxArena* arena)
         pxiword size = GetCurrentDirectoryW(length, result);
 
         if (size + 1 == length)
-            return pxStringListFromString16(arena, string, pxs16(L"\\"));
+            return pxPathFromString16(arena, string, pxs16(L"\\"));
     }
 
     pxArenaRewind(arena, offset);
 
-    return (PxStringList) {0};
+    return (PxPath) {0};
 }
 
 PxString8
 pxWindowsStorageCurrentDirectory(PxArena* arena)
 {
-    PxStringList list =
-        pxWindowsStorageCurrentDirectoryList(arena);
+    PxPath path =
+        pxWindowsStorageCurrentDirectoryPath(arena);
 
-    return pxString8FromStringList(arena, &list,
+    return pxString8FromPath(arena, &path,
         pxs8("/"), pxs8(""), pxs8(""));
 }
 

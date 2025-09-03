@@ -3,8 +3,8 @@
 
 #include "import.h"
 
-PxStringList
-pxWindowsStorageCurrentDirectoryList(PxArena* arena);
+PxPath
+pxWindowsStorageCurrentDirectoryPath(PxArena* arena);
 
 PxString8
 pxWindowsStorageCurrentDirectory(PxArena* arena);

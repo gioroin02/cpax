@@ -13,6 +13,66 @@ struct PxLinuxFile
 };
 
 PxLinuxFile*
+pxLinuxStandardInput(PxArena* arena)
+{
+    pxiword offset = pxArenaOffset(arena);
+
+    PxLinuxFile* result =
+        pxArenaReserve(arena, PxLinuxFile, 1);
+
+    if (result != 0) {
+        result->handle = STDIN_FILENO;
+
+        if (result->handle != -1)
+            return result;
+    }
+
+    pxArenaRewind(arena, offset);
+
+    return 0;
+}
+
+PxLinuxFile*
+pxLinuxStandardOutput(PxArena* arena)
+{
+    pxiword offset = pxArenaOffset(arena);
+
+    PxLinuxFile* result =
+        pxArenaReserve(arena, PxLinuxFile, 1);
+
+    if (result != 0) {
+        result->handle = STDOUT_FILENO;
+
+        if (result->handle != -1)
+            return result;
+    }
+
+    pxArenaRewind(arena, offset);
+
+    return 0;
+}
+
+PxLinuxFile*
+pxLinuxStandardError(PxArena* arena)
+{
+    pxiword offset = pxArenaOffset(arena);
+
+    PxLinuxFile* result =
+        pxArenaReserve(arena, PxLinuxFile, 1);
+
+    if (result != 0) {
+        result->handle = STDERR_FILENO;
+
+        if (result->handle != -1)
+            return result;
+    }
+
+    pxArenaRewind(arena, offset);
+
+    return 0;
+}
+
+PxLinuxFile*
 pxLinuxFileCreate(PxArena* arena, PxString8 base, PxString8 name, PxFileMode mode)
 {
     pxiword offset = pxArenaOffset(arena);

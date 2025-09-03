@@ -15,6 +15,66 @@ struct PxWindowsFile
 };
 
 PxWindowsFile*
+pxWindowsStandardInput(PxArena* arena)
+{
+    pxiword offset = pxArenaOffset(arena);
+
+    PxWindowsFile* result =
+        pxArenaReserve(arena, PxWindowsFile, 1);
+
+    if (result != 0) {
+        result->handle = GetStdHandle(STD_INPUT_HANDLE);
+
+        if (result->handle != INVALID_HANDLE_VALUE)
+            return result;
+    }
+
+    pxArenaRewind(arena, offset);
+
+    return 0;
+}
+
+PxWindowsFile*
+pxWindowsStandardOutput(PxArena* arena)
+{
+    pxiword offset = pxArenaOffset(arena);
+
+    PxWindowsFile* result =
+        pxArenaReserve(arena, PxWindowsFile, 1);
+
+    if (result != 0) {
+        result->handle = GetStdHandle(STD_OUTPUT_HANDLE);
+
+        if (result->handle != INVALID_HANDLE_VALUE)
+            return result;
+    }
+
+    pxArenaRewind(arena, offset);
+
+    return 0;
+}
+
+PxWindowsFile*
+pxWindowsStandardError(PxArena* arena)
+{
+    pxiword offset = pxArenaOffset(arena);
+
+    PxWindowsFile* result =
+        pxArenaReserve(arena, PxWindowsFile, 1);
+
+    if (result != 0) {
+        result->handle = GetStdHandle(STD_OUTPUT_HANDLE);
+
+        if (result->handle != INVALID_HANDLE_VALUE)
+            return result;
+    }
+
+    pxArenaRewind(arena, offset);
+
+    return 0;
+}
+
+PxWindowsFile*
 pxWindowsFileCreate(PxArena* arena, PxString8 base, PxString8 name, PxFileMode mode)
 {
     pxiword offset = pxArenaOffset(arena);

@@ -7,6 +7,10 @@
 
     #include "../../windows/storage/file.c"
 
+    #define __pxStandardInput__  pxWindowsStandardInput
+    #define __pxStandardOutput__ pxWindowsStandardOutput
+    #define __pxStandardError__  pxWindowsStandardError
+
     #define __pxFileCreate__      pxWindowsFileCreate
     #define __pxFileReplace__     pxWindowsFileReplace
     #define __pxFileOpen__        pxWindowsFileOpen
@@ -19,6 +23,10 @@
 #elif PX_SYSTEM == PX_SYSTEM_LINUX
 
     #include "../../linux/storage/file.c"
+
+    #define __pxStandardInput__  pxLinuxStandardInput
+    #define __pxStandardOutput__ pxLinuxStandardOutput
+    #define __pxStandardError__  pxLinuxStandardError
 
     #define __pxFileCreate__      pxLinuxFileCreate
     #define __pxFileReplace__     pxLinuxFileReplace
@@ -34,6 +42,24 @@
     #error "Unknown platform"
 
 #endif
+
+PxFile
+pxStandardInput(PxArena* arena)
+{
+    return __pxStandardInput__(arena);
+}
+
+PxFile
+pxStandardOutput(PxArena* arena)
+{
+    return __pxStandardOutput__(arena);
+}
+
+PxFile
+pxStandardError(PxArena* arena)
+{
+    return __pxStandardError__(arena);
+}
 
 PxFile
 pxFileCreate(PxArena* arena, PxString8 base, PxString8 name, PxFileMode mode)

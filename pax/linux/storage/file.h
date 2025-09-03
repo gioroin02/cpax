@@ -6,6 +6,15 @@
 typedef struct PxLinuxFile PxLinuxFile;
 
 PxLinuxFile*
+pxLinuxStandardInput(PxArena* arena);
+
+PxLinuxFile*
+pxLinuxStandardOutput(PxArena* arena);
+
+PxLinuxFile*
+pxLinuxStandardError(PxArena* arena);
+
+PxLinuxFile*
 pxLinuxFileCreate(PxArena* arena, PxString8 base, PxString8 name, PxFileMode mode);
 
 PxLinuxFile*

@@ -6,6 +6,15 @@
 typedef void* PxFile;
 
 PxFile
+pxStandardInput(PxArena* arena);
+
+PxFile
+pxStandardOutput(PxArena* arena);
+
+PxFile
+pxStandardError(PxArena* arena);
+
+PxFile
 pxFileCreate(PxArena* arena, PxString8 base, PxString8 name, PxFileMode mode);
 
 PxFile

@@ -6,6 +6,15 @@
 typedef struct PxWindowsFile PxWindowsFile;
 
 PxWindowsFile*
+pxWindowsStandardInput(PxArena* arena);
+
+PxWindowsFile*
+pxWindowsStandardOutput(PxArena* arena);
+
+PxWindowsFile*
+pxWindowsStandardError(PxArena* arena);
+
+PxWindowsFile*
 pxWindowsFileCreate(PxArena* arena, PxString8 base, PxString8 name, PxFileMode mode);
 
 PxWindowsFile*

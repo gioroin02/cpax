@@ -6,12 +6,12 @@
 #include <unistd.h>
 #include <linux/limits.h>
 
-PxPath
-pxLinuxStorageCurrentDirectory(PxArena* arena)
+PxStringList
+pxLinuxStorageCurrentDirectoryList(PxArena* arena)
 {
     pxiword length = PATH_MAX;
 
-    if (length <= 0) return (PxPath) {0};
+    if (length <= 0) return (PxStringList) {0};
 
     pxiword offset = pxArenaOffset(arena);
     pxu8*   result = pxArenaReserve(arena, pxu8, length + 1);
@@ -27,13 +27,23 @@ pxLinuxStorageCurrentDirectory(PxArena* arena)
 
             pxArenaRewind(arena, offset + length + 1);
 
-            return pxPathFromString8(arena, string, pxs8("/"));
+            return pxStringListFromString8(arena, string, pxs8("/"));
         }
     }
 
     pxArenaRewind(arena, offset);
 
-    return (PxPath) {0};
+    return (PxStringList) {0};
+}
+
+PxString8
+pxLinuxStorageCurrentDirectory(PxArena* arena)
+{
+    PxStringList list =
+        pxWindowsStorageCurrentDirectoryList(arena);
+
+    return pxString8FromStringList(arena, &list,
+        pxs8("/"), pxs8("/"), pxs8(""));
 }
 
 #endif // PX_LINUX_STORAGE_DIRECTORY_C

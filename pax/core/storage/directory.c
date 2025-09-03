@@ -7,13 +7,15 @@
 
     #include "../../windows/storage/directory.c"
 
-    #define __pxStorageCurrentDirectory__ pxWindowsStorageCurrentDirectory
+    #define __pxStorageCurrentDirectoryList__ pxWindowsStorageCurrentDirectoryList
+    #define __pxStorageCurrentDirectory__     pxWindowsStorageCurrentDirectory
 
 #elif PX_SYSTEM == PX_SYSTEM_LINUX
 
     #include "../../linux/storage/directory.c"
 
-    #define __pxStorageCurrentDirectory__ pxLinuxStorageCurrentDirectory
+    #define __pxStorageCurrentDirectoryList__ pxLinuxStorageCurrentDirectoryList
+    #define __pxStorageCurrentDirectory__     pxLinuxStorageCurrentDirectory
 
 #else
 
@@ -21,21 +23,16 @@
 
 #endif
 
-PxPath
-pxStorageCurrentDirectory(PxArena* arena)
+PxStringList
+pxStorageCurrentDirectoryList(PxArena* arena)
 {
-    return __pxStorageCurrentDirectory__(arena);
+    return __pxStorageCurrentDirectoryList__(arena);
 }
 
 PxString8
-pxStorageCurrentDirectoryName(PxArena* arena)
+pxStorageCurrentDirectory(PxArena* arena)
 {
-    PxPath path = pxStorageCurrentDirectory(arena);
-
-    PxString8 string =
-        pxString8FromPath(arena, &path, pxs8("/"));
-
-    return string;
+    return __pxStorageCurrentDirectory__(arena);
 }
 
 #endif // PX_STORAGE_SYSTEM_C

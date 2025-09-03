@@ -3,19 +3,19 @@
 
 #include "convert.h"
 
-typedef struct PxStringListNode
+typedef struct PxStringNode
 {
     pxu32*  memory;
     pxiword length;
 
-    struct PxStringListNode* next;
+    struct PxStringNode* next;
 }
-PxStringListNode;
+PxStringNode;
 
 typedef struct PxStringList
 {
-    PxStringListNode* head;
-    PxStringListNode* tail;
+    PxStringNode* head;
+    PxStringNode* tail;
 
     pxiword size;
 }
@@ -31,7 +31,7 @@ PxStringList
 pxStringListFromString32(PxArena* arena, PxString32 string, PxString32 pivot);
 
 pxb8
-pxStringListInsertNodeHead(PxStringList* self, PxStringListNode* value);
+pxStringListInsertNodeHead(PxStringList* self, PxStringNode* value);
 
 pxb8
 pxStringListInsertString8Head(PxStringList* self, PxArena* arena, PxString8 value, PxString8 pivot);
@@ -43,7 +43,7 @@ pxb8
 pxStringListInsertString32Head(PxStringList* self, PxArena* arena, PxString32 value, PxString32 pivot);
 
 pxb8
-pxStringListInsertNodeTail(PxStringList* self, PxStringListNode* value);
+pxStringListInsertNodeTail(PxStringList* self, PxStringNode* value);
 
 pxb8
 pxStringListInsertString8Tail(PxStringList* self, PxArena* arena, PxString8 value, PxString8 pivot);
@@ -55,12 +55,12 @@ pxb8
 pxStringListInsertString32Tail(PxStringList* self, PxArena* arena, PxString32 value, PxString32 pivot);
 
 PxString8
-pxString8FromStringList(PxArena* arena, PxStringList* value, PxString8 pivot);
+pxString8FromStringList(PxArena* arena, PxStringList* value, PxString8 pivot, PxString8 prefix, PxString8 suffix);
 
 PxString16
-pxString16FromStringList(PxArena* arena, PxStringList* value, PxString16 pivot);
+pxString16FromStringList(PxArena* arena, PxStringList* value, PxString16 pivot, PxString16 prefix, PxString16 suffix);
 
 PxString32
-pxString32FromStringList(PxArena* arena, PxStringList* value, PxString32 pivot);
+pxString32FromStringList(PxArena* arena, PxStringList* value, PxString32 pivot, PxString32 prefix, PxString32 suffix);
 
 #endif // PX_STRING_LIST_H

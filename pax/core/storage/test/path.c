@@ -7,9 +7,9 @@ main(int argc, char** argv)
 {
     PxArena arena = pxMemoryReserve(16);
 
-    PxPath path = pxStorageCurrentDirectory(&arena);
+    PxStringList path = pxStorageCurrentDirectoryList(&arena);
 
-    for (PxPathNode* n = path.head; n != 0; n = n->next) {
+    for (PxStringNode* n = path.head; n != 0; n = n->next) {
         for (pxiword i = 0; i < n->length; i += 1)
             printf("%c", pxCast(pxi8, n->memory[i]));
 
@@ -18,7 +18,7 @@ main(int argc, char** argv)
     }
     printf("\n");
 
-    PxString8 string = pxString8FromPath(&arena, &path, pxs8("/"));
+    PxString8 string = pxStorageCurrentDirectory(&arena);
 
     printf("%s\n", string.memory);
 }

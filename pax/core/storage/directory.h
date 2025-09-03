@@ -1,12 +1,12 @@
 #ifndef PX_STORAGE_DIRECTORY_H
 #define PX_STORAGE_DIRECTORY_H
 
-#include "path.h"
+#include "import.h"
 
-PxPath
-pxStorageCurrentDirectory(PxArena* arena);
+PxStringList
+pxStorageCurrentDirectoryList(PxArena* arena);
 
 PxString8
-pxStorageCurrentDirectoryName(PxArena* arena);
+pxStorageCurrentDirectory(PxArena* arena);
 
 #endif // PX_STORAGE_DIRECTORY_H

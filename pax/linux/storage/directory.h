@@ -3,7 +3,10 @@
 
 #include "import.h"
 
-PxPath
+PxStringList
+pxLinuxStorageCurrentDirectoryList(PxArena* arena);
+
+PxString8
 pxLinuxStorageCurrentDirectory(PxArena* arena);
 
 #endif // PX_LINUX_STORAGE_DIRECTORY_H

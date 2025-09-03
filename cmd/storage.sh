@@ -11,3 +11,4 @@ pax="$pax"
 dir="pax/core/storage/test"
 
 gcc --std=c99 $pax $dir/path.c -o storage_path.exe
+gcc --std=c99 $pax $dir/read.c -o storage_read.exe

@@ -34,12 +34,11 @@ typedef struct sockaddr_in6     PxSockIp6;
 
 #endif // PX_LINUX_NETWORK_SOCKET
 
-typedef struct PxLinuxSocketUdp
+struct PxLinuxSocketUdp
 {
     int        handle;
     PxSockData address;
-}
-PxLinuxSocketUdp;
+};
 
 PxLinuxSocketUdp*
 pxLinuxSocketUdpCreate(PxArena* arena, PxAddressType type)

@@ -3,7 +3,7 @@
 
 #include "import.h"
 
-typedef struct PxLinuxSocketUdp;
+typedef struct PxLinuxSocketUdp PxLinuxSocketUdp;
 
 PxLinuxSocketUdp*
 pxLinuxSocketUdpCreate(PxArena* arena, PxAddressType type);

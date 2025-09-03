@@ -34,12 +34,11 @@ typedef struct sockaddr_in6     PxSockIp6;
 
 #endif // PX_WINDOWS_NETWORK_SOCKET
 
-typedef struct PxWindowsSocketUdp
+struct PxWindowsSocketUdp
 {
     SOCKET     handle;
     PxSockData address;
-}
-PxWindowsSocketUdp;
+};
 
 PxWindowsSocketUdp*
 pxWindowsSocketUdpCreate(PxArena* arena, PxAddressType type)

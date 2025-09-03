@@ -3,7 +3,7 @@
 
 #include "import.h"
 
-typedef struct PxWindowsSocketUdp;
+typedef struct PxWindowsSocketUdp PxWindowsSocketUdp;
 
 PxWindowsSocketUdp*
 pxWindowsSocketUdpCreate(PxArena* arena, PxAddressType type);

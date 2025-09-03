@@ -3,7 +3,7 @@
 
 #include "import.h"
 
-typedef struct PxWindowsSocketTcp;
+typedef struct PxWindowsSocketTcp PxWindowsSocketTcp;
 
 PxWindowsSocketTcp*
 pxWindowsSocketTcpCreate(PxArena* arena, PxAddressType type);

@@ -1,9 +1,9 @@
-base="src/pax/base/export.c"
+base="pax/core/base/export.c"
 
 pax=$base
 
-src=$pax
-dir="src/pax/base/test"
+pax=$pax
+dir="pax/core/base/test"
 
-gcc --std=c99 $src $dir/number.c -o base_number.exe
-gcc --std=c99 $src $dir/memory.c -o base_memory.exe
+gcc --std=c99 $pax $dir/number.c -o base_number.exe
+gcc --std=c99 $pax $dir/memory.c -o base_memory.exe

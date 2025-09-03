@@ -1,40 +1,40 @@
-#ifndef PX_STRING_LIST_C
-#define PX_STRING_LIST_C
+#ifndef PX_STORAGE_PATH_C
+#define PX_STORAGE_PATH_C
 
-#include "list.h"
+#include "path.h"
 
-PxStringList
-pxStringListFromString8(PxArena* arena, PxString8 string, PxString8 pivot)
+PxPath
+pxPathFromString8(PxArena* arena, PxString8 string, PxString8 pivot)
 {
-    PxStringList result = {0};
+    PxPath result = {0};
 
-    pxStringListInsertString8Tail(&result, arena, string, pivot);
+    pxPathInsertString8Tail(&result, arena, string, pivot);
 
     return result;
 }
 
-PxStringList
-pxStringListFromString16(PxArena* arena, PxString16 string, PxString16 pivot)
+PxPath
+pxPathFromString16(PxArena* arena, PxString16 string, PxString16 pivot)
 {
-    PxStringList result = {0};
+    PxPath result = {0};
 
-    pxStringListInsertString16Tail(&result, arena, string, pivot);
+    pxPathInsertString16Tail(&result, arena, string, pivot);
 
     return result;
 }
 
-PxStringList
-pxStringListFromString32(PxArena* arena, PxString32 string, PxString32 pivot)
+PxPath
+pxPathFromString32(PxArena* arena, PxString32 string, PxString32 pivot)
 {
-    PxStringList result = {0};
+    PxPath result = {0};
 
-    pxStringListInsertString32Tail(&result, arena, string, pivot);
+    pxPathInsertString32Tail(&result, arena, string, pivot);
 
     return result;
 }
 
 pxb8
-pxStringListInsertNodeHead(PxStringList* self, PxStringListNode* value)
+pxPathInsertNodeHead(PxPath* self, PxPathNode* value)
 {
     if (value == 0) return 0;
 
@@ -54,7 +54,7 @@ pxStringListInsertNodeHead(PxStringList* self, PxStringListNode* value)
 }
 
 pxb8
-pxStringListInsertString8Head(PxStringList* self, PxArena* arena, PxString8 value, PxString8 pivot)
+pxPathInsertString8Head(PxPath* self, PxArena* arena, PxString8 value, PxString8 pivot)
 {
     pxiword offset = pxArenaOffset(arena);
 
@@ -64,20 +64,18 @@ pxStringListInsertString8Head(PxStringList* self, PxArena* arena, PxString8 valu
     while (right.length > 0) {
         pxString8Split(right, pivot, &left, &right);
 
-        if (left.length > 0) {
+        if (left.length > 0 || self->size <= 0) {
             PxString32 string = pxString32CopyString8(arena, left);
 
-            if (string.memory == 0 || string.length <= 0)
-                break;
+            PxPathNode* node =
+                pxArenaReserve(arena, PxPathNode, 1);
 
-            PxStringListNode* node = pxArenaReserve(arena, PxStringListNode, 1);
-
-            if (node == 0) break;
+            if (string.memory == 0 || node == 0) break;
 
             node->memory = string.memory;
             node->length = string.length;
 
-            if (pxStringListInsertNodeHead(self, node) == 0) break;
+            if (pxPathInsertNodeHead(self, node) == 0) break;
         }
     }
 
@@ -89,7 +87,7 @@ pxStringListInsertString8Head(PxStringList* self, PxArena* arena, PxString8 valu
 }
 
 pxb8
-pxStringListInsertString16Head(PxStringList* self, PxArena* arena, PxString16 value, PxString16 pivot)
+pxPathInsertString16Head(PxPath* self, PxArena* arena, PxString16 value, PxString16 pivot)
 {
     pxiword offset = pxArenaOffset(arena);
 
@@ -99,20 +97,18 @@ pxStringListInsertString16Head(PxStringList* self, PxArena* arena, PxString16 va
     while (right.length > 0) {
         pxString16Split(right, pivot, &left, &right);
 
-        if (left.length > 0) {
+        if (left.length > 0 || self->size <= 0) {
             PxString32 string = pxString32CopyString16(arena, left);
 
-            if (string.memory == 0 || string.length <= 0)
-                break;
+            PxPathNode* node =
+                pxArenaReserve(arena, PxPathNode, 1);
 
-            PxStringListNode* node = pxArenaReserve(arena, PxStringListNode, 1);
-
-            if (node == 0) break;
+            if (string.memory == 0 || node == 0) break;
 
             node->memory = string.memory;
             node->length = string.length;
 
-            if (pxStringListInsertNodeHead(self, node) == 0) break;
+            if (pxPathInsertNodeHead(self, node) == 0) break;
         }
     }
 
@@ -124,7 +120,7 @@ pxStringListInsertString16Head(PxStringList* self, PxArena* arena, PxString16 va
 }
 
 pxb8
-pxStringListInsertString32Head(PxStringList* self, PxArena* arena, PxString32 value, PxString32 pivot)
+pxPathInsertString32Head(PxPath* self, PxArena* arena, PxString32 value, PxString32 pivot)
 {
     pxiword offset = pxArenaOffset(arena);
 
@@ -134,20 +130,18 @@ pxStringListInsertString32Head(PxStringList* self, PxArena* arena, PxString32 va
     while (right.length > 0) {
         pxString32Split(right, pivot, &left, &right);
 
-        if (left.length > 0) {
+        if (left.length > 0 || self->size <= 0) {
             PxString32 string = pxString32Copy(arena, left);
 
-            if (string.memory == 0 || string.length <= 0)
-                break;
+            PxPathNode* node =
+                pxArenaReserve(arena, PxPathNode, 1);
 
-            PxStringListNode* node = pxArenaReserve(arena, PxStringListNode, 1);
-
-            if (node == 0) break;
+            if (string.memory == 0 || node == 0) break;
 
             node->memory = string.memory;
             node->length = string.length;
 
-            if (pxStringListInsertNodeHead(self, node) == 0) break;
+            if (pxPathInsertNodeHead(self, node) == 0) break;
         }
     }
 
@@ -159,7 +153,7 @@ pxStringListInsertString32Head(PxStringList* self, PxArena* arena, PxString32 va
 }
 
 pxb8
-pxStringListInsertNodeTail(PxStringList* self, PxStringListNode* value)
+pxPathInsertNodeTail(PxPath* self, PxPathNode* value)
 {
     if (value == 0) return 0;
 
@@ -179,7 +173,7 @@ pxStringListInsertNodeTail(PxStringList* self, PxStringListNode* value)
 }
 
 pxb8
-pxStringListInsertString8Tail(PxStringList* self, PxArena* arena, PxString8 value, PxString8 pivot)
+pxPathInsertString8Tail(PxPath* self, PxArena* arena, PxString8 value, PxString8 pivot)
 {
     pxiword offset = pxArenaOffset(arena);
 
@@ -189,20 +183,18 @@ pxStringListInsertString8Tail(PxStringList* self, PxArena* arena, PxString8 valu
     while (right.length > 0) {
         pxString8Split(right, pivot, &left, &right);
 
-        if (left.length > 0) {
+        if (left.length > 0 || self->size <= 0) {
             PxString32 string = pxString32CopyString8(arena, left);
 
-            if (string.memory == 0 || string.length <= 0)
-                break;
+            PxPathNode* node =
+                pxArenaReserve(arena, PxPathNode, 1);
 
-            PxStringListNode* node = pxArenaReserve(arena, PxStringListNode, 1);
-
-            if (node == 0) break;
+            if (string.memory == 0 || node == 0) break;
 
             node->memory = string.memory;
             node->length = string.length;
 
-            if (pxStringListInsertNodeTail(self, node) == 0) break;
+            if (pxPathInsertNodeTail(self, node) == 0) break;
         }
     }
 
@@ -214,7 +206,7 @@ pxStringListInsertString8Tail(PxStringList* self, PxArena* arena, PxString8 valu
 }
 
 pxb8
-pxStringListInsertString16Tail(PxStringList* self, PxArena* arena, PxString16 value, PxString16 pivot)
+pxPathInsertString16Tail(PxPath* self, PxArena* arena, PxString16 value, PxString16 pivot)
 {
     pxiword offset = pxArenaOffset(arena);
 
@@ -224,20 +216,18 @@ pxStringListInsertString16Tail(PxStringList* self, PxArena* arena, PxString16 va
     while (right.length > 0) {
         pxString16Split(right, pivot, &left, &right);
 
-        if (left.length > 0) {
+        if (left.length > 0 || self->size <= 0) {
             PxString32 string = pxString32CopyString16(arena, left);
 
-            if (string.memory == 0 || string.length <= 0)
-                break;
+            PxPathNode* node =
+                pxArenaReserve(arena, PxPathNode, 1);
 
-            PxStringListNode* node = pxArenaReserve(arena, PxStringListNode, 1);
-
-            if (node == 0) break;
+            if (string.memory == 0 || node == 0) break;
 
             node->memory = string.memory;
             node->length = string.length;
 
-            if (pxStringListInsertNodeTail(self, node) == 0) break;
+            if (pxPathInsertNodeTail(self, node) == 0) break;
         }
     }
 
@@ -249,7 +239,7 @@ pxStringListInsertString16Tail(PxStringList* self, PxArena* arena, PxString16 va
 }
 
 pxb8
-pxStringListInsertString32Tail(PxStringList* self, PxArena* arena, PxString32 value, PxString32 pivot)
+pxPathInsertString32Tail(PxPath* self, PxArena* arena, PxString32 value, PxString32 pivot)
 {
     pxiword offset = pxArenaOffset(arena);
 
@@ -259,20 +249,18 @@ pxStringListInsertString32Tail(PxStringList* self, PxArena* arena, PxString32 va
     while (right.length > 0) {
         pxString32Split(right, pivot, &left, &right);
 
-        if (left.length > 0) {
+        if (left.length > 0 || self->size <= 0) {
             PxString32 string = pxString32Copy(arena, left);
 
-            if (string.memory == 0 || string.length <= 0)
-                break;
+            PxPathNode* node =
+                pxArenaReserve(arena, PxPathNode, 1);
 
-            PxStringListNode* node = pxArenaReserve(arena, PxStringListNode, 1);
-
-            if (node == 0) break;
+            if (string.memory == 0 || node == 0) break;
 
             node->memory = string.memory;
             node->length = string.length;
 
-            if (pxStringListInsertNodeTail(self, node) == 0) break;
+            if (pxPathInsertNodeTail(self, node) == 0) break;
         }
     }
 
@@ -284,11 +272,11 @@ pxStringListInsertString32Tail(PxStringList* self, PxArena* arena, PxString32 va
 }
 
 PxString8
-pxString8FromStringList(PxArena* arena, PxStringList* value, PxString8 pivot)
+pxString8FromPath(PxArena* arena, PxPath* value, PxString8 pivot)
 {
     pxiword length = 0;
 
-    for (PxStringListNode* node = value->head; node != 0; node = node->next) {
+    for (PxPathNode* node = value->head; node != 0; node = node->next) {
         length += pxUtf8UnitsFromMemory32(
             node->memory, node->length);
 
@@ -303,7 +291,7 @@ pxString8FromStringList(PxArena* arena, PxStringList* value, PxString8 pivot)
     pxiword offset = pxArenaOffset(arena);
     pxiword index  = 0;
 
-    for (PxStringListNode* node = value->head; node != 0; node = node->next) {
+    for (PxPathNode* node = value->head; node != 0; node = node->next) {
         PxString8 string = pxString8CopyString32(arena,
             (PxString32) {.memory = node->memory, .length = node->length});
 
@@ -327,11 +315,11 @@ pxString8FromStringList(PxArena* arena, PxStringList* value, PxString8 pivot)
 }
 
 PxString16
-pxString16FromStringList(PxArena* arena, PxStringList* value, PxString16 pivot)
+pxString16FromPath(PxArena* arena, PxPath* value, PxString16 pivot)
 {
     pxiword length = 0;
 
-    for (PxStringListNode* node = value->head; node != 0; node = node->next) {
+    for (PxPathNode* node = value->head; node != 0; node = node->next) {
         length += pxUtf16UnitsFromMemory32(
             node->memory, node->length);
 
@@ -346,7 +334,7 @@ pxString16FromStringList(PxArena* arena, PxStringList* value, PxString16 pivot)
     pxiword offset = pxArenaOffset(arena);
     pxiword index  = 0;
 
-    for (PxStringListNode* node = value->head; node != 0; node = node->next) {
+    for (PxPathNode* node = value->head; node != 0; node = node->next) {
         PxString16 string = pxString16CopyString32(arena,
             (PxString32) {.memory = node->memory, .length = node->length});
 
@@ -370,11 +358,11 @@ pxString16FromStringList(PxArena* arena, PxStringList* value, PxString16 pivot)
 }
 
 PxString32
-pxString32FromStringList(PxArena* arena, PxStringList* value, PxString32 pivot)
+pxString32FromPath(PxArena* arena, PxPath* value, PxString32 pivot)
 {
     pxiword length = 0;
 
-    for (PxStringListNode* node = value->head; node != 0; node = node->next) {
+    for (PxPathNode* node = value->head; node != 0; node = node->next) {
         length += node->length;
 
         if (node->next != 0)
@@ -388,7 +376,7 @@ pxString32FromStringList(PxArena* arena, PxStringList* value, PxString32 pivot)
     pxiword offset = pxArenaOffset(arena);
     pxiword index  = 0;
 
-    for (PxStringListNode* node = value->head; node != 0; node = node->next) {
+    for (PxPathNode* node = value->head; node != 0; node = node->next) {
         PxString32 string = {.memory = node->memory, .length = node->length};
 
         for (pxiword i = 0; i < string.length; i += 1)
@@ -410,4 +398,4 @@ pxString32FromStringList(PxArena* arena, PxStringList* value, PxString32 pivot)
     };
 }
 
-#endif // PX_STRING_LIST_C
+#endif // PX_STORAGE_PATH_C

@@ -9,7 +9,7 @@ main(int argc, char** argv)
 
     PxPath path = pxStorageCurrentDirectory(&arena);
 
-    for (PxStringListNode* n = path.items.head; n != 0; n = n->next) {
+    for (PxPathNode* n = path.head; n != 0; n = n->next) {
         for (pxiword i = 0; i < n->length; i += 1)
             printf("%c", pxCast(pxi8, n->memory[i]));
 

@@ -2,14 +2,14 @@ echo off
 
 call cmd\clean.bat
 
-set "base=src\pax\base\export.c"
-set "structure=src\pax\structure\export.c"
+set "base=pax\core\base\export.c"
+set "structure=pax\core\structure\export.c"
 
 set "pax=%base% %structure%"
 
-set "memory=src\pax\memory\export.c"
+set "memory=pax\core\memory\export.c"
 
-set "src=%pax% %memory%"
-set "dir=src\pax\structure\test"
+set "pax=%pax% %memory%"
+set "dir=pax\core\structure\test"
 
-zig cc --std=c99 %src% "%dir%\queue.c" %lib% -o structure_queue.exe
+zig cc --std=c99 %pax% "%dir%\queue.c" %lib% -o structure_queue.exe

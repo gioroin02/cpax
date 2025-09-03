@@ -3,9 +3,21 @@
 
 #include "import.h"
 
+typedef struct PxPathNode
+{
+    pxu32*  memory;
+    pxiword length;
+
+    struct PxPathNode* next;
+}
+PxPathNode;
+
 typedef struct PxPath
 {
-    PxStringList items;
+    PxPathNode* head;
+    PxPathNode* tail;
+
+    pxiword size;
 }
 PxPath;
 
@@ -19,6 +31,9 @@ PxPath
 pxPathFromString32(PxArena* arena, PxString32 string, PxString32 pivot);
 
 pxb8
+pxPathInsertNodeHead(PxPath* self, PxPathNode* value);
+
+pxb8
 pxPathInsertString8Head(PxPath* self, PxArena* arena, PxString8 value, PxString8 pivot);
 
 pxb8
@@ -26,6 +41,9 @@ pxPathInsertString16Head(PxPath* self, PxArena* arena, PxString16 value, PxStrin
 
 pxb8
 pxPathInsertString32Head(PxPath* self, PxArena* arena, PxString32 value, PxString32 pivot);
+
+pxb8
+pxPathInsertNodeTail(PxPath* self, PxPathNode* value);
 
 pxb8
 pxPathInsertString8Tail(PxPath* self, PxArena* arena, PxString8 value, PxString8 pivot);

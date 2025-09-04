@@ -62,4 +62,34 @@ pxWriterString8(PxWriter* self, PxString8 value)
     return value.length;
 }
 
+pxiword
+pxWriterBuffer8(PxWriter* self, PxBuffer8* value)
+{
+    pxiword length = value->size;
+
+    for (pxiword i = 0; i < length;) {
+        i += pxBuffer8WriteTail(self->buffer,
+            value);
+
+        pxWriterFlush(self);
+    }
+
+    return length;
+}
+
+pxiword
+pxWriterMemory(PxWriter* self, void* memory, pxiword amount, pxiword stride)
+{
+    pxiword length = amount * stride;
+
+    for (pxiword i = 0; i < length;) {
+        i += pxBuffer8WriteMemory8Tail(self->buffer,
+            pxCast(pxu8*, memory) + i, length - i);
+
+        pxWriterFlush(self);
+    }
+
+    return length;
+}
+
 #endif // PX_STREAM_WRITER_C

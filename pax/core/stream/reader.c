@@ -41,25 +41,7 @@ pxReaderFill(PxReader* self)
 }
 
 pxu8
-pxReaderSkip(PxReader* self, pxiword offset)
-{
-    if (offset < 0) return 0;
-
-    for (pxiword i = 0; i < offset;) {
-        i += pxBuffer8DropHead(self->buffer, offset - i);
-
-        if (i < offset) {
-            if (pxReaderFill(self) == 0)
-                return 0;
-        } else
-            break;
-    }
-
-    return pxBuffer8GetForwOr(self->buffer, 0, 0);
-}
-
-pxu8
-pxReaderPeek(PxReader* self, pxiword offset)
+pxReaderPeekByte(PxReader* self, pxiword offset)
 {
     if (offset < 0 || offset >= self->buffer->length)
         return 0;
@@ -89,13 +71,13 @@ pxReaderPeekString8(PxReader* self, PxArena* arena, pxiword length)
     pxiword offset = pxArenaOffset(arena);
     pxu8*   result = pxArenaReserve(arena, pxu8, length + 1);
     pxiword diff   = 0;
-    pxu8    byte   = pxReaderPeek(self, 0);
+    pxu8    byte   = pxReaderPeekByte(self, 0);
 
     while (byte != 0 && diff < length) {
         result[diff] = byte;
 
         diff += 1;
-        byte  = pxReaderPeek(self, diff);
+        byte  = pxReaderPeekByte(self, diff);
     }
 
     if (diff < length)
@@ -114,13 +96,13 @@ pxReaderPeekLine(PxReader* self, PxArena* arena, pxiword length)
     pxiword offset = pxArenaOffset(arena);
     pxu8*   result = pxArenaReserve(arena, pxu8, length + 1);
     pxiword diff   = 0;
-    pxu8    byte   = pxReaderPeek(self, 0);
+    pxu8    byte   = pxReaderPeekByte(self, 0);
 
     while (byte != 0 && byte != 10 && diff < length) {
         result[diff] = byte;
 
         diff += 1;
-        byte  = pxReaderPeek(self, diff);
+        byte  = pxReaderPeekByte(self, diff);
     }
 
     if (diff < length)
@@ -131,6 +113,24 @@ pxReaderPeekLine(PxReader* self, PxArena* arena, pxiword length)
     };
 }
 
+pxu8
+pxReaderByte(PxReader* self, pxiword offset)
+{
+    if (offset < 0) return 0;
+
+    for (pxiword i = 0; i < offset;) {
+        i += pxBuffer8DropHead(self->buffer, offset - i);
+
+        if (i < offset) {
+            if (pxReaderFill(self) == 0)
+                return 0;
+        } else
+            break;
+    }
+
+    return pxBuffer8GetForwOr(self->buffer, 0, 0);
+}
+
 PxString8
 pxReaderString8(PxReader* self, PxArena* arena, pxiword length)
 {
@@ -139,13 +139,13 @@ pxReaderString8(PxReader* self, PxArena* arena, pxiword length)
     pxiword offset = pxArenaOffset(arena);
     pxu8*   result = pxArenaReserve(arena, pxu8, length + 1);
     pxiword diff   = 0;
-    pxu8    byte   = pxReaderPeek(self, 0);
+    pxu8    byte   = pxReaderPeekByte(self, 0);
 
     while (byte != 0 && diff < length) {
         result[diff] = byte;
 
         diff += 1;
-        byte  = pxReaderSkip(self, 1);
+        byte  = pxReaderByte(self, 1);
     }
 
     if (diff < length)
@@ -164,16 +164,16 @@ pxReaderLine(PxReader* self, PxArena* arena, pxiword length)
     pxiword offset = pxArenaOffset(arena);
     pxu8*   result = pxArenaReserve(arena, pxu8, length + 1);
     pxiword diff   = 0;
-    pxu8    byte   = pxReaderPeek(self, 0);
+    pxu8    byte   = pxReaderPeekByte(self, 0);
 
     while (byte != 0 && byte != 10 && diff < length) {
         result[diff] = byte;
 
         diff += 1;
-        byte  = pxReaderSkip(self, 1);
+        byte  = pxReaderByte(self, 1);
     }
 
-    byte = pxReaderSkip(self, 1);
+    byte = pxReaderByte(self, 1);
 
     if (diff < length)
         pxArenaRewind(arena, offset + diff + 1);

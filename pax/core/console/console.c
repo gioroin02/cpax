@@ -64,15 +64,77 @@ pxConsoleSetModeRaw(PxConsole self)
 }
 
 pxiword
+pxConsoleWrite(PxConsole self, PxBuffer8* buffer)
+{
+    pxBuffer8Normalize(buffer);
+
+    pxu8*   memory = buffer->memory;
+    pxiword size   = buffer->size;
+
+    if (size <= 0) return 0;
+
+    pxiword temp = pxConsoleWriteMemory(self, memory, size, 1);
+
+    buffer->size -= temp;
+    buffer->head  = (buffer->head + temp) % buffer->length;
+
+    return temp;
+}
+
+pxiword
 pxConsoleWriteMemory(PxConsole self, void* memory, pxiword amount, pxiword stride)
 {
     return __pxConsoleWriteMemory__(self, memory, amount, stride);
 }
 
 pxiword
+pxConsoleRead(PxConsole self, PxBuffer8* buffer)
+{
+    pxBuffer8Normalize(buffer);
+
+    pxu8*   memory = buffer->memory + buffer->size;
+    pxiword size   = buffer->length - buffer->size;
+
+    if (size <= 0) return 0;
+
+    pxiword temp = pxConsoleReadMemory(self, memory, size, 1);
+
+    buffer->size += temp;
+    buffer->tail  = (buffer->tail + temp) % buffer->length;
+
+    return temp;
+}
+
+pxiword
 pxConsoleReadMemory(PxConsole self, void* memory, pxiword amount, pxiword stride)
 {
     return __pxConsoleReadMemory__(self, memory, amount, stride);
+}
+
+PxWriter
+pxConsoleWriter(PxConsole self, PxBuffer8* buffer)
+{
+    if (self == 0 || buffer == 0)
+        return (PxWriter) {0};
+
+    return (PxWriter) {
+        .buffer = buffer,
+        .ctxt   = self,
+        .proc   = &pxConsoleWrite,
+    };
+}
+
+PxReader
+pxConsoleReader(PxConsole self, PxBuffer8* buffer)
+{
+    if (self == 0 || buffer == 0)
+        return (PxReader) {0};
+
+    return (PxReader) {
+        .buffer = buffer,
+        .ctxt   = self,
+        .proc   = &pxConsoleRead,
+    };
 }
 
 #endif // PX_CONSOLE_CONSOLE_C

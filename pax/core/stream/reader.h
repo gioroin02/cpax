@@ -24,16 +24,16 @@ pxiword
 pxReaderFill(PxReader* self);
 
 pxu8
-pxReaderSkip(PxReader* self, pxiword offset);
-
-pxu8
-pxReaderPeek(PxReader* self, pxiword offset);
+pxReaderPeekByte(PxReader* self, pxiword offset);
 
 PxString8
 pxReaderPeekString8(PxReader* self, PxArena* arena, pxiword length);
 
 PxString8
 pxReaderPeekLine(PxReader* self, PxArena* arena, pxiword length);
+
+pxu8
+pxReaderByte(PxReader* self, pxiword offset);
 
 PxString8
 pxReaderString8(PxReader* self, PxArena* arena, pxiword length);

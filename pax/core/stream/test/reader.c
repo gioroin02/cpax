@@ -5,7 +5,7 @@
 void
 readBytePerByte(PxReader* reader)
 {
-    pxu8 byte = pxReaderPeek(reader, 0);
+    pxu8 byte = pxReaderPeekByte(reader, 0);
 
     while (byte != 0) {
         printf("%3u", byte);
@@ -15,7 +15,7 @@ readBytePerByte(PxReader* reader)
 
         printf("\n");
 
-        byte = pxReaderSkip(reader, 1);
+        byte = pxReaderByte(reader, 1);
     }
 }
 

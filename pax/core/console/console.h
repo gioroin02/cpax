@@ -18,6 +18,9 @@ pxb8
 pxConsoleSetModeRaw(PxConsole self);
 
 pxiword
+pxConsoleWriteMemory(PxConsole self, void* memory, pxiword amount, pxiword stride);
+
+pxiword
 pxConsoleReadMemory(PxConsole self, void* memory, pxiword amount, pxiword stride);
 
 #endif // PX_CONSOLE_CONSOLE_H

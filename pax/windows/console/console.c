@@ -69,6 +69,29 @@ pxWindowsConsoleSetModeRaw(PxWindowsConsole* self)
 }
 
 pxiword
+pxWindowsConsoleWriteMemory(PxWindowsConsole* self, void* memory, pxiword amount, pxiword stride)
+{
+    pxiword length = amount * stride;
+    DWORD   temp   = 0;
+
+    HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    for (pxiword i = 0; i < length;) {
+        char* mem = pxCast(char*, memory + i);
+        int   len = pxCast(int,   length - i);
+
+        pxb32 state = WriteFile(output, mem, len, &temp, 0);
+
+        if (state != 0 && temp > 0 && temp <= length - i)
+            i += temp;
+        else
+            return i;
+    }
+
+    return length;
+}
+
+pxiword
 pxWindowsConsoleReadMemory(PxWindowsConsole* self, void* memory, pxiword amount, pxiword stride)
 {
     pxiword length = amount * stride;

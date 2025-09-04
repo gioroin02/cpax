@@ -15,6 +15,9 @@ pxb8
 pxLinuxConsoleSetModeRaw(PxLinuxConsole* self);
 
 pxiword
+pxLinuxConsoleWriteMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxiword stride);
+
+pxiword
 pxLinuxConsoleReadMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxiword stride);
 
 #endif // PX_LINUX_CONSOLE_CONSOLE_H

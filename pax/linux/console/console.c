@@ -38,8 +38,7 @@ pxLinuxConsoleCreate(PxArena* arena)
 pxb8
 pxLinuxConsoleSetModeDefault(PxLinuxConsole* self)
 {
-    int state = tcsetattr(STDIN_FILENO,
-        TCSANOW, &self->inout);
+    int state = tcsetattr(STDIN_FILENO, TCSANOW, &self->inout);
 
     if (state != -1) return 1;
 
@@ -64,6 +63,29 @@ pxLinuxConsoleSetModeRaw(PxLinuxConsole* self)
     if (state != -1) return 1;
 
     return 0;
+}
+
+pxiword
+pxLinuxConsoleWriteMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxiword stride)
+{
+    pxiword length = amount * stride;
+    pxiword temp   = 0;
+
+    for (pxiword i = 0; i < length;) {
+        char* mem = pxCast(char*, memory + i);
+        int   len = pxCast(int,   length - i);
+
+        do {
+            temp = write(STDOUT_FILENO, mem, len);
+        } while (temp == -1 && errno == EINTR);
+
+        if (temp > 0 && temp <= length - i)
+            i += temp;
+        else
+            return i;
+    }
+
+    return length;
 }
 
 pxiword

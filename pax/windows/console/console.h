@@ -15,6 +15,9 @@ pxb8
 pxWindowsConsoleSetModeRaw(PxWindowsConsole* self);
 
 pxiword
+pxWindowsConsoleWriteMemory(PxWindowsConsole* self, void* memory, pxiword amount, pxiword stride);
+
+pxiword
 pxWindowsConsoleReadMemory(PxWindowsConsole* self, void* memory, pxiword amount, pxiword stride);
 
 #endif // PX_WINDOWS_CONSOLE_CONSOLE_H

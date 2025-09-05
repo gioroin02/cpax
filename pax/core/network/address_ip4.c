@@ -21,7 +21,7 @@ pxAddressIp4FromString8(PxAddressIp4* self, PxString8 string)
     for (pxiword i = 0; i < PX_ADDRESS_IP4_GROUPS; i += 1) {
         pxString8Split(right, pxs8("."), &left, &right);
 
-        if (pxU8FromString8(&temp.memory[i], 10, options, left) == 0)
+        if (pxUnsigned8FromString8(&temp.memory[i], 10, options, left) == 0)
             return 0;
     }
 

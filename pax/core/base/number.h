@@ -169,57 +169,57 @@ typedef unsigned short pxb16;
 /* Integer magnitude */
 
 pxu8
-pxMagnitudeI8(pxi8 value);
+pxMagnitudeInteger8(pxi8 value);
 
 pxu16
-pxMagnitudeI16(pxi16 value);
+pxMagnitudeInteger16(pxi16 value);
 
 pxu32
-pxMagnitudeI32(pxi32 value);
+pxMagnitudeInteger32(pxi32 value);
 
 pxu64
-pxMagnitudeI64(pxi64 value);
+pxMagnitudeInteger64(pxi64 value);
 
 pxuword
-pxMagnitudeIWord(pxiword value);
+pxMagnitudeInteger(pxiword value);
 
 /* Floating magnitude */
 
 pxf32
-pxMagnitudeF32(pxf32 value);
+pxMagnitudeFloating32(pxf32 value);
 
 pxf64
-pxMagnitudeF64(pxf64 value);
+pxMagnitudeFloating64(pxf64 value);
 
 pxfword
-pxMagnitudeFWord(pxfword value);
+pxMagnitudeFloating(pxfword value);
 
 /* Integer direction */
 
 pxi8
-pxDirectionI8(pxi8 value);
+pxDirectionInteger8(pxi8 value);
 
 pxi8
-pxDirectionI16(pxi16 value);
+pxDirectionInteger16(pxi16 value);
 
 pxi8
-pxDirectionI32(pxi32 value);
+pxDirectionInteger32(pxi32 value);
 
 pxi8
-pxDirectionI64(pxi64 value);
+pxDirectionInteger64(pxi64 value);
 
 pxi8
-pxDirectionIWord(pxiword value);
+pxDirectionInteger(pxiword value);
 
 /* Floating sign */
 
 pxi8
-pxDirectionF32(pxf32 value);
+pxDirectionFloating32(pxf32 value);
 
 pxi8
-pxDirectionF64(pxf64 value);
+pxDirectionFloating64(pxf64 value);
 
 pxi8
-pxDirectionFWord(pxfword value);
+pxDirectionFloating(pxfword value);
 
 #endif // PX_BASE_NUMBER_H

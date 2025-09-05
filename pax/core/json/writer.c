@@ -110,7 +110,7 @@ pxJsonWriterNext(PxJsonWriter* self, PxArena* arena, PxJsonEvent event)
                 pxWriterByte(&self->writer, PX_ASCII_COLON);
             }
 
-            PxString8 string = pxString8FromUWord(arena, 10,
+            PxString8 string = pxString8FromUnsigned(arena, 10,
                 PX_FORMAT_OPTION_NONE, event.uvalue);
 
             pxWriterString8(&self->writer, string);
@@ -131,7 +131,7 @@ pxJsonWriterNext(PxJsonWriter* self, PxArena* arena, PxJsonEvent event)
                 pxWriterByte(&self->writer, PX_ASCII_COLON);
             }
 
-            PxString8 string = pxString8FromIWord(arena, 10,
+            PxString8 string = pxString8FromInteger(arena, 10,
                 PX_FORMAT_OPTION_NONE, event.ivalue);
 
             pxWriterString8(&self->writer, string);

@@ -30,6 +30,12 @@ pxiword
 pxWriterString8(PxWriter* self, PxString8 value);
 
 pxiword
+pxWriterString16(PxWriter* self, PxString16 value);
+
+pxiword
+pxWriterString32(PxWriter* self, PxString32 value);
+
+pxiword
 pxWriterBuffer8(PxWriter* self, PxBuffer8* value);
 
 pxiword

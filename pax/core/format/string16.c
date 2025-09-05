@@ -4,7 +4,7 @@
 #include "string16.h"
 
 PxString16
-pxString16FromU8(PxArena* arena, pxuword radix, PxFormatOption options, pxu8 value)
+pxString16FromUnsigned8(PxArena* arena, pxuword radix, PxFormatOption options, pxu8 value)
 {
     pxiword length = 0;
     pxu8    temp   = value;
@@ -51,7 +51,7 @@ pxString16FromU8(PxArena* arena, pxuword radix, PxFormatOption options, pxu8 val
 }
 
 PxString16
-pxString16FromU16(PxArena* arena, pxuword radix, PxFormatOption options, pxu16 value)
+pxString16FromUnsigned16(PxArena* arena, pxuword radix, PxFormatOption options, pxu16 value)
 {
     pxiword length = 0;
     pxu16   temp   = value;
@@ -98,7 +98,7 @@ pxString16FromU16(PxArena* arena, pxuword radix, PxFormatOption options, pxu16 v
 }
 
 PxString16
-pxString16FromU32(PxArena* arena, pxuword radix, PxFormatOption options, pxu32 value)
+pxString16FromUnsigned32(PxArena* arena, pxuword radix, PxFormatOption options, pxu32 value)
 {
     pxiword length = 0;
     pxu32   temp   = value;
@@ -145,7 +145,7 @@ pxString16FromU32(PxArena* arena, pxuword radix, PxFormatOption options, pxu32 v
 }
 
 PxString16
-pxString16FromU64(PxArena* arena, pxuword radix, PxFormatOption options, pxu64 value)
+pxString16FromUnsigned64(PxArena* arena, pxuword radix, PxFormatOption options, pxu64 value)
 {
     pxiword length = 0;
     pxu64   temp   = value;
@@ -192,7 +192,7 @@ pxString16FromU64(PxArena* arena, pxuword radix, PxFormatOption options, pxu64 v
 }
 
 PxString16
-pxString16FromUWord(PxArena* arena, pxuword radix, PxFormatOption options, pxuword value)
+pxString16FromUnsigned(PxArena* arena, pxuword radix, PxFormatOption options, pxuword value)
 {
     pxiword length = 0;
     pxuword temp   = value;
@@ -239,11 +239,11 @@ pxString16FromUWord(PxArena* arena, pxuword radix, PxFormatOption options, pxuwo
 }
 
 PxString16
-pxString16FromI8(PxArena* arena, pxuword radix, PxFormatOption options, pxi8 value)
+pxString16FromInteger8(PxArena* arena, pxuword radix, PxFormatOption options, pxi8 value)
 {
     pxiword length = 0;
-    pxu8    temp   = pxMagnitudeI8(value);
-    pxb8    sign   = pxDirectionI8(value) < 0 ? 1 : 0;
+    pxu8    temp   = pxMagnitudeInteger8(value);
+    pxb8    sign   = pxDirectionInteger8(value) < 0 ? 1 : 0;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
@@ -289,11 +289,11 @@ pxString16FromI8(PxArena* arena, pxuword radix, PxFormatOption options, pxi8 val
 }
 
 PxString16
-pxString16FromI16(PxArena* arena, pxuword radix, PxFormatOption options, pxi16 value)
+pxString16FromInteger16(PxArena* arena, pxuword radix, PxFormatOption options, pxi16 value)
 {
     pxiword length = 0;
-    pxu16   temp   = pxMagnitudeI16(value);
-    pxb8    sign   = pxDirectionI16(value) < 0 ? 1 : 0;
+    pxu16   temp   = pxMagnitudeInteger16(value);
+    pxb8    sign   = pxDirectionInteger16(value) < 0 ? 1 : 0;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
@@ -339,11 +339,11 @@ pxString16FromI16(PxArena* arena, pxuword radix, PxFormatOption options, pxi16 v
 }
 
 PxString16
-pxString16FromI32(PxArena* arena, pxuword radix, PxFormatOption options, pxi32 value)
+pxString16FromInteger32(PxArena* arena, pxuword radix, PxFormatOption options, pxi32 value)
 {
     pxiword length = 0;
-    pxu32   temp   = pxMagnitudeI32(value);
-    pxb8    sign   = pxDirectionI32(value) < 0 ? 1 : 0;
+    pxu32   temp   = pxMagnitudeInteger32(value);
+    pxb8    sign   = pxDirectionInteger32(value) < 0 ? 1 : 0;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
@@ -389,11 +389,11 @@ pxString16FromI32(PxArena* arena, pxuword radix, PxFormatOption options, pxi32 v
 }
 
 PxString16
-pxString16FromI64(PxArena* arena, pxuword radix, PxFormatOption options, pxi64 value)
+pxString16FromInteger64(PxArena* arena, pxuword radix, PxFormatOption options, pxi64 value)
 {
     pxiword length = 0;
-    pxu64   temp   = pxMagnitudeI64(value);
-    pxb8    sign   = pxDirectionI64(value) < 0 ? 1 : 0;
+    pxu64   temp   = pxMagnitudeInteger64(value);
+    pxb8    sign   = pxDirectionInteger64(value) < 0 ? 1 : 0;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
@@ -439,11 +439,11 @@ pxString16FromI64(PxArena* arena, pxuword radix, PxFormatOption options, pxi64 v
 }
 
 PxString16
-pxString16FromIWord(PxArena* arena, pxuword radix, PxFormatOption options, pxiword value)
+pxString16FromInteger(PxArena* arena, pxuword radix, PxFormatOption options, pxiword value)
 {
     pxiword length = 0;
-    pxuword temp   = pxMagnitudeIWord(value);
-    pxb8    sign   = pxDirectionIWord(value) < 0 ? 1 : 0;
+    pxuword temp   = pxMagnitudeInteger(value);
+    pxb8    sign   = pxDirectionInteger(value) < 0 ? 1 : 0;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
@@ -489,7 +489,7 @@ pxString16FromIWord(PxArena* arena, pxuword radix, PxFormatOption options, pxiwo
 }
 
 pxb8
-pxU8FromString16(pxu8* self, pxuword radix, PxFormatOption options, PxString16 string)
+pxUnsigned8FromString16(pxu8* self, pxuword radix, PxFormatOption options, PxString16 string)
 {
     pxiword index = 0;
     pxu8    temp  = 0;
@@ -532,7 +532,7 @@ pxU8FromString16(pxu8* self, pxuword radix, PxFormatOption options, PxString16 s
 }
 
 pxb8
-pxU16FromString16(pxu16* self, pxuword radix, PxFormatOption options, PxString16 string)
+pxUnsigned16FromString16(pxu16* self, pxuword radix, PxFormatOption options, PxString16 string)
 {
     pxiword index = 0;
     pxu16   temp  = 0;
@@ -575,7 +575,7 @@ pxU16FromString16(pxu16* self, pxuword radix, PxFormatOption options, PxString16
 }
 
 pxb8
-pxU32FromString16(pxu32* self, pxuword radix, PxFormatOption options, PxString16 string)
+pxUnsigned32FromString16(pxu32* self, pxuword radix, PxFormatOption options, PxString16 string)
 {
     pxiword index = 0;
     pxu32   temp  = 0;
@@ -618,7 +618,7 @@ pxU32FromString16(pxu32* self, pxuword radix, PxFormatOption options, PxString16
 }
 
 pxb8
-pxU64FromString16(pxu64* self, pxuword radix, PxFormatOption options, PxString16 string)
+pxUnsigned64FromString16(pxu64* self, pxuword radix, PxFormatOption options, PxString16 string)
 {
     pxiword index = 0;
     pxu64   temp  = 0;
@@ -661,7 +661,7 @@ pxU64FromString16(pxu64* self, pxuword radix, PxFormatOption options, PxString16
 }
 
 pxb8
-pxUWordFromString16(pxuword* self, pxuword radix, PxFormatOption options, PxString16 string)
+pxUnsignedFromString16(pxuword* self, pxuword radix, PxFormatOption options, PxString16 string)
 {
     pxiword index = 0;
     pxuword temp  = 0;
@@ -704,7 +704,7 @@ pxUWordFromString16(pxuword* self, pxuword radix, PxFormatOption options, PxStri
 }
 
 pxb8
-pxI8FromString16(pxi8* self, pxuword radix, PxFormatOption options, PxString16 string)
+pxInteger8FromString16(pxi8* self, pxuword radix, PxFormatOption options, PxString16 string)
 {
     pxiword index = 0;
     pxi8    temp  = 0;
@@ -766,7 +766,7 @@ pxI8FromString16(pxi8* self, pxuword radix, PxFormatOption options, PxString16 s
 }
 
 pxb8
-pxI16FromString16(pxi16* self, pxuword radix, PxFormatOption options, PxString16 string)
+pxInteger16FromString16(pxi16* self, pxuword radix, PxFormatOption options, PxString16 string)
 {
     pxiword index = 0;
     pxi16   temp  = 0;
@@ -828,7 +828,7 @@ pxI16FromString16(pxi16* self, pxuword radix, PxFormatOption options, PxString16
 }
 
 pxb8
-pxI32FromString16(pxi32* self, pxuword radix, PxFormatOption options, PxString16 string)
+pxInteger32FromString16(pxi32* self, pxuword radix, PxFormatOption options, PxString16 string)
 {
     pxiword index = 0;
     pxi32   temp  = 0;
@@ -890,7 +890,7 @@ pxI32FromString16(pxi32* self, pxuword radix, PxFormatOption options, PxString16
 }
 
 pxb8
-pxI64FromString16(pxi64* self, pxuword radix, PxFormatOption options, PxString16 string)
+pxInteger64FromString16(pxi64* self, pxuword radix, PxFormatOption options, PxString16 string)
 {
     pxiword index = 0;
     pxi64   temp  = 0;
@@ -952,7 +952,7 @@ pxI64FromString16(pxi64* self, pxuword radix, PxFormatOption options, PxString16
 }
 
 pxb8
-pxIWordFromString16(pxiword* self, pxuword radix, PxFormatOption options, PxString16 string)
+pxIntegerFromString16(pxiword* self, pxuword radix, PxFormatOption options, PxString16 string)
 {
     pxiword index = 0;
     pxiword temp  = 0;

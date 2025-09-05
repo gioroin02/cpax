@@ -24,7 +24,7 @@ pxAddressIp6FromString8(PxAddressIp6* self, PxString8 string)
             for (pxiword i = 0; i < PX_ADDRESS_IP6_GROUPS; i += 1) {
                 pxString8Split(string, pxs8(":"), &group, &string);
 
-                if (pxU16FromString8(&temp.memory[i], 16, options, group) == 0)
+                if (pxUnsigned16FromString8(&temp.memory[i], 16, options, group) == 0)
                     return 0;
             }
         } break;
@@ -43,7 +43,7 @@ pxAddressIp6FromString8(PxAddressIp6* self, PxString8 string)
 
                 if (group.length <= 0) break;
 
-                if (pxU16FromString8(&temp.memory[i], 16, options, group) == 0)
+                if (pxUnsigned16FromString8(&temp.memory[i], 16, options, group) == 0)
                     return 0;
             }
 
@@ -59,7 +59,7 @@ pxAddressIp6FromString8(PxAddressIp6* self, PxString8 string)
 
                 if (group.length <= 0) break;
 
-                if (pxU16FromString8(&temp.memory[i], 16, options, group) == 0)
+                if (pxUnsigned16FromString8(&temp.memory[i], 16, options, group) == 0)
                     return 0;
             }
 

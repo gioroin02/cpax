@@ -136,7 +136,7 @@ pxWindowsSocketUdpGetPort(PxWindowsSocketUdp* self)
         default: break;
     }
 
-    return pxU16HostFromNet(temp);
+    return pxUnsigned16HostFromNet(temp);
 }
 
 pxb8

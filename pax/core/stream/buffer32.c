@@ -304,6 +304,94 @@ pxBuffer32WriteString32Tail(PxBuffer32* self, PxString32 string)
 }
 
 pxiword
+pxBuffer32WriteMemory8Tail(PxBuffer32* self, pxu8* memory, pxiword length)
+{
+    pxiword temp = pxUtf32UnitsFromMemory8(memory, length);
+    pxiword size = pxMin(temp, self->length - self->size);
+
+    if (size <= 0 || size > self->length) return 0;
+
+    pxiword next = self->tail + size;
+
+    pxiword index = 0;
+    pxiword other = 0;
+
+    while (index < size) {
+        PxUtf32 utf32   = {0};
+        pxi32   unicode = 0;
+
+        other += pxUtf8ReadMemory8Forw(
+            memory, length, other, &unicode);
+
+        pxUtf32Encode(&utf32, unicode);
+
+        for (pxiword i = 0; i < utf32.size; i += 1) {
+            pxiword j = self->tail + index + i;
+
+            self->memory[j % self->length] =
+                utf32.memory[i];
+        }
+
+        index += utf32.size;
+    }
+
+    self->size += size;
+    self->tail  = next % self->length;
+
+    return other;
+}
+
+pxiword
+pxBuffer32WriteString8Tail(PxBuffer32* self, PxString8 string)
+{
+    return pxBuffer32WriteMemory8Tail(self, string.memory, string.length);
+}
+
+pxiword
+pxBuffer32WriteMemory16Tail(PxBuffer32* self, pxu16* memory, pxiword length)
+{
+    pxiword temp = pxUtf32UnitsFromMemory16(memory, length);
+    pxiword size = pxMin(temp, self->length - self->size);
+
+    if (size <= 0 || size > self->length) return 0;
+
+    pxiword next = self->tail + size;
+
+    pxiword index = 0;
+    pxiword other = 0;
+
+    while (index < size) {
+        PxUtf32 utf32   = {0};
+        pxi32   unicode = 0;
+
+        other += pxUtf16ReadMemory16Forw(
+            memory, length, other, &unicode);
+
+        pxUtf32Encode(&utf32, unicode);
+
+        for (pxiword i = 0; i < utf32.size; i += 1) {
+            pxiword j = self->tail + index + i;
+
+            self->memory[j % self->length] =
+                utf32.memory[i];
+        }
+
+        index += utf32.size;
+    }
+
+    self->size += size;
+    self->tail  = next % self->length;
+
+    return other;
+}
+
+pxiword
+pxBuffer32WriteString16Tail(PxBuffer32* self, PxString16 string)
+{
+    return pxBuffer32WriteMemory16Tail(self, string.memory, string.length);
+}
+
+pxiword
 pxBuffer32ReadHead(PxBuffer32* self, PxBuffer32* buffer)
 {
     pxiword size = pxMin(self->size, buffer->length - buffer->size);

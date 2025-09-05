@@ -79,6 +79,18 @@ pxiword
 pxBuffer16WriteString16Head(PxBuffer16* self, PxString16 string);
 
 pxiword
+pxBuffer16WriteMemory8Head(PxBuffer16* self, pxu8* memory, pxiword length);
+
+pxiword
+pxBuffer16WriteString8Head(PxBuffer16* self, PxString8 string);
+
+pxiword
+pxBuffer16WriteMemory32Head(PxBuffer16* self, pxu32* memory, pxiword length);
+
+pxiword
+pxBuffer16WriteString32Head(PxBuffer16* self, PxString32 string);
+
+pxiword
 pxBuffer16WriteTail(PxBuffer16* self, PxBuffer16* buffer);
 
 pxiword
@@ -86,6 +98,18 @@ pxBuffer16WriteMemory16Tail(PxBuffer16* self, pxu16* memory, pxiword length);
 
 pxiword
 pxBuffer16WriteString16Tail(PxBuffer16* self, PxString16 string);
+
+pxiword
+pxBuffer16WriteMemory8Tail(PxBuffer16* self, pxu8* memory, pxiword length);
+
+pxiword
+pxBuffer16WriteString8Tail(PxBuffer16* self, PxString8 string);
+
+pxiword
+pxBuffer16WriteMemory32Tail(PxBuffer16* self, pxu32* memory, pxiword length);
+
+pxiword
+pxBuffer16WriteString32Tail(PxBuffer16* self, PxString32 string);
 
 /* PxBuffer16 reading */
 

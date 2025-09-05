@@ -96,7 +96,7 @@ pxJsonTokenUnsigned(PxString8 string)
 
     pxuword value = 0;
 
-    if (pxUWordFromString8(&value, 10, options, string) == 0)
+    if (pxUnsignedFromString8(&value, 10, options, string) == 0)
         return pxJsonTokenError(string, pxs8("Invalid number"));
 
     return (PxJsonToken) {
@@ -114,7 +114,7 @@ pxJsonTokenInteger(PxString8 string)
 
     pxiword value = 0;
 
-    if (pxIWordFromString8(&value, 10, options, string) == 0)
+    if (pxIntegerFromString8(&value, 10, options, string) == 0)
         return pxJsonTokenError(string, pxs8("Invalid number"));
 
     return (PxJsonToken) {
@@ -132,7 +132,7 @@ pxJsonTokenFloating(PxString8 string)
 
     pxfword value = 0;
 
-    if (1 /* pxFWordFromString8(&value, 10, options, string) == 0 */)
+    if (1 /* pxFloatingFromString8(&value, 10, options, string) == 0 */)
         return pxJsonTokenError(string, pxs8("Not implemented yet"));
 
     return (PxJsonToken) {

@@ -63,6 +63,32 @@ pxWriterString8(PxWriter* self, PxString8 value)
 }
 
 pxiword
+pxWriterString16(PxWriter* self, PxString16 value)
+{
+    for (pxiword i = 0; i < value.length;) {
+        i += pxBuffer8WriteMemory16Tail(self->buffer,
+            value.memory + i, value.length - i);
+
+        pxWriterFlush(self);
+    }
+
+    return value.length;
+}
+
+pxiword
+pxWriterString32(PxWriter* self, PxString32 value)
+{
+    for (pxiword i = 0; i < value.length;) {
+        i += pxBuffer8WriteMemory32Tail(self->buffer,
+            value.memory + i, value.length - i);
+
+        pxWriterFlush(self);
+    }
+
+    return value.length;
+}
+
+pxiword
 pxWriterBuffer8(PxWriter* self, PxBuffer8* value)
 {
     pxiword length = value->size;

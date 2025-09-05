@@ -75,14 +75,14 @@ main(int argc, char** argv)
                 arg = pxString8TrimPrefix(arg, SERVER_ARG_PORT);
                 arg = pxString8TrimSpaces(arg);
 
-                pxU16FromString8(&config.port, 10, options, arg);
+                pxUnsigned16FromString8(&config.port, 10, options, arg);
             }
 
             if (pxString8BeginsWith(arg, SERVER_ARG_LIFETIME) != 0) {
                 arg = pxString8TrimPrefix(arg, SERVER_ARG_LIFETIME);
                 arg = pxString8TrimSpaces(arg);
 
-                pxU32FromString8(&config.lifetime, 10, options, arg);
+                pxUnsigned32FromString8(&config.lifetime, 10, options, arg);
             }
         }
     }

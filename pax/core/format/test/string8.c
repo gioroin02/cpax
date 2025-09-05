@@ -13,9 +13,9 @@
 #define FALSE RED(F)
 
 void
-showString8FromUWord(PxArena* arena, pxuword radix, PxFormatOption options, pxuword value)
+showString8FromUnsigned(PxArena* arena, pxuword radix, PxFormatOption options, pxuword value)
 {
-    PxString8 string = pxString8FromUWord(arena, radix, options, value);
+    PxString8 string = pxString8FromUnsigned(arena, radix, options, value);
 
     printf("write (" PURPLE("%llu") ") -> ", value);
 
@@ -28,10 +28,10 @@ showString8FromUWord(PxArena* arena, pxuword radix, PxFormatOption options, pxuw
 }
 
 void
-showUWordFromString8(pxuword radix, PxFormatOption options, PxString8 value)
+showUnsignedFromString8(pxuword radix, PxFormatOption options, PxString8 value)
 {
     pxuword result = 0;
-    pxb8    state  = pxUWordFromString8(&result, radix, options, value);
+    pxb8    state  = pxUnsignedFromString8(&result, radix, options, value);
 
     printf("read (\x1b[34m'");
 
@@ -46,9 +46,9 @@ showUWordFromString8(pxuword radix, PxFormatOption options, PxString8 value)
 }
 
 void
-showString8FromIWord(PxArena* arena, pxuword radix, PxFormatOption options, pxiword value)
+showString8FromInteger(PxArena* arena, pxuword radix, PxFormatOption options, pxiword value)
 {
-    PxString8 string = pxString8FromIWord(arena, radix, options, value);
+    PxString8 string = pxString8FromInteger(arena, radix, options, value);
 
     printf("write (" PURPLE("%lli") ") -> ", value);
 
@@ -61,10 +61,10 @@ showString8FromIWord(PxArena* arena, pxuword radix, PxFormatOption options, pxiw
 }
 
 void
-showIWordFromString8(pxuword radix, PxFormatOption options, PxString8 value)
+showIntegerFromString8(pxuword radix, PxFormatOption options, PxString8 value)
 {
     pxiword result = 0;
-    pxb8    state  = pxIWordFromString8(&result, radix, options, value);
+    pxb8    state  = pxIntegerFromString8(&result, radix, options, value);
 
     printf("read (\x1b[34m'");
 
@@ -114,16 +114,16 @@ main(int argc, char** argv)
     };
 
     for (pxiword i = 0; i < OPTIONS; i += 1) {
-        printf("UWord:\n");
+        printf("Unsigned:\n");
 
-        showString8FromUWord(&arena, radices[i], options[i], 255);
-        showString8FromUWord(&arena, radices[i], options[i], 0);
+        showString8FromUnsigned(&arena, radices[i], options[i], 255);
+        showString8FromUnsigned(&arena, radices[i], options[i], 0);
 
-        printf("\nIWord:\n");
+        printf("\nInteger:\n");
 
-        showString8FromIWord(&arena, radices[i], options[i], 255);
-        showString8FromIWord(&arena, radices[i], options[i], 0);
-        showString8FromIWord(&arena, radices[i], options[i], -256);
+        showString8FromInteger(&arena, radices[i], options[i], 255);
+        showString8FromInteger(&arena, radices[i], options[i], 0);
+        showString8FromInteger(&arena, radices[i], options[i], -256);
 
         if (i + 1 != OPTIONS)
             printf("\n");
@@ -131,13 +131,13 @@ main(int argc, char** argv)
 
     for (pxiword i = 0; i < OPTIONS; i += 1) {
         for (pxiword j = 0; j < STRINGS; j += 1) {
-            printf("UWord:\n");
+            printf("Unsigned:\n");
 
-            showUWordFromString8(radices[i], options[i], strings[j]);
+            showUnsignedFromString8(radices[i], options[i], strings[j]);
 
-            printf("IWord:\n");
+            printf("Integer:\n");
 
-            showIWordFromString8(radices[i], options[i], strings[j]);
+            showIntegerFromString8(radices[i], options[i], strings[j]);
         }
 
         printf("\n");

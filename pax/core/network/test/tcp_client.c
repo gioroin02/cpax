@@ -73,7 +73,7 @@ main(int argc, char** argv)
                 arg = pxString8TrimPrefix(arg, CLIENT_ARG_PORT);
                 arg = pxString8TrimSpaces(arg);
 
-                pxU16FromString8(&config.port, 10, options, arg);
+                pxUnsigned16FromString8(&config.port, 10, options, arg);
             }
         }
     }

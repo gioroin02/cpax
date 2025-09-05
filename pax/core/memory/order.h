@@ -22,37 +22,37 @@ void*
 pxMemoryCopyNetFromHost(void* memory, void* value, pxiword amount, pxiword stride);
 
 pxu16
-pxU16NetFromHost(pxu16 value);
+pxUnsigned16NetFromHost(pxu16 value);
 
 pxu32
-pxU32NetFromHost(pxu32 value);
+pxUnsigned32NetFromHost(pxu32 value);
 
 pxu64
-pxU64NetFromHost(pxu64 value);
+pxUnsigned64NetFromHost(pxu64 value);
 
 pxuword
-pxUWordNetFromHost(pxuword value);
+pxUnsignedNetFromHost(pxuword value);
 
 pxu16
-pxI16NetFromHost(pxi16 value);
+pxInteger16NetFromHost(pxi16 value);
 
 pxu32
-pxI32NetFromHost(pxi32 value);
+pxInteger32NetFromHost(pxi32 value);
 
 pxu64
-pxI64NetFromHost(pxi64 value);
+pxInteger64NetFromHost(pxi64 value);
 
 pxuword
-pxIWordNetFromHost(pxiword value);
+pxIntegerNetFromHost(pxiword value);
 
 pxu32
-pxF32NetFromHost(pxf32 value);
+pxFloating32NetFromHost(pxf32 value);
 
 pxu64
-pxF64NetFromHost(pxf64 value);
+pxFloating64NetFromHost(pxf64 value);
 
 pxuword
-pxFWordNetFromHost(pxfword value);
+pxFloatingNetFromHost(pxfword value);
 
 void*
 pxMemoryHostFromNet(void* memory, pxiword amount, pxiword stride);
@@ -61,36 +61,36 @@ void*
 pxMemoryCopyHostFromNet(void* memory, void* value, pxiword amount, pxiword stride);
 
 pxu16
-pxU16HostFromNet(pxu16 value);
+pxUnsigned16HostFromNet(pxu16 value);
 
 pxu32
-pxU32HostFromNet(pxu32 value);
+pxUnsigned32HostFromNet(pxu32 value);
 
 pxu64
-pxU64HostFromNet(pxu64 value);
+pxUnsigned64HostFromNet(pxu64 value);
 
 pxuword
-pxUWordHostFromNet(pxuword value);
+pxUnsignedHostFromNet(pxuword value);
 
 pxi16
-pxI16HostFromNet(pxu16 value);
+pxInteger16HostFromNet(pxu16 value);
 
 pxi32
-pxI32HostFromNet(pxu32 value);
+pxInteger32HostFromNet(pxu32 value);
 
 pxi64
-pxI64HostFromNet(pxu64 value);
+pxInteger64HostFromNet(pxu64 value);
 
 pxiword
-pxIWordHostFromNet(pxuword value);
+pxIntegerHostFromNet(pxuword value);
 
 pxf32
-pxF32HostFromNet(pxu32 value);
+pxFloating32HostFromNet(pxu32 value);
 
 pxf64
-pxF64HostFromNet(pxu64 value);
+pxFloating64HostFromNet(pxu64 value);
 
 pxfword
-pxFWordHostFromNet(pxuword value);
+pxFloatingHostFromNet(pxuword value);
 
 #endif // PX_MEMORY_BYTE_ORDER_H

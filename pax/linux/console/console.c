@@ -3,9 +3,6 @@
 
 #include "console.h"
 
-// TODO
-#include <stdio.h>
-
 #include <unistd.h>
 #include <errno.h>
 
@@ -15,7 +12,8 @@ typedef struct termios PxTermIO;
 
 struct PxLinuxConsole
 {
-    PxTermIO inout;
+    PxTermIO       inout;
+    PxConsoleEvent last;
 };
 
 pxb8
@@ -236,6 +234,18 @@ pxLinuxConsoleReadEvent(PxLinuxConsole* self, PxBuffer8* buffer)
 {
     PxConsoleEvent result = {.type = PX_CONSOLE_EVENT_NONE};
 
+    if (self->last.type == PX_CONSOLE_EVENT_KEYBD_PRESS) {
+        result.type = PX_CONSOLE_EVENT_KEYBD_RELEASE;
+
+	result.keybd_release.button  = self->last.keybd_press.button;
+	result.keybd_release.unicode = self->last.keybd_press.unicode;
+	result.keybd_release.modifs  = self->last.keybd_press.modifs;
+
+        self->last = result;
+
+	return result;
+    }
+
     pxiword size = pxLinuxConsoleRead(self, buffer);
 
     if (buffer->size <= 0) return result;
@@ -276,6 +286,8 @@ pxLinuxConsoleReadEvent(PxLinuxConsole* self, PxBuffer8* buffer)
             result.keybd_press.modifs  = 0;
         } break;
     }
+
+    self->last = result;
 
     return result;
 }

@@ -31,8 +31,8 @@ main(int argc, char** argv)
 
     pxArenaRewind(&arena, offset);
 
-    pxStringListRemoveNode(&list);
-    pxStringListRemoveNode(&list);
+    pxStringListRemoveHead(&list, 0);
+    pxStringListRemoveTail(&list, 0);
 
     for (PxStringNode* n = list.head; n != 0; n = n->next)
         printf("%s -> ", n->memory);

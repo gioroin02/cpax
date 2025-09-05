@@ -8,7 +8,8 @@ pxStringListFromString8(PxArena* arena, PxString8 string, PxString8 pivot)
 {
     PxStringList result = {0};
 
-    pxStringListInsertString8(&result, arena, string, pivot);
+    pxStringListInsertString8(&result,
+        arena, 0, string, pivot);
 
     return result;
 }
@@ -18,7 +19,8 @@ pxStringListFromString16(PxArena* arena, PxString16 string, PxString16 pivot)
 {
     PxStringList result = {0};
 
-    pxStringListInsertString16(&result, arena, string, pivot);
+    pxStringListInsertString16(&result,
+        arena, 0, string, pivot);
 
     return result;
 }
@@ -28,63 +30,66 @@ pxStringListFromString32(PxArena* arena, PxString32 string, PxString32 pivot)
 {
     PxStringList result = {0};
 
-    pxStringListInsertString32(&result, arena, string, pivot);
+    pxStringListInsertString32(&result,
+        arena, 0, string, pivot);
 
     return result;
 }
 
 pxb8
-pxStringListInsertNode(PxStringList* self, PxStringNode* value)
+pxStringListInsert(PxStringList* self, pxiword index, PxStringNode* value)
 {
+    if (index < 0 || index > self->size)
+        return 0;
+
     if (value == 0) return 0;
 
-    PxStringNode* tail = self->tail;
+    PxStringNode* prev = 0;
+    PxStringNode* next = self->head;
 
-    if (self->head == 0) self->head = value;
-
-    if (self->tail != 0) {
-        value->prev = tail;
-        tail->next  = value;
+    for (pxiword i = 0; i < index; i += 1) {
+        prev = next;
+        next = next->next;
     }
 
-    self->tail  = value;
+    if (prev != 0) {
+        prev->next  = value;
+        value->prev = prev;
+    } else
+        self->head = value;
+
+    if (next != 0) {
+        next->prev  = value;
+        value->next = next;
+    } else
+        self->tail = value;
+
     self->size += 1;
 
     return 1;
 }
 
-PxStringNode*
-pxStringListRemoveNode(PxStringList* self)
+pxb8
+pxStringListInsertHead(PxStringList* self, PxStringNode* value)
 {
-    if (self->size <= 0) return 0;
-
-    PxStringNode* result = self->tail;
-
-    if (self->head == self->tail)
-        self->head = 0;
-
-    PxStringNode* tail = self->tail->prev;
-
-    self->tail  = tail;
-    self->size -= 1;
-
-    if (tail != 0) tail->next = 0;
-
-    result->next = 0;
-    result->prev = 0;
-
-    return result;
+    return pxStringListInsert(self, 0, value);
 }
 
 pxb8
-pxStringListInsertString8(PxStringList* self, PxArena* arena, PxString8 value, PxString8 pivot)
+pxStringListInsertTail(PxStringList* self, PxStringNode* value)
+{
+    return pxStringListInsert(self, self->size - 1, value);
+}
+
+pxb8
+pxStringListInsertString8(PxStringList* self, PxArena* arena, pxiword index, PxString8 value, PxString8 pivot)
 {
     pxiword offset = pxArenaOffset(arena);
 
     PxString8 left  = {0};
     PxString8 right = value;
 
-    while (right.length > 0) {
+    for (pxiword i = 0; right.length > 0; i += 1) {
         pxString8Split(right, pivot, &left, &right);
 
         PxString8 string = pxString8Copy(arena, left);
@@ -98,7 +103,7 @@ pxStringListInsertString8(PxStringList* self, PxArena* arena, PxString8 value, P
         node->memory = string.memory;
         node->length = string.length;
 
-        pxStringListInsertNode(self, node);
+        pxStringListInsert(self, index + i, node);
     }
 
     if (right.length <= 0) return 1;
@@ -109,14 +114,14 @@ pxStringListInsertString8(PxStringList* self, PxArena* arena, PxString8 value, P
 }
 
 pxb8
-pxStringListInsertString16(PxStringList* self, PxArena* arena, PxString16 value, PxString16 pivot)
+pxStringListInsertString16(PxStringList* self, PxArena* arena, pxiword index, PxString16 value, PxString16 pivot)
 {
     pxiword offset = pxArenaOffset(arena);
 
     PxString16 left  = {0};
     PxString16 right = value;
 
-    while (right.length > 0) {
+    for (pxiword i = 0; right.length > 0; i += 1) {
         pxString16Split(right, pivot, &left, &right);
 
         PxString8 string = pxString8CopyString16(arena, left);
@@ -130,7 +135,7 @@ pxStringListInsertString16(PxStringList* self, PxArena* arena, PxString16 value,
         node->memory = string.memory;
         node->length = string.length;
 
-        pxStringListInsertNode(self, node);
+        pxStringListInsert(self, index + i, node);
     }
 
     if (right.length <= 0) return 1;
@@ -141,14 +146,14 @@ pxStringListInsertString16(PxStringList* self, PxArena* arena, PxString16 value,
 }
 
 pxb8
-pxStringListInsertString32(PxStringList* self, PxArena* arena, PxString32 value, PxString32 pivot)
+pxStringListInsertString32(PxStringList* self, PxArena* arena, pxiword index, PxString32 value, PxString32 pivot)
 {
     pxiword offset = pxArenaOffset(arena);
 
     PxString32 left  = {0};
     PxString32 right = value;
 
-    while (right.length > 0) {
+    for (pxiword i = 0; right.length > 0; i += 1) {
         pxString32Split(right, pivot, &left, &right);
 
         PxString8 string = pxString8CopyString32(arena, left);
@@ -162,7 +167,7 @@ pxStringListInsertString32(PxStringList* self, PxArena* arena, PxString32 value,
         node->memory = string.memory;
         node->length = string.length;
 
-        pxStringListInsertNode(self, node);
+        pxStringListInsert(self, index + i, node);
     }
 
     if (right.length <= 0) return 1;
@@ -170,6 +175,90 @@ pxStringListInsertString32(PxStringList* self, PxArena* arena, PxString32 value,
     pxArenaRewind(arena, offset);
 
     return 0;
+}
+
+pxb8
+pxStringListRemove(PxStringList* self, pxiword index, PxStringNode** value)
+{
+    if (index < 0 || index >= self->size)
+        return 0;
+
+    PxStringNode* node = self->head;
+
+    for (pxiword i = 0; i < index; i += 1)
+        node = node->next;
+
+    PxStringNode* prev = node->prev;
+    PxStringNode* next = node->next;
+
+    if (prev == 0 && next == 0) {
+        self->head = 0;
+        self->tail = 0;
+    }
+
+    if (prev == 0 && next != 0) {
+        self->head       = next;
+        self->head->prev = 0;
+    }
+
+    if (prev != 0 && next == 0) {
+        self->tail       = prev;
+        self->tail->next = 0;
+    }
+
+    if (prev != 0 && next != 0) {
+        prev->next = next;
+        next->prev = prev;
+    }
+
+    node->next = 0;
+    node->prev = 0;
+
+    if (value != 0) *value = node;
+
+    self->size -= 1;
+
+    return 1;
+}
+
+pxb8
+pxStringListRemoveHead(PxStringList* self, PxStringNode** value)
+{
+    return pxStringListRemove(self, 0, value);
+}
+
+pxb8
+pxStringListRemoveTail(PxStringList* self, PxStringNode** value)
+{
+    return pxStringListRemove(self, self->size - 1, value);
+}
+
+pxb8
+pxStringListRead(PxStringList* self, pxiword index, PxStringNode** value)
+{
+    if (index < 0 || index >= self->size)
+        return 0;
+
+    PxStringNode* node = self->head;
+
+    for (pxiword i = 0; i < index; i += 1)
+        node = node->next;
+
+    if (value != 0) *value = node;
+
+    return 1;
+}
+
+pxb8
+pxStringListReadHead(PxStringList* self, PxStringNode** value)
+{
+    return pxStringListRead(self, 0, value);
+}
+
+pxb8
+pxStringListReadTail(PxStringList* self, PxStringNode** value)
+{
+    return pxStringListRead(self, self->size - 1, value);
 }
 
 PxString8

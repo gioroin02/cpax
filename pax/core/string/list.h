@@ -32,19 +32,40 @@ PxStringList
 pxStringListFromString32(PxArena* arena, PxString32 string, PxString32 pivot);
 
 pxb8
-pxStringListInsertNode(PxStringList* self, PxStringNode* value);
-
-PxStringNode*
-pxStringListRemoveNode(PxStringList* self);
+pxStringListInsert(PxStringList* self, pxiword index, PxStringNode* value);
 
 pxb8
-pxStringListInsertString8(PxStringList* self, PxArena* arena, PxString8 value, PxString8 pivot);
+pxStringListInsertHead(PxStringList* self, PxStringNode* value);
 
 pxb8
-pxStringListInsertString16(PxStringList* self, PxArena* arena, PxString16 value, PxString16 pivot);
+pxStringListInsertTail(PxStringList* self, PxStringNode* value);
 
 pxb8
-pxStringListInsertString32(PxStringList* self, PxArena* arena, PxString32 value, PxString32 pivot);
+pxStringListInsertString8(PxStringList* self, PxArena* arena, pxiword index, PxString8 value, PxString8 pivot);
+
+pxb8
+pxStringListInsertString16(PxStringList* self, PxArena* arena, pxiword index, PxString16 value, PxString16 pivot);
+
+pxb8
+pxStringListInsertString32(PxStringList* self, PxArena* arena, pxiword index, PxString32 value, PxString32 pivot);
+
+pxb8
+pxStringListRemove(PxStringList* self, pxiword index, PxStringNode** value);
+
+pxb8
+pxStringListRemoveHead(PxStringList* self, PxStringNode** value);
+
+pxb8
+pxStringListRemoveTail(PxStringList* self, PxStringNode** value);
+
+pxb8
+pxStringListRead(PxStringList* self, pxiword index, PxStringNode** value);
+
+pxb8
+pxStringListReadHead(PxStringList* self, PxStringNode** value);
+
+pxb8
+pxStringListReadTail(PxStringList* self, PxStringNode** value);
 
 PxString8
 pxString8FromStringList(PxArena* arena, PxStringList* value, PxString8 pivot, PxString8 prefix, PxString8 suffix);

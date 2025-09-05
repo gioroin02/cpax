@@ -13,7 +13,7 @@ main(int argc, char** argv)
     pxConsoleSetMode(console, PX_CONSOLE_MODE_RAW);
 
     while (1) {
-        PxConsoleEvent event = pxConsoleReadEvent(console, &buffer);
+        PxConsoleEvent event = pxConsoleReadEvent(console, &arena);
 
         if (event.type == PX_CONSOLE_EVENT_KEYBD_PRESS)
             printf("%li\r\n", event.keybd_press.unicode);

@@ -10,9 +10,7 @@
     #define __pxConsoleCreate__         pxWindowsConsoleCreate
     #define __pxConsoleSetModeDefault__ pxWindowsConsoleSetModeDefault
     #define __pxConsoleSetModeRaw__     pxWindowsConsoleSetModeRaw
-    #define __pxConsoleWrite__          pxWindowsConsoleWrite
     #define __pxConsoleWriteMemory__    pxWindowsConsoleWriteMemory
-    #define __pxConsoleRead__           pxWindowsConsoleRead
     #define __pxConsoleReadMemory__     pxWindowsConsoleReadMemory
     #define __pxConsoleReadEvent__      pxWindowsConsoleReadEvent
 
@@ -23,9 +21,7 @@
     #define __pxConsoleCreate__         pxLinuxConsoleCreate
     #define __pxConsoleSetModeDefault__ pxLinuxConsoleSetModeDefault
     #define __pxConsoleSetModeRaw__     pxLinuxConsoleSetModeRaw
-    #define __pxConsoleWrite__          pxLinuxConsoleWrite
     #define __pxConsoleWriteMemory__    pxLinuxConsoleWriteMemory
-    #define __pxConsoleRead__           pxLinuxConsoleRead
     #define __pxConsoleReadMemory__     pxLinuxConsoleReadMemory
     #define __pxConsoleReadEvent__      pxLinuxConsoleReadEvent
 
@@ -72,7 +68,19 @@ pxConsoleSetModeRaw(PxConsole self)
 pxiword
 pxConsoleWrite(PxConsole self, PxBuffer8* buffer)
 {
-    return __pxConsoleWrite__(self, buffer);
+    pxBuffer8Normalize(buffer);
+
+    pxu8*   memory = buffer->memory;
+    pxiword size   = buffer->size;
+
+    if (size <= 0) return 0;
+
+    pxiword temp = pxConsoleWriteMemory(self, memory, size, 1);
+
+    buffer->size -= temp;
+    buffer->head  = (buffer->head + temp) % buffer->length;
+
+    return temp;
 }
 
 pxiword
@@ -84,7 +92,19 @@ pxConsoleWriteMemory(PxConsole self, void* memory, pxiword amount, pxiword strid
 pxiword
 pxConsoleRead(PxConsole self, PxBuffer8* buffer)
 {
-    return __pxConsoleRead__(self, buffer);
+    pxBuffer8Normalize(buffer);
+
+    pxu8*   memory = buffer->memory + buffer->size;
+    pxiword size   = buffer->length - buffer->size;
+
+    if (size <= 0) return 0;
+
+    pxiword temp = pxConsoleReadMemory(self, memory, size, 1);
+
+    buffer->size += temp;
+    buffer->tail  = (buffer->tail + temp) % buffer->length;
+
+    return temp;
 }
 
 pxiword
@@ -94,9 +114,9 @@ pxConsoleReadMemory(PxConsole self, void* memory, pxiword amount, pxiword stride
 }
 
 PxConsoleEvent
-pxConsoleReadEvent(PxConsole self, PxBuffer8* buffer)
+pxConsoleReadEvent(PxConsole self, PxArena* arena)
 {
-    return __pxConsoleReadEvent__(self, buffer);
+    return __pxConsoleReadEvent__(self, arena);
 }
 
 PxWriter

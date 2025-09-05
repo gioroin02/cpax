@@ -31,7 +31,7 @@ pxiword
 pxConsoleReadMemory(PxConsole self, void* memory, pxiword amount, pxiword stride);
 
 PxConsoleEvent
-pxConsoleReadEvent(PxConsole self, PxBuffer8* buffer);
+pxConsoleReadEvent(PxConsole self, PxArena* arena);
 
 PxWriter
 pxConsoleWriter(PxConsole self, PxBuffer8* buffer);

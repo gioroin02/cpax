@@ -8,11 +8,12 @@ main(int argc, char** argv)
     PxArena arena = pxMemoryReserve(16);
 
     PxConsole console = pxConsoleCreate(&arena);
+    PxBuffer8 buffer  = pxBuffer8Reserve(&arena, PX_MEMORY_KIB);
 
     pxConsoleSetMode(console, PX_CONSOLE_MODE_RAW);
 
     while (1) {
-        PxConsoleEvent event = pxConsoleNext(console, &arena);
+        PxConsoleEvent event = pxConsoleReadEvent(console, &buffer);
 
         if (event.type == PX_CONSOLE_EVENT_KEYBD_PRESS)
             printf("%li\n", event.keybd_press.unicode);

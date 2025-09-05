@@ -150,6 +150,24 @@ pxLinuxConsoleSetModeRaw(PxLinuxConsole* self)
 }
 
 pxiword
+pxLinuxConsoleWrite(PxLinuxConsole* self, PxBuffer8* buffer)
+{
+    pxBuffer8Normalize(buffer);
+
+    pxu8*   memory = buffer->memory;
+    pxiword size   = buffer->size;
+
+    if (size <= 0) return 0;
+
+    pxiword temp = pxLinuxConsoleWriteMemory(self, memory, size, 1);
+
+    buffer->size -= temp;
+    buffer->head  = (buffer->head + temp) % buffer->length;
+
+    return temp;
+}
+
+pxiword
 pxLinuxConsoleWriteMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxiword stride)
 {
     pxiword length = amount * stride;
@@ -173,6 +191,24 @@ pxLinuxConsoleWriteMemory(PxLinuxConsole* self, void* memory, pxiword amount, px
 }
 
 pxiword
+pxLinuxConsoleRead(PxLinuxConsole* self, PxBuffer8* buffer)
+{
+    pxBuffer8Normalize(buffer);
+
+    pxu8*   memory = buffer->memory + buffer->size;
+    pxiword size   = buffer->length - buffer->size;
+
+    if (size <= 0) return 0;
+
+    pxiword temp = pxLinuxConsoleReadMemory(self, memory, size, 1);
+
+    buffer->size += temp;
+    buffer->tail  = (buffer->tail + temp) % buffer->length;
+
+    return temp;
+}
+
+pxiword
 pxLinuxConsoleReadMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxiword stride)
 {
     pxiword length = amount * stride;
@@ -192,20 +228,16 @@ pxLinuxConsoleReadMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxi
 }
 
 PxConsoleEvent
-pxLinuxConsoleNext(PxLinuxConsole* self, PxArena* arena)
+pxLinuxConsoleReadEvent(PxLinuxConsole* self, PxBuffer8* buffer)
 {
     PxConsoleEvent result = {.type = PX_CONSOLE_EVENT_NONE};
 
-    pxiword length = PX_MEMORY_KIB;
-    pxu8*   memory = pxArenaReserveMemory(arena, length, 1);
+    pxLinuxConsoleRead(self, buffer);
 
-    pxiword size =
-        pxLinuxConsoleReadMemory(self, memory, length, 1);
+    if (buffer->size <= 0) return result;
 
-    pxLinuxConsoleWriteMemory(self, memory, size, 1);
+    pxLinuxConsoleWriteMemory(self, buffer->memory, buffer->size, 1);
     pxLinuxConsoleWriteMemory(self, "\r\n", 2, 1);
-
-    if (size <= 0) return result;
 
     switch (memory[0]) {
         case '\x1b': {

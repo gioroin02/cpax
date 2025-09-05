@@ -144,6 +144,24 @@ pxWindowsConsoleSetModeRaw(PxWindowsConsole* self)
 }
 
 pxiword
+pxWindowsConsoleWrite(PxWindowsConsole* self, PxBuffer8* buffer)
+{
+    pxBuffer8Normalize(buffer);
+
+    pxu8*   memory = buffer->memory;
+    pxiword size   = buffer->size;
+
+    if (size <= 0) return 0;
+
+    pxiword temp = pxWindowsConsoleWriteMemory(self, memory, size, 1);
+
+    buffer->size -= temp;
+    buffer->head  = (buffer->head + temp) % buffer->length;
+
+    return temp;
+}
+
+pxiword
 pxWindowsConsoleWriteMemory(PxWindowsConsole* self, void* memory, pxiword amount, pxiword stride)
 {
     pxiword length = amount * stride;
@@ -167,6 +185,24 @@ pxWindowsConsoleWriteMemory(PxWindowsConsole* self, void* memory, pxiword amount
 }
 
 pxiword
+pxWindowsConsoleRead(PxWindowsConsole* self, PxBuffer8* buffer)
+{
+    pxBuffer8Normalize(buffer);
+
+    pxu8*   memory = buffer->memory + buffer->size;
+    pxiword size   = buffer->length - buffer->size;
+
+    if (size <= 0) return 0;
+
+    pxiword temp = pxWindowsConsoleReadMemory(self, memory, size, 1);
+
+    buffer->size += temp;
+    buffer->tail  = (buffer->tail + temp) % buffer->length;
+
+    return temp;
+}
+
+pxiword
 pxWindowsConsoleReadMemory(PxWindowsConsole* self, void* memory, pxiword amount, pxiword stride)
 {
     pxiword length = amount * stride;
@@ -186,7 +222,7 @@ pxWindowsConsoleReadMemory(PxWindowsConsole* self, void* memory, pxiword amount,
 }
 
 PxConsoleEvent
-pxWindowsConsoleNext(PxWindowsConsole* self, PxArena* arena)
+pxWindowsConsoleReadEvent(PxWindowsConsole* self, PxBuffer8* buffer)
 {
     PxConsoleEvent result = {.type = PX_CONSOLE_EVENT_NONE};
 

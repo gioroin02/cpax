@@ -15,12 +15,18 @@ pxb8
 pxWindowsConsoleSetModeRaw(PxWindowsConsole* self);
 
 pxiword
+pxWindowsConsoleWrite(PxWindowsConsole* self, PxBuffer8* buffer);
+
+pxiword
 pxWindowsConsoleWriteMemory(PxWindowsConsole* self, void* memory, pxiword amount, pxiword stride);
+
+pxiword
+pxWindowsConsoleRead(PxWindowsConsole* self, PxBuffer8* buffer);
 
 pxiword
 pxWindowsConsoleReadMemory(PxWindowsConsole* self, void* memory, pxiword amount, pxiword stride);
 
 PxConsoleEvent
-pxWindowsConsoleNext(PxWindowsConsole* self, PxArena* arena);
+pxWindowsConsoleReadEvent(PxWindowsConsole* self, PxBuffer8* buffer);
 
 #endif // PX_WINDOWS_CONSOLE_CONSOLE_H

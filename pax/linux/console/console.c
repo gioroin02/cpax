@@ -16,76 +16,81 @@ struct PxLinuxConsole
 };
 
 pxb8
-pxLinuxEscapeSequence(pxu8* memory, pxiword length, PxConsoleEvent* event)
+pxLinuxEscapeSequence(PxString8 string, PxConsoleEvent* event)
 {
-    if (length <= 0 || event == 0)
-        return 0;
+    if (string.length <= 0 || event == 0) return 0;
 
-    switch (memory[0]) {
-        case PX_ASCII_SQUARE_LEFT: {
-            if (pxMemoryIsEqual(memory + 1, "A", 1, 1) != 0) {
-                event->type = PX_CONSOLE_EVENT_KEYBD_PRESS;
+    switch (string.memory[0]) {
+        case PX_ASCII_LOWER_A:
+        case PX_ASCII_LOWER_B:
+        case PX_ASCII_LOWER_C:
+        case PX_ASCII_LOWER_D:
+        case PX_ASCII_LOWER_E:
+        case PX_ASCII_LOWER_F:
+        case PX_ASCII_LOWER_G:
+        case PX_ASCII_LOWER_H:
+        case PX_ASCII_LOWER_I:
+        case PX_ASCII_LOWER_J:
+        case PX_ASCII_LOWER_K:
+        case PX_ASCII_LOWER_L:
+        case PX_ASCII_LOWER_M:
+        case PX_ASCII_LOWER_N:
+        case PX_ASCII_LOWER_O:
+        case PX_ASCII_LOWER_P:
+        case PX_ASCII_LOWER_Q:
+        case PX_ASCII_LOWER_R:
+        case PX_ASCII_LOWER_S:
+        case PX_ASCII_LOWER_T:
+        case PX_ASCII_LOWER_U:
+        case PX_ASCII_LOWER_V:
+        case PX_ASCII_LOWER_W:
+        case PX_ASCII_LOWER_X:
+        case PX_ASCII_LOWER_Y:
+        case PX_ASCII_LOWER_Z: {
+            event->type = PX_CONSOLE_EVENT_KEYBD_PRESS;
 
-                event->keybd_press.button  = PX_CONSOLE_KEYBD_ARROW_UP;
-                event->keybd_press.unicode = 0;
-                event->keybd_press.modifs  = 0;
-            }
+            event->keybd_press.button = PX_CONSOLE_KEYBD_A +
+                string.memory[0] - PX_ASCII_LOWER_A;
 
-            if (pxMemoryIsEqual(memory + 1, "B", 1, 1) != 0) {
-                event->type = PX_CONSOLE_EVENT_KEYBD_PRESS;
+            event->keybd_press.unicode = string.memory[0];
+            event->keybd_press.modifs  = PX_CONSOLE_MODIF_ALT;
+        } break;
 
-                event->keybd_press.button  = PX_CONSOLE_KEYBD_ARROW_DOWN;
-                event->keybd_press.unicode = 0;
-                event->keybd_press.modifs  = 0;
-            }
+        case PX_ASCII_UPPER_A:
+        case PX_ASCII_UPPER_B:
+        case PX_ASCII_UPPER_C:
+        case PX_ASCII_UPPER_D:
+        case PX_ASCII_UPPER_E:
+        case PX_ASCII_UPPER_F:
+        case PX_ASCII_UPPER_G:
+        case PX_ASCII_UPPER_H:
+        case PX_ASCII_UPPER_I:
+        case PX_ASCII_UPPER_J:
+        case PX_ASCII_UPPER_K:
+        case PX_ASCII_UPPER_L:
+        case PX_ASCII_UPPER_M:
+        case PX_ASCII_UPPER_N:
+        case PX_ASCII_UPPER_O:
+        case PX_ASCII_UPPER_P:
+        case PX_ASCII_UPPER_Q:
+        case PX_ASCII_UPPER_R:
+        case PX_ASCII_UPPER_S:
+        case PX_ASCII_UPPER_T:
+        case PX_ASCII_UPPER_U:
+        case PX_ASCII_UPPER_V:
+        case PX_ASCII_UPPER_W:
+        case PX_ASCII_UPPER_X:
+        case PX_ASCII_UPPER_Y:
+        case PX_ASCII_UPPER_Z: {
+            event->type = PX_CONSOLE_EVENT_KEYBD_PRESS;
 
-            if (pxMemoryIsEqual(memory + 1, "C", 1, 1) != 0) {
-                event->type = PX_CONSOLE_EVENT_KEYBD_PRESS;
+            event->keybd_press.button = PX_CONSOLE_KEYBD_A +
+                string.memory[0] - PX_ASCII_UPPER_A;
 
-                event->keybd_press.button  = PX_CONSOLE_KEYBD_ARROW_RIGHT;
-                event->keybd_press.unicode = 0;
-                event->keybd_press.modifs  = 0;
-            }
+            event->keybd_press.unicode = string.memory[0];
 
-            if (pxMemoryIsEqual(memory + 1, "D", 1, 1) != 0) {
-                event->type = PX_CONSOLE_EVENT_KEYBD_PRESS;
-
-                event->keybd_press.button  = PX_CONSOLE_KEYBD_ARROW_LEFT;
-                event->keybd_press.unicode = 0;
-                event->keybd_press.modifs  = 0;
-            }
-
-            if (pxMemoryIsEqual(memory + 1, "H", 1, 1) != 0) {
-                event->type = PX_CONSOLE_EVENT_KEYBD_PRESS;
-
-                event->keybd_press.button  = PX_CONSOLE_KEYBD_HOME;
-                event->keybd_press.unicode = 0;
-                event->keybd_press.modifs  = 0;
-            }
-
-            if (pxMemoryIsEqual(memory + 1, "F", 1, 1) != 0) {
-                event->type = PX_CONSOLE_EVENT_KEYBD_PRESS;
-
-                event->keybd_press.button  = PX_CONSOLE_KEYBD_END;
-                event->keybd_press.unicode = 0;
-                event->keybd_press.modifs  = 0;
-            }
-
-            if (pxMemoryIsEqual(memory + 1, "5~", 2, 1) != 0) {
-                event->type = PX_CONSOLE_EVENT_KEYBD_PRESS;
-
-                event->keybd_press.button  = PX_CONSOLE_KEYBD_PAGE_UP;
-                event->keybd_press.unicode = 0;
-                event->keybd_press.modifs  = 0;
-            }
-
-            if (pxMemoryIsEqual(memory + 1, "6~", 2, 1) != 0) {
-                event->type = PX_CONSOLE_EVENT_KEYBD_PRESS;
-
-                event->keybd_press.button  = PX_CONSOLE_KEYBD_PAGE_UP;
-                event->keybd_press.unicode = 0;
-                event->keybd_press.modifs  = 0;
-            }
+            event->keybd_press.modifs =
+                PX_CONSOLE_MODIF_ALT | PX_CONSOLE_MODIF_SHIFT;
         } break;
 
         default: break;
@@ -197,6 +202,9 @@ pxLinuxConsoleNext(PxLinuxConsole* self, PxArena* arena)
     pxiword size =
         pxLinuxConsoleReadMemory(self, memory, length, 1);
 
+    pxLinuxConsoleWriteMemory(self, memory, size, 1);
+    pxLinuxConsoleWriteMemory(self, "\r\n", 2, 1);
+
     if (size <= 0) return result;
 
     switch (memory[0]) {
@@ -206,6 +214,7 @@ pxLinuxConsoleNext(PxLinuxConsole* self, PxArena* arena)
 
                 result.keybd_press.button  = PX_CONSOLE_KEYBD_ESCAPE;
                 result.keybd_press.unicode = memory[0];
+                result.keybd_press.modifs  = 0;
             } else
                 pxLinuxEscapeSequence(memory + 1, size - 1, &result);
         } break;

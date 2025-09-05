@@ -71,18 +71,18 @@ pxWindowsMapKeybdBtn(pxiword button)
         case VK_PRIOR:  return PX_CONSOLE_KEYBD_PAGE_UP;
         case VK_NEXT:   return PX_CONSOLE_KEYBD_PAGE_DOWN;
 
-        case VK_F1:  return PX_CONSOLE_KEYBD_F1;
-        case VK_F2:  return PX_CONSOLE_KEYBD_F2;
-        case VK_F3:  return PX_CONSOLE_KEYBD_F3;
-        case VK_F4:  return PX_CONSOLE_KEYBD_F4;
-        case VK_F5:  return PX_CONSOLE_KEYBD_F5;
-        case VK_F6:  return PX_CONSOLE_KEYBD_F6;
-        case VK_F7:  return PX_CONSOLE_KEYBD_F7;
-        case VK_F8:  return PX_CONSOLE_KEYBD_F8;
-        case VK_F9:  return PX_CONSOLE_KEYBD_F9;
-        case VK_F10: return PX_CONSOLE_KEYBD_F10;
-        case VK_F11: return PX_CONSOLE_KEYBD_F11;
-        case VK_F12: return PX_CONSOLE_KEYBD_F12;
+        case VK_F1:  return PX_CONSOLE_KEYBD_FUNC1;
+        case VK_F2:  return PX_CONSOLE_KEYBD_FUNC2;
+        case VK_F3:  return PX_CONSOLE_KEYBD_FUNC3;
+        case VK_F4:  return PX_CONSOLE_KEYBD_FUNC4;
+        case VK_F5:  return PX_CONSOLE_KEYBD_FUNC5;
+        case VK_F6:  return PX_CONSOLE_KEYBD_FUNC6;
+        case VK_F7:  return PX_CONSOLE_KEYBD_FUNC7;
+        case VK_F8:  return PX_CONSOLE_KEYBD_FUNC8;
+        case VK_F9:  return PX_CONSOLE_KEYBD_FUNC9;
+        case VK_F10: return PX_CONSOLE_KEYBD_FUNC10;
+        case VK_F11: return PX_CONSOLE_KEYBD_FUNC11;
+        case VK_F12: return PX_CONSOLE_KEYBD_FUNC12;
 
         default: break;
     }
@@ -211,16 +211,16 @@ pxWindowsConsoleNext(PxWindowsConsole* self, PxArena* arena)
                     result.keybd_release.unicode = event.uChar.UnicodeChar;
 
                     if ((event.dwControlKeyState & LEFT_CTRL_PRESSED) != 0)
-                        result.keybd_release.modifs |= PX_CONSOLE_MODIF_CTRL_LEFT;
+                        result.keybd_release.modifs |= PX_CONSOLE_MODIF_CTRL;
 
                     if ((event.dwControlKeyState & RIGHT_CTRL_PRESSED) != 0)
-                        result.keybd_release.modifs |= PX_CONSOLE_MODIF_CTRL_RIGHT;
+                        result.keybd_release.modifs |= PX_CONSOLE_MODIF_CTRL;
 
                     if ((event.dwControlKeyState & LEFT_ALT_PRESSED) != 0)
-                        result.keybd_release.modifs |= PX_CONSOLE_MODIF_ALT_LEFT;
+                        result.keybd_release.modifs |= PX_CONSOLE_MODIF_ALT;
 
                     if ((event.dwControlKeyState & RIGHT_ALT_PRESSED) != 0)
-                        result.keybd_release.modifs |= PX_CONSOLE_MODIF_ALT_RIGHT;
+                        result.keybd_release.modifs |= PX_CONSOLE_MODIF_ALT;
 
                     if ((event.dwControlKeyState & SHIFT_PRESSED) != 0)
                         result.keybd_release.modifs |= PX_CONSOLE_MODIF_SHIFT;
@@ -233,16 +233,16 @@ pxWindowsConsoleNext(PxWindowsConsole* self, PxArena* arena)
                     result.keybd_press.unicode = event.uChar.UnicodeChar;
 
                     if ((event.dwControlKeyState & LEFT_CTRL_PRESSED) != 0)
-                        result.keybd_press.modifs |= PX_CONSOLE_MODIF_CTRL_LEFT;
+                        result.keybd_press.modifs |= PX_CONSOLE_MODIF_CTRL;
 
                     if ((event.dwControlKeyState & RIGHT_CTRL_PRESSED) != 0)
-                        result.keybd_press.modifs |= PX_CONSOLE_MODIF_CTRL_RIGHT;
+                        result.keybd_press.modifs |= PX_CONSOLE_MODIF_CTRL;
 
                     if ((event.dwControlKeyState & LEFT_ALT_PRESSED) != 0)
-                        result.keybd_press.modifs |= PX_CONSOLE_MODIF_ALT_LEFT;
+                        result.keybd_press.modifs |= PX_CONSOLE_MODIF_ALT;
 
                     if ((event.dwControlKeyState & RIGHT_ALT_PRESSED) != 0)
-                        result.keybd_press.modifs |= PX_CONSOLE_MODIF_ALT_RIGHT;
+                        result.keybd_press.modifs |= PX_CONSOLE_MODIF_ALT;
 
                     if ((event.dwControlKeyState & SHIFT_PRESSED) != 0)
                         result.keybd_press.modifs |= PX_CONSOLE_MODIF_SHIFT;

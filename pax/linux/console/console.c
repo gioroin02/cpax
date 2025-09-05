@@ -3,6 +3,9 @@
 
 #include "console.h"
 
+// TODO
+#include <stdio.h>
+
 #include <unistd.h>
 #include <errno.h>
 
@@ -18,7 +21,8 @@ struct PxLinuxConsole
 pxb8
 pxLinuxEscapeSequence(PxString8 string, PxConsoleEvent* event)
 {
-    if (string.length <= 0 || event == 0) return 0;
+    if (string.length <= 0 || event == 0)
+        return string.length;
 
     switch (string.memory[0]) {
         case PX_ASCII_LOWER_A:
@@ -96,7 +100,7 @@ pxLinuxEscapeSequence(PxString8 string, PxConsoleEvent* event)
         default: break;
     }
 
-    return 0;
+    return 1;
 }
 
 PxLinuxConsole*
@@ -232,32 +236,38 @@ pxLinuxConsoleReadEvent(PxLinuxConsole* self, PxBuffer8* buffer)
 {
     PxConsoleEvent result = {.type = PX_CONSOLE_EVENT_NONE};
 
-    pxLinuxConsoleRead(self, buffer);
+    pxiword size = pxLinuxConsoleRead(self, buffer);
 
     if (buffer->size <= 0) return result;
 
-    pxLinuxConsoleWriteMemory(self, buffer->memory, buffer->size, 1);
-    pxLinuxConsoleWriteMemory(self, "\r\n", 2, 1);
-
-    switch (memory[0]) {
+    switch (buffer->memory[0]) {
         case '\x1b': {
+            PxString8 string = {0};
+
+	    string.memory = buffer->memory;
+	    string.length = buffer->size;
+
             if (size == 1) {
                 result.type = PX_CONSOLE_EVENT_KEYBD_PRESS;
 
                 result.keybd_press.button  = PX_CONSOLE_KEYBD_ESCAPE;
-                result.keybd_press.unicode = memory[0];
+                result.keybd_press.unicode = PX_ASCII_ESCAPE;
                 result.keybd_press.modifs  = 0;
             } else
-                pxLinuxEscapeSequence(memory + 1, size - 1, &result);
+                size = pxLinuxEscapeSequence(string, &result) + 1;
+
+	    pxBuffer8DropHead(buffer, size);
         } break;
 
         default: {
             pxi32 unicode = 0;
 
-            pxiword units = pxUtf8ReadMemory8Forw(
-                memory, length, 0, &unicode);
+            size = pxUtf8ReadMemory8Forw(
+                buffer->memory, buffer->size, 0, &unicode);
 
-            if (units == 0) return result;
+            pxBuffer8DropHead(buffer, size);
+
+            if (size == 0) return result;
 
             result.type = PX_CONSOLE_EVENT_KEYBD_PRESS;
 

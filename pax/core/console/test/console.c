@@ -15,13 +15,13 @@ main(int argc, char** argv)
     while (1) {
         PxConsoleEvent event = pxConsoleReadEvent(console, &buffer);
 
-        if (event.type == PX_CONSOLE_EVENT_KEYBD_PRESS)
-            printf("%li\n", event.keybd_press.unicode);
+        if (event.type == PX_CONSOLE_EVENT_KEYBD_RELEASE)
+            printf("%li\r\n", event.keybd_release.unicode);
 
-        if (event.type == PX_CONSOLE_EVENT_KEYBD_RELEASE) {
-            printf("%li\n", event.keybd_release.unicode);
+        if (event.type == PX_CONSOLE_EVENT_KEYBD_PRESS) {
+            printf("%li\r\n", event.keybd_press.unicode);
 
-            if (event.keybd_release.button == PX_CONSOLE_KEYBD_ESCAPE)
+            if (event.keybd_press.button == PX_CONSOLE_KEYBD_ESCAPE)
                 break;
         }
     }

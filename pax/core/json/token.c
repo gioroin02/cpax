@@ -82,9 +82,9 @@ PxJsonToken
 pxJsonTokenString(PxString8 string)
 {
     return (PxJsonToken) {
-        .type   = PX_JSON_TOKEN_STRING,
-        .length = string.length + 2,
-        .svalue = string,
+        .type         = PX_JSON_TOKEN_STRING,
+        .length       = string.length + 2,
+        .value_string = string,
     };
 }
 
@@ -100,9 +100,9 @@ pxJsonTokenUnsigned(PxString8 string)
         return pxJsonTokenError(string, pxs8("Invalid number"));
 
     return (PxJsonToken) {
-        .type   = PX_JSON_TOKEN_UNSIGNED,
-        .length = string.length,
-        .uvalue = value,
+        .type           = PX_JSON_TOKEN_UNSIGNED,
+        .length         = string.length,
+        .value_unsigned = value,
     };
 }
 
@@ -118,9 +118,9 @@ pxJsonTokenInteger(PxString8 string)
         return pxJsonTokenError(string, pxs8("Invalid number"));
 
     return (PxJsonToken) {
-        .type   = PX_JSON_TOKEN_INTEGER,
-        .length = string.length,
-        .ivalue = value,
+        .type          = PX_JSON_TOKEN_INTEGER,
+        .length        = string.length,
+        .value_integer = value,
     };
 }
 
@@ -136,9 +136,9 @@ pxJsonTokenFloating(PxString8 string)
         return pxJsonTokenError(string, pxs8("Not implemented yet"));
 
     return (PxJsonToken) {
-        .type   = PX_JSON_TOKEN_FLOATING,
-        .length = string.length,
-        .fvalue = value,
+        .type           = PX_JSON_TOKEN_FLOATING,
+        .length         = string.length,
+        .value_floating = value,
     };
 }
 
@@ -146,9 +146,9 @@ PxJsonToken
 pxJsonTokenBoolean(PxString8 string, pxbword value)
 {
     return (PxJsonToken) {
-        .type   = PX_JSON_TOKEN_BOOLEAN,
-        .length = string.length,
-        .bvalue = value,
+        .type          = PX_JSON_TOKEN_BOOLEAN,
+        .length        = string.length,
+        .value_boolean = value,
     };
 }
 

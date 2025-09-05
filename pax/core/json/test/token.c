@@ -88,23 +88,23 @@ showJsonToken(PxReader* reader, PxArena* arena)
 
             case PX_JSON_TOKEN_STRING:
                 printf(BLUE("'%.*s'"),
-                    pxCast(int, token.svalue.length), token.svalue.memory);
+                    pxCast(int, token.value_string.length), token.value_string.memory);
             break;
 
             case PX_JSON_TOKEN_UNSIGNED:
-                printf(PURPLE("%llu"), token.uvalue);
+                printf(PURPLE("%llu"), token.value_unsigned);
             break;
 
             case PX_JSON_TOKEN_INTEGER:
-                printf(PURPLE("%lli"), token.ivalue);
+                printf(PURPLE("%lli"), token.value_integer);
             break;
 
             case PX_JSON_TOKEN_FLOATING:
-                printf(PURPLE("%lf"), token.fvalue);
+                printf(PURPLE("%lf"), token.value_floating);
             break;
 
             case PX_JSON_TOKEN_BOOLEAN:
-                printf("%s", token.bvalue != 0 ? GREEN("true") : RED("false"));
+                printf("%s", token.value_boolean != 0 ? GREEN("true") : RED("false"));
             break;
 
             case PX_JSON_TOKEN_NULL:

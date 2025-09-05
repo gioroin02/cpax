@@ -72,7 +72,7 @@ showJsonEvent(PxJsonReader* reader, PxArena* arena)
                 }
 
                 printf(BLUE("'%.*s'"),
-                    pxCast(int, event.svalue.length), event.svalue.memory);
+                    pxCast(int, event.value_string.length), event.value_string.memory);
             } break;
 
             case PX_JSON_EVENT_UNSIGNED: {
@@ -81,7 +81,7 @@ showJsonEvent(PxJsonReader* reader, PxArena* arena)
                         event.name.memory);
                 }
 
-                printf(PURPLE("%llu"), event.uvalue);
+                printf(PURPLE("%llu"), event.value_unsigned);
             } break;
 
             case PX_JSON_EVENT_INTEGER: {
@@ -90,7 +90,7 @@ showJsonEvent(PxJsonReader* reader, PxArena* arena)
                         event.name.memory);
                 }
 
-                printf(PURPLE("%lli"), event.ivalue);
+                printf(PURPLE("%lli"), event.value_integer);
             } break;
 
             case PX_JSON_EVENT_FLOATING: {
@@ -99,7 +99,7 @@ showJsonEvent(PxJsonReader* reader, PxArena* arena)
                         event.name.memory);
                 }
 
-                printf(PURPLE("%lf"), event.fvalue);
+                printf(PURPLE("%lf"), event.value_floating);
             } break;
 
             case PX_JSON_EVENT_BOOLEAN: {
@@ -108,7 +108,7 @@ showJsonEvent(PxJsonReader* reader, PxArena* arena)
                         event.name.memory);
                 }
 
-                printf("%s", event.bvalue != 0 ? GREEN("true") : RED("false"));
+                printf("%s", event.value_boolean != 0 ? GREEN("true") : RED("false"));
             } break;
 
             case PX_JSON_EVENT_NULL: {

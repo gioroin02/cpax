@@ -91,7 +91,7 @@ pxJsonWriterNext(PxJsonWriter* self, PxArena* arena, PxJsonEvent event)
             }
 
             pxWriterByte(&self->writer, PX_ASCII_QUOTE);
-            pxWriterString8(&self->writer, event.svalue);
+            pxWriterString8(&self->writer, event.value_string);
             pxWriterByte(&self->writer, PX_ASCII_QUOTE);
 
             self->comma = 1;
@@ -111,7 +111,7 @@ pxJsonWriterNext(PxJsonWriter* self, PxArena* arena, PxJsonEvent event)
             }
 
             PxString8 string = pxString8FromUnsigned(arena, 10,
-                PX_FORMAT_OPTION_NONE, event.uvalue);
+                PX_FORMAT_OPTION_NONE, event.value_unsigned);
 
             pxWriterString8(&self->writer, string);
 
@@ -132,7 +132,7 @@ pxJsonWriterNext(PxJsonWriter* self, PxArena* arena, PxJsonEvent event)
             }
 
             PxString8 string = pxString8FromInteger(arena, 10,
-                PX_FORMAT_OPTION_NONE, event.ivalue);
+                PX_FORMAT_OPTION_NONE, event.value_integer);
 
             pxWriterString8(&self->writer, string);
 
@@ -156,7 +156,7 @@ pxJsonWriterNext(PxJsonWriter* self, PxArena* arena, PxJsonEvent event)
                 pxWriterByte(&self->writer, PX_ASCII_COLON);
             }
 
-            if (event.bvalue != 0)
+            if (event.value_boolean != 0)
                 pxWriterString8(&self->writer, pxs8("true"));
             else
                 pxWriterString8(&self->writer, pxs8("false"));

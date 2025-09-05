@@ -20,4 +20,7 @@ pxLinuxConsoleWriteMemory(PxLinuxConsole* self, void* memory, pxiword amount, px
 pxiword
 pxLinuxConsoleReadMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxiword stride);
 
+PxConsoleEvent
+pxLinuxConsoleNext(PxLinuxConsole* self, PxArena* arena);
+
 #endif // PX_LINUX_CONSOLE_CONSOLE_H

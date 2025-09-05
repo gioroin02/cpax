@@ -1,6 +1,7 @@
 #ifndef PX_CONSOLE_CONSOLE_H
 #define PX_CONSOLE_CONSOLE_H
 
+#include "event.h"
 #include "mode.h"
 
 typedef void* PxConsole;
@@ -28,6 +29,9 @@ pxConsoleRead(PxConsole self, PxBuffer8* buffer);
 
 pxiword
 pxConsoleReadMemory(PxConsole self, void* memory, pxiword amount, pxiword stride);
+
+PxConsoleEvent
+pxConsoleNext(PxConsole self, PxArena* arena);
 
 PxWriter
 pxConsoleWriter(PxConsole self, PxBuffer8* buffer);

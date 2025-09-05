@@ -12,6 +12,7 @@
     #define __pxConsoleSetModeRaw__     pxWindowsConsoleSetModeRaw
     #define __pxConsoleWriteMemory__    pxWindowsConsoleWriteMemory
     #define __pxConsoleReadMemory__     pxWindowsConsoleReadMemory
+    #define __pxConsoleNext__           pxWindowsConsoleNext
 
 #elif PX_SYSTEM == PX_SYSTEM_LINUX
 
@@ -22,6 +23,7 @@
     #define __pxConsoleSetModeRaw__     pxLinuxConsoleSetModeRaw
     #define __pxConsoleWriteMemory__    pxLinuxConsoleWriteMemory
     #define __pxConsoleReadMemory__     pxLinuxConsoleReadMemory
+    #define __pxConsoleNext__           pxLinuxConsoleNext
 
 #else
 
@@ -109,6 +111,12 @@ pxiword
 pxConsoleReadMemory(PxConsole self, void* memory, pxiword amount, pxiword stride)
 {
     return __pxConsoleReadMemory__(self, memory, amount, stride);
+}
+
+PxConsoleEvent
+pxConsoleNext(PxConsole self, PxArena* arena)
+{
+    return __pxConsoleNext__(self, arena);
 }
 
 PxWriter

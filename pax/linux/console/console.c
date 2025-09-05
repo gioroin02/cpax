@@ -15,6 +15,85 @@ struct PxLinuxConsole
     PxTermIO inout;
 };
 
+pxb8
+pxLinuxEscapeSequence(pxu8* memory, pxiword length, PxConsoleEvent* event)
+{
+    if (length <= 0 || event == 0)
+        return 0;
+
+    switch (memory[0]) {
+        case PX_ASCII_SQUARE_LEFT: {
+            if (pxMemoryIsEqual(memory + 1, "A", 1, 1) != 0) {
+                event->type = PX_CONSOLE_EVENT_KEYBD_PRESS;
+
+                event->keybd_press.button  = PX_CONSOLE_KEYBD_ARROW_UP;
+                event->keybd_press.unicode = 0;
+                event->keybd_press.modifs  = 0;
+            }
+
+            if (pxMemoryIsEqual(memory + 1, "B", 1, 1) != 0) {
+                event->type = PX_CONSOLE_EVENT_KEYBD_PRESS;
+
+                event->keybd_press.button  = PX_CONSOLE_KEYBD_ARROW_DOWN;
+                event->keybd_press.unicode = 0;
+                event->keybd_press.modifs  = 0;
+            }
+
+            if (pxMemoryIsEqual(memory + 1, "C", 1, 1) != 0) {
+                event->type = PX_CONSOLE_EVENT_KEYBD_PRESS;
+
+                event->keybd_press.button  = PX_CONSOLE_KEYBD_ARROW_RIGHT;
+                event->keybd_press.unicode = 0;
+                event->keybd_press.modifs  = 0;
+            }
+
+            if (pxMemoryIsEqual(memory + 1, "D", 1, 1) != 0) {
+                event->type = PX_CONSOLE_EVENT_KEYBD_PRESS;
+
+                event->keybd_press.button  = PX_CONSOLE_KEYBD_ARROW_LEFT;
+                event->keybd_press.unicode = 0;
+                event->keybd_press.modifs  = 0;
+            }
+
+            if (pxMemoryIsEqual(memory + 1, "H", 1, 1) != 0) {
+                event->type = PX_CONSOLE_EVENT_KEYBD_PRESS;
+
+                event->keybd_press.button  = PX_CONSOLE_KEYBD_HOME;
+                event->keybd_press.unicode = 0;
+                event->keybd_press.modifs  = 0;
+            }
+
+            if (pxMemoryIsEqual(memory + 1, "F", 1, 1) != 0) {
+                event->type = PX_CONSOLE_EVENT_KEYBD_PRESS;
+
+                event->keybd_press.button  = PX_CONSOLE_KEYBD_END;
+                event->keybd_press.unicode = 0;
+                event->keybd_press.modifs  = 0;
+            }
+
+            if (pxMemoryIsEqual(memory + 1, "5~", 2, 1) != 0) {
+                event->type = PX_CONSOLE_EVENT_KEYBD_PRESS;
+
+                event->keybd_press.button  = PX_CONSOLE_KEYBD_PAGE_UP;
+                event->keybd_press.unicode = 0;
+                event->keybd_press.modifs  = 0;
+            }
+
+            if (pxMemoryIsEqual(memory + 1, "6~", 2, 1) != 0) {
+                event->type = PX_CONSOLE_EVENT_KEYBD_PRESS;
+
+                event->keybd_press.button  = PX_CONSOLE_KEYBD_PAGE_UP;
+                event->keybd_press.unicode = 0;
+                event->keybd_press.modifs  = 0;
+            }
+        } break;
+
+        default: break;
+    }
+
+    return 0;
+}
+
 PxLinuxConsole*
 pxLinuxConsoleCreate(PxArena* arena)
 {
@@ -105,6 +184,49 @@ pxLinuxConsoleReadMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxi
         return temp;
 
     return 0;
+}
+
+PxConsoleEvent
+pxLinuxConsoleNext(PxLinuxConsole* self, PxArena* arena)
+{
+    PxConsoleEvent result = {.type = PX_CONSOLE_EVENT_NONE};
+
+    pxiword length = PX_MEMORY_KIB;
+    pxu8*   memory = pxArenaReserveMemory(arena, length, 1);
+
+    pxiword size =
+        pxLinuxConsoleReadMemory(self, memory, length, 1);
+
+    if (size <= 0) return result;
+
+    switch (memory[0]) {
+        case '\x1b': {
+            if (size == 1) {
+                result.type = PX_CONSOLE_EVENT_KEYBD_PRESS;
+
+                result.keybd_press.button  = PX_CONSOLE_KEYBD_ESCAPE;
+                result.keybd_press.unicode = memory[0];
+            } else
+                pxLinuxEscapeSequence(memory + 1, size - 1, &result);
+        } break;
+
+        default: {
+            pxi32 unicode = 0;
+
+            pxiword units = pxUtf8ReadMemory8Forw(
+                memory, length, 0, &unicode);
+
+            if (units == 0) return result;
+
+            result.type = PX_CONSOLE_EVENT_KEYBD_PRESS;
+
+            result.keybd_press.button  = PX_CONSOLE_KEYBD_NONE;
+            result.keybd_press.unicode = unicode;
+            result.keybd_press.modifs  = 0;
+        } break;
+    }
+
+    return result;
 }
 
 #endif // PX_LINUX_CONSOLE_CONSOLE_C

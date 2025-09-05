@@ -11,13 +11,18 @@ main(int argc, char** argv)
 
     pxConsoleSetMode(console, PX_CONSOLE_MODE_RAW);
 
-    pxu8 byte = 0;
-
     while (1) {
-        pxConsoleReadMemory(console, &byte, 1, 1);
+        PxConsoleEvent event = pxConsoleNext(console, &arena);
 
-        if (byte == PX_ASCII_LOWER_Q)
-            break;
+        if (event.type == PX_CONSOLE_EVENT_KEYBD_PRESS)
+            printf("%li\n", event.keybd_press.unicode);
+
+        if (event.type == PX_CONSOLE_EVENT_KEYBD_RELEASE) {
+            printf("%li\n", event.keybd_release.unicode);
+
+            if (event.keybd_release.button == PX_CONSOLE_KEYBD_ESCAPE)
+                break;
+        }
     }
 
     pxConsoleSetMode(console, PX_CONSOLE_MODE_DEFAULT);

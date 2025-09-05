@@ -20,4 +20,7 @@ pxWindowsConsoleWriteMemory(PxWindowsConsole* self, void* memory, pxiword amount
 pxiword
 pxWindowsConsoleReadMemory(PxWindowsConsole* self, void* memory, pxiword amount, pxiword stride);
 
+PxConsoleEvent
+pxWindowsConsoleNext(PxWindowsConsole* self, PxArena* arena);
+
 #endif // PX_WINDOWS_CONSOLE_CONSOLE_H

@@ -12,4 +12,4 @@ console="pax/core/console/export.c"
 pax="$pax $memory $console"
 dir="pax/core/logging/test"
 
-gcc --std=c99 $pax $dir/logger.c -o logging_logger.exe
+gcc -g --std=c99 $pax $dir/logger.c -o logging_logger.exe

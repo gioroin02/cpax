@@ -9,4 +9,4 @@ memory="pax/core/memory/export.c"
 pax="$pax $memory"
 dir="pax/core/format/test"
 
-gcc --std=c99 $pax $dir/string8.c -o format_string8.exe
+gcc -g --std=c99 $pax $dir/string8.c -o format_string8.exe

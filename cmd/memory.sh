@@ -6,5 +6,5 @@ pax="$base $memory"
 pax=$pax
 dir="pax/core/memory/test"
 
-gcc --std=c99 $pax $dir/order.c  -o memory_order.exe
-gcc --std=c99 $pax $dir/system.c -o memory_system.exe
+gcc -g --std=c99 $pax $dir/order.c  -o memory_order.exe
+gcc -g --std=c99 $pax $dir/system.c -o memory_system.exe

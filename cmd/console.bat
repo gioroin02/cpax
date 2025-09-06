@@ -15,4 +15,5 @@ set "pax=%base% %memory% %string% %format% %stream% %storage% %console%"
 set "pax=%pax%"
 set "dir=pax\core\console\test"
 
-zig cc --std=c99 %pax% "%dir%\console.c" -o console_console.exe
+zig cc --std=c99 %pax% "%dir%\console.c"  -o console_console.exe
+zig cc --std=c99 %pax% "%dir%\sequence.c" -o console_sequence.exe

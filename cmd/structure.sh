@@ -8,4 +8,4 @@ memory="pax/core/memory/export.c"
 pax="$pax $memory"
 dir="pax/core/structure/test"
 
-gcc --std=c99 $pax $dir/queue.c -o structure_queue.exe
+gcc -g --std=c99 $pax $dir/queue.c -o structure_queue.exe

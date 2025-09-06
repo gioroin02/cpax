@@ -19,21 +19,6 @@ struct PxLinuxConsole
     PxConsoleEvent last;
 };
 
-pxb8
-pxLinuxEscapeSequence(pxu8* memory, pxiword length, PxConsoleEvent* event)
-{
-    PxString8 string = pxString8TrimSpaces(
-        pxString8FromMemory(memory, length));
-
-    if (string.length <= 0 || event == 0) return 0;
-
-    for (pxiword i = 0; i < string.length; i += 1)
-        printf("%03u ", string.memory[i]);
-    printf("\r\n");
-
-    return 0;
-}
-
 PxLinuxConsole*
 pxLinuxConsoleCreate(PxArena* arena)
 {
@@ -153,13 +138,37 @@ pxLinuxConsoleReadEvent(PxLinuxConsole* self, PxArena* arena)
     pxiword size = pxLinuxConsoleReadMemory(self,
         memory, PX_MEMORY_KIB, 1);
 
-    switch (buffer->memory[0]) {
+    switch (memory[0]) {
         case PX_ASCII_ESCAPE:
-            pxLinuxEscapeSequence(memory, size, &result);
+            PxConsoleSequence escape = {0};
+            PxString8         string = {.memory = memory, .length = size};
+
+            if (pxConsoleSequenceFromString8(&escape, string) == 0)
+                return result;
+
+            printf("func = %c\r\n", escape.func);
+
+                for (pxiword i = 0; i < escape.size; i += 1)
+                    printf("args = %u\r\n", escape.args[i]);
+
+            printf("\r\n");
+
+            switch (escape.func) {
+                case 0: {
+                    pxiword button  = PX_CONSOLE_KEYBD_ESCAPE;
+                    pxuword modifs  = 0;
+                    pxi32   unicode = PX_ASCII_ESCAPE;
+
+                    result = pxConsoleEventKeybdPress(
+                        button, modifs, unicode);
+                } break;
+
+                default: break;
+            }
         break;
 
         default: {
-            pxuword button  = PX_CONSOLE_KEYBD_NONE;
+            pxiword button  = PX_CONSOLE_KEYBD_NONE;
             pxuword modifs  = 0;
             pxi32   unicode = 0;
 

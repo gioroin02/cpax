@@ -11,4 +11,5 @@ pax="$base $memory $string $format $stream $storage $console"
 pax="$pax"
 dir="pax/core/console/test"
 
-gcc --std=c99 $pax $dir/console.c -o console_console.exe
+gcc -g --std=c99 $pax $dir/console.c  -o console_console.exe
+gcc -g --std=c99 $pax $dir/sequence.c -o console_sequence.exe

@@ -167,4 +167,10 @@ typedef struct PxConsoleEvent
 }
 PxConsoleEvent;
 
+PxConsoleEvent
+pxConsoleEventKeybdPress(pxiword button, pxuword modifs, pxi32 unicode);
+
+PxConsoleEvent
+pxConsoleEventKeybdPress(pxiword button, pxuword modifs, pxi32 unicode);
+
 #endif // PX_CONSOLE_EVENT_H

@@ -12,7 +12,7 @@ typedef enum PxAscii
     PX_ASCII_4,
     PX_ASCII_5,
     PX_ASCII_6,
-    PX_ASCII_7,
+    PX_ASCII_BELL,
     PX_ASCII_BACK_SPACE,
     PX_ASCII_HORIZONTAL_TAB,
     PX_ASCII_LINE_FEED,

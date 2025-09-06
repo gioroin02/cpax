@@ -22,7 +22,7 @@ static const PxString8 ASCII_NAMES[ASCII_COUNT] = {
     pxs8(pxString(PX_ASCII_4)),
     pxs8(pxString(PX_ASCII_5)),
     pxs8(pxString(PX_ASCII_6)),
-    pxs8(pxString(PX_ASCII_7)),
+    pxs8(pxString(PX_ASCII_BELL)),
     pxs8(pxString(PX_ASCII_BACK_SPACE)),
     pxs8(pxString(PX_ASCII_HORIZONTAL_TAB)),
     pxs8(pxString(PX_ASCII_LINE_FEED)),

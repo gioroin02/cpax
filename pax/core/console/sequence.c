@@ -6,15 +6,37 @@
 pxb8
 pxConsoleSequenceFromString8(PxConsoleSequence* self, PxString8 string)
 {
-    pxu8*   memory = string.memory;
-    pxiword length = string.length;
+    if (string.length <= 0) return 0;
 
-    if (length <= 0 || memory[0] != PX_ASCII_ESCAPE)
-        return 0;
+    switch (string.memory[0]) {
+        case PX_ASCII_BELL:
+        case PX_ASCII_BACK_SPACE:
+        case PX_ASCII_HORIZONTAL_TAB:
+        case PX_ASCII_LINE_FEED:
+        case PX_ASCII_VERTICAL_TAB:
+        case PX_ASCII_PAGE_FEED:
+        case PX_ASCII_CARRIAGE_RETURN: {
+            if (string.length > 1)
+                return 0;
 
-    if (length == 1) return 1;
+            self->func = string.memory[0];
 
-    switch (memory[1]) {
+            return 1;
+        } break;
+
+        case PX_ASCII_ESCAPE: {
+            if (string.length > 1)
+                break;
+
+            self->func = string.memory[0];
+
+            return 1;
+        } break;
+
+        default: return 0;
+    }
+
+    switch (string.memory[1]) {
         case PX_ASCII_SQUARE_LEFT: {
             PxString8 left  = {0};
             PxString8 right = pxString8Slice(string, 2, string.length - 1);
@@ -39,6 +61,74 @@ pxConsoleSequenceFromString8(PxConsoleSequence* self, PxString8 string)
             return 1;
         } break;
 
+        case PX_ASCII_LOWER_A:
+        case PX_ASCII_LOWER_B:
+        case PX_ASCII_LOWER_C:
+        case PX_ASCII_LOWER_D:
+        case PX_ASCII_LOWER_E:
+        case PX_ASCII_LOWER_F:
+        case PX_ASCII_LOWER_G:
+        case PX_ASCII_LOWER_H:
+        case PX_ASCII_LOWER_I:
+        case PX_ASCII_LOWER_J:
+        case PX_ASCII_LOWER_K:
+        case PX_ASCII_LOWER_L:
+        case PX_ASCII_LOWER_M:
+        case PX_ASCII_LOWER_N:
+        case PX_ASCII_LOWER_O:
+        case PX_ASCII_LOWER_P:
+        case PX_ASCII_LOWER_Q:
+        case PX_ASCII_LOWER_R:
+        case PX_ASCII_LOWER_S:
+        case PX_ASCII_LOWER_T:
+        case PX_ASCII_LOWER_U:
+        case PX_ASCII_LOWER_V:
+        case PX_ASCII_LOWER_W:
+        case PX_ASCII_LOWER_X:
+        case PX_ASCII_LOWER_Y:
+        case PX_ASCII_LOWER_Z: {
+            self->size = 2;
+
+            self->args[0] = string.memory[1];
+            self->args[1] = 3;
+
+            return 1;
+        } break;
+
+        case PX_ASCII_UPPER_A:
+        case PX_ASCII_UPPER_B:
+        case PX_ASCII_UPPER_C:
+        case PX_ASCII_UPPER_D:
+        case PX_ASCII_UPPER_E:
+        case PX_ASCII_UPPER_F:
+        case PX_ASCII_UPPER_G:
+        case PX_ASCII_UPPER_H:
+        case PX_ASCII_UPPER_I:
+        case PX_ASCII_UPPER_J:
+        case PX_ASCII_UPPER_K:
+        case PX_ASCII_UPPER_L:
+        case PX_ASCII_UPPER_M:
+        case PX_ASCII_UPPER_N:
+        case PX_ASCII_UPPER_O:
+        case PX_ASCII_UPPER_P:
+        case PX_ASCII_UPPER_Q:
+        case PX_ASCII_UPPER_R:
+        case PX_ASCII_UPPER_S:
+        case PX_ASCII_UPPER_T:
+        case PX_ASCII_UPPER_U:
+        case PX_ASCII_UPPER_V:
+        case PX_ASCII_UPPER_W:
+        case PX_ASCII_UPPER_X:
+        case PX_ASCII_UPPER_Y:
+        case PX_ASCII_UPPER_Z: {
+            self->size = 2;
+
+            self->args[0] = string.memory[1];
+            self->args[1] = 4;
+
+            return 1;
+        } break;
+
         default: break;
     }
 
@@ -52,6 +142,14 @@ pxConsoleEventFromSequence(PxConsoleSequence* sequence)
 
     switch (sequence->func) {
         case PX_ASCII_NULL: {
+            pxuword modifs  = sequence->args[1];
+            pxi32   unicode = sequence->args[0];
+
+            result = pxConsoleEventKeybdPress(
+                PX_CONSOLE_KEYBD_A + unicode, modifs, unicode);
+        } break;
+
+        case PX_ASCII_ESCAPE: {
             result = pxConsoleEventKeybdPress(
                 PX_CONSOLE_KEYBD_ESCAPE, 0, PX_ASCII_ESCAPE);
         } break;

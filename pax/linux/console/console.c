@@ -153,18 +153,7 @@ pxLinuxConsoleReadEvent(PxLinuxConsole* self, PxArena* arena)
 
             printf("\r\n");
 
-            switch (escape.func) {
-                case 0: {
-                    pxiword button  = PX_CONSOLE_KEYBD_ESCAPE;
-                    pxuword modifs  = 0;
-                    pxi32   unicode = PX_ASCII_ESCAPE;
-
-                    result = pxConsoleEventKeybdPress(
-                        button, modifs, unicode);
-                } break;
-
-                default: break;
-            }
+            result = pxConsoleEventFromSequence(&escape);
         break;
 
         default: {

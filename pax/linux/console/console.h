@@ -9,10 +9,10 @@ PxLinuxConsole*
 pxLinuxConsoleCreate(PxArena* arena);
 
 pxb8
-pxLinuxConsoleSetModeDefault(PxLinuxConsole* self);
+pxLinuxConsoleKeybdModeRaw(PxLinuxConsole* self);
 
 pxb8
-pxLinuxConsoleSetModeRaw(PxLinuxConsole* self);
+pxLinuxConsoleKeybdModeRestore(PxLinuxConsole* self);
 
 pxiword
 pxLinuxConsoleWriteMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxiword stride);

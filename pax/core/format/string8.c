@@ -1,5 +1,5 @@
-#ifndef PX_FORMAT_STRING8_C
-#define PX_FORMAT_STRING8_C
+#ifndef PX_CORE_FORMAT_STRING8_C
+#define PX_CORE_FORMAT_STRING8_C
 
 #include "string8.h"
 
@@ -1013,4 +1013,4 @@ pxIntegerFromString8(pxiword* self, pxuword radix, PxFormatOption options, PxStr
     return 1;
 }
 
-#endif // PX_FORMAT_STRING8_C
+#endif // PX_CORE_FORMAT_STRING8_C

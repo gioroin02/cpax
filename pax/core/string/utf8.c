@@ -1,5 +1,5 @@
-#ifndef PX_STRING_UTF8_C
-#define PX_STRING_UTF8_C
+#ifndef PX_CORE_STRING_UTF8_C
+#define PX_CORE_STRING_UTF8_C
 
 #include "utf8.h"
 
@@ -210,4 +210,4 @@ pxUtf8IsOverlong(pxi32 value, pxiword units)
     return 0;
 }
 
-#endif // PX_STRING_UTF8_C
+#endif // PX_CORE_STRING_UTF8_C

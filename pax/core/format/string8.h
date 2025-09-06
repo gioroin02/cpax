@@ -1,7 +1,7 @@
-#ifndef PX_FORMAT_STRING8_H
-#define PX_FORMAT_STRING8_H
+#ifndef PX_CORE_FORMAT_STRING8_H
+#define PX_CORE_FORMAT_STRING8_H
 
-#include "options.h"
+#include "option.h"
 
 /* String from number */
 
@@ -67,4 +67,4 @@ pxInteger64FromString8(pxi64* self, pxuword radix, PxFormatOption options, PxStr
 pxb8
 pxIntegerFromString8(pxiword* self, pxuword radix, PxFormatOption options, PxString8 string);
 
-#endif // PX_FORMAT_STRING8_H
+#endif // PX_CORE_FORMAT_STRING8_H

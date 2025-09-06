@@ -1,5 +1,5 @@
-#ifndef PX_STRING_UTF16_C
-#define PX_STRING_UTF16_C
+#ifndef PX_CORE_STRING_UTF16_C
+#define PX_CORE_STRING_UTF16_C
 
 #include "utf16.h"
 
@@ -157,4 +157,4 @@ pxUtf16UnitsToRead(pxu16 value)
     return 0;
 }
 
-#endif // PX_STRING_UTF16_C
+#endif // PX_CORE_STRING_UTF16_C

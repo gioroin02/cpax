@@ -1,5 +1,5 @@
-#ifndef PX_JSON_EVENT_C
-#define PX_JSON_EVENT_C
+#ifndef PX_ENCODING_JSON_EVENT_C
+#define PX_ENCODING_JSON_EVENT_C
 
 #include "event.h"
 
@@ -131,4 +131,4 @@ pxJsonEventCount()
     };
 }
 
-#endif // PX_JSON_EVENT_C
+#endif // PX_ENCODING_JSON_EVENT_C

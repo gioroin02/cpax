@@ -1,5 +1,5 @@
-#ifndef PX_NETWORK_EXPORT_C
-#define PX_NETWORK_EXPORT_C
+#ifndef PX_CORE_NETWORK_EXPORT_C
+#define PX_CORE_NETWORK_EXPORT_C
 
 #include "address_ip4.c"
 #include "address_ip6.c"
@@ -10,4 +10,4 @@
 #include "socket_tcp.c"
 #include "socket_udp.c"
 
-#endif // PX_NETWORK_EXPORT_C
+#endif // PX_CORE_NETWORK_EXPORT_C

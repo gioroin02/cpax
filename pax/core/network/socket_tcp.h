@@ -1,5 +1,5 @@
-#ifndef PX_NETWORK_SOCKET_TCP_H
-#define PX_NETWORK_SOCKET_TCP_H
+#ifndef PX_CORE_NETWORK_SOCKET_TCP_H
+#define PX_CORE_NETWORK_SOCKET_TCP_H
 
 #include "address.h"
 
@@ -47,4 +47,4 @@ pxSocketTcpReader(PxSocketTcp self, PxBuffer8* buffer);
 PxWriter
 pxSocketTcpWriter(PxSocketTcp self, PxBuffer8* buffer);
 
-#endif // PX_NETWORK_SOCKET_TCP_H
+#endif // PX_CORE_NETWORK_SOCKET_TCP_H

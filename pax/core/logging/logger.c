@@ -1,5 +1,5 @@
-#ifndef PX_LOGGING_LOGGER_C
-#define PX_LOGGING_LOGGER_C
+#ifndef PX_CORE_LOGGING_LOGGER_C
+#define PX_CORE_LOGGING_LOGGER_C
 
 #include "logger.h"
 
@@ -511,4 +511,4 @@ pxLoggerString32(PxLogger* self, pxiword index, PxString32 value)
     return 0;
 }
 
-#endif // PX_LOGGING_LOGGER_C
+#endif // PX_CORE_LOGGING_LOGGER_C

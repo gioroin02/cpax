@@ -1,5 +1,5 @@
-#ifndef PX_STRING_CONVERT_C
-#define PX_STRING_CONVERT_C
+#ifndef PX_CORE_STRING_CONVERT_C
+#define PX_CORE_STRING_CONVERT_C
 
 #include "convert.h"
 
@@ -309,4 +309,4 @@ pxString32CopyString16(PxArena* arena, PxString16 value)
     };
 }
 
-#endif // PX_STRING_CONVERT_C
+#endif // PX_CORE_STRING_CONVERT_C

@@ -114,19 +114,7 @@ pxWindowsConsoleCreate(PxArena* arena)
 }
 
 pxb8
-pxWindowsConsoleSetModeDefault(PxWindowsConsole* self)
-{
-    HANDLE input  = GetStdHandle(STD_INPUT_HANDLE);
-    HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
-
-    SetConsoleMode(input, self->input);
-    SetConsoleMode(output, self->output);
-
-    return 1;
-}
-
-pxb8
-pxWindowsConsoleSetModeRaw(PxWindowsConsole* self)
+pxWindowsConsoleKeybdModeRaw(PxWindowsConsole* self)
 {
     HANDLE input  = GetStdHandle(STD_INPUT_HANDLE);
     HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -139,6 +127,18 @@ pxWindowsConsoleSetModeRaw(PxWindowsConsole* self)
     mask = ENABLE_VIRTUAL_TERMINAL_PROCESSING;
 
     SetConsoleMode(output, self->output | mask);
+
+    return 1;
+}
+
+pxb8
+pxWindowsConsoleKeybdModeRestore(PxWindowsConsole* self)
+{
+    HANDLE input  = GetStdHandle(STD_INPUT_HANDLE);
+    HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    SetConsoleMode(input, self->input);
+    SetConsoleMode(output, self->output);
 
     return 1;
 }

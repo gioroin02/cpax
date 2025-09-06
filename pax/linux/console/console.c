@@ -55,17 +55,7 @@ pxLinuxConsoleCreate(PxArena* arena)
 }
 
 pxb8
-pxLinuxConsoleSetModeDefault(PxLinuxConsole* self)
-{
-    int state = tcsetattr(STDIN_FILENO, TCSANOW, &self->inout);
-
-    if (state != -1) return 1;
-
-    return 0;
-}
-
-pxb8
-pxLinuxConsoleSetModeRaw(PxLinuxConsole* self)
+pxLinuxConsoleKeybdModeRaw(PxLinuxConsole* self)
 {
     PxTermIO inout = self->inout;
 
@@ -78,6 +68,16 @@ pxLinuxConsoleSetModeRaw(PxLinuxConsole* self)
     inout.c_cc[VTIME] = 1;
 
     int state = tcsetattr(STDIN_FILENO, TCSAFLUSH, &inout);
+
+    if (state != -1) return 1;
+
+    return 0;
+}
+
+pxb8
+pxLinuxConsoleKeybdModeRestore(PxLinuxConsole* self)
+{
+    int state = tcsetattr(STDIN_FILENO, TCSANOW, &self->inout);
 
     if (state != -1) return 1;
 

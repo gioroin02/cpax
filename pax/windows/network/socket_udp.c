@@ -1,7 +1,7 @@
 #ifndef PX_WINDOWS_NETWORK_SOCKET_UDP_C
 #define PX_WINDOWS_NETWORK_SOCKET_UDP_C
 
-#include "import.h"
+#include "socket_udp.h"
 
 #define NOMINMAX
 #define NOGDI

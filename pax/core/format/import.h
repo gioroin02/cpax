@@ -1,6 +1,6 @@
-#ifndef PX_FORMAT_IMPORT_H
-#define PX_FORMAT_IMPORT_H
+#ifndef PX_CORE_FORMAT_IMPORT_H
+#define PX_CORE_FORMAT_IMPORT_H
 
 #include "../string/export.h"
 
-#endif // PX_FORMAT_IMPORT_H
+#endif // PX_CORE_FORMAT_IMPORT_H

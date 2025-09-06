@@ -1,5 +1,5 @@
-#ifndef PX_STRUCTURE_QUEUE_H
-#define PX_STRUCTURE_QUEUE_H
+#ifndef PX_CORE_STRUCTURE_QUEUE_H
+#define PX_CORE_STRUCTURE_QUEUE_H
 
 #include "import.h"
 
@@ -104,4 +104,4 @@ pxQueueReadHeadMemory(PxQueue* self, void* memory, pxiword stride);
 pxb8
 pxQueueReadTailMemory(PxQueue* self, void* memory, pxiword stride);
 
-#endif // PX_STRUCTURE_QUEUE_H
+#endif // PX_CORE_STRUCTURE_QUEUE_H

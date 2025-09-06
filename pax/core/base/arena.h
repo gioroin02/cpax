@@ -1,5 +1,5 @@
-#ifndef PX_BASE_ARENA_H
-#define PX_BASE_ARENA_H
+#ifndef PX_CORE_BASE_ARENA_H
+#define PX_CORE_BASE_ARENA_H
 
 #include "memory.h"
 
@@ -38,4 +38,4 @@ pxArenaRewind(PxArena* self, pxiword offset);
 pxiword
 pxArenaAlignForw(PxArena* self, pxiword align);
 
-#endif // PX_BASE_ARENA_H
+#endif // PX_CORE_BASE_ARENA_H

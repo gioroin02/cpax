@@ -1,5 +1,5 @@
-#ifndef PX_STRING_CONVERT_H
-#define PX_STRING_CONVERT_H
+#ifndef PX_CORE_STRING_CONVERT_H
+#define PX_CORE_STRING_CONVERT_H
 
 #include "string8.h"
 #include "string16.h"
@@ -41,4 +41,4 @@ pxString32CopyString8(PxArena* arena, PxString8 value);
 PxString32
 pxString32CopyString16(PxArena* arena, PxString16 value);
 
-#endif // PX_STRING_CONVERT_H
+#endif // PX_CORE_STRING_CONVERT_H

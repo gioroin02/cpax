@@ -1,5 +1,5 @@
-#ifndef PX_NETWORK_SYSTEM_C
-#define PX_NETWORK_SYSTEM_C
+#ifndef PX_CORE_NETWORK_SYSTEM_C
+#define PX_CORE_NETWORK_SYSTEM_C
 
 #include "system.h"
 
@@ -35,4 +35,4 @@ pxNetworkStop()
     __pxNetworkStop__();
 }
 
-#endif // PX_NETWORK_SYSTEM_C
+#endif // PX_CORE_NETWORK_SYSTEM_C

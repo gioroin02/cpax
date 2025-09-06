@@ -1,5 +1,5 @@
-#ifndef PX_STORAGE_PATH_C
-#define PX_STORAGE_PATH_C
+#ifndef PX_CORE_STORAGE_PATH_C
+#define PX_CORE_STORAGE_PATH_C
 
 #include "path.h"
 
@@ -358,4 +358,4 @@ pxString32FromPath(PxArena* arena, PxPath* value, PxString32 pivot)
     };
 }
 
-#endif // PX_STORAGE_PATH_C
+#endif // PX_CORE_STORAGE_PATH_C

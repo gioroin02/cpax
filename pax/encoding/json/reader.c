@@ -1,5 +1,5 @@
-#ifndef PX_JSON_READER_C
-#define PX_JSON_READER_C
+#ifndef PX_ENCODING_JSON_READER_C
+#define PX_ENCODING_JSON_READER_C
 
 #include "reader.h"
 
@@ -164,4 +164,4 @@ pxJsonReaderNext(PxJsonReader* self, PxArena* arena)
     return result;
 }
 
-#endif // PX_JSON_READER_C
+#endif // PX_ENCODING_JSON_READER_C

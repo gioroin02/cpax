@@ -1,5 +1,5 @@
-#ifndef PX_JSON_EVENT_H
-#define PX_JSON_EVENT_H
+#ifndef PX_ENCODING_JSON_EVENT_H
+#define PX_ENCODING_JSON_EVENT_H
 
 #include "import.h"
 
@@ -102,4 +102,4 @@ pxJsonEventNull(PxString8 name);
 PxJsonEvent
 pxJsonEventCount();
 
-#endif // PX_JSON_EVENT_H
+#endif // PX_ENCODING_JSON_EVENT_H

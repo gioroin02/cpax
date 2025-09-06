@@ -1,5 +1,5 @@
-#ifndef PX_STRUCTURE_QUEUE_C
-#define PX_STRUCTURE_QUEUE_C
+#ifndef PX_CORE_STRUCTURE_QUEUE_C
+#define PX_CORE_STRUCTURE_QUEUE_C
 
 #include "queue.h"
 
@@ -282,4 +282,4 @@ pxQueueReadTailMemory(PxQueue* self, void* memory, pxiword stride)
     return pxQueueReadMemory(self, self->size - 1, memory, stride);
 }
 
-#endif // PX_STRUCTURE_QUEUE_C
+#endif // PX_CORE_STRUCTURE_QUEUE_C

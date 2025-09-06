@@ -1,5 +1,5 @@
-#ifndef PX_STRING_UTF32_H
-#define PX_STRING_UTF32_H
+#ifndef PX_CORE_STRING_UTF32_H
+#define PX_CORE_STRING_UTF32_H
 
 #include "unicode.h"
 
@@ -45,4 +45,4 @@ pxUtf32UnitsToWrite(pxi32 value);
 pxiword
 pxUtf32UnitsToRead(pxu32 value);
 
-#endif // PX_STRING_UTF32_H
+#endif // PX_CORE_STRING_UTF32_H

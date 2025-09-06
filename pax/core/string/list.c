@@ -1,5 +1,5 @@
-#ifndef PX_STRING_LIST_C
-#define PX_STRING_LIST_C
+#ifndef PX_CORE_STRING_LIST_C
+#define PX_CORE_STRING_LIST_C
 
 #include "list.h"
 
@@ -426,4 +426,4 @@ pxString32FromStringList(PxArena* arena, PxStringList* value, PxString32 pivot, 
     };
 }
 
-#endif // PX_STRING_LIST_C
+#endif // PX_CORE_STRING_LIST_C

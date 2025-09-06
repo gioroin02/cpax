@@ -1,7 +1,7 @@
 #ifndef PX_WINDOWS_NETWORK_SOCKET_TCP_C
 #define PX_WINDOWS_NETWORK_SOCKET_TCP_C
 
-#include "import.h"
+#include "socket_tcp.h"
 
 #define NOMINMAX
 #define NOGDI

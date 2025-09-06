@@ -1,5 +1,5 @@
-#ifndef PX_STORAGE_FILE_H
-#define PX_STORAGE_FILE_H
+#ifndef PX_CORE_STORAGE_FILE_H
+#define PX_CORE_STORAGE_FILE_H
 
 #include "attribute.h"
 
@@ -50,4 +50,4 @@ pxFileWriter(PxFile self, PxBuffer8* buffer);
 PxReader
 pxFileReader(PxFile self, PxBuffer8* buffer);
 
-#endif // PX_STORAGE_FILE_H
+#endif // PX_CORE_STORAGE_FILE_H

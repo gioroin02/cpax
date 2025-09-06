@@ -1,5 +1,5 @@
-#ifndef PX_BASE_PLATFORM_H
-#define PX_BASE_PLATFORM_H
+#ifndef PX_CORE_BASE_PLATFORM_H
+#define PX_CORE_BASE_PLATFORM_H
 
 #define PX_WORD_NONE  0
 #define PX_WORD_32    1
@@ -47,4 +47,4 @@
 
 #endif
 
-#endif // PX_BASE_PLATFORM_H
+#endif // PX_CORE_BASE_PLATFORM_H

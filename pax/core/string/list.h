@@ -1,5 +1,5 @@
-#ifndef PX_STRING_LIST_H
-#define PX_STRING_LIST_H
+#ifndef PX_CORE_STRING_LIST_H
+#define PX_CORE_STRING_LIST_H
 
 #include "convert.h"
 
@@ -76,4 +76,4 @@ pxString16FromStringList(PxArena* arena, PxStringList* value, PxString16 pivot, 
 PxString32
 pxString32FromStringList(PxArena* arena, PxStringList* value, PxString32 pivot, PxString32 prefix, PxString32 suffix);
 
-#endif // PX_STRING_LIST_H
+#endif // PX_CORE_STRING_LIST_H

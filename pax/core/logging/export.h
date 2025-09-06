@@ -1,6 +1,6 @@
-#ifndef PX_LOGGING_EXPORT_H
-#define PX_LOGGING_EXPORT_H
+#ifndef PX_CORE_LOGGING_EXPORT_H
+#define PX_CORE_LOGGING_EXPORT_H
 
 #include "logger.h"
 
-#endif // PX_LOGGING_EXPORT_H
+#endif // PX_CORE_LOGGING_EXPORT_H

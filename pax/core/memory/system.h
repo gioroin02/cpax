@@ -1,5 +1,5 @@
-#ifndef PX_MEMORY_SYSTEM_H
-#define PX_MEMORY_SYSTEM_H
+#ifndef PX_CORE_MEMORY_SYSTEM_H
+#define PX_CORE_MEMORY_SYSTEM_H
 
 #include "import.h"
 
@@ -12,4 +12,4 @@ pxMemoryReserve(pxiword amount);
 void
 pxMemoryRelease(PxArena* arena);
 
-#endif // PX_MEMORY_SYSTEM_H
+#endif // PX_CORE_MEMORY_SYSTEM_H

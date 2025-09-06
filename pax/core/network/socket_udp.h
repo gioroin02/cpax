@@ -1,5 +1,5 @@
-#ifndef PX_NETWORK_SOCKET_UDP_H
-#define PX_NETWORK_SOCKET_UDP_H
+#ifndef PX_CORE_NETWORK_SOCKET_UDP_H
+#define PX_CORE_NETWORK_SOCKET_UDP_H
 
 #include "address.h"
 
@@ -59,4 +59,4 @@ pxSocketUdpReader(PxSocketUdp self, PxBuffer8* buffer);
 PxWriter
 pxSocketUdpWriter(PxSocketUdp self, PxBuffer8* buffer);
 
-#endif // PX_NETWORK_SOCKET_UDP_H
+#endif // PX_CORE_NETWORK_SOCKET_UDP_H

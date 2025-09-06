@@ -1,5 +1,5 @@
-#ifndef PX_NETWORK_SOCKET_TCP_C
-#define PX_NETWORK_SOCKET_TCP_C
+#ifndef PX_CORE_NETWORK_SOCKET_TCP_C
+#define PX_CORE_NETWORK_SOCKET_TCP_C
 
 #include "socket_tcp.h"
 
@@ -161,4 +161,4 @@ pxSocketTcpReader(PxSocketTcp self, PxBuffer8* buffer)
     };
 }
 
-#endif // PX_NETWORK_SOCKET_TCP_C
+#endif // PX_CORE_NETWORK_SOCKET_TCP_C

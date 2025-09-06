@@ -1,5 +1,5 @@
-#ifndef PX_STORAGE_ATTRIBUTE_H
-#define PX_STORAGE_ATTRIBUTE_H
+#ifndef PX_CORE_STORAGE_ATTRIBUTE_H
+#define PX_CORE_STORAGE_ATTRIBUTE_H
 
 #include "import.h"
 
@@ -21,4 +21,4 @@ typedef enum PxFileType
 }
 PxFileType;
 
-#endif // PX_STORAGE_ATTRIBUTE_H
+#endif // PX_CORE_STORAGE_ATTRIBUTE_H

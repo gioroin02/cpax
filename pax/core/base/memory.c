@@ -1,5 +1,5 @@
-#ifndef PX_BASE_MEMORY_C
-#define PX_BASE_MEMORY_C
+#ifndef PX_CORE_BASE_MEMORY_C
+#define PX_CORE_BASE_MEMORY_C
 
 #include "memory.h"
 
@@ -104,4 +104,4 @@ pxMemoryIsEqual(void* memory, void* value, pxiword amount, pxiword stride)
     return 1;
 }
 
-#endif // PX_BASE_MEMORY_C
+#endif // PX_CORE_BASE_MEMORY_C

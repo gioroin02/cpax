@@ -1,5 +1,5 @@
-#ifndef PX_CONSOLE_CONSOLE_C
-#define PX_CONSOLE_CONSOLE_C
+#ifndef PX_CORE_CONSOLE_CONSOLE_C
+#define PX_CORE_CONSOLE_CONSOLE_C
 
 #include "console.h"
 
@@ -7,23 +7,23 @@
 
     #include "../../windows/console/console.c"
 
-    #define __pxConsoleCreate__         pxWindowsConsoleCreate
-    #define __pxConsoleSetModeDefault__ pxWindowsConsoleSetModeDefault
-    #define __pxConsoleSetModeRaw__     pxWindowsConsoleSetModeRaw
-    #define __pxConsoleWriteMemory__    pxWindowsConsoleWriteMemory
-    #define __pxConsoleReadMemory__     pxWindowsConsoleReadMemory
-    #define __pxConsoleReadEvent__      pxWindowsConsoleReadEvent
+    #define __pxConsoleCreate__           pxWindowsConsoleCreate
+    #define __pxConsoleKeybdModeRaw__     pxWindowsConsoleKeybdModeRaw
+    #define __pxConsoleKeybdModeRestore__ pxWindowsConsoleKeybdModeRestore
+    #define __pxConsoleWriteMemory__      pxWindowsConsoleWriteMemory
+    #define __pxConsoleReadMemory__       pxWindowsConsoleReadMemory
+    #define __pxConsoleReadEvent__        pxWindowsConsoleReadEvent
 
 #elif PX_SYSTEM == PX_SYSTEM_LINUX
 
     #include "../../linux/console/console.c"
 
-    #define __pxConsoleCreate__         pxLinuxConsoleCreate
-    #define __pxConsoleSetModeDefault__ pxLinuxConsoleSetModeDefault
-    #define __pxConsoleSetModeRaw__     pxLinuxConsoleSetModeRaw
-    #define __pxConsoleWriteMemory__    pxLinuxConsoleWriteMemory
-    #define __pxConsoleReadMemory__     pxLinuxConsoleReadMemory
-    #define __pxConsoleReadEvent__      pxLinuxConsoleReadEvent
+    #define __pxConsoleCreate__           pxLinuxConsoleCreate
+    #define __pxConsoleKeybdModeRaw__     pxLinuxConsoleKeybdModeRaw
+    #define __pxConsoleKeybdModeRestore__ pxLinuxConsoleKeybdModeRestore
+    #define __pxConsoleWriteMemory__      pxLinuxConsoleWriteMemory
+    #define __pxConsoleReadMemory__       pxLinuxConsoleReadMemory
+    #define __pxConsoleReadEvent__        pxLinuxConsoleReadEvent
 
 #else
 
@@ -38,31 +38,15 @@ pxConsoleCreate(PxArena* arena)
 }
 
 pxb8
-pxConsoleSetMode(PxConsole self, PxConsoleMode mode)
+pxConsoleKeybdModeRaw(PxConsole self)
 {
-    switch (mode) {
-        case PX_CONSOLE_MODE_DEFAULT:
-            return pxConsoleSetModeDefault(self);
-
-        case PX_CONSOLE_MODE_RAW:
-            return pxConsoleSetModeRaw(self);
-
-        default: break;
-    }
-
-    return 0;
+    return __pxConsoleKeybdModeRaw__(self);
 }
 
 pxb8
-pxConsoleSetModeDefault(PxConsole self)
+pxConsoleKeybdModeRestore(PxConsole self)
 {
-    return __pxConsoleSetModeDefault__(self);
-}
-
-pxb8
-pxConsoleSetModeRaw(PxConsole self)
-{
-    return __pxConsoleSetModeRaw__(self);
+    return __pxConsoleKeybdModeRestore__(self);
 }
 
 pxiword
@@ -145,4 +129,4 @@ pxConsoleReader(PxConsole self, PxBuffer8* buffer)
     };
 }
 
-#endif // PX_CONSOLE_CONSOLE_C
+#endif // PX_CORE_CONSOLE_CONSOLE_C

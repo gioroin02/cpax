@@ -1,5 +1,5 @@
-#ifndef PX_STORAGE_FILE_C
-#define PX_STORAGE_FILE_C
+#ifndef PX_CORE_STORAGE_FILE_C
+#define PX_CORE_STORAGE_FILE_C
 
 #include "file.h"
 
@@ -171,4 +171,4 @@ pxFileReader(PxFile self, PxBuffer8* buffer)
     };
 }
 
-#endif // PX_STORAGE_FILE_C
+#endif // PX_CORE_STORAGE_FILE_C

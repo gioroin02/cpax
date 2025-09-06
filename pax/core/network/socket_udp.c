@@ -1,5 +1,5 @@
-#ifndef PX_NETWORK_SOCKET_UDP_C
-#define PX_NETWORK_SOCKET_UDP_C
+#ifndef PX_CORE_NETWORK_SOCKET_UDP_C
+#define PX_CORE_NETWORK_SOCKET_UDP_C
 
 #include "socket_udp.h"
 
@@ -213,4 +213,4 @@ pxSocketUdpReader(PxSocketUdp self, PxBuffer8* buffer)
     };
 }
 
-#endif // PX_NETWORK_SOCKET_UDP_C
+#endif // PX_CORE_NETWORK_SOCKET_UDP_C

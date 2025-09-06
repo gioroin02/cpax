@@ -1,5 +1,5 @@
-#ifndef PX_STRING_STRING16_C
-#define PX_STRING_STRING16_C
+#ifndef PX_CORE_STRING_STRING16_C
+#define PX_CORE_STRING_STRING16_C
 
 #include "string16.h"
 
@@ -451,4 +451,4 @@ pxString16Prev(PxString16 self, pxiword index, pxiword* units, pxi32* value)
     return 1;
 }
 
-#endif // PX_STRING_STRING16_C
+#endif // PX_CORE_STRING_STRING16_C

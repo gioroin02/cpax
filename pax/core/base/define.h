@@ -1,5 +1,5 @@
-#ifndef PX_BASE_DEFINE_H
-#define PX_BASE_DEFINE_H
+#ifndef PX_CORE_BASE_DEFINE_H
+#define PX_CORE_BASE_DEFINE_H
 
 #define __pxString__(x) # x
 #define pxString(x)     __pxString__(x)
@@ -16,4 +16,4 @@
 
 #define pxClamp(x, l, r) pxMax(l, pxMin(x, r))
 
-#endif // PX_BASE_DEFINE_H
+#endif // PX_CORE_BASE_DEFINE_H

@@ -1,5 +1,5 @@
-#ifndef PX_STRING_STRING32_C
-#define PX_STRING_STRING32_C
+#ifndef PX_CORE_STRING_STRING32_C
+#define PX_CORE_STRING_STRING32_C
 
 #include "string32.h"
 
@@ -451,4 +451,4 @@ pxString32Prev(PxString32 self, pxiword index, pxiword* units, pxi32* value)
     return 1;
 }
 
-#endif // PX_STRING_STRING32_C
+#endif // PX_CORE_STRING_STRING32_C

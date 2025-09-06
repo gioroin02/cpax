@@ -1,5 +1,5 @@
-#ifndef PX_STORAGE_EXPORT_H
-#define PX_STORAGE_EXPORT_H
+#ifndef PX_CORE_STORAGE_EXPORT_H
+#define PX_CORE_STORAGE_EXPORT_H
 
 #include "attribute.h"
 
@@ -8,4 +8,4 @@
 
 #include "directory.h"
 
-#endif // PX_STORAGE_EXPORT_H
+#endif // PX_CORE_STORAGE_EXPORT_H

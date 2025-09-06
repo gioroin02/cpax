@@ -1,5 +1,5 @@
-#ifndef PX_JSON_TOKEN_H
-#define PX_JSON_TOKEN_H
+#ifndef PX_ENCODING_JSON_TOKEN_H
+#define PX_ENCODING_JSON_TOKEN_H
 
 #include "import.h"
 
@@ -118,4 +118,4 @@ pxJsonNext(PxReader* reader, PxArena* arena);
 pxu8
 pxJsonSkipSpaces(PxReader* reader);
 
-#endif // PX_JSON_TOKEN_H
+#endif // PX_ENCODING_JSON_TOKEN_H

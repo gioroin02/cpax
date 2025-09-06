@@ -1,5 +1,5 @@
-#ifndef PX_FORMAT_OPTIONS_H
-#define PX_FORMAT_OPTIONS_H
+#ifndef PX_CORE_FORMAT_OPTION_H
+#define PX_CORE_FORMAT_OPTION_H
 
 #include "import.h"
 
@@ -12,4 +12,4 @@ typedef enum PxFormatOption
 }
 PxFormatOption;
 
-#endif // PX_FORMAT_OPTIONS_H
+#endif // PX_CORE_FORMAT_OPTION_H

@@ -1,5 +1,5 @@
-#ifndef PX_NETWORK_SYSTEM_H
-#define PX_NETWORK_SYSTEM_H
+#ifndef PX_CORE_NETWORK_SYSTEM_H
+#define PX_CORE_NETWORK_SYSTEM_H
 
 #include "import.h"
 
@@ -9,4 +9,4 @@ pxNetworkStart();
 void
 pxNetworkStop();
 
-#endif // PX_NETWORK_SYSTEM_H
+#endif // PX_CORE_NETWORK_SYSTEM_H

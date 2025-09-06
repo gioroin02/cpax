@@ -1,5 +1,5 @@
-#ifndef PX_STRING_STRING32_H
-#define PX_STRING_STRING32_H
+#ifndef PX_CORE_STRING_STRING32_H
+#define PX_CORE_STRING_STRING32_H
 
 #include "utf32.h"
 
@@ -112,4 +112,4 @@ pxString32Next(PxString32 self, pxiword index, pxiword* units, pxi32* value);
 pxb8
 pxString32Prev(PxString32 self, pxiword index, pxiword* units, pxi32* value);
 
-#endif // PX_STRING_STRING32_H
+#endif // PX_CORE_STRING_STRING32_H

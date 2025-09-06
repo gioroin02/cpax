@@ -1,5 +1,5 @@
-#ifndef PX_STORAGE_PATH_H
-#define PX_STORAGE_PATH_H
+#ifndef PX_CORE_STORAGE_PATH_H
+#define PX_CORE_STORAGE_PATH_H
 
 #include "import.h"
 
@@ -55,4 +55,4 @@ pxString16FromPath(PxArena* arena, PxPath* value, PxString16 pivot);
 PxString32
 pxString32FromPath(PxArena* arena, PxPath* value, PxString32 pivot);
 
-#endif // PX_STORAGE_PATH_H
+#endif // PX_CORE_STORAGE_PATH_H

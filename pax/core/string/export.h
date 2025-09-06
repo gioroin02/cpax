@@ -1,5 +1,5 @@
-#ifndef PX_STRING_EXPORT_H
-#define PX_STRING_EXPORT_H
+#ifndef PX_CORE_STRING_EXPORT_H
+#define PX_CORE_STRING_EXPORT_H
 
 #include "unicode.h"
 
@@ -15,4 +15,4 @@
 
 #include "list.h"
 
-#endif // PX_STRING_EXPORT_H
+#endif // PX_CORE_STRING_EXPORT_H

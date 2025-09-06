@@ -1,5 +1,5 @@
-#ifndef PX_NETWORK_ADDRESS_IP4_C
-#define PX_NETWORK_ADDRESS_IP4_C
+#ifndef PX_CORE_NETWORK_ADDRESS_IP4_C
+#define PX_CORE_NETWORK_ADDRESS_IP4_C
 
 #include "address_ip4.h"
 
@@ -38,4 +38,4 @@ pxAddressIp4IsEqual(PxAddressIp4 self, PxAddressIp4 value)
         PX_ADDRESS_IP4_GROUPS, 1);
 }
 
-#endif // PX_NETWORK_ADDRESS_IP4_C
+#endif // PX_CORE_NETWORK_ADDRESS_IP4_C

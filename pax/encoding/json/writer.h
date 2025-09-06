@@ -1,5 +1,5 @@
-#ifndef PX_JSON_WRITER_H
-#define PX_JSON_WRITER_H
+#ifndef PX_ENCODING_JSON_WRITER_H
+#define PX_ENCODING_JSON_WRITER_H
 
 #include "event.h"
 
@@ -18,4 +18,4 @@ pxJsonWriterMake(PxArena* arena, pxiword length, PxWriter writer);
 pxb8
 pxJsonWriterNext(PxJsonWriter* self, PxArena* arena, PxJsonEvent event);
 
-#endif // PX_JSON_WRITER_H
+#endif // PX_ENCODING_JSON_WRITER_H

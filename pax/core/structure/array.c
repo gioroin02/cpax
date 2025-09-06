@@ -1,5 +1,5 @@
-#ifndef PX_STRUCTURE_ARRAY_C
-#define PX_STRUCTURE_ARRAY_C
+#ifndef PX_CORE_STRUCTURE_ARRAY_C
+#define PX_CORE_STRUCTURE_ARRAY_C
 
 #include "array.h"
 
@@ -261,4 +261,4 @@ pxArrayReadTailMemory(PxArray* self, void* memory, pxiword stride)
     return pxArrayReadMemory(self, self->size - 1, memory, stride);
 }
 
-#endif // PX_STRUCTURE_ARRAY_C
+#endif // PX_CORE_STRUCTURE_ARRAY_C

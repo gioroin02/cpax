@@ -1,5 +1,5 @@
-#ifndef PX_STRUCTURE_ARRAY_H
-#define PX_STRUCTURE_ARRAY_H
+#ifndef PX_CORE_STRUCTURE_ARRAY_H
+#define PX_CORE_STRUCTURE_ARRAY_H
 
 #include "import.h"
 
@@ -120,4 +120,4 @@ pxArrayReadHeadMemory(PxArray* self, void* memory, pxiword stride);
 pxb8
 pxArrayReadTailMemory(PxArray* self, void* memory, pxiword stride);
 
-#endif // PX_STRUCTURE_ARRAY_H
+#endif // PX_CORE_STRUCTURE_ARRAY_H

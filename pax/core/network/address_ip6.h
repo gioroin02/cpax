@@ -1,5 +1,5 @@
-#ifndef PX_NETWORK_ADDRESS_IP6_H
-#define PX_NETWORK_ADDRESS_IP6_H
+#ifndef PX_CORE_NETWORK_ADDRESS_IP6_H
+#define PX_CORE_NETWORK_ADDRESS_IP6_H
 
 #include "import.h"
 
@@ -28,4 +28,4 @@ pxAddressIp6FromString8(PxAddressIp6* self, PxString8 string);
 pxb8
 pxAddressIp6IsEqual(PxAddressIp6 self, PxAddressIp6 value);
 
-#endif // PX_NETWORK_ADDRESS_IP6_H
+#endif // PX_CORE_NETWORK_ADDRESS_IP6_H

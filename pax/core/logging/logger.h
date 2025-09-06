@@ -1,5 +1,5 @@
-#ifndef PX_LOGGING_LOGGER_H
-#define PX_LOGGING_LOGGER_H
+#ifndef PX_CORE_LOGGING_LOGGER_H
+#define PX_CORE_LOGGING_LOGGER_H
 
 #include "import.h"
 
@@ -111,4 +111,4 @@ pxLoggerString16(PxLogger* self, pxiword index, PxString16 value);
 pxb8
 pxLoggerString32(PxLogger* self, pxiword index, PxString32 value);
 
-#endif // PX_LOGGING_LOGGER_H
+#endif // PX_CORE_LOGGING_LOGGER_H

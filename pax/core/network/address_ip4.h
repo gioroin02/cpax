@@ -1,5 +1,5 @@
-#ifndef PX_NETWORK_ADDRESS_IP4_H
-#define PX_NETWORK_ADDRESS_IP4_H
+#ifndef PX_CORE_NETWORK_ADDRESS_IP4_H
+#define PX_CORE_NETWORK_ADDRESS_IP4_H
 
 #include "import.h"
 
@@ -27,4 +27,4 @@ pxAddressIp4FromString8(PxAddressIp4* self, PxString8 string);
 pxb8
 pxAddressIp4IsEqual(PxAddressIp4 self, PxAddressIp4 value);
 
-#endif // PX_NETWORK_ADDRESS_IP4_H
+#endif // PX_CORE_NETWORK_ADDRESS_IP4_H

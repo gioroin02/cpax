@@ -1,5 +1,5 @@
 #include "../export.h"
-#include "../../memory/export.h"
+#include "../../../core/memory/export.h"
 
 #include <stdio.h>
 
@@ -19,26 +19,8 @@
 #define PURPLE(expr) FRONT_PURPLE expr COLOR_RESET
 #define AZURE(expr)  FRONT_AZURE  expr COLOR_RESET
 
-typedef struct Entity
-{
-    PxString8 name;
-    pxuword   code;
-}
-Entity;
-
-void
-jsonWriteEntity(Entity* self, PxJsonWriter* writer, PxArena* arena)
-{
-    pxJsonWriterNext(writer, arena, pxJsonEventObjectOpen());
-
-    pxJsonWriterNext(writer, arena,
-        pxJsonEventString(self->name, pxs8("name")));
-
-    pxJsonWriterNext(writer, arena,
-        pxJsonEventUnsigned(self->code, pxs8("code")));
-
-    pxJsonWriterNext(writer, arena, pxJsonEventObjectClose());
-}
+#define ENTITY \
+    pxs8("{ \"flags\": [16, 32], \"code\": 156, \"name\": \"player\", \"coords\": {\"x\": -1, \"y\": +2, \"z\": null}, \"alive\": true, \"pause\": false }")
 
 void
 showJsonEvent(PxJsonReader* reader, PxArena* arena)
@@ -129,6 +111,15 @@ showJsonEvent(PxJsonReader* reader, PxArena* arena)
                 printf("%s", event.value_boolean != 0 ? GREEN("true") : RED("false"));
             } break;
 
+            case PX_JSON_EVENT_NULL: {
+                if (event.name.length > 0) {
+                    printf(AZURE("'%.*s'") ": ", pxCast(int, event.name.length),
+                        event.name.memory);
+                }
+
+                printf(PURPLE("null"));
+            } break;
+
             default: break;
         }
 
@@ -143,17 +134,12 @@ main(int argc, char** argv)
     PxBuffer8 source = pxBuffer8Reserve(&arena, 256);
     PxBuffer8 buffer = pxBuffer8Reserve(&arena, 256);
 
-    PxJsonWriter writer = pxJsonWriterMake(&arena, 16,
-        pxBufferWriter(&source, &buffer));
-
-    jsonWriteEntity(&(Entity) {.name = pxs8("gio"), .code = 156}, &writer, &arena);
+    pxBuffer8WriteString8Tail(&source, ENTITY);
 
     printf(YELLOW("[start]") "\n%.*s\n" YELLOW("[stop]") "\n",
         pxCast(int, source.size), source.memory);
 
     printf("\n");
-
-    pxBuffer8Clear(&buffer);
 
     PxJsonReader reader = pxJsonReaderMake(&arena, 16,
         pxBufferReader(&source, &buffer));

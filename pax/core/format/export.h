@@ -1,10 +1,10 @@
-#ifndef PX_FORMAT_EXPORT_H
-#define PX_FORMAT_EXPORT_H
+#ifndef PX_CORE_FORMAT_EXPORT_H
+#define PX_CORE_FORMAT_EXPORT_H
 
-#include "options.h"
+#include "option.h"
 
 #include "string8.h"
 #include "string16.h"
 #include "string32.h"
 
-#endif // PX_FORMAT_EXPORT_H
+#endif // PX_CORE_FORMAT_EXPORT_H

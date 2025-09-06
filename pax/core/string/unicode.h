@@ -1,5 +1,5 @@
-#ifndef PX_STRING_UNICODE_H
-#define PX_STRING_UNICODE_H
+#ifndef PX_CORE_STRING_UNICODE_H
+#define PX_CORE_STRING_UNICODE_H
 
 #include "import.h"
 
@@ -175,4 +175,4 @@ pxAsciiDigitFromValue(pxuword value, pxuword radix, pxb8 upper);
 pxuword
 pxAsciiValueFromDigit(pxi32 value, pxuword radix, pxb8 upper);
 
-#endif // PX_STRING_UNICODE_H
+#endif // PX_CORE_STRING_UNICODE_H

@@ -1,5 +1,5 @@
-#ifndef PX_JSON_READER_H
-#define PX_JSON_READER_H
+#ifndef PX_ENCODING_JSON_READER_H
+#define PX_ENCODING_JSON_READER_H
 
 #include "token.h"
 #include "event.h"
@@ -22,4 +22,4 @@ pxJsonReaderMake(PxArena* arena, pxiword length, PxReader reader);
 PxJsonEvent
 pxJsonReaderNext(PxJsonReader* self, PxArena* arena);
 
-#endif // PX_JSON_READER_H
+#endif // PX_ENCODING_JSON_READER_H

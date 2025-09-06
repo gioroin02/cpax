@@ -1,5 +1,5 @@
-#ifndef PX_NETWORK_ADDRESS_C
-#define PX_NETWORK_ADDRESS_C
+#ifndef PX_CORE_NETWORK_ADDRESS_C
+#define PX_CORE_NETWORK_ADDRESS_C
 
 #include "address.h"
 
@@ -81,4 +81,4 @@ pxAddressIsEqual(PxAddress self, PxAddress value)
     return 0;
 }
 
-#endif // PX_NETWORK_ADDRESS_C
+#endif // PX_CORE_NETWORK_ADDRESS_C

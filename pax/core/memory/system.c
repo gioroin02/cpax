@@ -1,5 +1,5 @@
-#ifndef PX_MEMORY_SYSTEM_C
-#define PX_MEMORY_SYSTEM_C
+#ifndef PX_CORE_MEMORY_SYSTEM_C
+#define PX_CORE_MEMORY_SYSTEM_C
 
 #include "system.h"
 
@@ -43,4 +43,4 @@ pxMemoryRelease(PxArena* arena)
     __pxMemoryRelease__(arena);
 }
 
-#endif // PX_MEMORY_SYSTEM_C
+#endif // PX_CORE_MEMORY_SYSTEM_C

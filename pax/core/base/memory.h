@@ -1,5 +1,5 @@
-#ifndef PX_BASE_MEMORY_H
-#define PX_BASE_MEMORY_H
+#ifndef PX_CORE_BASE_MEMORY_H
+#define PX_CORE_BASE_MEMORY_H
 
 #include "number.h"
 
@@ -32,4 +32,4 @@ pxMemoryCopyForw(void* memory, pxiword amount, pxiword offset, pxiword stride);
 pxb8
 pxMemoryIsEqual(void* memory, void* value, pxiword amount, pxiword stride);
 
-#endif // PX_BASE_MEMORY_H
+#endif // PX_CORE_BASE_MEMORY_H

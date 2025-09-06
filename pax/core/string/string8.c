@@ -1,5 +1,5 @@
-#ifndef PX_STRING_STRING8_C
-#define PX_STRING_STRING8_C
+#ifndef PX_CORE_STRING_STRING8_C
+#define PX_CORE_STRING_STRING8_C
 
 #include "string8.h"
 
@@ -451,4 +451,4 @@ pxString8Prev(PxString8 self, pxiword index, pxiword* units, pxi32* value)
     return 1;
 }
 
-#endif // PX_STRING_STRING8_C
+#endif // PX_CORE_STRING_STRING8_C

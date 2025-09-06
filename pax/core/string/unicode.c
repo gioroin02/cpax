@@ -1,5 +1,5 @@
-#ifndef PX_STRING_UNICODE_C
-#define PX_STRING_UNICODE_C
+#ifndef PX_CORE_STRING_UNICODE_C
+#define PX_CORE_STRING_UNICODE_C
 
 #include "unicode.h"
 
@@ -242,4 +242,4 @@ pxAsciiValueFromDigit(pxi32 value, pxuword radix, pxb8 upper)
     return radix;
 }
 
-#endif // PX_STRING_UNICODE_C
+#endif // PX_CORE_STRING_UNICODE_C

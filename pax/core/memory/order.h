@@ -1,5 +1,5 @@
-#ifndef PX_MEMORY_BYTE_ORDER_H
-#define PX_MEMORY_BYTE_ORDER_H
+#ifndef PX_CORE_MEMORY_BYTE_ORDER_H
+#define PX_CORE_MEMORY_BYTE_ORDER_H
 
 #include "import.h"
 
@@ -93,4 +93,4 @@ pxFloating64HostFromNet(pxu64 value);
 pxfword
 pxFloatingHostFromNet(pxuword value);
 
-#endif // PX_MEMORY_BYTE_ORDER_H
+#endif // PX_CORE_MEMORY_BYTE_ORDER_H

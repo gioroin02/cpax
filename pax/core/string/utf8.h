@@ -1,5 +1,5 @@
-#ifndef PX_STRING_UTF8_H
-#define PX_STRING_UTF8_H
+#ifndef PX_CORE_STRING_UTF8_H
+#define PX_CORE_STRING_UTF8_H
 
 #include "unicode.h"
 
@@ -51,4 +51,4 @@ pxUtf8IsTrailing(pxu8 value);
 pxb8
 pxUtf8IsOverlong(pxi32 value, pxiword units);
 
-#endif // PX_STRING_UTF8_H
+#endif // PX_CORE_STRING_UTF8_H

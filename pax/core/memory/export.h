@@ -1,7 +1,7 @@
-#ifndef PX_MEMORY_EXPORT_H
-#define PX_MEMORY_EXPORT_H
+#ifndef PX_CORE_MEMORY_EXPORT_H
+#define PX_CORE_MEMORY_EXPORT_H
 
 #include "order.h"
 #include "system.h"
 
-#endif // PX_MEMORY_EXPORT_H
+#endif // PX_CORE_MEMORY_EXPORT_H

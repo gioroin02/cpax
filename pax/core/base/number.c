@@ -1,5 +1,5 @@
-#ifndef PX_BASE_NUMBER_C
-#define PX_BASE_NUMBER_C
+#ifndef PX_CORE_BASE_NUMBER_C
+#define PX_CORE_BASE_NUMBER_C
 
 #include "number.h"
 
@@ -153,4 +153,4 @@ pxDirectionFloating(pxfword value)
     return 0;
 }
 
-#endif // PX_BASE_NUMBER_C
+#endif // PX_CORE_BASE_NUMBER_C

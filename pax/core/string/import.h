@@ -1,6 +1,6 @@
-#ifndef PX_STRING_IMPORT_H
-#define PX_STRING_IMPORT_H
+#ifndef PX_CORE_STRING_IMPORT_H
+#define PX_CORE_STRING_IMPORT_H
 
 #include "../base/export.h"
 
-#endif // PX_STRING_IMPORT_H
+#endif // PX_CORE_STRING_IMPORT_H

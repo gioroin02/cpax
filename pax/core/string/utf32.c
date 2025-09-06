@@ -1,5 +1,5 @@
-#ifndef PX_STRING_UTF32_C
-#define PX_STRING_UTF32_C
+#ifndef PX_CORE_STRING_UTF32_C
+#define PX_CORE_STRING_UTF32_C
 
 #include "utf32.h"
 
@@ -133,4 +133,4 @@ pxUtf32UnitsToRead(pxu32 value)
     return 0;
 }
 
-#endif // PX_STRING_UTF32_C
+#endif // PX_CORE_STRING_UTF32_C

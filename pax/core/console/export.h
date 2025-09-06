@@ -1,9 +1,9 @@
-#ifndef PX_CONSOLE_EXPORT_H
-#define PX_CONSOLE_EXPORT_H
+#ifndef PX_CORE_CONSOLE_EXPORT_H
+#define PX_CORE_CONSOLE_EXPORT_H
 
 #include "event.h"
-#include "mode.h"
+#include "sequence.h"
 
 #include "console.h"
 
-#endif // PX_CONSOLE_EXPORT_H
+#endif // PX_CORE_CONSOLE_EXPORT_H

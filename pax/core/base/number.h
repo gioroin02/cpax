@@ -1,5 +1,5 @@
-#ifndef PX_BASE_NUMBER_H
-#define PX_BASE_NUMBER_H
+#ifndef PX_CORE_BASE_NUMBER_H
+#define PX_CORE_BASE_NUMBER_H
 
 #include "platform.h"
 #include "define.h"
@@ -222,4 +222,4 @@ pxDirectionFloating64(pxf64 value);
 pxi8
 pxDirectionFloating(pxfword value);
 
-#endif // PX_BASE_NUMBER_H
+#endif // PX_CORE_BASE_NUMBER_H

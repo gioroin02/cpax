@@ -1,5 +1,5 @@
-#ifndef PX_FORMAT_STRING32_C
-#define PX_FORMAT_STRING32_C
+#ifndef PX_CORE_FORMAT_STRING32_C
+#define PX_CORE_FORMAT_STRING32_C
 
 #include "string32.h"
 
@@ -1013,4 +1013,4 @@ pxIntegerFromString32(pxiword* self, pxuword radix, PxFormatOption options, PxSt
     return 1;
 }
 
-#endif // PX_FORMAT_STRING32_C
+#endif // PX_CORE_FORMAT_STRING32_C

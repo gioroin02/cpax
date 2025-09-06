@@ -1,8 +1,7 @@
-#ifndef PX_CONSOLE_CONSOLE_H
-#define PX_CONSOLE_CONSOLE_H
+#ifndef PX_CORE_CONSOLE_CONSOLE_H
+#define PX_CORE_CONSOLE_CONSOLE_H
 
 #include "event.h"
-#include "mode.h"
 
 typedef void* PxConsole;
 
@@ -10,13 +9,10 @@ PxConsole
 pxConsoleCreate(PxArena* arena);
 
 pxb8
-pxConsoleSetMode(PxConsole self, PxConsoleMode mode);
+pxConsoleKeybdModeRaw(PxConsole self);
 
 pxb8
-pxConsoleSetModeDefault(PxConsole self);
-
-pxb8
-pxConsoleSetModeRaw(PxConsole self);
+pxConsoleKeybdModeRestore(PxConsole self);
 
 pxiword
 pxConsoleWrite(PxConsole self, PxBuffer8* buffer);
@@ -39,4 +35,4 @@ pxConsoleWriter(PxConsole self, PxBuffer8* buffer);
 PxReader
 pxConsoleReader(PxConsole self, PxBuffer8* buffer);
 
-#endif // PX_CONSOLE_CONSOLE_H
+#endif // PX_CORE_CONSOLE_CONSOLE_H

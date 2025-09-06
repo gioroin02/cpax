@@ -10,7 +10,7 @@ main(int argc, char** argv)
     PxConsole console = pxConsoleCreate(&arena);
     PxBuffer8 buffer  = pxBuffer8Reserve(&arena, PX_MEMORY_KIB);
 
-    pxConsoleSetMode(console, PX_CONSOLE_MODE_RAW);
+    pxConsoleKeybdModeRaw(console);
 
     while (1) {
         PxConsoleEvent event = pxConsoleReadEvent(console, &arena);
@@ -26,5 +26,5 @@ main(int argc, char** argv)
         }
     }
 
-    pxConsoleSetMode(console, PX_CONSOLE_MODE_DEFAULT);
+    pxConsoleKeybdModeRestore(console);
 }

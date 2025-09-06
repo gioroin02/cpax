@@ -1,5 +1,5 @@
-#ifndef PX_BASE_ARENA_C
-#define PX_BASE_ARENA_C
+#ifndef PX_CORE_BASE_ARENA_C
+#define PX_CORE_BASE_ARENA_C
 
 #include "arena.h"
 
@@ -91,4 +91,4 @@ pxArenaAlignForw(PxArena* self, pxiword align)
     return self->offset;
 }
 
-#endif // PX_BASE_ARENA_C
+#endif // PX_CORE_BASE_ARENA_C

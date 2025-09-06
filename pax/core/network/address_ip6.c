@@ -1,5 +1,5 @@
-#ifndef PX_NETWORK_ADDRESS_IP6_C
-#define PX_NETWORK_ADDRESS_IP6_C
+#ifndef PX_CORE_NETWORK_ADDRESS_IP6_C
+#define PX_CORE_NETWORK_ADDRESS_IP6_C
 
 #include "address_ip6.h"
 
@@ -82,4 +82,4 @@ pxAddressIp6IsEqual(PxAddressIp6 self, PxAddressIp6 value)
         PX_ADDRESS_IP6_GROUPS, 2);
 }
 
-#endif // PX_NETWORK_ADDRESS_IP6_C
+#endif // PX_CORE_NETWORK_ADDRESS_IP6_C

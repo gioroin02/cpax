@@ -1,5 +1,5 @@
-#ifndef PX_MEMORY_BYTE_ORDER_C
-#define PX_MEMORY_BYTE_ORDER_C
+#ifndef PX_CORE_MEMORY_BYTE_ORDER_C
+#define PX_CORE_MEMORY_BYTE_ORDER_C
 
 #include "order.h"
 
@@ -299,4 +299,4 @@ pxFloatingHostFromNet(pxuword value)
     return result;
 }
 
-#endif // PX_MEMORY_BYTE_ORDER_C
+#endif // PX_CORE_MEMORY_BYTE_ORDER_C

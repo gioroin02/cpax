@@ -1,5 +1,5 @@
-#ifndef PX_STORAGE_SYSTEM_C
-#define PX_STORAGE_SYSTEM_C
+#ifndef PX_CORE_STORAGE_SYSTEM_C
+#define PX_CORE_STORAGE_SYSTEM_C
 
 #include "directory.h"
 
@@ -35,4 +35,4 @@ pxStorageCurrentDirectory(PxArena* arena)
     return __pxStorageCurrentDirectory__(arena);
 }
 
-#endif // PX_STORAGE_SYSTEM_C
+#endif // PX_CORE_STORAGE_SYSTEM_C

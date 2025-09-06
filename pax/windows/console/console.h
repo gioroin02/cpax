@@ -9,10 +9,10 @@ PxWindowsConsole*
 pxWindowsConsoleCreate(PxArena* arena);
 
 pxb8
-pxWindowsConsoleSetModeDefault(PxWindowsConsole* self);
+pxWindowsConsoleKeybdModeRaw(PxWindowsConsole* self);
 
 pxb8
-pxWindowsConsoleSetModeRaw(PxWindowsConsole* self);
+pxWindowsConsoleKeybdModeRestore(PxWindowsConsole* self);
 
 pxiword
 pxWindowsConsoleWriteMemory(PxWindowsConsole* self, void* memory, pxiword amount, pxiword stride);

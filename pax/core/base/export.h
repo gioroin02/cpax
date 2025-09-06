@@ -1,5 +1,5 @@
-#ifndef PX_BASE_EXPORT_H
-#define PX_BASE_EXPORT_H
+#ifndef PX_CORE_BASE_EXPORT_H
+#define PX_CORE_BASE_EXPORT_H
 
 #include "platform.h"
 #include "define.h"
@@ -9,4 +9,4 @@
 #include "memory.h"
 #include "arena.h"
 
-#endif // PX_BASE_EXPORT_H
+#endif // PX_CORE_BASE_EXPORT_H

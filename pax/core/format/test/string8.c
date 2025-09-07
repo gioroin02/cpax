@@ -2,12 +2,12 @@
 
 #include <stdio.h>
 
-#define RED(x)    "\x1b[31m" pxString(x) "\x1b[0m"
-#define GREEN(x)  "\x1b[32m" pxString(x) "\x1b[0m"
-#define YELLOW(x) "\x1b[33m" pxString(x) "\x1b[0m"
-#define BLUE(x)   "\x1b[34m" pxString(x) "\x1b[0m"
-#define PURPLE(x) "\x1b[35m" pxString(x) "\x1b[0m"
-#define AZURE(x)  "\x1b[36m" pxString(x) "\x1b[0m"
+#define RED(x)    "\033[31m" pxString(x) "\033[0m"
+#define GREEN(x)  "\033[32m" pxString(x) "\033[0m"
+#define YELLOW(x) "\033[33m" pxString(x) "\033[0m"
+#define BLUE(x)   "\033[34m" pxString(x) "\033[0m"
+#define PURPLE(x) "\033[35m" pxString(x) "\033[0m"
+#define AZURE(x)  "\033[36m" pxString(x) "\033[0m"
 
 #define TRUE  GREEN(T)
 #define FALSE RED(F)
@@ -19,12 +19,12 @@ showString8FromUnsigned(PxArena* arena, pxuword radix, PxFormatOption options, p
 
     printf("write (" PURPLE("%llu") ") -> ", value);
 
-    printf("\x1b[34m'");
+    printf("\033[34m'");
 
     for (pxiword i = 0; i < string.length; i += 1)
         printf("%c", string.memory[i]);
 
-    printf("'\x1b[0m (%lli)\n", string.length);
+    printf("'\033[0m (%lli)\n", string.length);
 }
 
 void
@@ -33,12 +33,12 @@ showUnsignedFromString8(pxuword radix, PxFormatOption options, PxString8 value)
     pxuword result = 0;
     pxb8    state  = pxUnsignedFromString8(&result, radix, options, value);
 
-    printf("read (\x1b[34m'");
+    printf("read (\033[34m'");
 
     for (pxiword i = 0; i < value.length; i += 1)
         printf("%c", value.memory[i]);
 
-    printf("'\x1b[0m (%lli))", value.length);
+    printf("'\033[0m (%lli))", value.length);
 
 
     printf(" -> (" PURPLE("%llu") ", %s)\n", result,
@@ -52,12 +52,12 @@ showString8FromInteger(PxArena* arena, pxuword radix, PxFormatOption options, px
 
     printf("write (" PURPLE("%lli") ") -> ", value);
 
-    printf("\x1b[34m'");
+    printf("\033[34m'");
 
     for (pxiword i = 0; i < string.length; i += 1)
         printf("%c", string.memory[i]);
 
-    printf("'\x1b[0m (%lli)\n", string.length);
+    printf("'\033[0m (%lli)\n", string.length);
 }
 
 void
@@ -66,12 +66,12 @@ showIntegerFromString8(pxuword radix, PxFormatOption options, PxString8 value)
     pxiword result = 0;
     pxb8    state  = pxIntegerFromString8(&result, radix, options, value);
 
-    printf("read (\x1b[34m'");
+    printf("read (\033[34m'");
 
     for (pxiword i = 0; i < value.length; i += 1)
         printf("%c", value.memory[i]);
 
-    printf("'\x1b[0m (%lli))", value.length);
+    printf("'\033[0m (%lli))", value.length);
 
 
     printf(" -> (" PURPLE("%lli") ", %s)\n", result,

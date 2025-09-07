@@ -16,7 +16,7 @@ main(int argc, char** argv)
         PxConsoleEvent event = pxConsoleReadEvent(console, &arena);
 
         if (event.type == PX_CONSOLE_EVENT_KEYBD_PRESS) {
-            printf("%lli, %llu, %li\r\n",
+            printf("btn = %lli, mod = %llu, uni = %li\r\n",
                 event.keybd_press.button,
                 event.keybd_press.modifs,
                 event.keybd_press.unicode
@@ -24,7 +24,7 @@ main(int argc, char** argv)
         }
 
         if (event.type == PX_CONSOLE_EVENT_KEYBD_RELEASE) {
-            printf("%lli, %llu, %li\r\n",
+            printf("btn = %lli, mod = %llu, uni = %li\r\n",
                 event.keybd_release.button,
                 event.keybd_release.modifs,
                 event.keybd_release.unicode

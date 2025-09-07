@@ -17,16 +17,16 @@ typedef enum PxConsoleEventType
 }
 PxConsoleEventType;
 
-typedef enum PxConsoleEventModif
+typedef enum PxConsoleKeybdModif
 {
     PX_CONSOLE_MODIF_NONE  = 0x0,
     PX_CONSOLE_MODIF_CTRL  = 0x1,
     PX_CONSOLE_MODIF_ALT   = 0x2,
     PX_CONSOLE_MODIF_SHIFT = 0x4,
 }
-PxConsoleEventModif;
+PxConsoleKeybdModif;
 
-typedef enum PxConsoleKeybdBtn
+typedef enum PxConsoleKeybdButton
 {
     PX_CONSOLE_KEYBD_NONE = 0,
 
@@ -95,7 +95,7 @@ typedef enum PxConsoleKeybdBtn
     PX_CONSOLE_KEYBD_FUNC11,
     PX_CONSOLE_KEYBD_FUNC12,
 }
-PxConsoleKeybdBtn;
+PxConsoleKeybdButton;
 
 typedef enum PxConsoleMouseBtn
 {

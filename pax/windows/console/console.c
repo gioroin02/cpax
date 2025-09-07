@@ -15,7 +15,7 @@ struct PxWindowsConsole
     DWORD output;
 };
 
-PxConsoleKeybdBtn
+PxConsoleKeybdButton
 pxWindowsMapKeybdBtn(pxiword button)
 {
     switch (button) {

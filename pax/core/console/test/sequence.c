@@ -32,10 +32,10 @@ int
 main(int argc, char** argv)
 {
     showSequenceFromString8(pxs8("\n"));
-    showSequenceFromString8(pxs8("\x1b["));
+    showSequenceFromString8(pxs8("\033["));
     showSequenceFromString8(pxs8("\033A"));
-    showSequenceFromString8(pxs8("\x1bz"));
-    showSequenceFromString8(pxs8("\x1b[1;5D"));
-    showSequenceFromString8(pxs8("\x1b[A"));
-    showSequenceFromString8(pxs8("\x1b[38;2;1;2;3m"));
+    showSequenceFromString8(pxs8("\033z"));
+    showSequenceFromString8(pxs8("\033[1;5D"));
+    showSequenceFromString8(pxs8("\033[A"));
+    showSequenceFromString8(pxs8("\033[38;2;1;2;3m"));
 }

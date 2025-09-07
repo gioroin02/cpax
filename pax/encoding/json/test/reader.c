@@ -3,14 +3,14 @@
 
 #include <stdio.h>
 
-#define COLOR_RESET "\x1b[0m"
+#define COLOR_RESET "\033[0m"
 
-#define FRONT_RED    "\x1b[31m"
-#define FRONT_GREEN  "\x1b[32m"
-#define FRONT_YELLOW "\x1b[33m"
-#define FRONT_BLUE   "\x1b[34m"
-#define FRONT_PURPLE "\x1b[35m"
-#define FRONT_AZURE  "\x1b[36m"
+#define FRONT_RED    "\033[31m"
+#define FRONT_GREEN  "\033[32m"
+#define FRONT_YELLOW "\033[33m"
+#define FRONT_BLUE   "\033[34m"
+#define FRONT_PURPLE "\033[35m"
+#define FRONT_AZURE  "\033[36m"
 
 #define RED(expr)    FRONT_RED    expr COLOR_RESET
 #define GREEN(expr)  FRONT_GREEN  expr COLOR_RESET

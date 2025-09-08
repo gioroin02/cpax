@@ -6,13 +6,13 @@
 typedef struct PxLinuxConsole PxLinuxConsole;
 
 PxLinuxConsole*
-pxLinuxConsoleCreate(PxArena* arena);
+pxLinuxConsoleCreate(PxArena* arena, pxiword length);
 
 pxb8
-pxLinuxConsoleKeybdModeRaw(PxLinuxConsole* self);
+pxLinuxConsoleInputModeRaw(PxLinuxConsole* self);
 
 pxb8
-pxLinuxConsoleKeybdModeRestore(PxLinuxConsole* self);
+pxLinuxConsoleInputModeRestore(PxLinuxConsole* self);
 
 pxiword
 pxLinuxConsoleWriteMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxiword stride);
@@ -21,6 +21,6 @@ pxiword
 pxLinuxConsoleReadMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxiword stride);
 
 PxConsoleEvent
-pxLinuxConsoleReadEvent(PxLinuxConsole* self, PxArena* arena);
+pxLinuxConsoleReadEvent(PxLinuxConsole* self);
 
 #endif // PX_LINUX_CONSOLE_CONSOLE_H

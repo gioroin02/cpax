@@ -6,13 +6,13 @@
 typedef void* PxConsole;
 
 PxConsole
-pxConsoleCreate(PxArena* arena);
+pxConsoleCreate(PxArena* arena, pxiword length);
 
 pxb8
-pxConsoleKeybdModeRaw(PxConsole self);
+pxConsoleInputModeRaw(PxConsole self);
 
 pxb8
-pxConsoleKeybdModeRestore(PxConsole self);
+pxConsoleInputModeRestore(PxConsole self);
 
 pxiword
 pxConsoleWrite(PxConsole self, PxBuffer8* buffer);
@@ -27,7 +27,7 @@ pxiword
 pxConsoleReadMemory(PxConsole self, void* memory, pxiword amount, pxiword stride);
 
 PxConsoleEvent
-pxConsoleReadEvent(PxConsole self, PxArena* arena);
+pxConsoleReadEvent(PxConsole self);
 
 PxWriter
 pxConsoleWriter(PxConsole self, PxBuffer8* buffer);

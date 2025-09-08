@@ -7,13 +7,12 @@ main(int argc, char** argv)
 {
     PxArena arena = pxMemoryReserve(16);
 
-    PxConsole console = pxConsoleCreate(&arena);
-    PxBuffer8 buffer  = pxBuffer8Reserve(&arena, PX_MEMORY_KIB);
+    PxConsole console = pxConsoleCreate(&arena, PX_MEMORY_KIB);
 
-    pxConsoleKeybdModeRaw(console);
+    pxConsoleInputModeRaw(console);
 
     while (1) {
-        PxConsoleEvent event = pxConsoleReadEvent(console, &arena);
+        PxConsoleEvent event = pxConsoleReadEvent(console);
 
         if (event.type == PX_CONSOLE_EVENT_KEYBD_PRESS) {
             printf("btn = %lli, mod = %llu, uni = %li\r\n",
@@ -35,5 +34,5 @@ main(int argc, char** argv)
         }
     }
 
-    pxConsoleKeybdModeRestore(console);
+    pxConsoleInputModeRestore(console);
 }

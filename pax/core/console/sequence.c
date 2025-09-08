@@ -3,12 +3,39 @@
 
 #include "sequence.h"
 
-pxb8
+pxu8
+pxConsoleSequenceSetFunction(PxConsoleSequence* self, pxu8 value)
+{
+    pxu8 result = self->func;
+
+    self->func = value;
+
+    return result;
+}
+
+pxu8
+pxConsoleSequenceAddArgument(PxConsoleSequence* self, pxu8 value)
+{
+    pxiword index = self->size;
+
+    if (index < 0 || index >= PX_CONSOLE_SEQUENCE_ARGS)
+        return 0;
+
+    self->size += 1;
+
+    self->args[index] = value;
+
+    return 1;
+}
+
+pxiword
 pxConsoleSequenceFromString8(PxConsoleSequence* self, PxString8 string)
 {
-    if (string.length <= 0) return 0;
+    pxiword index = 0;
 
-    switch (string.memory[0]) {
+    if (string.length <= 0) return string.length;
+
+    switch (string.memory[index]) {
         case PX_ASCII_BELL:
         case PX_ASCII_BACK_SPACE:
         case PX_ASCII_HORIZONTAL_TAB:
@@ -16,39 +43,41 @@ pxConsoleSequenceFromString8(PxConsoleSequence* self, PxString8 string)
         case PX_ASCII_VERTICAL_TAB:
         case PX_ASCII_PAGE_FEED:
         case PX_ASCII_CARRIAGE_RETURN: {
-            if (string.length > 1)
-                return 0;
+            if (string.length <= 1)
+                self->func = string.memory[index];
 
-            self->func = string.memory[0];
-
-            return 1;
+            return index + 1;
         } break;
 
         case PX_ASCII_DELETE: {
-            if (string.length > 1)
-                return 1;
+            if (string.length <= 1)
+                self->func = PX_ASCII_BACK_SPACE;
 
-            self->func = PX_ASCII_BACK_SPACE;
-
-            return 1;
+            return index + 1;
         } break;
 
         case PX_ASCII_ESCAPE: {
             if (string.length > 1)
                 break;
 
-            self->func = string.memory[0];
+            self->func = string.memory[index];
 
-            return 1;
+            return index + 1;
         } break;
 
-        default: return 0;
+        default: return index;
     }
 
-    switch (string.memory[1]) {
+    index += 1;
+
+    PxString8 left  = {0};
+    PxString8 right = {0};
+
+    switch (string.memory[index]) {
         case PX_ASCII_SQUARE_LEFT: {
-            PxString8 left  = {0};
-            PxString8 right = pxString8Slice(string, 2, string.length - 1);
+            if (string.length <= 2) return string.length;
+
+            right = pxString8Slice(string, index + 1, string.length - 1);
 
             pxu8 value = 0;
 
@@ -58,16 +87,15 @@ pxConsoleSequenceFromString8(PxConsoleSequence* self, PxString8 string)
                 pxb8 state = pxUnsigned8FromString8(&value,
                     10, PX_FORMAT_OPTION_NONE, left);
 
-                if (state != 0 && self->size < PX_CONSOLE_SEQUENCE_ARGS) {
-                    self->args[self->size] = value;
-
-                    self->size += 1;
-                }
+                if (state != 0)
+                    pxConsoleSequenceAddArgument(self, value);
+                else
+                    return index + 1;
             }
 
-            self->func = string.memory[string.length - 1];
+            pxConsoleSequenceSetFunction(self, string.memory[index]);
 
-            return 1;
+            return string.length;
         } break;
 
         case PX_ASCII_LOWER_A:
@@ -95,14 +123,12 @@ pxConsoleSequenceFromString8(PxConsoleSequence* self, PxString8 string)
         case PX_ASCII_LOWER_W:
         case PX_ASCII_LOWER_X:
         case PX_ASCII_LOWER_Y:
-        case PX_ASCII_LOWER_Z: {
+        case PX_ASCII_LOWER_Z:
             self->size = 2;
 
-            self->args[0] = string.memory[1];
+            self->args[0] = string.memory[index];
             self->args[1] = 3;
-
-            return 1;
-        } break;
+        return index + 1;
 
         case PX_ASCII_UPPER_A:
         case PX_ASCII_UPPER_B:
@@ -129,14 +155,13 @@ pxConsoleSequenceFromString8(PxConsoleSequence* self, PxString8 string)
         case PX_ASCII_UPPER_W:
         case PX_ASCII_UPPER_X:
         case PX_ASCII_UPPER_Y:
-        case PX_ASCII_UPPER_Z: {
+        case PX_ASCII_UPPER_Z:
             self->size = 2;
 
-            self->args[0] = string.memory[1];
+            self->args[0] = string.memory[index];
             self->args[1] = 4;
 
-            return 1;
-        } break;
+        return index + 1;
 
         default: break;
     }

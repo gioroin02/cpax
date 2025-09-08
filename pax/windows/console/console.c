@@ -15,8 +15,31 @@ struct PxWindowsConsole
     DWORD output;
 };
 
-PxConsoleKeybdButton
-pxWindowsMapKeybdBtn(pxiword button)
+pxuword
+pxWindowsMapConsoleKeybdModifs(pxuword value)
+{
+    pxuword result = 0;
+
+    if ((value & LEFT_CTRL_PRESSED) != 0)
+        result |= PX_CONSOLE_MODIF_CTRL;
+
+    if ((value & RIGHT_CTRL_PRESSED) != 0)
+        result |= PX_CONSOLE_MODIF_CTRL;
+
+    if ((value & LEFT_ALT_PRESSED) != 0)
+        result |= PX_CONSOLE_MODIF_ALT;
+
+    if ((value & RIGHT_ALT_PRESSED) != 0)
+        result |= PX_CONSOLE_MODIF_ALT;
+
+    if ((value & SHIFT_PRESSED) != 0)
+        result |= PX_CONSOLE_MODIF_SHIFT;
+
+    return result;
+}
+
+pxiword
+pxWindowsMapConsoleKeybdButton(pxiword button)
 {
     switch (button) {
         case PX_ASCII_UPPER_A: return PX_CONSOLE_KEYBD_A;
@@ -91,7 +114,7 @@ pxWindowsMapKeybdBtn(pxiword button)
 }
 
 PxWindowsConsole*
-pxWindowsConsoleCreate(PxArena* arena)
+pxWindowsConsoleCreate(PxArena* arena, pxiword length)
 {
     pxiword offset = pxArenaOffset(arena);
 
@@ -114,7 +137,7 @@ pxWindowsConsoleCreate(PxArena* arena)
 }
 
 pxb8
-pxWindowsConsoleKeybdModeRaw(PxWindowsConsole* self)
+pxWindowsConsoleInputModeRaw(PxWindowsConsole* self)
 {
     HANDLE input  = GetStdHandle(STD_INPUT_HANDLE);
     HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -132,7 +155,7 @@ pxWindowsConsoleKeybdModeRaw(PxWindowsConsole* self)
 }
 
 pxb8
-pxWindowsConsoleKeybdModeRestore(PxWindowsConsole* self)
+pxWindowsConsoleInputModeRestore(PxWindowsConsole* self)
 {
     HANDLE input  = GetStdHandle(STD_INPUT_HANDLE);
     HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -186,7 +209,7 @@ pxWindowsConsoleReadMemory(PxWindowsConsole* self, void* memory, pxiword amount,
 }
 
 PxConsoleEvent
-pxWindowsConsoleReadEvent(PxWindowsConsole* self, PxArena* arena)
+pxWindowsConsoleReadEvent(PxWindowsConsole* self)
 {
     PxConsoleEvent result = {.type = PX_CONSOLE_EVENT_NONE};
 
@@ -204,49 +227,21 @@ pxWindowsConsoleReadEvent(PxWindowsConsole* self, PxArena* arena)
             KEY_EVENT_RECORD event = record.Event.KeyEvent;
 
             switch (event.bKeyDown) {
-                case 0:
-                    result.type = PX_CONSOLE_EVENT_KEYBD_RELEASE;
+                case 0: {
+                    pxiword button  = pxWindowsMapConsoleKeybdButton(event.wVirtualKeyCode);
+                    pxuword modifs  = pxWindowsMapConsoleKeybdModifs(event.dwControlKeyState);
+                    pxi32   unicode = event.uChar.UnicodeChar;
 
-                    result.keybd_release.button  = pxWindowsMapKeybdBtn(event.wVirtualKeyCode);
-                    result.keybd_release.unicode = event.uChar.UnicodeChar;
+                    result = pxConsoleEventKeybdRelease(button, modifs, unicode);
+                } break;
 
-                    if ((event.dwControlKeyState & LEFT_CTRL_PRESSED) != 0)
-                        result.keybd_release.modifs |= PX_CONSOLE_MODIF_CTRL;
+                default: {
+                    pxiword button  = pxWindowsMapConsoleKeybdButton(event.wVirtualKeyCode);
+                    pxuword modifs  = pxWindowsMapConsoleKeybdModifs(event.dwControlKeyState);
+                    pxi32   unicode = event.uChar.UnicodeChar;
 
-                    if ((event.dwControlKeyState & RIGHT_CTRL_PRESSED) != 0)
-                        result.keybd_release.modifs |= PX_CONSOLE_MODIF_CTRL;
-
-                    if ((event.dwControlKeyState & LEFT_ALT_PRESSED) != 0)
-                        result.keybd_release.modifs |= PX_CONSOLE_MODIF_ALT;
-
-                    if ((event.dwControlKeyState & RIGHT_ALT_PRESSED) != 0)
-                        result.keybd_release.modifs |= PX_CONSOLE_MODIF_ALT;
-
-                    if ((event.dwControlKeyState & SHIFT_PRESSED) != 0)
-                        result.keybd_release.modifs |= PX_CONSOLE_MODIF_SHIFT;
-                break;
-
-                default:
-                    result.type = PX_CONSOLE_EVENT_KEYBD_PRESS;
-
-                    result.keybd_press.button  = pxWindowsMapKeybdBtn(event.wVirtualKeyCode);
-                    result.keybd_press.unicode = event.uChar.UnicodeChar;
-
-                    if ((event.dwControlKeyState & LEFT_CTRL_PRESSED) != 0)
-                        result.keybd_press.modifs |= PX_CONSOLE_MODIF_CTRL;
-
-                    if ((event.dwControlKeyState & RIGHT_CTRL_PRESSED) != 0)
-                        result.keybd_press.modifs |= PX_CONSOLE_MODIF_CTRL;
-
-                    if ((event.dwControlKeyState & LEFT_ALT_PRESSED) != 0)
-                        result.keybd_press.modifs |= PX_CONSOLE_MODIF_ALT;
-
-                    if ((event.dwControlKeyState & RIGHT_ALT_PRESSED) != 0)
-                        result.keybd_press.modifs |= PX_CONSOLE_MODIF_ALT;
-
-                    if ((event.dwControlKeyState & SHIFT_PRESSED) != 0)
-                        result.keybd_press.modifs |= PX_CONSOLE_MODIF_SHIFT;
-                break;
+                    result = pxConsoleEventKeybdPress(button, modifs, unicode);
+                } break;
             }
         } break;
 

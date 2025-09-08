@@ -8,8 +8,8 @@
     #include "../../windows/console/console.c"
 
     #define __pxConsoleCreate__           pxWindowsConsoleCreate
-    #define __pxConsoleKeybdModeRaw__     pxWindowsConsoleKeybdModeRaw
-    #define __pxConsoleKeybdModeRestore__ pxWindowsConsoleKeybdModeRestore
+    #define __pxConsoleInputModeRaw__     pxWindowsConsoleInputModeRaw
+    #define __pxConsoleInputModeRestore__ pxWindowsConsoleInputModeRestore
     #define __pxConsoleWriteMemory__      pxWindowsConsoleWriteMemory
     #define __pxConsoleReadMemory__       pxWindowsConsoleReadMemory
     #define __pxConsoleReadEvent__        pxWindowsConsoleReadEvent
@@ -19,8 +19,8 @@
     #include "../../linux/console/console.c"
 
     #define __pxConsoleCreate__           pxLinuxConsoleCreate
-    #define __pxConsoleKeybdModeRaw__     pxLinuxConsoleKeybdModeRaw
-    #define __pxConsoleKeybdModeRestore__ pxLinuxConsoleKeybdModeRestore
+    #define __pxConsoleInputModeRaw__     pxLinuxConsoleInputModeRaw
+    #define __pxConsoleInputModeRestore__ pxLinuxConsoleInputModeRestore
     #define __pxConsoleWriteMemory__      pxLinuxConsoleWriteMemory
     #define __pxConsoleReadMemory__       pxLinuxConsoleReadMemory
     #define __pxConsoleReadEvent__        pxLinuxConsoleReadEvent
@@ -32,21 +32,21 @@
 #endif
 
 PxConsole
-pxConsoleCreate(PxArena* arena)
+pxConsoleCreate(PxArena* arena, pxiword length)
 {
-    return __pxConsoleCreate__(arena);
+    return __pxConsoleCreate__(arena, length);
 }
 
 pxb8
-pxConsoleKeybdModeRaw(PxConsole self)
+pxConsoleInputModeRaw(PxConsole self)
 {
-    return __pxConsoleKeybdModeRaw__(self);
+    return __pxConsoleInputModeRaw__(self);
 }
 
 pxb8
-pxConsoleKeybdModeRestore(PxConsole self)
+pxConsoleInputModeRestore(PxConsole self)
 {
-    return __pxConsoleKeybdModeRestore__(self);
+    return __pxConsoleInputModeRestore__(self);
 }
 
 pxiword
@@ -98,9 +98,9 @@ pxConsoleReadMemory(PxConsole self, void* memory, pxiword amount, pxiword stride
 }
 
 PxConsoleEvent
-pxConsoleReadEvent(PxConsole self, PxArena* arena)
+pxConsoleReadEvent(PxConsole self)
 {
-    return __pxConsoleReadEvent__(self, arena);
+    return __pxConsoleReadEvent__(self);
 }
 
 PxWriter

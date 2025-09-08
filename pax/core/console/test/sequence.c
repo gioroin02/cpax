@@ -7,23 +7,28 @@ showSequenceFromString8(PxString8 string)
 {
     PxConsoleSequence seq = {0};
 
-    pxb8 state = pxConsoleSequenceFromString8(&seq, string);
+    pxiword length = pxConsoleSequenceFromString8(&seq, string);
+
+    printf("\x1b[34m'");
 
     for (pxiword i = 0; i < string.length; i += 1) {
-        printf("%03u", string.memory[i]);
+        pxu8 byte = string.memory[i];
+
+        if (byte > 32 && byte < 128)
+            printf("%c", string.memory[i]);
+        else
+            printf("\\x%02x", string.memory[i]);
 
         if (i + 1 < string.length)
-            printf("-");
+            printf(" ");
     }
 
-    printf(" %s\n", state != 0 ? "T" : "F");
+    printf("'\x1b[0m -> ");
 
-    if (state != 0) {
-        printf("func = %u", seq.func);
+    printf("func = %u", seq.func);
 
-        for (pxiword i = 0; i < seq.size; i += 1)
-            printf("\narg  = %u", seq.args[i]);
-    }
+    for (pxiword i = 0; i < seq.size; i += 1)
+        printf(", arg = %u", seq.args[i]);
 
     printf("\n");
 }
@@ -33,6 +38,7 @@ main(int argc, char** argv)
 {
     showSequenceFromString8(pxs8("\n"));
     showSequenceFromString8(pxs8("\033["));
+    showSequenceFromString8(pxs8("\033[\0331;6A"));
     showSequenceFromString8(pxs8("\033A"));
     showSequenceFromString8(pxs8("\033z"));
     showSequenceFromString8(pxs8("\033[1;5D"));

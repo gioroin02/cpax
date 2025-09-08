@@ -6,13 +6,13 @@
 typedef struct PxWindowsConsole PxWindowsConsole;
 
 PxWindowsConsole*
-pxWindowsConsoleCreate(PxArena* arena);
+pxWindowsConsoleCreate(PxArena* arena, pxiword length);
 
 pxb8
-pxWindowsConsoleKeybdModeRaw(PxWindowsConsole* self);
+pxWindowsConsoleInputModeRaw(PxWindowsConsole* self);
 
 pxb8
-pxWindowsConsoleKeybdModeRestore(PxWindowsConsole* self);
+pxWindowsConsoleInputModeRestore(PxWindowsConsole* self);
 
 pxiword
 pxWindowsConsoleWriteMemory(PxWindowsConsole* self, void* memory, pxiword amount, pxiword stride);
@@ -21,6 +21,6 @@ pxiword
 pxWindowsConsoleReadMemory(PxWindowsConsole* self, void* memory, pxiword amount, pxiword stride);
 
 PxConsoleEvent
-pxWindowsConsoleReadEvent(PxWindowsConsole* self, PxArena* arena);
+pxWindowsConsoleReadEvent(PxWindowsConsole* self);
 
 #endif // PX_WINDOWS_CONSOLE_CONSOLE_H

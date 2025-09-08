@@ -3,9 +3,6 @@
 
 #include "console.h"
 
-// TODO
-#include <stdio.h>
-
 #include <unistd.h>
 #include <errno.h>
 
@@ -17,6 +14,7 @@ struct PxLinuxConsole
 {
     PxTermIO       inout;
     PxConsoleEvent last;
+    PxBuffer8      buffer;
 };
 
 pxuword
@@ -253,7 +251,7 @@ pxLinuxConsoleEventFromSequence(PxConsoleSequence* sequence)
 }
 
 PxLinuxConsole*
-pxLinuxConsoleCreate(PxArena* arena)
+pxLinuxConsoleCreate(PxArena* arena, pxiword length)
 {
     pxiword offset = pxArenaOffset(arena);
 
@@ -261,9 +259,11 @@ pxLinuxConsoleCreate(PxArena* arena)
         pxArenaReserve(arena, PxLinuxConsole, 1);
 
     if (result != 0) {
+        result->buffer = pxBuffer8Reserve(arena, length);
+
         int state = tcgetattr(STDIN_FILENO, &result->inout);
 
-        if (state != -1)
+        if (result->buffer.length > 0 && state != -1)
             return result;
     }
 
@@ -273,7 +273,7 @@ pxLinuxConsoleCreate(PxArena* arena)
 }
 
 pxb8
-pxLinuxConsoleKeybdModeRaw(PxLinuxConsole* self)
+pxLinuxConsoleInputModeRaw(PxLinuxConsole* self)
 {
     PxTermIO inout = self->inout;
 
@@ -293,7 +293,7 @@ pxLinuxConsoleKeybdModeRaw(PxLinuxConsole* self)
 }
 
 pxb8
-pxLinuxConsoleKeybdModeRestore(PxLinuxConsole* self)
+pxLinuxConsoleInputModeRestore(PxLinuxConsole* self)
 {
     int state = tcsetattr(STDIN_FILENO, TCSANOW, &self->inout);
 
@@ -345,7 +345,7 @@ pxLinuxConsoleReadMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxi
 }
 
 PxConsoleEvent
-pxLinuxConsoleReadEvent(PxLinuxConsole* self, PxArena* arena)
+pxLinuxConsoleReadEvent(PxLinuxConsole* self)
 {
     PxConsoleEvent result = {.type = PX_CONSOLE_EVENT_NONE};
 
@@ -365,29 +365,41 @@ pxLinuxConsoleReadEvent(PxLinuxConsole* self, PxArena* arena)
         default: break;
     }
 
-    pxiword offset = pxArenaOffset(arena);
-    pxu8*   memory = pxArenaReserveMemory(arena, PX_MEMORY_KIB, 1);
+    pxBuffer8Normalize(&self->buffer);
 
-    pxiword size = pxLinuxConsoleReadMemory(self,
-        memory, PX_MEMORY_KIB, 1);
+    pxu8*   memory = self->buffer.memory + self->buffer.size;
+    pxiword length = self->buffer.length - self->buffer.size;
 
-    PxString8 string = {.memory = memory, .length = size};
+    PxString8 string = {
+        .memory = self->buffer.memory,
+        .length = self->buffer.size,
+    };
 
-    if (string.length <= 0) return result;
+    pxiword size = pxLinuxConsoleReadMemory(self, memory, length, 1);
+
+    self->buffer.size += size;
+    self->buffer.tail  = (self->buffer.tail + size) % self->buffer.length;
+
+    if (self->buffer.size <= 0) return result;
 
     PxConsoleSequence sequence = {0};
 
-    if (pxConsoleSequenceFromString8(&sequence, string) == 0) {
+    size = pxConsoleSequenceFromString8(&sequence, string);
+
+    if (size == 0) {
         pxi32 unicode = 0;
 
-        if (pxUtf8ReadMemory8Forw(memory, size, 0, &unicode) > 0)
+        size = pxUtf8ReadMemory8Forw(string.memory,
+            string.length, 0, &unicode);
+
+        if (size > 0)
             result = pxLinuxMapConsoleKeybdEvent(unicode);
     } else
         result = pxLinuxConsoleEventFromSequence(&sequence);
 
-    self->last = result;
+    pxBuffer8DropHead(&self->buffer, size);
 
-    pxArenaRewind(arena, offset);
+    self->last = result;
 
     return result;
 }

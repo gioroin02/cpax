@@ -218,7 +218,10 @@ pxWindowsConsoleReadEvent(PxWindowsConsole* self)
 
     HANDLE input = GetStdHandle(STD_INPUT_HANDLE);
 
-    ReadConsoleInput(input, &record, 1, &size);
+    if (GetNumberOfConsoleInputEvents(input, &size) == 0)
+        return result;
+
+    if (size != 0) ReadConsoleInput(input, &record, 1, &size);
 
     if (size == 0) return result;
 

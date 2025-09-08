@@ -12,7 +12,9 @@ set "console=pax\core\console\export.c"
 
 set "pax=%base% %memory% %string% %format% %stream% %storage% %console%"
 
-set "pax=%pax%"
+set "structure=pax\core\structure\export.c"
+
+set "pax=%pax% %structure%"
 set "dir=pax\core\console\test"
 
 zig cc --std=c99 %pax% "%dir%\console.c"  -o console_console.exe

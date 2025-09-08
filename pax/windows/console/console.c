@@ -218,12 +218,12 @@ pxWindowsConsoleReadEvent(PxWindowsConsole* self)
 
     HANDLE input = GetStdHandle(STD_INPUT_HANDLE);
 
-    if (GetNumberOfConsoleInputEvents(input, &size) == 0)
-        return result;
-
-    if (size != 0) ReadConsoleInput(input, &record, 1, &size);
+    GetNumberOfConsoleInputEvents(input, &size);
 
     if (size == 0) return result;
+
+    if (ReadConsoleInput(input, &record, 1, &size) == 0)
+        return result;
 
     switch (record.EventType) {
         case KEY_EVENT: {

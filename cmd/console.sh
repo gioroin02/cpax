@@ -8,7 +8,9 @@ console="pax/core/console/export.c"
 
 pax="$base $memory $string $format $stream $storage $console"
 
-pax="$pax"
+structure="pax/core/structure/export.c"
+
+pax="$pax $structure"
 dir="pax/core/console/test"
 
 gcc -g --std=c99 $pax $dir/console.c  -o console_console.exe

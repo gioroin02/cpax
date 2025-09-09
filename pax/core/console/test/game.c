@@ -419,11 +419,11 @@ pxConsoleWriterFrame(PxConsoleWriter* self, PxArena* arena, PxConsoleFrame* fram
 int
 main(int argc, char** argv)
 {
-    PxArena arena = pxMemoryReserve(16);
+    PxArena arena = pxMemoryReserve(32);
 
     PxConsoleFrame frames[FRAMES] = {
-        pxConsoleFrameMake(&arena, 25, 10),
-        pxConsoleFrameMake(&arena, 25, 10),
+        pxConsoleFrameMake(&arena, 50, 15),
+        pxConsoleFrameMake(&arena, 50, 15),
     };
 
     pxiword frame = 0;
@@ -456,16 +456,8 @@ main(int argc, char** argv)
     for (pxiword i = 0; active != 0; i += 1) {
         PxConsoleEvent event = pxConsoleReadEvent(console);
 
-        keybd.move_left  = 0;
-        keybd.move_right = 0;
-        keybd.move_up    = 0;
-        keybd.move_down  = 0;
-
         switch (event.type) {
             case PX_CONSOLE_EVENT_KEYBD_PRESS: {
-                if (event.keybd_press.button == PX_CONSOLE_KEYBD_ESCAPE)
-                    active = 0;
-
                 switch (event.keybd_press.button) {
                     case PX_CONSOLE_KEYBD_A: keybd.move_left  = 1; break;
                     case PX_CONSOLE_KEYBD_D: keybd.move_right = 1; break;
@@ -481,30 +473,49 @@ main(int argc, char** argv)
                 }
             } break;
 
+            case PX_CONSOLE_EVENT_KEYBD_RELEASE: {
+                if (event.keybd_release.button == PX_CONSOLE_KEYBD_ESCAPE)
+                    active = 0;
+
+                switch (event.keybd_release.button) {
+                    case PX_CONSOLE_KEYBD_A: keybd.move_left  = 0; break;
+                    case PX_CONSOLE_KEYBD_D: keybd.move_right = 0; break;
+                    case PX_CONSOLE_KEYBD_W: keybd.move_up    = 0; break;
+                    case PX_CONSOLE_KEYBD_S: keybd.move_down  = 0; break;
+
+                    case PX_CONSOLE_KEYBD_ARROW_LEFT:  keybd.move_left  = 0; break;
+                    case PX_CONSOLE_KEYBD_ARROW_RIGHT: keybd.move_right = 0; break;
+                    case PX_CONSOLE_KEYBD_ARROW_UP:    keybd.move_up    = 0; break;
+                    case PX_CONSOLE_KEYBD_ARROW_DOWN:  keybd.move_down  = 0; break;
+
+                    default: break;
+                }
+            } break;
+
             default: break;
         }
 
-        pxi8 dx = keybd.move_right - keybd.move_left;
-        pxi8 dy = keybd.move_down  - keybd.move_up;
+        if (i % 250 == 0) {
+            pxi8 dx = keybd.move_right - keybd.move_left;
+            pxi8 dy = keybd.move_down  - keybd.move_up;
 
-        if (dx != 0 || dy != 0) {
-            x = pxClamp(x + dx, 1, frames[frame].width);
-            y = pxClamp(y + dy, 1, frames[frame].height);
-        }
+            if (dx != 0 || dy != 0) {
+                x = pxClamp(x + dx, 1, frames[frame].width);
+                y = pxClamp(y + dy, 1, frames[frame].height);
+            }
 
-        bground.type = PX_CONSOLE_COLOR_INDEX;
+            bground.type = PX_CONSOLE_COLOR_RGBA;
 
-        bground.color_rgba.r = (bground.color_rgba.r + 1) % 256;
-        bground.color_rgba.g = (bground.color_rgba.g + 2) % 256;
-        bground.color_rgba.b = (bground.color_rgba.b + 3) % 256;
+            bground.color_rgba.r = (bground.color_rgba.r + 1) % 256;
+            bground.color_rgba.g = (bground.color_rgba.g + 2) % 256;
+            bground.color_rgba.b = (bground.color_rgba.b + 3) % 256;
 
-        pxConsoleFrameReset(&frames[frame], PX_ASCII_SPACE,
-            fground, bground);
+            pxConsoleFrameReset(&frames[frame], PX_ASCII_SPACE,
+                fground, bground);
 
-        pxConsoleFramePaint(&frames[frame], x - 1, y - 1,
-            PX_ASCII_SHARP, fground, bground);
+            pxConsoleFramePaint(&frames[frame], x - 1, y - 1,
+                PX_ASCII_SHARP, fground, bground);
 
-        if (i % 500 == 0) {
             pxConsoleWriterFrame(&writer, &arena, &frames[frame]);
             pxConsoleWriterFlush(&writer);
 

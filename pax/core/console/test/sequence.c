@@ -44,4 +44,5 @@ main(int argc, char** argv)
     showSequenceFromString8(pxs8("\033[1;5D"));
     showSequenceFromString8(pxs8("\033[A"));
     showSequenceFromString8(pxs8("\033[38;2;1;2;3m"));
+    showSequenceFromString8(pxs8("\033[9m"));
 }

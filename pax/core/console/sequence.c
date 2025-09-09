@@ -72,16 +72,16 @@ pxConsoleSequenceFromString8(PxConsoleSequence* self, PxString8 string)
 
     PxString8 left  = {0};
     PxString8 right = {0};
+    pxu8      value = 0;
 
     switch (string.memory[index]) {
         case PX_ASCII_SQUARE_LEFT: {
             if (string.length <= 2) return string.length;
 
-            right = pxString8Slice(string, index + 1, string.length - 1);
+            right = pxString8Slice(string,
+                index + 1, string.length - 1);
 
-            pxu8 value = 0;
-
-            while (right.length > 0) {
+            for (; right.length > 0; index += left.length + 1) {
                 pxString8Split(right, pxs8(";"), &left, &right);
 
                 pxb8 state = pxUnsigned8FromString8(&value,
@@ -93,7 +93,8 @@ pxConsoleSequenceFromString8(PxConsoleSequence* self, PxString8 string)
                     return index + 1;
             }
 
-            pxConsoleSequenceSetFunction(self, string.memory[index]);
+            pxConsoleSequenceSetFunction(self,
+                string.memory[string.length - 1]);
 
             return string.length;
         } break;

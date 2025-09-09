@@ -1,7 +1,7 @@
 #ifndef PX_CORE_FORMAT_STRING32_H
 #define PX_CORE_FORMAT_STRING32_H
 
-#include "option.h"
+#include "memory32.h"
 
 /* String from number */
 

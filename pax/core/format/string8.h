@@ -1,7 +1,7 @@
 #ifndef PX_CORE_FORMAT_STRING8_H
 #define PX_CORE_FORMAT_STRING8_H
 
-#include "option.h"
+#include "memory8.h"
 
 /* String from number */
 

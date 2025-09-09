@@ -6,486 +6,311 @@
 PxString32
 pxString32FromUnsigned8(PxArena* arena, pxuword radix, PxFormatOption options, pxu8 value)
 {
-    pxiword length = 0;
-    pxu8    temp   = value;
+    PxString32 result = {0};
+    pxiword    size   = 0;
+    pxu8       temp   = value;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
-            length += 1;
+            size += 1;
     } else
-        length += 1;
+        size += 1;
 
     if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-        length += 1;
+        size += 1;
 
     pxiword offset = pxArenaOffset(arena);
-    pxu32*  result = pxArenaReserve(arena, pxu32, length + 1);
-    pxiword index  = length;
+    pxu32*  memory = pxArenaReserve(arena, pxu32, size + 1);
 
-    while (index > 0) {
-        pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+    pxiword amount = pxMemory32WriteUnsigned8(
+        memory, size, radix, options, value);
 
-        index -= 1;
-        temp  /= radix;
+    if (amount == size) {
+        result.memory = memory;
+        result.length = size;
+    } else
+        pxArenaRewind(arena, offset);
 
-        if (digit != PX_ASCII_NULL)
-            result[index] = pxCast(pxu32, digit);
-        else
-            break;
-    }
-
-    if (index == 0) {
-        if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-            result[index] = PX_ASCII_PLUS;
-
-        return (PxString32) {
-            .memory = result,
-            .length = length,
-        };
-    }
-
-    pxArenaRewind(arena, offset);
-
-    return (PxString32) {0};
+    return result;
 }
 
 PxString32
 pxString32FromUnsigned16(PxArena* arena, pxuword radix, PxFormatOption options, pxu16 value)
 {
-    pxiword length = 0;
-    pxu16   temp   = value;
+    PxString32 result = {0};
+    pxiword    size   = 0;
+    pxu16      temp   = value;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
-            length += 1;
+            size += 1;
     } else
-        length += 1;
+        size += 1;
 
     if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-        length += 1;
+        size += 1;
 
     pxiword offset = pxArenaOffset(arena);
-    pxu32*  result = pxArenaReserve(arena, pxu32, length + 1);
-    pxiword index  = length;
+    pxu32*  memory = pxArenaReserve(arena, pxu32, size + 1);
 
-    while (index > 0) {
-        pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+    pxiword amount = pxMemory32WriteUnsigned16(
+        memory, size, radix, options, value);
 
-        index -= 1;
-        temp  /= radix;
+    if (amount == size) {
+        result.memory = memory;
+        result.length = size;
+    } else
+        pxArenaRewind(arena, offset);
 
-        if (digit != PX_ASCII_NULL)
-            result[index] = pxCast(pxu32, digit);
-        else
-            break;
-    }
-
-    if (index == 0) {
-        if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-            result[index] = PX_ASCII_PLUS;
-
-        return (PxString32) {
-            .memory = result,
-            .length = length,
-        };
-    }
-
-    pxArenaRewind(arena, offset);
-
-    return (PxString32) {0};
+    return result;
 }
 
 PxString32
 pxString32FromUnsigned32(PxArena* arena, pxuword radix, PxFormatOption options, pxu32 value)
 {
-    pxiword length = 0;
-    pxu32   temp   = value;
+    PxString32 result = {0};
+    pxiword    size   = 0;
+    pxu32      temp   = value;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
-            length += 1;
+            size += 1;
     } else
-        length += 1;
+        size += 1;
 
     if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-        length += 1;
+        size += 1;
 
     pxiword offset = pxArenaOffset(arena);
-    pxu32*  result = pxArenaReserve(arena, pxu32, length + 1);
-    pxiword index  = length;
+    pxu32*  memory = pxArenaReserve(arena, pxu32, size + 1);
 
-    while (index > 0) {
-        pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+    pxiword amount = pxMemory32WriteUnsigned32(
+        memory, size, radix, options, value);
 
-        index -= 1;
-        temp  /= radix;
+    if (amount == size) {
+        result.memory = memory;
+        result.length = size;
+    } else
+        pxArenaRewind(arena, offset);
 
-        if (digit != PX_ASCII_NULL)
-            result[index] = pxCast(pxu32, digit);
-        else
-            break;
-    }
-
-    if (index == 0) {
-        if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-            result[index] = PX_ASCII_PLUS;
-
-        return (PxString32) {
-            .memory = result,
-            .length = length,
-        };
-    }
-
-    pxArenaRewind(arena, offset);
-
-    return (PxString32) {0};
+    return result;
 }
 
 PxString32
 pxString32FromUnsigned64(PxArena* arena, pxuword radix, PxFormatOption options, pxu64 value)
 {
-    pxiword length = 0;
-    pxu64   temp   = value;
+    PxString32 result = {0};
+    pxiword    size   = 0;
+    pxu64      temp   = value;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
-            length += 1;
+            size += 1;
     } else
-        length += 1;
+        size += 1;
 
     if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-        length += 1;
+        size += 1;
 
     pxiword offset = pxArenaOffset(arena);
-    pxu32*  result = pxArenaReserve(arena, pxu32, length + 1);
-    pxiword index  = length;
+    pxu32*  memory = pxArenaReserve(arena, pxu32, size + 1);
 
-    while (index > 0) {
-        pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+    pxiword amount = pxMemory32WriteUnsigned64(
+        memory, size, radix, options, value);
 
-        index -= 1;
-        temp  /= radix;
+    if (amount == size) {
+        result.memory = memory;
+        result.length = size;
+    } else
+        pxArenaRewind(arena, offset);
 
-        if (digit != PX_ASCII_NULL)
-            result[index] = pxCast(pxu32, digit);
-        else
-            break;
-    }
-
-    if (index == 0) {
-        if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-            result[index] = PX_ASCII_PLUS;
-
-        return (PxString32) {
-            .memory = result,
-            .length = length,
-        };
-    }
-
-    pxArenaRewind(arena, offset);
-
-    return (PxString32) {0};
+    return result;
 }
 
 PxString32
 pxString32FromUnsigned(PxArena* arena, pxuword radix, PxFormatOption options, pxuword value)
 {
-    pxiword length = 0;
-    pxuword temp   = value;
+    PxString32 result = {0};
+    pxiword    size   = 0;
+    pxuword    temp   = value;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
-            length += 1;
+            size += 1;
     } else
-        length += 1;
+        size += 1;
 
     if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-        length += 1;
+        size += 1;
 
     pxiword offset = pxArenaOffset(arena);
-    pxu32*  result = pxArenaReserve(arena, pxu32, length + 1);
-    pxiword index  = length;
+    pxu32*  memory = pxArenaReserve(arena, pxu32, size + 1);
 
-    while (index > 0) {
-        pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+    pxiword amount = pxMemory32WriteUnsigned(
+        memory, size, radix, options, value);
 
-        index -= 1;
-        temp  /= radix;
+    if (amount == size) {
+        result.memory = memory;
+        result.length = size;
+    } else
+        pxArenaRewind(arena, offset);
 
-        if (digit != PX_ASCII_NULL)
-            result[index] = pxCast(pxu32, digit);
-        else
-            break;
-    }
-
-    if (index == 0) {
-        if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-            result[index] = PX_ASCII_PLUS;
-
-        return (PxString32) {
-            .memory = result,
-            .length = length,
-        };
-    }
-
-    pxArenaRewind(arena, offset);
-
-    return (PxString32) {0};
+    return result;
 }
 
 PxString32
 pxString32FromInteger8(PxArena* arena, pxuword radix, PxFormatOption options, pxi8 value)
 {
-    pxiword length = 0;
-    pxu8    temp   = pxMagnitudeInteger8(value);
-    pxb8    sign   = pxDirectionInteger8(value) < 0 ? 1 : 0;
+    PxString32 result = {0};
+    pxiword    size   = 0;
+    pxu8       temp   = pxMagnitudeInteger8(value);
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
-            length += 1;
+            size += 1;
     } else
-        length += 1;
+        size += 1;
 
-    if (sign != 0 || (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-        length += 1;
+    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+        size += 1;
 
     pxiword offset = pxArenaOffset(arena);
-    pxu32*  result = pxArenaReserve(arena, pxu32, length + 1);
-    pxiword index  = length;
+    pxu32*  memory = pxArenaReserve(arena, pxu32, size + 1);
 
-    while (index > 0) {
-        pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+    pxiword amount = pxMemory32WriteInteger8(
+        memory, size, radix, options, value);
 
-        index -= 1;
-        temp  /= radix;
+    if (amount == size) {
+        result.memory = memory;
+        result.length = size;
+    } else
+        pxArenaRewind(arena, offset);
 
-        if (digit != PX_ASCII_NULL)
-            result[index] = pxCast(pxu32, digit);
-        else
-            break;
-    }
-
-    if (index == 0) {
-        if (sign != 0) result[index] = PX_ASCII_MINUS;
-
-        if (sign == 0 && (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-            result[index] = PX_ASCII_PLUS;
-
-        return (PxString32) {
-            .memory = result,
-            .length = length,
-        };
-    }
-
-    pxArenaRewind(arena, offset);
-
-    return (PxString32) {0};
+    return result;
 }
 
 PxString32
 pxString32FromInteger16(PxArena* arena, pxuword radix, PxFormatOption options, pxi16 value)
 {
-    pxiword length = 0;
-    pxu16   temp   = pxMagnitudeInteger16(value);
-    pxb8    sign   = pxDirectionInteger16(value) < 0 ? 1 : 0;
+    PxString32 result = {0};
+    pxiword    size   = 0;
+    pxu16      temp   = pxMagnitudeInteger16(value);
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
-            length += 1;
+            size += 1;
     } else
-        length += 1;
+        size += 1;
 
-    if (sign != 0 || (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-        length += 1;
+    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+        size += 1;
 
     pxiword offset = pxArenaOffset(arena);
-    pxu32*  result = pxArenaReserve(arena, pxu32, length + 1);
-    pxiword index  = length;
+    pxu32*  memory = pxArenaReserve(arena, pxu32, size + 1);
 
-    while (index > 0) {
-        pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+    pxiword amount = pxMemory32WriteInteger16(
+        memory, size, radix, options, value);
 
-        index -= 1;
-        temp  /= radix;
+    if (amount == size) {
+        result.memory = memory;
+        result.length = size;
+    } else
+        pxArenaRewind(arena, offset);
 
-        if (digit != PX_ASCII_NULL)
-            result[index] = pxCast(pxu32, digit);
-        else
-            break;
-    }
-
-    if (index == 0) {
-        if (sign != 0) result[index] = PX_ASCII_MINUS;
-
-        if (sign == 0 && (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-            result[index] = PX_ASCII_PLUS;
-
-        return (PxString32) {
-            .memory = result,
-            .length = length,
-        };
-    }
-
-    pxArenaRewind(arena, offset);
-
-    return (PxString32) {0};
+    return result;
 }
 
 PxString32
 pxString32FromInteger32(PxArena* arena, pxuword radix, PxFormatOption options, pxi32 value)
 {
-    pxiword length = 0;
-    pxu32   temp   = pxMagnitudeInteger32(value);
-    pxb8    sign   = pxDirectionInteger32(value) < 0 ? 1 : 0;
+    PxString32 result = {0};
+    pxiword    size   = 0;
+    pxu32      temp   = pxMagnitudeInteger32(value);
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
-            length += 1;
+            size += 1;
     } else
-        length += 1;
+        size += 1;
 
-    if (sign != 0 || (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-        length += 1;
+    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+        size += 1;
 
     pxiword offset = pxArenaOffset(arena);
-    pxu32*  result = pxArenaReserve(arena, pxu32, length + 1);
-    pxiword index  = length;
+    pxu32*  memory = pxArenaReserve(arena, pxu32, size + 1);
 
-    while (index > 0) {
-        pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+    pxiword amount = pxMemory32WriteInteger32(
+        memory, size, radix, options, value);
 
-        index -= 1;
-        temp  /= radix;
+    if (amount == size) {
+        result.memory = memory;
+        result.length = size;
+    } else
+        pxArenaRewind(arena, offset);
 
-        if (digit != PX_ASCII_NULL)
-            result[index] = pxCast(pxu32, digit);
-        else
-            break;
-    }
-
-    if (index == 0) {
-        if (sign != 0) result[index] = PX_ASCII_MINUS;
-
-        if (sign == 0 && (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-            result[index] = PX_ASCII_PLUS;
-
-        return (PxString32) {
-            .memory = result,
-            .length = length,
-        };
-    }
-
-    pxArenaRewind(arena, offset);
-
-    return (PxString32) {0};
+    return result;
 }
 
 PxString32
 pxString32FromInteger64(PxArena* arena, pxuword radix, PxFormatOption options, pxi64 value)
 {
-    pxiword length = 0;
-    pxu64   temp   = pxMagnitudeInteger64(value);
-    pxb8    sign   = pxDirectionInteger64(value) < 0 ? 1 : 0;
+    PxString32 result = {0};
+    pxiword    size   = 0;
+    pxu64      temp   = pxMagnitudeInteger64(value);
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
-            length += 1;
+            size += 1;
     } else
-        length += 1;
+        size += 1;
 
-    if (sign != 0 || (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-        length += 1;
+    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+        size += 1;
 
     pxiword offset = pxArenaOffset(arena);
-    pxu32*  result = pxArenaReserve(arena, pxu32, length + 1);
-    pxiword index  = length;
+    pxu32*  memory = pxArenaReserve(arena, pxu32, size + 1);
 
-    while (index > 0) {
-        pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+    pxiword amount = pxMemory32WriteInteger64(
+        memory, size, radix, options, value);
 
-        index -= 1;
-        temp  /= radix;
+    if (amount == size) {
+        result.memory = memory;
+        result.length = size;
+    } else
+        pxArenaRewind(arena, offset);
 
-        if (digit != PX_ASCII_NULL)
-            result[index] = pxCast(pxu32, digit);
-        else
-            break;
-    }
-
-    if (index == 0) {
-        if (sign != 0) result[index] = PX_ASCII_MINUS;
-
-        if (sign == 0 && (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-            result[index] = PX_ASCII_PLUS;
-
-        return (PxString32) {
-            .memory = result,
-            .length = length,
-        };
-    }
-
-    pxArenaRewind(arena, offset);
-
-    return (PxString32) {0};
+    return result;
 }
 
 PxString32
 pxString32FromInteger(PxArena* arena, pxuword radix, PxFormatOption options, pxiword value)
 {
-    pxiword length = 0;
-    pxuword temp   = pxMagnitudeInteger(value);
-    pxb8    sign   = pxDirectionInteger(value) < 0 ? 1 : 0;
+    PxString32 result = {0};
+    pxiword    size   = 0;
+    pxuword    temp   = pxMagnitudeInteger(value);
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
-            length += 1;
+            size += 1;
     } else
-        length += 1;
+        size += 1;
 
-    if (sign != 0 || (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-        length += 1;
+    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+        size += 1;
 
     pxiword offset = pxArenaOffset(arena);
-    pxu32*  result = pxArenaReserve(arena, pxu32, length + 1);
-    pxiword index  = length;
+    pxu32*  memory = pxArenaReserve(arena, pxu32, size + 1);
 
-    while (index > 0) {
-        pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+    pxiword amount = pxMemory32WriteInteger(
+        memory, size, radix, options, value);
 
-        index -= 1;
-        temp  /= radix;
+    if (amount == size) {
+        result.memory = memory;
+        result.length = size;
+    } else
+        pxArenaRewind(arena, offset);
 
-        if (digit != PX_ASCII_NULL)
-            result[index] = pxCast(pxu32, digit);
-        else
-            break;
-    }
-
-    if (index == 0) {
-        if (sign != 0) result[index] = PX_ASCII_MINUS;
-
-        if (sign == 0 && (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
-            result[index] = PX_ASCII_PLUS;
-
-        return (PxString32) {
-            .memory = result,
-            .length = length,
-        };
-    }
-
-    pxArenaRewind(arena, offset);
-
-    return (PxString32) {0};
+    return result;
 }
 
 pxb8

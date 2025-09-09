@@ -3,6 +3,10 @@
 
 #include "option.h"
 
+#include "memory8.h"
+#include "memory16.h"
+#include "memory32.h"
+
 #include "string8.h"
 #include "string16.h"
 #include "string32.h"

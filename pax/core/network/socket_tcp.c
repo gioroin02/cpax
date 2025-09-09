@@ -136,29 +136,37 @@ pxSocketTcpReadMemory(PxSocketTcp self, void* memory, pxiword amount, pxiword st
 }
 
 PxWriter
-pxSocketTcpWriter(PxSocketTcp self, PxBuffer8* buffer)
+pxSocketTcpWriter(PxSocketTcp self, PxArena* arena, pxiword length)
 {
-    if (self == 0 || buffer == 0)
-        return (PxWriter) {0};
+    PxWriter result = {0};
 
-    return (PxWriter) {
-        .buffer = buffer,
-        .ctxt   = self,
-        .proc   = &pxSocketTcpWrite,
-    };
+    if (self == 0 || length <= 0) return result;
+
+    result.buffer = pxBuffer8Reserve(arena, length);
+
+    if (result.buffer.length > 0) {
+        result.ctxt = self;
+        result.proc = &pxSocketTcpWrite;
+    }
+
+    return result;
 }
 
 PxReader
-pxSocketTcpReader(PxSocketTcp self, PxBuffer8* buffer)
+pxSocketTcpReader(PxSocketTcp self, PxArena* arena, pxiword length)
 {
-    if (self == 0 || buffer == 0)
-        return (PxReader) {0};
+    PxReader result = {0};
 
-    return (PxReader) {
-        .buffer = buffer,
-        .ctxt   = self,
-        .proc   = &pxSocketTcpRead,
-    };
+    if (self == 0 || length <= 0) return result;
+
+    result.buffer = pxBuffer8Reserve(arena, length);
+
+    if (result.buffer.length > 0) {
+        result.ctxt = self;
+        result.proc = &pxSocketTcpRead;
+    }
+
+    return result;
 }
 
 #endif // PX_CORE_NETWORK_SOCKET_TCP_C

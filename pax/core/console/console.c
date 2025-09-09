@@ -104,29 +104,37 @@ pxConsoleReadEvent(PxConsole self)
 }
 
 PxWriter
-pxConsoleWriter(PxConsole self, PxBuffer8* buffer)
+pxConsoleWriter(PxConsole self, PxArena* arena, pxiword length)
 {
-    if (self == 0 || buffer == 0)
-        return (PxWriter) {0};
+    PxWriter result = {0};
 
-    return (PxWriter) {
-        .buffer = buffer,
-        .ctxt   = self,
-        .proc   = &pxConsoleWrite,
-    };
+    if (self == 0 || length <= 0) return result;
+
+    result.buffer = pxBuffer8Reserve(arena, length);
+
+    if (result.buffer.length > 0) {
+        result.ctxt = self;
+        result.proc = &pxConsoleWrite;
+    }
+
+    return result;
 }
 
 PxReader
-pxConsoleReader(PxConsole self, PxBuffer8* buffer)
+pxConsoleReader(PxConsole self, PxArena* arena, pxiword length)
 {
-    if (self == 0 || buffer == 0)
-        return (PxReader) {0};
+    PxReader result = {0};
 
-    return (PxReader) {
-        .buffer = buffer,
-        .ctxt   = self,
-        .proc   = &pxConsoleRead,
-    };
+    if (self == 0 || length <= 0) return result;
+
+    result.buffer = pxBuffer8Reserve(arena, length);
+
+    if (result.buffer.length > 0) {
+        result.ctxt = self;
+        result.proc = &pxConsoleRead;
+    }
+
+    return result;
 }
 
 #endif // PX_CORE_CONSOLE_CONSOLE_C

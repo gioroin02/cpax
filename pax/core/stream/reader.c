@@ -4,27 +4,18 @@
 #include "reader.h"
 
 PxReader
-pxBufferReader(PxBuffer8* self, PxBuffer8* buffer)
+pxBufferReader(PxBuffer8* self, PxArena* arena, pxiword length)
 {
-    if (self == 0 || buffer == 0)
-        return (PxReader) {0};
+    PxReader result = {0};
 
-    return (PxReader) {
-        .buffer = buffer,
-        .ctxt   = self,
-        .proc   = &pxBuffer8ReadHead,
-    };
-}
+    if (self == 0 || length <= 0) return result;
 
-PxBuffer8*
-pxReaderSetBuffer(PxReader* self, PxBuffer8* buffer)
-{
-    PxBuffer8* result = self->buffer;
+    result.buffer = pxBuffer8Reserve(arena, length);
 
-    if (buffer != 0)
-        self->buffer = buffer;
-    else
-        return 0;
+    if (result.buffer.length > 0) {
+        result.ctxt = self;
+        result.proc = &pxBuffer8ReadHead;
+    }
 
     return result;
 }
@@ -35,7 +26,7 @@ pxReaderFill(PxReader* self)
     PxReaderProc* proc = pxCast(PxReaderProc*, self->proc);
 
     if (proc != 0)
-        return proc(self->ctxt, self->buffer);
+        return proc(self->ctxt, &self->buffer);
 
     return 0;
 }
@@ -43,11 +34,11 @@ pxReaderFill(PxReader* self)
 pxu8
 pxReaderPeekByte(PxReader* self, pxiword offset)
 {
-    if (offset < 0 || offset >= self->buffer->length)
+    if (offset < 0 || offset >= self->buffer.length)
         return 0;
 
-    if (offset >= self->buffer->size) {
-        pxiword length = offset - self->buffer->size + 1;
+    if (offset >= self->buffer.size) {
+        pxiword length = offset - self->buffer.size + 1;
         pxiword amount = 0;
 
         for (pxiword i = 0; i < length;) {
@@ -60,7 +51,7 @@ pxReaderPeekByte(PxReader* self, pxiword offset)
         }
     }
 
-    return pxBuffer8GetForwOr(self->buffer, offset, 0);
+    return pxBuffer8GetForwOr(&self->buffer, offset, 0);
 }
 
 PxString8
@@ -119,7 +110,7 @@ pxReaderByte(PxReader* self, pxiword offset)
     if (offset < 0) return 0;
 
     for (pxiword i = 0; i < offset;) {
-        i += pxBuffer8DropHead(self->buffer, offset - i);
+        i += pxBuffer8DropHead(&self->buffer, offset - i);
 
         if (i < offset) {
             if (pxReaderFill(self) == 0)
@@ -128,7 +119,7 @@ pxReaderByte(PxReader* self, pxiword offset)
             break;
     }
 
-    return pxBuffer8GetForwOr(self->buffer, 0, 0);
+    return pxBuffer8GetForwOr(&self->buffer, 0, 0);
 }
 
 PxString8

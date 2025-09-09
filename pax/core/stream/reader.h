@@ -7,7 +7,7 @@ typedef pxiword (PxReaderProc) (void*, PxBuffer8*);
 
 typedef struct PxReader
 {
-    PxBuffer8* buffer;
+    PxBuffer8 buffer;
 
     void* ctxt;
     void* proc;
@@ -15,10 +15,7 @@ typedef struct PxReader
 PxReader;
 
 PxReader
-pxBufferReader(PxBuffer8* self, PxBuffer8* buffer);
-
-PxBuffer8*
-pxReaderSetBuffer(PxReader* self, PxBuffer8* buffer);
+pxBufferReader(PxBuffer8* self, PxArena* arena, pxiword length);
 
 pxiword
 pxReaderFill(PxReader* self);

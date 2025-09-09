@@ -42,9 +42,9 @@ pxiword
 pxSocketTcpReadMemory(PxSocketTcp self, void* memory, pxiword amount, pxiword stride);
 
 PxReader
-pxSocketTcpReader(PxSocketTcp self, PxBuffer8* buffer);
+pxSocketTcpReader(PxSocketTcp self, PxArena* arena, pxiword length);
 
 PxWriter
-pxSocketTcpWriter(PxSocketTcp self, PxBuffer8* buffer);
+pxSocketTcpWriter(PxSocketTcp self, PxArena* arena, pxiword length);
 
 #endif // PX_CORE_NETWORK_SOCKET_TCP_H

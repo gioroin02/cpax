@@ -45,9 +45,9 @@ pxiword
 pxFileReadMemory(PxFile self, void* memory, pxiword amount, pxiword stride);
 
 PxWriter
-pxFileWriter(PxFile self, PxBuffer8* buffer);
+pxFileWriter(PxFile self, PxArena* arena, pxiword length);
 
 PxReader
-pxFileReader(PxFile self, PxBuffer8* buffer);
+pxFileReader(PxFile self, PxArena* arena, pxiword length);
 
 #endif // PX_CORE_STORAGE_FILE_H

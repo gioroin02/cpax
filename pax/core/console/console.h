@@ -30,9 +30,9 @@ PxConsoleEvent
 pxConsoleReadEvent(PxConsole self);
 
 PxWriter
-pxConsoleWriter(PxConsole self, PxBuffer8* buffer);
+pxConsoleWriter(PxConsole self, PxArena* arena, pxiword length);
 
 PxReader
-pxConsoleReader(PxConsole self, PxBuffer8* buffer);
+pxConsoleReader(PxConsole self, PxArena* arena, pxiword length);
 
 #endif // PX_CORE_CONSOLE_CONSOLE_H

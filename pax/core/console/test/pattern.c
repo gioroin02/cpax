@@ -11,16 +11,37 @@ typedef struct PxConsoleKeybdState
 }
 PxConsoleKeybdState;
 
+typedef enum PxConsoleColorType
+{
+    PX_CONSOLE_COLOR_NONE,
+    PX_CONSOLE_COLOR_INDEX,
+    PX_CONSOLE_COLOR_RGBA,
+}
+PxConsoleColorType;
+
+typedef pxu8 PxConsoleColorIndex;
+
+typedef union PxConsoleColorRGBA
+{
+    struct {
+        pxu8 r;
+        pxu8 g;
+        pxu8 b;
+        pxu8 a;
+    };
+
+    pxu8 items[4];
+}
+PxConsoleColorRGBA;
+
 typedef struct PxConsoleColor
 {
-    union {
-        struct {
-            pxu8 r;
-            pxu8 g;
-            pxu8 b;
-        };
+    PxConsoleColorType type;
 
-        pxu8 items[3];
+    union
+    {
+        PxConsoleColorRGBA  color_rgba;
+        PxConsoleColorIndex color_index;
     };
 }
 PxConsoleColor;
@@ -42,7 +63,7 @@ typedef struct PxConsoleFrame
 }
 PxConsoleFrame;
 
-typedef PxBuffer8 PxConsoleCommand;
+typedef PxWriter PxConsoleWriter;
 
 PxConsoleFrame
 pxConsoleFrameMake(PxArena* arena, pxiword width, pxiword height)
@@ -131,317 +152,266 @@ pxConsoleFramePaint(PxConsoleFrame* self, pxiword x, pxiword y, pxi32 unicode, P
     return pxConsoleFrameUpdate(self, x, y, item);
 }
 
-PxConsoleCommand
-pxConsoleCommandMake(PxArena* arena, pxiword length)
+PxConsoleWriter
+pxConsoleWriterMake(PxConsole console, PxArena* arena, pxiword length)
 {
-    return pxBuffer8Reserve(arena, length);
+    return pxConsoleWriter(console, arena, length);
 }
 
 void
-pxConsoleCommandClear(PxConsoleCommand* self)
+pxConsoleWriterFlush(PxConsoleWriter* writer)
 {
-    pxBuffer8Clear(self);
+    pxWriterFlush(writer);
 }
 
 pxiword
-pxConsoleCommandMoveUp(PxConsoleCommand* self, pxu8 amount)
+pxConsoleWriterMoveUp(PxConsoleWriter* self, PxArena* arena, pxu8 amount)
 {
     if (amount <= 0) return 0;
 
-    pxBuffer8Normalize(self);
-
-    pxiword s0 = pxBuffer8WriteString8Tail(self, pxs8("\033["));
-
+    pxiword s0 = pxWriterString8(self, pxs8("\033["));
     pxiword s1 = 0;
 
     if (amount > 1) {
-        pxu8*   memory = self->memory + self->size;
-        pxiword length = self->length - self->size;
-
-        s1 = pxMemory8WriteUnsigned8(memory, length,
+        s1 = pxWriterUnsigned8(self, arena,
             10, PX_FORMAT_OPTION_NONE, amount);
-
-        self->size += s1;
-        self->tail  = (self->tail + s1) % self->length;
     }
 
-    pxiword s2 = pxBuffer8WriteString8Tail(self, pxs8("A"));
+    pxiword s2 = pxWriterString8(self, pxs8("A"));
 
     return s0 + s1 + s2;
 }
 
 pxiword
-pxConsoleCommandMoveDown(PxConsoleCommand* self, pxu8 amount)
+pxConsoleWriterMoveDown(PxConsoleWriter* self, PxArena* arena, pxu8 amount)
 {
     if (amount <= 0) return 0;
 
-    pxBuffer8Normalize(self);
-
-    pxiword s0 = pxBuffer8WriteString8Tail(self, pxs8("\033["));
-
+    pxiword s0 = pxWriterString8(self, pxs8("\033["));
     pxiword s1 = 0;
 
     if (amount > 1) {
-        pxu8*   memory = self->memory + self->size;
-        pxiword length = self->length - self->size;
-
-        s1 = pxMemory8WriteUnsigned8(memory, length,
+        s1 = pxWriterUnsigned8(self, arena,
             10, PX_FORMAT_OPTION_NONE, amount);
-
-        self->size += s1;
-        self->tail  = (self->tail + s1) % self->length;
     }
 
-    pxiword s2 = pxBuffer8WriteString8Tail(self, pxs8("B"));
+    pxiword s2 = pxWriterString8(self, pxs8("B"));
 
     return s0 + s1 + s2;
 }
 
 pxiword
-pxConsoleCommandMoveLeft(PxConsoleCommand* self, pxu8 amount)
+pxConsoleWriterMoveLeft(PxConsoleWriter* self, PxArena* arena, pxu8 amount)
 {
     if (amount <= 0) return 0;
 
-    pxBuffer8Normalize(self);
-
-    pxiword s0 = pxBuffer8WriteString8Tail(self, pxs8("\033["));
-
+    pxiword s0 = pxWriterString8(self, pxs8("\033["));
     pxiword s1 = 0;
 
     if (amount > 1) {
-        pxu8*   memory = self->memory + self->size;
-        pxiword length = self->length - self->size;
-
-        s1 = pxMemory8WriteUnsigned8(memory, length,
+        s1 = pxWriterUnsigned8(self, arena,
             10, PX_FORMAT_OPTION_NONE, amount);
-
-        self->size += s1;
-        self->tail  = (self->tail + s1) % self->length;
     }
 
-    pxiword s2 = pxBuffer8WriteString8Tail(self, pxs8("D"));
+    pxiword s2 = pxWriterString8(self, pxs8("D"));
 
     return s0 + s1 + s2;
 }
 
 pxiword
-pxConsoleCommandMoveRight(PxConsoleCommand* self, pxu8 amount)
+pxConsoleWriterMoveRight(PxConsoleWriter* self, PxArena* arena, pxu8 amount)
 {
     if (amount <= 0) return 0;
 
-    pxBuffer8Normalize(self);
-
-    pxiword s0 = pxBuffer8WriteString8Tail(self, pxs8("\033["));
-
+    pxiword s0 = pxWriterString8(self, pxs8("\033["));
     pxiword s1 = 0;
 
     if (amount > 1) {
-        pxu8*   memory = self->memory + self->size;
-        pxiword length = self->length - self->size;
-
-        s1 = pxMemory8WriteUnsigned8(memory, length,
+        s1 = pxWriterUnsigned8(self, arena,
             10, PX_FORMAT_OPTION_NONE, amount);
-
-        self->size += s1;
-        self->tail  = (self->tail + s1) % self->length;
     }
 
-    pxiword s2 = pxBuffer8WriteString8Tail(self, pxs8("C"));
+    pxiword s2 = pxWriterString8(self, pxs8("C"));
 
     return s0 + s1 + s2;
 }
 
 pxiword
-pxConsoleCommandMoveTo(PxConsoleCommand* self, pxiword x, pxiword y)
+pxConsoleWriterMoveTo(PxConsoleWriter* self, PxArena* arena, pxiword x, pxiword y)
 {
     if (x < 0 || y < 0) return 0;
 
-    pxiword s0 = pxBuffer8WriteString8Tail(self, pxs8("\033["));
-
-    pxBuffer8Normalize(self);
+    pxiword s0 = pxWriterString8(self, pxs8("\033["));
 
     pxiword s1 = 0;
     pxiword s2 = 0;
     pxiword s3 = 0;
 
     if (x != 0 || y != 0) {
-        pxu8*   memory = self->memory + self->size;
-        pxiword length = self->length - self->size;
-
-        s1 = pxMemory8WriteUnsigned8(memory, length,
+        s1 = pxWriterUnsigned8(self, arena,
             10, PX_FORMAT_OPTION_NONE, y + 1);
 
-        self->size += s1;
-        self->tail  = (self->tail + s1) % self->length;
+        s2 = pxWriterString8(self, pxs8(";"));
 
-        s2 = pxBuffer8WriteString8Tail(self, pxs8(";"));
-
-        memory = self->memory + self->size;
-        length = self->length - self->size;
-
-        s3 = pxMemory8WriteUnsigned8(memory, length,
+        s3 = pxWriterUnsigned8(self, arena,
             10, PX_FORMAT_OPTION_NONE, x + 1);
-
-        self->size += s3;
-        self->tail  = (self->tail + s3) % self->length;
     }
 
-    pxiword s4 = pxBuffer8WriteString8Tail(self, pxs8("H"));
+    pxiword s4 = pxWriterString8(self, pxs8("H"));
 
     return s0 + s1 + s2 + s3 + s4;
 }
 
 pxiword
-pxConsoleCommandShowCursor(PxConsoleCommand* self, pxb8 state)
+pxConsoleWriterShowCursor(PxConsoleWriter* self, pxb8 state)
 {
     PxString8 string = pxs8("\033[?25l");
 
     if (state != 0)
         string = pxs8("\033[?25h");
 
-    return pxBuffer8WriteString8Tail(self, string);
+    return pxWriterString8(self, string);
 }
 
 pxiword
-pxConsoleCommandRefresh(PxConsoleCommand* self, pxb8 scroll)
+pxConsoleWriterReset(PxConsoleWriter* self, pxb8 scroll)
 {
     PxString8 string = pxs8("\033c");
 
     if (scroll != 0)
         string = pxs8("\033[2J");
 
-    return pxBuffer8WriteString8Tail(self, string);
+    return pxWriterString8(self, string);
 }
 
 pxiword
-pxConsoleCommandForeground(PxConsoleCommand* self, PxConsoleColor color)
+pxConsoleWriterForegroundRGBA(PxConsoleWriter* self, PxArena* arena, PxConsoleColorRGBA color)
 {
-    pxiword s0 = pxBuffer8WriteString8Tail(self, pxs8("\033[38;2;"));
+    pxiword s0 = pxWriterString8(self, pxs8("\033[38;2;"));
 
-    pxBuffer8Normalize(self);
-
-    pxu8*   memory = self->memory + self->size;
-    pxiword length = self->length - self->size;
-
-    pxiword s1 = pxMemory8WriteUnsigned8(memory, length,
+    pxiword s1 = pxWriterUnsigned8(self, arena,
         10, PX_FORMAT_OPTION_NONE, color.r);
 
-    self->size += s1;
-    self->tail  = (self->tail + s1) % self->length;
+    pxiword s2 = pxWriterString8(self, pxs8(";"));
 
-    pxiword s2 = pxBuffer8WriteString8Tail(self, pxs8(";"));
-
-    memory = self->memory + self->size;
-    length = self->length - self->size;
-
-    pxiword s3 = pxMemory8WriteUnsigned8(memory, length,
+    pxiword s3 = pxWriterUnsigned8(self, arena,
         10, PX_FORMAT_OPTION_NONE, color.g);
 
-    self->size += s3;
-    self->tail  = (self->tail + s3) % self->length;
+    pxiword s4 = pxWriterString8(self, pxs8(";"));
 
-    pxiword s4 = pxBuffer8WriteString8Tail(self, pxs8(";"));
-
-    memory = self->memory + self->size;
-    length = self->length - self->size;
-
-    pxiword s5 = pxMemory8WriteUnsigned8(memory, length,
+    pxiword s5 = pxWriterUnsigned8(self, arena,
         10, PX_FORMAT_OPTION_NONE, color.b);
 
-    self->size += s5;
-    self->tail  = (self->tail + s5) % self->length;
+    pxiword s6 = pxWriterString8(self, pxs8("m"));
 
-    pxiword s6 = pxBuffer8WriteString8Tail(self, pxs8("m"));
+    return s0 + s1 + s2 + s3 + s4 + s5 + s6;
+}
+
+pxiword
+pxConsoleWriterForegroundIndex(PxConsoleWriter* self, PxArena* arena, PxConsoleColorIndex color)
+{
+    pxiword s0 = pxWriterString8(self, pxs8("\033[38;5;"));
+
+    pxiword s1 = pxWriterUnsigned8(self, arena,
+        10, PX_FORMAT_OPTION_NONE, color);
+
+    pxiword s2 = pxWriterString8(self, pxs8("m"));
 
     return s0 + s1 + s2;
 }
 
 pxiword
-pxConsoleCommandBackground(PxConsoleCommand* self, PxConsoleColor color)
+pxConsoleWriterForeground(PxConsoleWriter* self, PxArena* arena, PxConsoleColor color)
 {
-    pxiword s0 = pxBuffer8WriteString8Tail(self, pxs8("\033[48;2;"));
+    switch (color.type) {
+        case PX_CONSOLE_COLOR_RGBA:
+            return pxConsoleWriterForegroundRGBA(self, arena, color.color_rgba);
 
-    pxBuffer8Normalize(self);
+        case PX_CONSOLE_COLOR_INDEX:
+            return pxConsoleWriterForegroundIndex(self, arena, color.color_index);
 
-    pxu8*   memory = self->memory + self->size;
-    pxiword length = self->length - self->size;
+        default: break;
+    }
 
-    pxiword s1 = pxMemory8WriteUnsigned8(memory, length,
+    return 0;
+}
+
+pxiword
+pxConsoleWriterBackgroundRGBA(PxConsoleWriter* self, PxArena* arena, PxConsoleColorRGBA color)
+{
+    pxiword s0 = pxWriterString8(self, pxs8("\033[48;2;"));
+
+    pxiword s1 = pxWriterUnsigned8(self, arena,
         10, PX_FORMAT_OPTION_NONE, color.r);
 
-    self->size += s1;
-    self->tail  = (self->tail + s1) % self->length;
+    pxiword s2 = pxWriterString8(self, pxs8(";"));
 
-    pxiword s2 = pxBuffer8WriteString8Tail(self, pxs8(";"));
-
-    memory = self->memory + self->size;
-    length = self->length - self->size;
-
-    pxiword s3 = pxMemory8WriteUnsigned8(memory, length,
+    pxiword s3 = pxWriterUnsigned8(self, arena,
         10, PX_FORMAT_OPTION_NONE, color.g);
 
-    self->size += s3;
-    self->tail  = (self->tail + s3) % self->length;
+    pxiword s4 = pxWriterString8(self, pxs8(";"));
 
-    pxiword s4 = pxBuffer8WriteString8Tail(self, pxs8(";"));
-
-    memory = self->memory + self->size;
-    length = self->length - self->size;
-
-    pxiword s5 = pxMemory8WriteUnsigned8(memory, length,
+    pxiword s5 = pxWriterUnsigned8(self, arena,
         10, PX_FORMAT_OPTION_NONE, color.b);
 
-    self->size += s5;
-    self->tail  = (self->tail + s5) % self->length;
+    pxiword s6 = pxWriterString8(self, pxs8("m"));
 
-    pxiword s6 = pxBuffer8WriteString8Tail(self, pxs8("m"));
+    return s0 + s1 + s2 + s3 + s4 + s5 + s6;
+}
+
+pxiword
+pxConsoleWriterBackgroundIndex(PxConsoleWriter* self, PxArena* arena, PxConsoleColorIndex color)
+{
+    pxiword s0 = pxWriterString8(self, pxs8("\033[48;5;"));
+
+    pxiword s1 = pxWriterUnsigned8(self, arena,
+        10, PX_FORMAT_OPTION_NONE, color);
+
+    pxiword s2 = pxWriterString8(self, pxs8("m"));
 
     return s0 + s1 + s2;
 }
 
 pxiword
-pxConsoleCommandUnicode(PxConsoleCommand* self, pxi32 value)
+pxConsoleWriterBackground(PxConsoleWriter* self, PxArena* arena, PxConsoleColor color)
 {
-    pxBuffer8Normalize(self);
+    switch (color.type) {
+        case PX_CONSOLE_COLOR_RGBA:
+            return pxConsoleWriterBackgroundRGBA(self, arena, color.color_rgba);
 
-    pxu8* memory = self->memory + self->size;
-    pxu8  length = self->length - self->size;
+        case PX_CONSOLE_COLOR_INDEX:
+            return pxConsoleWriterBackgroundIndex(self, arena, color.color_index);
 
-    pxiword size = pxUtf8WriteMemory8Forw(memory, length, 0, value);
+        default: break;
+    }
 
-    if (size <= 0) return 0;
+    return 0;
+}
 
-    self->size += size;
-    self->tail  = (self->tail + size) % self->length;
-
-    return size;
+pxiword
+pxConsoleWriterUnicode(PxConsoleWriter* self, PxArena* arena, pxi32 value)
+{
+    return pxWriterUnicode(self, arena, value);
 }
 
 void
-pxConsoleCommandFrame(PxConsoleCommand* self, PxConsoleFrame* frame)
+pxConsoleWriterFrame(PxConsoleWriter* self, PxArena* arena, PxConsoleFrame* frame)
 {
     for (pxiword j = 0; j < frame->height; j += 1) {
         for (pxiword i = 0; i < frame->width; i += 1) {
             PxConsoleCell item = pxConsoleFrameReadOr(frame,
                 i, j, (PxConsoleCell) {0});
 
-            pxConsoleCommandMoveTo(self, i, j);
+            pxConsoleWriterMoveTo(self, arena, i, j);
 
-            pxConsoleCommandForeground(self, item.foreground);
-            pxConsoleCommandBackground(self, item.background);
+            pxConsoleWriterForeground(self, arena, item.foreground);
+            pxConsoleWriterBackground(self, arena, item.background);
 
-            pxConsoleCommandUnicode(self, item.unicode);
+            pxConsoleWriterUnicode(self, arena, item.unicode);
         }
+
+        pxConsoleWriterFlush(self);
     }
-}
-
-pxb8
-pxConsoleWriteCommand(PxConsole self, PxConsoleCommand* command)
-{
-    if (pxConsoleWrite(self, command) != 0)
-        return 1;
-
-    return 0;
 }
 
 #define FRAMES 2
@@ -451,13 +421,9 @@ main(int argc, char** argv)
 {
     PxArena arena = pxMemoryReserve(16);
 
-    PxConsoleCommand command =
-        pxConsoleCommandMake(&arena, 4 * PX_MEMORY_KIB);
-
-
     PxConsoleFrame frames[FRAMES] = {
-        pxConsoleFrameMake(&arena, 25, 5),
-        pxConsoleFrameMake(&arena, 25, 5),
+        pxConsoleFrameMake(&arena, 25, 10),
+        pxConsoleFrameMake(&arena, 25, 10),
     };
 
     pxiword frame = 0;
@@ -465,21 +431,27 @@ main(int argc, char** argv)
     pxu8 x = 1;
     pxu8 y = 1;
 
-    PxConsoleColor foreground = {0};
-    PxConsoleColor background = {0};
-
     PxConsole console = pxConsoleCreate(&arena, PX_MEMORY_KIB);
+
+    PxConsoleWriter writer = pxConsoleWriterMake(
+        console, &arena, 4 * PX_MEMORY_KIB);
 
     pxConsoleInputModeRaw(console);
 
     PxConsoleKeybdState keybd = {0};
 
-    pxConsoleCommandRefresh(&command, 0);
-    pxConsoleCommandShowCursor(&command, 0);
+    pxConsoleWriterReset(&writer, 0);
+    pxConsoleWriterShowCursor(&writer, 0);
 
-    pxConsoleWriteCommand(console, &command);
+    pxConsoleWriterFlush(&writer);
 
     pxb8 active = 1;
+
+    PxConsoleColor fground = {
+        .type = PX_CONSOLE_COLOR_INDEX, .color_index = 0,
+    };
+
+    PxConsoleColor bground = {0};
 
     for (pxiword i = 0; active != 0; i += 1) {
         PxConsoleEvent event = pxConsoleReadEvent(console);
@@ -520,30 +492,28 @@ main(int argc, char** argv)
             y = pxClamp(y + dy, 1, frames[frame].height);
         }
 
-        foreground.r = (foreground.r + 1) % 256;
-        foreground.g = (foreground.g + 2) % 256;
-        foreground.b = (foreground.b + 3) % 256;
+        bground.type = PX_CONSOLE_COLOR_INDEX;
 
-        background.r = (background.r + 1) % 256;
-        background.g = (background.g + 2) % 256;
-        background.b = (background.b + 3) % 256;
+        bground.color_rgba.r = (bground.color_rgba.r + 1) % 256;
+        bground.color_rgba.g = (bground.color_rgba.g + 2) % 256;
+        bground.color_rgba.b = (bground.color_rgba.b + 3) % 256;
 
         pxConsoleFrameReset(&frames[frame], PX_ASCII_SPACE,
-            (PxConsoleColor) {0}, background);
+            fground, bground);
 
         pxConsoleFramePaint(&frames[frame], x - 1, y - 1,
-            PX_ASCII_SHARP, (PxConsoleColor) {0}, background);
+            PX_ASCII_SHARP, fground, bground);
 
-        if (i % 1000 == 0) {
-            pxConsoleCommandFrame(&command, &frames[frame]);
-            pxConsoleWriteCommand(console, &command);
+        if (i % 500 == 0) {
+            pxConsoleWriterFrame(&writer, &arena, &frames[frame]);
+            pxConsoleWriterFlush(&writer);
 
             frame = (frame + 1) % FRAMES;
         }
     }
 
-    pxConsoleCommandRefresh(&command, 0);
-    pxConsoleWriteCommand(console, &command);
+    pxConsoleWriterReset(&writer, 0);
+    pxConsoleWriterFlush(&writer);
 
     pxConsoleInputModeRestore(console);
 }

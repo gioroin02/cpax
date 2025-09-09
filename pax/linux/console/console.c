@@ -5,6 +5,7 @@
 
 #include <unistd.h>
 #include <errno.h>
+#include <fcntl.h>
 
 #include <termios.h>
 
@@ -285,21 +286,41 @@ pxLinuxConsoleInputModeRaw(PxLinuxConsole* self)
     inout.c_cc[VMIN]  = 0;
     inout.c_cc[VTIME] = 1;
 
-    int state = tcsetattr(STDIN_FILENO, TCSAFLUSH, &inout);
+    int state = 0;
 
-    if (state != -1) return 1;
+    do {
+        state = tcsetattr(STDIN_FILENO, TCSAFLUSH, &inout);
+    } while (state == -1 && errno == EINTR);
 
-    return 0;
+    if (state == -1) return 0;
+
+    do {
+        state = fcntl(STDIN_FILENO, F_SETFL, O_NONBLOCK);
+    } while (state == -1 && errno == EINTR);
+
+    if (state == -1) return 0;
+
+    return 1;
 }
 
 pxb8
 pxLinuxConsoleInputModeRestore(PxLinuxConsole* self)
 {
-    int state = tcsetattr(STDIN_FILENO, TCSANOW, &self->inout);
+    int state = 0;
 
-    if (state != -1) return 1;
+    do {
+        state = tcsetattr(STDIN_FILENO, TCSANOW, &self->inout);
+    } while (state == -1 && errno == EINTR);
 
-    return 0;
+    if (state == -1) return 0;
+
+    do {
+        state = fcntl(STDIN_FILENO, F_SETFL, ~O_NONBLOCK);
+    } while (state == -1 && errno == EINTR);
+
+    if (state == -1) return 0;
+
+    return 1;
 }
 
 pxiword

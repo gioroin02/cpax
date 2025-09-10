@@ -32,28 +32,4 @@ pxConsoleEventKeybdRelease(pxiword button, pxuword modifs, pxi32 unicode)
     };
 }
 
-PxConsoleEvent
-pxConsoleEventFromEscape(PxEscape* escape)
-{
-    PxConsoleEvent result = {.type = PX_CONSOLE_EVENT_NONE};
-
-    /*
-    switch (escape->type) {
-        case PX_ESCAPE_KEYBOARD: {
-            PxConsoleEventType type = pxConsoleKeybdEventTypeFromEscape(escape->items);
-
-            pxiword button  = pxConsoleKeybdButtonFromEscape(escape->items[0]);
-            pxuword modifs  = 0;
-            pxi32   unicode = escape->items[0];
-
-            result =
-        } break;
-
-        default: break;
-    }
-    */
-
-    return result;
-}
-
 #endif // PX_CORE_CONSOLE_EVENT_C

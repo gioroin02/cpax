@@ -15,5 +15,4 @@ dir="pax/core/console/test"
 
 gcc -g --std=c99 $pax $dir/escape.c  -o console_escape.exe
 gcc -g --std=c99 $pax $dir/buttons.c -o console_buttons.exe
-gcc -g --std=c99 $pax $dir/upgrade.c -o console_upgrade.exe
 gcc -g --std=c99 $pax $dir/game.c    -o console_game.exe

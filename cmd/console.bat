@@ -19,5 +19,4 @@ set "dir=pax\core\console\test"
 
 zig cc --std=c99 %pax% "%dir%\escape.c"  -o console_escape.exe
 zig cc --std=c99 %pax% "%dir%\buttons.c" -o console_buttons.exe
-zig cc --std=c99 %pax% "%dir%\upgrade.c" -o console_upgrade.exe
 zig cc --std=c99 %pax% "%dir%\game.c"    -o console_game.exe

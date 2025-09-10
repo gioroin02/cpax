@@ -8,9 +8,8 @@ typedef void* PxConsole;
 typedef enum PxConsoleMode
 {
     PX_CONSOLE_MODE_NONE,
-    PX_CONSOLE_MODE_BUFFERED,
-    PX_CONSOLE_MODE_ENHANCED,
-    PX_CONSOLE_MODE_LEGACY,
+    PX_CONSOLE_MODE_DEFAULT,
+    PX_CONSOLE_MODE_EVENT,
 }
 PxConsoleMode;
 
@@ -34,6 +33,9 @@ pxConsoleReadMemory(PxConsole self, void* memory, pxiword amount, pxiword stride
 
 PxConsoleEvent
 pxConsoleReadEvent(PxConsole self);
+
+PxConsoleEvent
+pxConsolePollEvent(PxConsole self);
 
 PxWriter
 pxConsoleWriter(PxConsole self, PxArena* arena, pxiword length);

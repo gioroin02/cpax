@@ -100,10 +100,10 @@ pxString32FindLast(PxString32 self, pxiword start, PxString32 value, pxiword* in
 pxb8
 pxString32FindLastMemory32(PxString32 self, pxiword start, pxu32* memory, pxiword length, pxiword* index);
 
-pxb8
+pxiword
 pxString32Split(PxString32 self, PxString32 pivot, PxString32* left, PxString32* right);
 
-pxb8
+pxiword
 pxString32SplitMemory32(PxString32 self, pxu32* memory, pxiword length, PxString32* left, PxString32* right);
 
 pxb8

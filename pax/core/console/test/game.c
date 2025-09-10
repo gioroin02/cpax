@@ -436,7 +436,7 @@ main(int argc, char** argv)
     PxConsoleWriter writer = pxConsoleWriterMake(
         console, &arena, 4 * PX_MEMORY_KIB);
 
-    pxConsoleSetMode(console, PX_CONSOLE_MODE_ENHANCED);
+    pxConsoleSetMode(console, PX_CONSOLE_MODE_EVENT);
 
     PxConsoleKeybdState keybd = {0};
 
@@ -454,7 +454,7 @@ main(int argc, char** argv)
     PxConsoleColor bground = {0};
 
     for (pxiword i = 0; active != 0; i += 1) {
-        PxConsoleEvent event = pxConsoleReadEvent(console);
+        PxConsoleEvent event = pxConsolePollEvent(console);
 
         switch (event.type) {
             case PX_CONSOLE_EVENT_KEYBD_PRESS: {
@@ -526,5 +526,5 @@ main(int argc, char** argv)
     pxConsoleWriterReset(&writer, 0);
     pxConsoleWriterFlush(&writer);
 
-    pxConsoleSetMode(console, PX_CONSOLE_MODE_BUFFERED);
+    pxConsoleSetMode(console, PX_CONSOLE_MODE_DEFAULT);
 }

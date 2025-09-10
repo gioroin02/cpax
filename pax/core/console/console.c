@@ -7,25 +7,25 @@
 
     #include "../../windows/console/console.c"
 
-    #define __pxConsoleCreate__        pxWindowsConsoleCreate
-    #define __pxConsoleInputBuffered__ pxWindowsConsoleInputBuffered
-    #define __pxConsoleInputEnhanced__ pxWindowsConsoleInputEnhanced
-    #define __pxConsoleInputLegacy__   pxWindowsConsoleInputLegacy
-    #define __pxConsoleWriteMemory__   pxWindowsConsoleWriteMemory
-    #define __pxConsoleReadMemory__    pxWindowsConsoleReadMemory
-    #define __pxConsoleReadEvent__     pxWindowsConsoleReadEvent
+    #define __pxConsoleCreate__      pxWindowsConsoleCreate
+    #define __pxConsoleModeDefault__ pxWindowsConsoleModeDefault
+    #define __pxConsoleModeEvent__   pxWindowsConsoleModeEvent
+    #define __pxConsoleWriteMemory__ pxWindowsConsoleWriteMemory
+    #define __pxConsoleReadMemory__  pxWindowsConsoleReadMemory
+    #define __pxConsoleReadEvent__   pxWindowsConsoleReadEvent
+    #define __pxConsolePollEvent__   pxWindowsConsolePollEvent
 
 #elif PX_SYSTEM == PX_SYSTEM_LINUX
 
     #include "../../linux/console/console.c"
 
-    #define __pxConsoleCreate__        pxLinuxConsoleCreate
-    #define __pxConsoleInputBuffered__ pxLinuxConsoleInputBuffered
-    #define __pxConsoleInputEnhanced__ pxLinuxConsoleInputEnhanced
-    #define __pxConsoleInputLegacy__   pxLinuxConsoleInputLegacy
-    #define __pxConsoleWriteMemory__   pxLinuxConsoleWriteMemory
-    #define __pxConsoleReadMemory__    pxLinuxConsoleReadMemory
-    #define __pxConsoleReadEvent__     pxLinuxConsoleReadEvent
+    #define __pxConsoleCreate__      pxLinuxConsoleCreate
+    #define __pxConsoleModeDefault__ pxLinuxConsoleModeDefault
+    #define __pxConsoleModeEvent__   pxLinuxConsoleModeEvent
+    #define __pxConsoleWriteMemory__ pxLinuxConsoleWriteMemory
+    #define __pxConsoleReadMemory__  pxLinuxConsoleReadMemory
+    #define __pxConsoleReadEvent__   pxLinuxConsoleReadEvent
+    #define __pxConsolePollEvent__   pxLinuxConsolePollEvent
 
 #else
 
@@ -43,14 +43,11 @@ pxb8
 pxConsoleSetMode(PxConsole self, PxConsoleMode mode)
 {
     switch (mode) {
-        case PX_CONSOLE_MODE_BUFFERED:
-            return __pxConsoleInputBuffered__(self);
+        case PX_CONSOLE_MODE_DEFAULT:
+            return __pxConsoleModeDefault__(self);
 
-        case PX_CONSOLE_MODE_ENHANCED:
-            return __pxConsoleInputEnhanced__(self);
-
-        case PX_CONSOLE_MODE_LEGACY:
-            return __pxConsoleInputLegacy__(self);
+        case PX_CONSOLE_MODE_EVENT:
+            return __pxConsoleModeEvent__(self);
 
         default: break;
     }
@@ -110,6 +107,12 @@ PxConsoleEvent
 pxConsoleReadEvent(PxConsole self)
 {
     return __pxConsoleReadEvent__(self);
+}
+
+PxConsoleEvent
+pxConsolePollEvent(PxConsole self)
+{
+    return __pxConsolePollEvent__(self);
 }
 
 PxWriter

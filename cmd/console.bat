@@ -17,6 +17,6 @@ set "structure=pax\core\structure\export.c"
 set "pax=%pax% %structure%"
 set "dir=pax\core\console\test"
 
-zig cc --std=c99 %pax% "%dir%\buttons.c"  -o console_buttons.exe
-zig cc --std=c99 %pax% "%dir%\sequence.c" -o console_sequence.exe
-zig cc --std=c99 %pax% "%dir%\game.c"     -o console_game.exe
+zig cc --std=c99 %pax% "%dir%\escape.c"  -o console_escape.exe
+zig cc --std=c99 %pax% "%dir%\buttons.c" -o console_buttons.exe
+zig cc --std=c99 %pax% "%dir%\game.c"    -o console_game.exe

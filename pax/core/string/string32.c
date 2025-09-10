@@ -396,27 +396,30 @@ pxString32FindLastMemory32(PxString32 self, pxiword start, pxu32* memory, pxiwor
     return 0;
 }
 
-pxb8
+pxiword
 pxString32Split(PxString32 self, PxString32 pivot, PxString32* left, PxString32* right)
 {
     return pxString32SplitMemory32(self, pivot.memory, pivot.length, left, right);
 }
 
-pxb8
+pxiword
 pxString32SplitMemory32(PxString32 self, pxu32* memory, pxiword length, PxString32* left, PxString32* right)
 {
     pxiword start = 0;
     pxiword stop  = self.length;
     pxiword index = self.length;
 
-    pxString32FindFirstMemory32(self, start, memory, length, &index);
+    pxb8 state = pxString32FindFirstMemory32(self,
+        start, memory, length, &index);
 
     if (left != 0) *left = pxString32Slice(self, start, index);
 
     if (right != 0)
         *right = pxString32Slice(self, index + length, stop);
 
-    return 1;
+    if (state != 0) index += 1;
+
+    return index;
 }
 
 pxb8

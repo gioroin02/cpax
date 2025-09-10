@@ -103,10 +103,10 @@ pxString8FindLast(PxString8 self, pxiword start, PxString8 value, pxiword* index
 pxb8
 pxString8FindLastMemory8(PxString8 self, pxiword start, pxu8* memory, pxiword length, pxiword* index);
 
-pxb8
+pxiword
 pxString8Split(PxString8 self, PxString8 pivot, PxString8* left, PxString8* right);
 
-pxb8
+pxiword
 pxString8SplitMemory8(PxString8 self, pxu8* memory, pxiword length, PxString8* left, PxString8* right);
 
 pxb8

@@ -137,7 +137,7 @@ pxWindowsConsoleCreate(PxArena* arena, pxiword length)
 }
 
 pxb8
-pxWindowsConsoleInputBuffered(PxWindowsConsole* self)
+pxWindowsConsoleModeDefault(PxWindowsConsole* self)
 {
     HANDLE input  = GetStdHandle(STD_INPUT_HANDLE);
     HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -149,7 +149,7 @@ pxWindowsConsoleInputBuffered(PxWindowsConsole* self)
 }
 
 pxb8
-pxWindowsConsoleInputEnhanced(PxWindowsConsole* self)
+pxWindowsConsoleModeEvent(PxWindowsConsole* self)
 {
     HANDLE input  = GetStdHandle(STD_INPUT_HANDLE);
     HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -164,12 +164,6 @@ pxWindowsConsoleInputEnhanced(PxWindowsConsole* self)
     SetConsoleMode(output, self->output | mask);
 
     return 1;
-}
-
-pxb8
-pxWindowsConsoleInputLegacy(PxWindowsConsole* self)
-{
-    return pxWindowsConsoleInputEnhanced(self);
 }
 
 pxiword
@@ -220,13 +214,9 @@ pxWindowsConsoleReadEvent(PxWindowsConsole* self)
     PxConsoleEvent result = {.type = PX_CONSOLE_EVENT_NONE};
 
     INPUT_RECORD record = {0};
-    DWORD        size   = 0;
 
     HANDLE input = GetStdHandle(STD_INPUT_HANDLE);
-
-    GetNumberOfConsoleInputEvents(input, &size);
-
-    if (size == 0) return result;
+    DWORD  size  = 0;
 
     if (ReadConsoleInput(input, &record, 1, &size) == 0)
         return result;
@@ -256,6 +246,22 @@ pxWindowsConsoleReadEvent(PxWindowsConsole* self)
 
         default: break;
     }
+
+    return result;
+}
+
+PxConsoleEvent
+pxWindowsConsolePollEvent(PxWindowsConsole* self)
+{
+    PxConsoleEvent result = {.type = PX_CONSOLE_EVENT_NONE};
+
+    HANDLE input = GetStdHandle(STD_INPUT_HANDLE);
+    DWORD  size  = 0;
+
+    GetNumberOfConsoleInputEvents(input, &size);
+
+    if (size != 0)
+        result = pxWindowsConsoleReadEvent(self);
 
     return result;
 }

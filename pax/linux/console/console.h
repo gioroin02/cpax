@@ -9,10 +9,10 @@ PxLinuxConsole*
 pxLinuxConsoleCreate(PxArena* arena, pxiword length);
 
 pxb8
-pxLinuxConsoleModeRaw(PxLinuxConsole* self);
+pxLinuxConsoleModeDefault(PxLinuxConsole* self);
 
 pxb8
-pxLinuxConsoleModeRestore(PxLinuxConsole* self);
+pxLinuxConsoleModeEvent(PxLinuxConsole* self);
 
 pxiword
 pxLinuxConsoleWriteMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxiword stride);
@@ -22,5 +22,8 @@ pxLinuxConsoleReadMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxi
 
 PxConsoleEvent
 pxLinuxConsoleReadEvent(PxLinuxConsole* self);
+
+PxConsoleEvent
+pxLinuxConsolePollEvent(PxLinuxConsole* self);
 
 #endif // PX_LINUX_CONSOLE_CONSOLE_H

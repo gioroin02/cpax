@@ -396,27 +396,30 @@ pxString8FindLastMemory8(PxString8 self, pxiword start, pxu8* memory, pxiword le
     return 0;
 }
 
-pxb8
+pxiword
 pxString8Split(PxString8 self, PxString8 pivot, PxString8* left, PxString8* right)
 {
     return pxString8SplitMemory8(self, pivot.memory, pivot.length, left, right);
 }
 
-pxb8
+pxiword
 pxString8SplitMemory8(PxString8 self, pxu8* memory, pxiword length, PxString8* left, PxString8* right)
 {
     pxiword start = 0;
     pxiword stop  = self.length;
     pxiword index = self.length;
 
-    pxString8FindFirstMemory8(self, start, memory, length, &index);
+    pxb8 state = pxString8FindFirstMemory8(self,
+        start, memory, length, &index);
 
     if (left != 0) *left = pxString8Slice(self, start, index);
 
     if (right != 0)
         *right = pxString8Slice(self, index + length, stop);
 
-    return 1;
+    if (state != 0) index += 1;
+
+    return index;
 }
 
 pxb8

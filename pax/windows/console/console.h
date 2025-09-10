@@ -9,13 +9,10 @@ PxWindowsConsole*
 pxWindowsConsoleCreate(PxArena* arena, pxiword length);
 
 pxb8
-pxWindowsConsoleInputBuffered(PxWindowsConsole* self);
+pxWindowsConsoleModeDefault(PxWindowsConsole* self);
 
 pxb8
-pxWindowsConsoleInputEnhanced(PxWindowsConsole* self);
-
-pxb8
-pxWindowsConsoleInputLegacy(PxWindowsConsole* self);
+pxWindowsConsoleModeEvent(PxWindowsConsole* self);
 
 pxiword
 pxWindowsConsoleWriteMemory(PxWindowsConsole* self, void* memory, pxiword amount, pxiword stride);
@@ -25,5 +22,8 @@ pxWindowsConsoleReadMemory(PxWindowsConsole* self, void* memory, pxiword amount,
 
 PxConsoleEvent
 pxWindowsConsoleReadEvent(PxWindowsConsole* self);
+
+PxConsoleEvent
+pxWindowsConsolePollEvent(PxWindowsConsole* self);
 
 #endif // PX_WINDOWS_CONSOLE_CONSOLE_H

@@ -103,10 +103,10 @@ pxString16FindLast(PxString16 self, pxiword start, PxString16 value, pxiword* in
 pxb8
 pxString16FindLastMemory16(PxString16 self, pxiword start, pxu16* memory, pxiword length, pxiword* index);
 
-pxb8
+pxiword
 pxString16Split(PxString16 self, PxString16 pivot, PxString16* left, PxString16* right);
 
-pxb8
+pxiword
 pxString16SplitMemory16(PxString16 self, pxu16* memory, pxiword length, PxString16* left, PxString16* right);
 
 pxb8

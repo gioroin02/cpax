@@ -2,7 +2,7 @@
 #define PX_CORE_CONSOLE_EXPORT_C
 
 #include "event.c"
-#include "sequence.c"
+#include "escape.c"
 
 #include "console.c"
 

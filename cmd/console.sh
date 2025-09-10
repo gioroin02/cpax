@@ -13,6 +13,6 @@ structure="pax/core/structure/export.c"
 pax="$pax $structure"
 dir="pax/core/console/test"
 
-gcc -g --std=c99 $pax $dir/buttons.c  -o console_buttons.exe
-gcc -g --std=c99 $pax $dir/sequence.c -o console_sequence.exe
-gcc -g --std=c99 $pax $dir/game.c     -o console_game.exe
+gcc -g --std=c99 $pax $dir/escape.c  -o console_escape.exe
+gcc -g --std=c99 $pax $dir/buttons.c -o console_buttons.exe
+gcc -g --std=c99 $pax $dir/game.c    -o console_game.exe

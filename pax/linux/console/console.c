@@ -13,9 +13,8 @@ typedef struct termios PxTermIO;
 
 struct PxLinuxConsole
 {
-    PxTermIO       inout;
-    PxConsoleEvent last;
-    PxBuffer8      buffer;
+    PxTermIO  inout;
+    PxBuffer8 buffer;
 };
 
 pxuword
@@ -274,7 +273,27 @@ pxLinuxConsoleCreate(PxArena* arena, pxiword length)
 }
 
 pxb8
-pxLinuxConsoleModeRaw(PxLinuxConsole* self)
+pxLinuxConsoleModeDefault(PxLinuxConsole* self)
+{
+    int state = 0;
+
+    do {
+        state = tcsetattr(STDIN_FILENO, TCSANOW, &self->inout);
+    } while (state == -1 && errno == EINTR);
+
+    if (state == -1) return 0;
+
+    do {
+        state = fcntl(STDIN_FILENO, F_SETFL, ~O_NONBLOCK);
+    } while (state == -1 && errno == EINTR);
+
+    if (state == -1) return 0;
+
+    return 1;
+}
+
+pxb8
+pxLinuxConsoleModeEvent(PxLinuxConsole* self)
 {
     PxTermIO inout = self->inout;
 
@@ -296,26 +315,6 @@ pxLinuxConsoleModeRaw(PxLinuxConsole* self)
 
     do {
         state = fcntl(STDIN_FILENO, F_SETFL, O_NONBLOCK);
-    } while (state == -1 && errno == EINTR);
-
-    if (state == -1) return 0;
-
-    return 1;
-}
-
-pxb8
-pxLinuxConsoleModeRestore(PxLinuxConsole* self)
-{
-    int state = 0;
-
-    do {
-        state = tcsetattr(STDIN_FILENO, TCSANOW, &self->inout);
-    } while (state == -1 && errno == EINTR);
-
-    if (state == -1) return 0;
-
-    do {
-        state = fcntl(STDIN_FILENO, F_SETFL, ~O_NONBLOCK);
     } while (state == -1 && errno == EINTR);
 
     if (state == -1) return 0;
@@ -347,6 +346,24 @@ pxLinuxConsoleWriteMemory(PxLinuxConsole* self, void* memory, pxiword amount, px
 }
 
 pxiword
+pxLinuxConsoleRead(PxLinuxConsole* self, PxBuffer8* buffer)
+{
+    pxBuffer8Normalize(buffer);
+
+    pxu8*   memory = buffer->memory + buffer->size;
+    pxiword size   = buffer->length - buffer->size;
+
+    if (size <= 0) return 0;
+
+    pxiword temp = pxLinuxConsoleReadMemory(self, memory, size, 1);
+
+    buffer->size += temp;
+    buffer->tail  = (buffer->tail + temp) % buffer->length;
+
+    return temp;
+}
+
+pxiword
 pxLinuxConsoleReadMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxiword stride)
 {
     pxiword length = amount * stride;
@@ -368,61 +385,38 @@ pxLinuxConsoleReadMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxi
 PxConsoleEvent
 pxLinuxConsoleReadEvent(PxLinuxConsole* self)
 {
+    PxEscape       escape = {0};
     PxConsoleEvent result = {.type = PX_CONSOLE_EVENT_NONE};
 
-    switch (self->last.type) {
-        case PX_CONSOLE_EVENT_KEYBD_PRESS: {
-            pxiword button  = self->last.keybd_press.button;
-            pxuword modifs  = self->last.keybd_press.modifs;
-            pxi32   unicode = self->last.keybd_press.unicode;
+    pxiword length = self->buffer.size;
+    pxiword size   = pxLinuxConsoleRead(self, &self->buffer);
 
-            result = pxConsoleEventKeybdRelease(button, modifs, unicode);
+    if (size <= 0 && self->buffer.size <= 0)
+        return result;
 
-            self->last = result;
+    PxString8 string = pxString8FromMemory(
+        self->buffer.memory, length);
 
-            return result;
-        } break;
-
-        default: break;
-    }
-
-    pxBuffer8Normalize(&self->buffer);
-
-    pxu8*   memory = self->buffer.memory + self->buffer.size;
-    pxiword length = self->buffer.length - self->buffer.size;
-
-    PxString8 string = {
-        .memory = self->buffer.memory,
-        .length = self->buffer.size,
-    };
-
-    pxiword size = pxLinuxConsoleReadMemory(self, memory, length, 1);
-
-    self->buffer.size += size;
-    self->buffer.tail  = (self->buffer.tail + size) % self->buffer.length;
-
-    if (self->buffer.size <= 0) return result;
-
-    PxConsoleSequence sequence = {0};
-
-    size = pxConsoleSequenceFromString8(&sequence, string);
-
-    if (size == 0) {
+    if (pxEscapeFromString8(&escape, string, &length) == 0) {
         pxi32 unicode = 0;
 
-        size = pxUtf8ReadMemory8Forw(string.memory,
+        length = pxUtf8ReadMemory8Forw(string.memory,
             string.length, 0, &unicode);
 
-        if (size > 0)
+        if (length > 0)
             result = pxLinuxMapConsoleKeybdEvent(unicode);
     } else
-        result = pxLinuxConsoleEventFromSequence(&sequence);
+        result = pxConsoleEventFromEscape(&escape);
 
-    pxBuffer8DropHead(&self->buffer, size);
-
-    self->last = result;
+    pxBuffer8DropHead(&self->buffer, length);
 
     return result;
+}
+
+PxConsoleEvent
+pxLinuxConsolePollEvent(PxLinuxConsole* self)
+{
+    return (PxConsoleEvent) {.type = PX_CONSOLE_EVENT_NONE};
 }
 
 #endif // PX_LINUX_CONSOLE_CONSOLE_C

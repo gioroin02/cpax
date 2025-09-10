@@ -141,10 +141,9 @@ main(int argc, char** argv)
 {
     PxArena   arena  = pxMemoryReserve(16);
     PxBuffer8 source = pxBuffer8Reserve(&arena, 256);
-    PxBuffer8 buffer = pxBuffer8Reserve(&arena, 256);
 
     PxJsonWriter writer = pxJsonWriterMake(&arena, 16,
-        pxBufferWriter(&source, &buffer));
+        pxBufferWriter(&source, &arena, 256));
 
     jsonWriteEntity(&(Entity) {.name = pxs8("gio"), .code = 156}, &writer, &arena);
 
@@ -153,10 +152,8 @@ main(int argc, char** argv)
 
     printf("\n");
 
-    pxBuffer8Clear(&buffer);
-
     PxJsonReader reader = pxJsonReaderMake(&arena, 16,
-        pxBufferReader(&source, &buffer));
+        pxBufferReader(&source, &arena, 256));
 
     showJsonEvent(&reader, &arena);
 }

@@ -62,7 +62,6 @@ main(int argc, char** argv)
 {
     PxArena   arena  = pxMemoryReserve(16);
     PxBuffer8 source = pxBuffer8Reserve(&arena, 256);
-    PxBuffer8 buffer = pxBuffer8Reserve(&arena, 256);
 
     Entity entity = {0};
 
@@ -74,7 +73,7 @@ main(int argc, char** argv)
     printf("\n");
 
     PxJsonReader reader = pxJsonReaderMake(&arena, 16,
-        pxBufferReader(&source, &buffer));
+        pxBufferReader(&source, &arena, 256));
 
     jsonReadEntity(&entity, &reader, &arena);
 

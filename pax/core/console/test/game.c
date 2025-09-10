@@ -436,7 +436,7 @@ main(int argc, char** argv)
     PxConsoleWriter writer = pxConsoleWriterMake(
         console, &arena, 4 * PX_MEMORY_KIB);
 
-    pxConsoleInputModeRaw(console);
+    pxConsoleSetMode(console, PX_CONSOLE_MODE_ENHANCED);
 
     PxConsoleKeybdState keybd = {0};
 
@@ -526,5 +526,5 @@ main(int argc, char** argv)
     pxConsoleWriterReset(&writer, 0);
     pxConsoleWriterFlush(&writer);
 
-    pxConsoleInputModeRestore(console);
+    pxConsoleSetMode(console, PX_CONSOLE_MODE_BUFFERED);
 }

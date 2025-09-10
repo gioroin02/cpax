@@ -7,23 +7,25 @@
 
     #include "../../windows/console/console.c"
 
-    #define __pxConsoleCreate__           pxWindowsConsoleCreate
-    #define __pxConsoleInputModeRaw__     pxWindowsConsoleInputModeRaw
-    #define __pxConsoleInputModeRestore__ pxWindowsConsoleInputModeRestore
-    #define __pxConsoleWriteMemory__      pxWindowsConsoleWriteMemory
-    #define __pxConsoleReadMemory__       pxWindowsConsoleReadMemory
-    #define __pxConsoleReadEvent__        pxWindowsConsoleReadEvent
+    #define __pxConsoleCreate__        pxWindowsConsoleCreate
+    #define __pxConsoleInputBuffered__ pxWindowsConsoleInputBuffered
+    #define __pxConsoleInputEnhanced__ pxWindowsConsoleInputEnhanced
+    #define __pxConsoleInputLegacy__   pxWindowsConsoleInputLegacy
+    #define __pxConsoleWriteMemory__   pxWindowsConsoleWriteMemory
+    #define __pxConsoleReadMemory__    pxWindowsConsoleReadMemory
+    #define __pxConsoleReadEvent__     pxWindowsConsoleReadEvent
 
 #elif PX_SYSTEM == PX_SYSTEM_LINUX
 
     #include "../../linux/console/console.c"
 
-    #define __pxConsoleCreate__           pxLinuxConsoleCreate
-    #define __pxConsoleInputModeRaw__     pxLinuxConsoleInputModeRaw
-    #define __pxConsoleInputModeRestore__ pxLinuxConsoleInputModeRestore
-    #define __pxConsoleWriteMemory__      pxLinuxConsoleWriteMemory
-    #define __pxConsoleReadMemory__       pxLinuxConsoleReadMemory
-    #define __pxConsoleReadEvent__        pxLinuxConsoleReadEvent
+    #define __pxConsoleCreate__        pxLinuxConsoleCreate
+    #define __pxConsoleInputBuffered__ pxLinuxConsoleInputBuffered
+    #define __pxConsoleInputEnhanced__ pxLinuxConsoleInputEnhanced
+    #define __pxConsoleInputLegacy__   pxLinuxConsoleInputLegacy
+    #define __pxConsoleWriteMemory__   pxLinuxConsoleWriteMemory
+    #define __pxConsoleReadMemory__    pxLinuxConsoleReadMemory
+    #define __pxConsoleReadEvent__     pxLinuxConsoleReadEvent
 
 #else
 
@@ -38,15 +40,22 @@ pxConsoleCreate(PxArena* arena, pxiword length)
 }
 
 pxb8
-pxConsoleInputModeRaw(PxConsole self)
+pxConsoleSetMode(PxConsole self, PxConsoleMode mode)
 {
-    return __pxConsoleInputModeRaw__(self);
-}
+    switch (mode) {
+        case PX_CONSOLE_MODE_BUFFERED:
+            return __pxConsoleInputBuffered__(self);
 
-pxb8
-pxConsoleInputModeRestore(PxConsole self)
-{
-    return __pxConsoleInputModeRestore__(self);
+        case PX_CONSOLE_MODE_ENHANCED:
+            return __pxConsoleInputEnhanced__(self);
+
+        case PX_CONSOLE_MODE_LEGACY:
+            return __pxConsoleInputLegacy__(self);
+
+        default: break;
+    }
+
+    return 0;
 }
 
 pxiword

@@ -137,7 +137,19 @@ pxWindowsConsoleCreate(PxArena* arena, pxiword length)
 }
 
 pxb8
-pxWindowsConsoleInputModeRaw(PxWindowsConsole* self)
+pxWindowsConsoleInputBuffered(PxWindowsConsole* self)
+{
+    HANDLE input  = GetStdHandle(STD_INPUT_HANDLE);
+    HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    SetConsoleMode(input, self->input);
+    SetConsoleMode(output, self->output);
+
+    return 1;
+}
+
+pxb8
+pxWindowsConsoleInputEnhanced(PxWindowsConsole* self)
 {
     HANDLE input  = GetStdHandle(STD_INPUT_HANDLE);
     HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -155,15 +167,9 @@ pxWindowsConsoleInputModeRaw(PxWindowsConsole* self)
 }
 
 pxb8
-pxWindowsConsoleInputModeRestore(PxWindowsConsole* self)
+pxWindowsConsoleInputLegacy(PxWindowsConsole* self)
 {
-    HANDLE input  = GetStdHandle(STD_INPUT_HANDLE);
-    HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
-
-    SetConsoleMode(input, self->input);
-    SetConsoleMode(output, self->output);
-
-    return 1;
+    return pxWindowsConsoleInputEnhanced(self);
 }
 
 pxiword

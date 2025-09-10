@@ -274,7 +274,7 @@ pxLinuxConsoleCreate(PxArena* arena, pxiword length)
 }
 
 pxb8
-pxLinuxConsoleInputModeRaw(PxLinuxConsole* self)
+pxLinuxConsoleModeRaw(PxLinuxConsole* self)
 {
     PxTermIO inout = self->inout;
 
@@ -304,7 +304,7 @@ pxLinuxConsoleInputModeRaw(PxLinuxConsole* self)
 }
 
 pxb8
-pxLinuxConsoleInputModeRestore(PxLinuxConsole* self)
+pxLinuxConsoleModeRestore(PxLinuxConsole* self)
 {
     int state = 0;
 

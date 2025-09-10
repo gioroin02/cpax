@@ -5,14 +5,20 @@
 
 typedef void* PxConsole;
 
+typedef enum PxConsoleMode
+{
+    PX_CONSOLE_MODE_NONE,
+    PX_CONSOLE_MODE_BUFFERED,
+    PX_CONSOLE_MODE_ENHANCED,
+    PX_CONSOLE_MODE_LEGACY,
+}
+PxConsoleMode;
+
 PxConsole
 pxConsoleCreate(PxArena* arena, pxiword length);
 
 pxb8
-pxConsoleInputModeRaw(PxConsole self);
-
-pxb8
-pxConsoleInputModeRestore(PxConsole self);
+pxConsoleSetMode(PxConsole self, PxConsoleMode mode);
 
 pxiword
 pxConsoleWrite(PxConsole self, PxBuffer8* buffer);

@@ -9,7 +9,7 @@ main(int argc, char** argv)
 
     PxConsole console = pxConsoleCreate(&arena, PX_MEMORY_KIB);
 
-    pxConsoleInputModeRaw(console);
+    pxConsoleSetMode(console, PX_CONSOLE_MODE_ENHANCED);
 
     while (1) {
         PxConsoleEvent event = pxConsoleReadEvent(console);
@@ -34,5 +34,5 @@ main(int argc, char** argv)
         }
     }
 
-    pxConsoleInputModeRestore(console);
+    pxConsoleSetMode(console, PX_CONSOLE_MODE_BUFFERED);
 }

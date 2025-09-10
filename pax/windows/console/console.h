@@ -9,10 +9,13 @@ PxWindowsConsole*
 pxWindowsConsoleCreate(PxArena* arena, pxiword length);
 
 pxb8
-pxWindowsConsoleInputModeRaw(PxWindowsConsole* self);
+pxWindowsConsoleInputBuffered(PxWindowsConsole* self);
 
 pxb8
-pxWindowsConsoleInputModeRestore(PxWindowsConsole* self);
+pxWindowsConsoleInputEnhanced(PxWindowsConsole* self);
+
+pxb8
+pxWindowsConsoleInputLegacy(PxWindowsConsole* self);
 
 pxiword
 pxWindowsConsoleWriteMemory(PxWindowsConsole* self, void* memory, pxiword amount, pxiword stride);

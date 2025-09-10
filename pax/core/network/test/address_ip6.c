@@ -2,12 +2,12 @@
 
 #include <stdio.h>
 
-#define RED(x)    "\033[31m" pxString(x) "\033[0m"
-#define GREEN(x)  "\033[32m" pxString(x) "\033[0m"
-#define YELLOW(x) "\033[33m" pxString(x) "\033[0m"
-#define BLUE(x)   "\033[34m" pxString(x) "\033[0m"
-#define PURPLE(x) "\033[35m" pxString(x) "\033[0m"
-#define AZURE(x)  "\033[36m" pxString(x) "\033[0m"
+#define RED(x)    "\x1b[31m" pxString(x) "\x1b[0m"
+#define GREEN(x)  "\x1b[32m" pxString(x) "\x1b[0m"
+#define YELLOW(x) "\x1b[33m" pxString(x) "\x1b[0m"
+#define BLUE(x)   "\x1b[34m" pxString(x) "\x1b[0m"
+#define PURPLE(x) "\x1b[35m" pxString(x) "\x1b[0m"
+#define AZURE(x)  "\x1b[36m" pxString(x) "\x1b[0m"
 
 #define TRUE  GREEN(T)
 #define FALSE RED(F)

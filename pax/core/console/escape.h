@@ -1,25 +1,41 @@
 #ifndef PX_CORE_CONSOLE_ESCAPE_H
 #define PX_CORE_CONSOLE_ESCAPE_H
 
-#include "event.h"
+#include "import.h"
 
-#define PX_ESCAPE_ITEMS 16
+#define PX_ESCAPE_GROUPS 8
+#define PX_ESCAPE_VALUES 8
 
 typedef enum PxEscapeType
 {
     PX_ESCAPE_NONE,
-    PX_ESCAPE_KEYBOARD,
-    PX_ESCAPE_GRAPHICS,
-    PX_ESCAPE_MOVEMENT,
+
+    PX_ESCAPE_UNICODE,
+    PX_ESCAPE_FUNCTION,
+
+    PX_ESCAPE_GRAPHIC,
+
+    PX_ESCAPE_UP,
+    PX_ESCAPE_DOWN,
+    PX_ESCAPE_LEFT,
+    PX_ESCAPE_RIGHT,
+    PX_ESCAPE_HOME,
+    PX_ESCAPE_END,
 }
 PxEscapeType;
 
+typedef struct PxEscapeGroup
+{
+    pxuword values[PX_ESCAPE_VALUES];
+    pxiword size;
+}
+PxEscapeGroup;
+
 typedef struct PxEscape
 {
-    PxEscapeType type;
-
-    pxuword items[PX_ESCAPE_ITEMS];
-    pxiword size;
+    PxEscapeType  type;
+    PxEscapeGroup groups[PX_ESCAPE_GROUPS];
+    pxiword       size;
 }
 PxEscape;
 
@@ -27,18 +43,21 @@ PxEscapeType
 pxEscapeSetType(PxEscape* self, PxEscapeType value);
 
 pxb8
-pxEscapeInsertTail(PxEscape* self, pxuword value);
+pxEscapeInsertGroupTail(PxEscape* self);
 
 pxb8
-pxEscapeRead(PxEscape* self, pxiword index, pxuword* value);
+pxEscapeInsertValueTail(PxEscape* self, pxiword group, pxuword value);
+
+pxb8
+pxEscapeReadValue(PxEscape* self, pxiword group, pxiword index, pxuword* value);
 
 pxuword
-pxEscapeReadOr(PxEscape* self, pxiword index, pxuword value);
+pxEscapeReadValueOr(PxEscape* self, pxiword group, pxiword index, pxuword value);
 
 pxb8
 pxEscapeFromString8(PxEscape* self, PxString8 string, pxiword* size);
 
 pxb8
-pxEscapeItemFromString8(PxEscape* self, PxString8 string);
+pxEscapeGroupFromString8(PxEscape* self, PxString8 string);
 
 #endif // PX_CORE_CONSOLE_ESCAPE_H

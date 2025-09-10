@@ -14,38 +14,65 @@ pxEscapeSetType(PxEscape* self, PxEscapeType value)
 }
 
 pxb8
-pxEscapeInsertTail(PxEscape* self, pxuword value)
+pxEscapeInsertGroupTail(PxEscape* self)
 {
     pxiword index = self->size;
 
-    if (index < 0 || index >= PX_ESCAPE_ITEMS)
+    if (index < 0 || index >= PX_ESCAPE_GROUPS)
         return 0;
 
     self->size += 1;
-
-    self->items[index] = value;
 
     return 1;
 }
 
 pxb8
-pxEscapeRead(PxEscape* self, pxiword index, pxuword* value)
+pxEscapeInsertValueTail(PxEscape* self, pxiword group, pxuword value)
 {
-    if (index < 0 || index >= self->size)
+    if (group < 0 || group >= self->size)
         return 0;
 
-    if (value != 0) *value = self->items[index];
+    PxEscapeGroup* child = &self->groups[group];
+    pxiword        index = child->size;
+
+    if (index < 0 || index >= PX_ESCAPE_VALUES)
+        return 0;
+
+    child->size += 1;
+
+    child->values[index] = value;
+
+    return 1;
+}
+
+pxb8
+pxEscapeReadValue(PxEscape* self, pxiword group, pxiword index, pxuword* value)
+{
+    if (group < 0 || group >= self->size)
+        return 0;
+
+    PxEscapeGroup* child = &self->groups[group];
+
+    if (index < 0 || index >= child->size)
+        return 0;
+
+    if (value != 0) *value = child->values[index];
 
     return 1;
 }
 
 pxuword
-pxEscapeReadOr(PxEscape* self, pxiword index, pxuword value)
+pxEscapeReadValueOr(PxEscape* self, pxiword group, pxiword index, pxuword value)
 {
-    if (index < 0 || index >= self->size)
+    if (group < 0 || group >= self->size)
         return value;
 
-    return self->items[index];
+    PxEscapeGroup* child = &self->groups[group];
+
+    if (index < 0 || index >= child->size)
+        return value;
+
+    return child->values[index];
 }
 
 pxb8
@@ -79,24 +106,45 @@ pxEscapeFromString8(PxEscape* self, PxString8 string, pxiword* size)
     while (right.length > 0) {
         index += pxString8Split(right, pxs8(";"), &left, &right);
 
-        if (pxEscapeItemFromString8(self, left) == 0)
+        if (pxEscapeGroupFromString8(self, left) == 0)
             break;
     }
 
     switch (string.memory[index]) {
         case PX_ASCII_LOWER_U:
-            pxEscapeSetType(self, PX_ESCAPE_KEYBOARD);
+            pxEscapeSetType(self, PX_ESCAPE_UNICODE);
         break;
 
         case PX_ASCII_LOWER_M:
-            pxEscapeSetType(self, PX_ESCAPE_GRAPHICS);
+            pxEscapeSetType(self, PX_ESCAPE_GRAPHIC);
         break;
 
         case PX_ASCII_UPPER_A:
+            pxEscapeSetType(self, PX_ESCAPE_UP);
+        break;
+
         case PX_ASCII_UPPER_B:
+            pxEscapeSetType(self, PX_ESCAPE_DOWN);
+        break;
+
         case PX_ASCII_UPPER_C:
+            pxEscapeSetType(self, PX_ESCAPE_RIGHT);
+        break;
+
         case PX_ASCII_UPPER_D:
-            pxEscapeSetType(self, PX_ESCAPE_MOVEMENT);
+            pxEscapeSetType(self, PX_ESCAPE_LEFT);
+        break;
+
+        case PX_ASCII_UPPER_H:
+            pxEscapeSetType(self, PX_ESCAPE_HOME);
+        break;
+
+        case PX_ASCII_UPPER_F:
+            pxEscapeSetType(self, PX_ESCAPE_END);
+        break;
+
+        case PX_ASCII_TILDE:
+            pxEscapeSetType(self, PX_ESCAPE_FUNCTION);
         break;
 
         default: break;
@@ -110,20 +158,26 @@ pxEscapeFromString8(PxEscape* self, PxString8 string, pxiword* size)
 }
 
 pxb8
-pxEscapeItemFromString8(PxEscape* self, PxString8 string)
+pxEscapeGroupFromString8(PxEscape* self, PxString8 string)
 {
+    pxuword value = 0;
+    pxb8    state = 0;
+
     PxFormatOption options = PX_FORMAT_OPTION_NONE;
-    pxuword        value   = 0;
 
     switch (pxString8Contains(string, pxs8(":"))) {
         case 0: {
-            pxb8 state = pxUnsignedFromString8(
-                &value, 10, options, string);
+            pxiword group = self->size;
+
+            pxEscapeInsertGroupTail(self);
+
+            state = pxUnsignedFromString8(&value, 10, options, string);
 
             if (state != 0)
-                pxEscapeInsertTail(self, value);
+                pxEscapeInsertValueTail(self, group, value);
 
-            return state;
+            if (state != 0 || string.length == 0)
+                return 1;
         } break;
 
         default: break;

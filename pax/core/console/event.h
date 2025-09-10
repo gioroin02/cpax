@@ -1,7 +1,7 @@
 #ifndef PX_CONSOLE_EVENT_H
 #define PX_CONSOLE_EVENT_H
 
-#include "import.h"
+#include "escape.h"
 
 typedef enum PxConsoleEventType
 {
@@ -172,5 +172,8 @@ pxConsoleEventKeybdPress(pxiword button, pxuword modifs, pxi32 unicode);
 
 PxConsoleEvent
 pxConsoleEventKeybdRelease(pxiword button, pxuword modifs, pxi32 unicode);
+
+PxConsoleEvent
+pxConsoleEventFromEscape(PxEscape* escape);
 
 #endif // PX_CONSOLE_EVENT_H

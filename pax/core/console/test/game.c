@@ -169,7 +169,7 @@ pxConsoleWriterMoveUp(PxConsoleWriter* self, PxArena* arena, pxu8 amount)
 {
     if (amount <= 0) return 0;
 
-    pxiword s0 = pxWriterString8(self, pxs8("\033["));
+    pxiword s0 = pxWriterString8(self, pxs8("\x1b["));
     pxiword s1 = 0;
 
     if (amount > 1) {
@@ -187,7 +187,7 @@ pxConsoleWriterMoveDown(PxConsoleWriter* self, PxArena* arena, pxu8 amount)
 {
     if (amount <= 0) return 0;
 
-    pxiword s0 = pxWriterString8(self, pxs8("\033["));
+    pxiword s0 = pxWriterString8(self, pxs8("\x1b["));
     pxiword s1 = 0;
 
     if (amount > 1) {
@@ -205,7 +205,7 @@ pxConsoleWriterMoveLeft(PxConsoleWriter* self, PxArena* arena, pxu8 amount)
 {
     if (amount <= 0) return 0;
 
-    pxiword s0 = pxWriterString8(self, pxs8("\033["));
+    pxiword s0 = pxWriterString8(self, pxs8("\x1b["));
     pxiword s1 = 0;
 
     if (amount > 1) {
@@ -223,7 +223,7 @@ pxConsoleWriterMoveRight(PxConsoleWriter* self, PxArena* arena, pxu8 amount)
 {
     if (amount <= 0) return 0;
 
-    pxiword s0 = pxWriterString8(self, pxs8("\033["));
+    pxiword s0 = pxWriterString8(self, pxs8("\x1b["));
     pxiword s1 = 0;
 
     if (amount > 1) {
@@ -241,7 +241,7 @@ pxConsoleWriterMoveTo(PxConsoleWriter* self, PxArena* arena, pxiword x, pxiword 
 {
     if (x < 0 || y < 0) return 0;
 
-    pxiword s0 = pxWriterString8(self, pxs8("\033["));
+    pxiword s0 = pxWriterString8(self, pxs8("\x1b["));
 
     pxiword s1 = 0;
     pxiword s2 = 0;
@@ -265,10 +265,10 @@ pxConsoleWriterMoveTo(PxConsoleWriter* self, PxArena* arena, pxiword x, pxiword 
 pxiword
 pxConsoleWriterShowCursor(PxConsoleWriter* self, pxb8 state)
 {
-    PxString8 string = pxs8("\033[?25l");
+    PxString8 string = pxs8("\x1b[?25l");
 
     if (state != 0)
-        string = pxs8("\033[?25h");
+        string = pxs8("\x1b[?25h");
 
     return pxWriterString8(self, string);
 }
@@ -276,10 +276,10 @@ pxConsoleWriterShowCursor(PxConsoleWriter* self, pxb8 state)
 pxiword
 pxConsoleWriterReset(PxConsoleWriter* self, pxb8 scroll)
 {
-    PxString8 string = pxs8("\033c");
+    PxString8 string = pxs8("\x1b\x63");
 
     if (scroll != 0)
-        string = pxs8("\033[2J");
+        string = pxs8("\x1b[2J");
 
     return pxWriterString8(self, string);
 }
@@ -287,7 +287,7 @@ pxConsoleWriterReset(PxConsoleWriter* self, pxb8 scroll)
 pxiword
 pxConsoleWriterForegroundRGBA(PxConsoleWriter* self, PxArena* arena, PxConsoleColorRGBA color)
 {
-    pxiword s0 = pxWriterString8(self, pxs8("\033[38;2;"));
+    pxiword s0 = pxWriterString8(self, pxs8("\x1b[38;2;"));
 
     pxiword s1 = pxWriterUnsigned8(self, arena,
         10, PX_FORMAT_OPTION_NONE, color.r);
@@ -310,7 +310,7 @@ pxConsoleWriterForegroundRGBA(PxConsoleWriter* self, PxArena* arena, PxConsoleCo
 pxiword
 pxConsoleWriterForegroundIndex(PxConsoleWriter* self, PxArena* arena, PxConsoleColorIndex color)
 {
-    pxiword s0 = pxWriterString8(self, pxs8("\033[38;5;"));
+    pxiword s0 = pxWriterString8(self, pxs8("\x1b[38;5;"));
 
     pxiword s1 = pxWriterUnsigned8(self, arena,
         10, PX_FORMAT_OPTION_NONE, color);
@@ -339,7 +339,7 @@ pxConsoleWriterForeground(PxConsoleWriter* self, PxArena* arena, PxConsoleColor 
 pxiword
 pxConsoleWriterBackgroundRGBA(PxConsoleWriter* self, PxArena* arena, PxConsoleColorRGBA color)
 {
-    pxiword s0 = pxWriterString8(self, pxs8("\033[48;2;"));
+    pxiword s0 = pxWriterString8(self, pxs8("\x1b[48;2;"));
 
     pxiword s1 = pxWriterUnsigned8(self, arena,
         10, PX_FORMAT_OPTION_NONE, color.r);
@@ -362,7 +362,7 @@ pxConsoleWriterBackgroundRGBA(PxConsoleWriter* self, PxArena* arena, PxConsoleCo
 pxiword
 pxConsoleWriterBackgroundIndex(PxConsoleWriter* self, PxArena* arena, PxConsoleColorIndex color)
 {
-    pxiword s0 = pxWriterString8(self, pxs8("\033[48;5;"));
+    pxiword s0 = pxWriterString8(self, pxs8("\x1b[48;5;"));
 
     pxiword s1 = pxWriterUnsigned8(self, arena,
         10, PX_FORMAT_OPTION_NONE, color);

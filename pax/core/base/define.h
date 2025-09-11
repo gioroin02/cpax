@@ -9,8 +9,6 @@
 
 #define pxCast(t, x) ((t)(x))
 
-#define pxSize(x) pxCast(pxiword, sizeof (x))
-
 #define pxMin(x, y) ((x) < (y) ? (x) : (y))
 #define pxMax(x, y) ((x) < (y) ? (y) : (x))
 

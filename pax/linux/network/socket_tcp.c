@@ -18,9 +18,9 @@ typedef struct sockaddr         PxSock;
 typedef struct sockaddr_in      PxSockIp4;
 typedef struct sockaddr_in6     PxSockIp6;
 
-#define PX_SOCK_DATA_SIZE pxSize(PxSockData)
-#define PX_SOCK_IP4_SIZE  pxSize(PxSockIp4)
-#define PX_SOCK_IP6_SIZE  pxSize(PxSockIp6)
+#define PX_SOCK_DATA_SIZE sizeof(PxSockData)
+#define PX_SOCK_IP4_SIZE  sizeof(PxSockIp4)
+#define PX_SOCK_IP6_SIZE  sizeof(PxSockIp6)
 
 #define pxSock(x)    pxCast(PxSock*, x)
 #define pxSockIp4(x) pxCast(PxSockIp4*, x)

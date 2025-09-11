@@ -4,7 +4,7 @@
 #include "memory.h"
 
 #define pxArenaReserve(arena, type, amount) \
-    pxCast(type*, pxArenaReserveMemory(arena, amount, pxSize(type)))
+    pxCast(type*, pxArenaReserveMemory(arena, amount, sizeof(type)))
 
 typedef struct PxArena
 {

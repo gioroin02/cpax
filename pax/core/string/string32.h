@@ -11,6 +11,9 @@ typedef struct PxString32
 PxString32;
 
 PxString32
+pxString32Make(pxu32* memory, pxiword length);
+
+PxString32
 pxString32FromMemory(void* memory, pxiword length);
 
 PxString32

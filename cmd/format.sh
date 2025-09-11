@@ -10,3 +10,4 @@ pax="$pax $memory"
 dir="pax/core/format/test"
 
 gcc -g --std=c99 $pax $dir/string8.c -o format_string8.exe
+gcc -g --std=c99 $pax $dir/builder.c -o format_builder.exe

@@ -10,31 +10,37 @@ main(int argc, char** argv)
     PxConsole console = pxConsoleCreate(&arena, 1024);
     PxWriter  writer  = pxConsoleWriter(console, &arena, 1024);
 
-    PxLogger logger = pxLoggerMake(&arena, writer,
+    PxLogger logger = pxLoggerReserve(&arena, 1024, writer,
         PX_REPORT_LEVEL_WARN, PX_REPORT_FLAG_COLORS);
 
-    pxLoggerInteger64(&logger, 0, 356);
-    pxLoggerString16(&logger, 1, pxs16(L"ciao"));
+    pxLoggerReport(&logger, "level = warn\n", (PxBuilderCmd) {0});
 
-    pxLoggerReport(&logger, pxs8("WARN\n\n"));
+    pxLoggerTrace(&logger, "TRACE ${5}\n",
+        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 1),
+        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 2),
+        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 3),
+        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 4),
+        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 5),
+        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 6),
+    );
 
-    pxLoggerWarn(&logger,
-        pxs8("code = ${0}, text = ${1}, number = ${0}\n"));
+    pxLoggerWarn(&logger, "WARN\n", (PxBuilderCmd) {0});
 
-    pxLoggerMessage(&logger, pxs8("prova\n"));
-
-    pxLoggerInfo(&logger,
-        pxs8("code = ${0}, text = ${1}, number = ${2}\n"));
-
+    pxLoggerFlush(&logger);
     pxLoggerSetLevel(&logger, PX_REPORT_LEVEL_TRACE);
 
-    pxLoggerReport(&logger, pxs8("\nTRACE\n\n"));
+    pxLoggerReport(&logger, "level = warn\n", (PxBuilderCmd) {0});
 
-    pxLoggerWarn(&logger,
-        pxs8("code = ${0}, text = ${1}, number = ${0}\n"));
+    pxLoggerTrace(&logger, "TRACE ${5}\n",
+        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 1),
+        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 2),
+        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 3),
+        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 4),
+        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 5),
+        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 6),
+    );
 
-    pxLoggerMessage(&logger, pxs8("prova\n"));
+    pxLoggerWarn(&logger, "WARN\n", (PxBuilderCmd) {0});
 
-    pxLoggerInfo(&logger,
-        pxs8("code = ${0}, text = ${1}, number = ${2}\n"));
+    pxLoggerFlush(&logger);
 }

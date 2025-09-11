@@ -4,6 +4,20 @@
 #include "string16.h"
 
 PxString16
+pxString16Make(pxu16* memory, pxiword length)
+{
+    PxString16 result = {0};
+
+    if (memory == 0 || length <= 0)
+        return result;
+
+    result.memory = memory;
+    result.length = length;
+
+    return result;
+}
+
+PxString16
 pxString16FromMemory(void* memory, pxiword length)
 {
     for (pxiword i = 0; i < length; i += 1) {

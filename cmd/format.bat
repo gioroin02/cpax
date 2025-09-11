@@ -14,3 +14,4 @@ set "pax=%pax% %memory%"
 set "dir=pax\core\format\test"
 
 zig cc --std=c99 %pax% "%dir%\string8.c" -o format_string8.exe
+zig cc --std=c99 %pax% "%dir%\builder.c" -o format_builder.exe

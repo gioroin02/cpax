@@ -7,7 +7,7 @@ main(int argc, char** argv)
 {
     pxu8 memory[PX_MEMORY_KIB] = {0};
 
-    PxArena arena = pxArenaMake(memory, pxSize(memory));
+    PxArena arena = pxArenaMake(memory, sizeof(memory));
 
     PxStringList list = pxStringListFromString8(&arena,
         pxs8("lorem:ispum::dolor:sit:amet"), pxs8(":"));

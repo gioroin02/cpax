@@ -4,6 +4,20 @@
 #include "string8.h"
 
 PxString8
+pxString8Make(pxu8* memory, pxiword length)
+{
+    PxString8 result = {0};
+
+    if (memory == 0 || length <= 0)
+        return result;
+
+    result.memory = memory;
+    result.length = length;
+
+    return result;
+}
+
+PxString8
 pxString8FromMemory(void* memory, pxiword length)
 {
     for (pxiword i = 0; i < length; i += 1) {

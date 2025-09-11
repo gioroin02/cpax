@@ -4,6 +4,20 @@
 #include "string32.h"
 
 PxString32
+pxString32Make(pxu32* memory, pxiword length)
+{
+    PxString32 result = {0};
+
+    if (memory == 0 || length <= 0)
+        return result;
+
+    result.memory = memory;
+    result.length = length;
+
+    return result;
+}
+
+PxString32
 pxString32FromMemory(void* memory, pxiword length)
 {
     for (pxiword i = 0; i < length; i += 1) {

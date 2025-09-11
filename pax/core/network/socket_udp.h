@@ -54,9 +54,9 @@ pxiword
 pxSocketUdpReadHostMemory(PxSocketUdp self, void* memory, pxiword amount, pxiword stride, PxAddress* address, pxu16* port);
 
 PxReader
-pxSocketUdpReader(PxSocketUdp self, PxBuffer8* buffer);
+pxSocketUdpReader(PxSocketUdp self, PxArena* arena, pxiword length);
 
 PxWriter
-pxSocketUdpWriter(PxSocketUdp self, PxBuffer8* buffer);
+pxSocketUdpWriter(PxSocketUdp self, PxArena* arena, pxiword length);
 
 #endif // PX_CORE_NETWORK_SOCKET_UDP_H

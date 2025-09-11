@@ -17,7 +17,7 @@ showAddressFromString8(PxString8 string, PxAddressType type)
 {
     PxAddress value = {};
 
-    pxMemoryZero(&value, 1, pxSize(PxAddress));
+    pxMemoryZero(&value, 1, sizeof(PxAddress));
 
     pxb8 state = pxAddressFromString8(&value, type, string);
 

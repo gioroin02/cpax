@@ -4,28 +4,28 @@
 #include "import.h"
 
 #define pxLoggerReport(self, format, ...) \
-    pxLoggerFormat(self, PX_REPORT_LEVEL_NONE, pxs8(format), sizeof((PxBuilderCmd[]) {__VA_ARGS__}) / sizeof(PxBuilderCmd), (PxBuilderCmd[]) {__VA_ARGS__})
+    pxLoggerFormat(self, PX_REPORT_LEVEL_NONE, pxs8(format), pxSizeVargs(PxBuilderCmd, __VA_ARGS__), pxVargs(PxBuilderCmd, __VA_ARGS__))
 
 #define pxLoggerFatal(self, format, ...) \
-    pxLoggerFormat(self, PX_REPORT_LEVEL_FATAL, pxs8(format), sizeof((PxBuilderCmd[]) {__VA_ARGS__}) / sizeof(PxBuilderCmd), (PxBuilderCmd[]) {__VA_ARGS__})
+    pxLoggerFormat(self, PX_REPORT_LEVEL_FATAL, pxs8(format), pxSizeVargs(PxBuilderCmd, __VA_ARGS__), pxVargs(PxBuilderCmd, __VA_ARGS__))
 
 #define pxLoggerError(self, format, ...) \
-    pxLoggerFormat(self, PX_REPORT_LEVEL_ERROR, pxs8(format), sizeof((PxBuilderCmd[]) {__VA_ARGS__}) / sizeof(PxBuilderCmd), (PxBuilderCmd[]) {__VA_ARGS__})
+    pxLoggerFormat(self, PX_REPORT_LEVEL_ERROR, pxs8(format), pxSizeVargs(PxBuilderCmd, __VA_ARGS__), pxVargs(PxBuilderCmd, __VA_ARGS__))
 
 #define pxLoggerWarn(self, format, ...) \
-    pxLoggerFormat(self, PX_REPORT_LEVEL_WARN, pxs8(format), sizeof((PxBuilderCmd[]) {__VA_ARGS__}) / sizeof(PxBuilderCmd), (PxBuilderCmd[]) {__VA_ARGS__})
+    pxLoggerFormat(self, PX_REPORT_LEVEL_WARN, pxs8(format), pxSizeVargs(PxBuilderCmd, __VA_ARGS__), pxVargs(PxBuilderCmd, __VA_ARGS__))
 
 #define pxLoggerMessage(self, format, ...) \
-    pxLoggerFormat(self, PX_REPORT_LEVEL_MESSAGE, pxs8(format), sizeof((PxBuilderCmd[]) {__VA_ARGS__}) / sizeof(PxBuilderCmd), (PxBuilderCmd[]) {__VA_ARGS__})
+    pxLoggerFormat(self, PX_REPORT_LEVEL_MESSAGE, pxs8(format), pxSizeVargs(PxBuilderCmd, __VA_ARGS__), pxVargs(PxBuilderCmd, __VA_ARGS__))
 
 #define pxLoggerInfo(self, format, ...) \
-    pxLoggerFormat(self, PX_REPORT_LEVEL_INFO, pxs8(format), sizeof((PxBuilderCmd[]) {__VA_ARGS__}) / sizeof(PxBuilderCmd), (PxBuilderCmd[]) {__VA_ARGS__})
+    pxLoggerFormat(self, PX_REPORT_LEVEL_INFO, pxs8(format), pxSizeVargs(PxBuilderCmd, __VA_ARGS__), pxVargs(PxBuilderCmd, __VA_ARGS__))
 
 #define pxLoggerDebug(self, format, ...) \
-    pxLoggerFormat(self, PX_REPORT_LEVEL_DEBUG, pxs8(format), sizeof((PxBuilderCmd[]) {__VA_ARGS__}) / sizeof(PxBuilderCmd), (PxBuilderCmd[]) {__VA_ARGS__})
+    pxLoggerFormat(self, PX_REPORT_LEVEL_DEBUG, pxs8(format), pxSizeVargs(PxBuilderCmd, __VA_ARGS__), pxVargs(PxBuilderCmd, __VA_ARGS__))
 
 #define pxLoggerTrace(self, format, ...) \
-    pxLoggerFormat(self, PX_REPORT_LEVEL_TRACE, pxs8(format), sizeof((PxBuilderCmd[]) {__VA_ARGS__}) / sizeof(PxBuilderCmd), (PxBuilderCmd[]) {__VA_ARGS__})
+    pxLoggerFormat(self, PX_REPORT_LEVEL_TRACE, pxs8(format), pxSizeVargs(PxBuilderCmd, __VA_ARGS__), pxVargs(PxBuilderCmd, __VA_ARGS__))
 
 typedef enum PxReportLevel
 {

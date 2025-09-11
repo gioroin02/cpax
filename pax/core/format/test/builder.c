@@ -13,7 +13,7 @@ main(int argc, char** argv)
 
     pxBuilderList(&builder, 0, 5, (PxBuilderCmd[]) {
         pxBuilderCmdString8(pxs8("coords = {x = ")),
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, PX_IWORD_MAX),
+        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_LEADING_PLUS, PX_IWORD_MAX),
         pxBuilderCmdString8(pxs8(", y = ")),
         pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, PX_IWORD_MIN),
         pxBuilderCmdString8(pxs8(", z = ${?}}")),
@@ -27,10 +27,10 @@ main(int argc, char** argv)
 
     PxString8 format = pxs8("coords = {x = ${0}, y = ${1}, z = ${2}}");
 
-    pxBuilderFormat(&builder, format, 0, 2, (PxBuilderCmd[]) {
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, PX_IWORD_MAX),
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, PX_IWORD_MIN),
-    });
+    pxBuilderBuild(&builder, "coords = {x = ${0}, y = ${1}, z = ${2}}",
+        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_LEADING_PLUS, PX_IWORD_MAX),
+        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE,         PX_IWORD_MIN),
+    );
 
     string = pxString8FromBuilder(&arena, &builder);
 

@@ -5,6 +5,9 @@
 #include "string16.h"
 #include "string32.h"
 
+#define pxBuilderBuild(self, format, ...) \
+    pxBuilderFormat(self, pxs8(format), 0, pxSizeVargs(PxBuilderCmd, __VA_ARGS__), pxVargs(PxBuilderCmd, __VA_ARGS__))
+
 typedef enum PxBuilderCmdType
 {
     PX_BUILDER_CMD_NONE,

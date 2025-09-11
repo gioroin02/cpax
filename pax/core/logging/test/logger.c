@@ -13,9 +13,9 @@ main(int argc, char** argv)
     PxLogger logger = pxLoggerReserve(&arena, 1024, writer,
         PX_REPORT_LEVEL_WARN, PX_REPORT_FLAG_COLORS);
 
-    pxLoggerReport(&logger, "level = warn\n", (PxBuilderCmd) {0});
+    pxLoggerReport(&logger, "level = WARN\n", (PxBuilderCmd) {0});
 
-    pxLoggerTrace(&logger, "TRACE ${5}\n",
+    pxLoggerTrace(&logger, "TRACE [${0}, ${1}, ${2}, ${3}, ${4}, ${5}]\n",
         pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 1),
         pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 2),
         pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 3),
@@ -29,9 +29,9 @@ main(int argc, char** argv)
     pxLoggerFlush(&logger);
     pxLoggerSetLevel(&logger, PX_REPORT_LEVEL_TRACE);
 
-    pxLoggerReport(&logger, "level = warn\n", (PxBuilderCmd) {0});
+    pxLoggerReport(&logger, "level = TRACE\n", (PxBuilderCmd) {0});
 
-    pxLoggerTrace(&logger, "TRACE ${5}\n",
+    pxLoggerTrace(&logger, "TRACE [${0}, ${1}, ${2}, ${3}, ${4}, ${5}]\n",
         pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 1),
         pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 2),
         pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 3),

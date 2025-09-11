@@ -24,7 +24,7 @@ main(int argc, char** argv)
 {
     pxu8 memory[PX_MEMORY_KIB] = {0};
 
-    PxArena arena = pxArenaMake(memory, sizeof(memory));
+    PxArena arena = pxArenaMake(memory, pxSize(memory));
 
     PxBuffer8 source = pxBuffer8Reserve(&arena, 256);
     PxBuffer8 buffer = pxBuffer8Reserve(&arena, 256);

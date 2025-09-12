@@ -71,6 +71,12 @@ PxString32
 pxString32SliceLength(PxString32 self, pxiword index, pxiword length);
 
 PxString32
+pxString32SliceHead(PxString32 self, pxiword head);
+
+PxString32
+pxString32SliceTail(PxString32 self, pxiword tail);
+
+PxString32
 pxString32TrimSpaces(PxString32 self);
 
 PxString32

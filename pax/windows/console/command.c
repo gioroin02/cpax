@@ -122,9 +122,7 @@ pxWindowsConsoleWriteCommand(PxWriter* self, PxConsoleCmd value)
         default: break;
     }
 
-    pxWriterString8(self, (PxString8) {
-        .memory = memory, .length = length
-    });
+    pxWriterString8(self, pxString8Make(memory, length));
 }
 
 #endif // PX_WINDOWS_CONSOLE_COMMAND_C

@@ -41,7 +41,7 @@ pxLinuxClockElapsed(PxLinuxClock* self)
 {
     self->last = self->curr;
 
-    clock_gettime(CLOCK_MONOTONIC, &result->curr);
+    clock_gettime(CLOCK_MONOTONIC, &self->curr);
 
     pxuword seconds  = self->curr.tv_sec  - self->last.tv_sec;
     pxuword nseconds = self->curr.tv_nsec - self->last.tv_nsec;

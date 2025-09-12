@@ -4,9 +4,11 @@
 #include "builder.h"
 
 PxString8
-pxFormatSpecFromMemory8(pxu8* memory, pxiword length)
+pxFormatSpecFromString8(PxString8 string)
 {
-    pxiword index = 0;
+    pxu8*   memory = string.memory;
+    pxiword length = string.length;
+    pxiword index  = 0;
 
     if (memory == 0 || length <= 2) return (PxString8) {0};
 
@@ -20,10 +22,7 @@ pxFormatSpecFromMemory8(pxu8* memory, pxiword length)
         index += 1;
     }
 
-    return (PxString8) {
-        .memory = memory + 1,
-        .length = index  - 1,
-    };
+    return pxString8Make(memory + 1, index - 1);
 }
 
 PxBuilderCmd
@@ -249,8 +248,8 @@ pxBuilderFormat(PxBuilder* self, PxString8 format, pxiword start, pxiword stop, 
                 pxiword value = 0;
                 pxb8    state = 0;
 
-                PxString8 spec = pxFormatSpecFromMemory8(
-                    format.memory + index, format.length - index);
+                PxString8 spec = pxFormatSpecFromString8(
+                    pxString8SliceHead(format, index));
 
                 state = pxIntegerFromString8(&value,
                     10, PX_FORMAT_OPTION_NONE, spec);

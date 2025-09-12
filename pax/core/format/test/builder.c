@@ -25,14 +25,21 @@ main(int argc, char** argv)
 
     pxBuilderClear(&builder);
 
-    PxString8 format = pxs8("coords = {x = ${0}, y = ${1}, z = ${2}}");
-
     pxBuilderBuild(&builder, "coords = {x = ${0}, y = ${1}, z = ${2}}",
         pxBuilderCmdInteger(10, PX_FORMAT_OPTION_LEADING_PLUS, PX_IWORD_MAX),
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE,         PX_IWORD_MIN),
-    );
+        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE,         PX_IWORD_MIN));
 
     string = pxString8FromBuilder(&arena, &builder);
 
     printf("'\x1b[34m%s\x1b[0m'\n", string.memory);
+
+    pxBuilderClear(&builder);
+
+    pxBuilderBuild(&builder, "coords = {x = 0, y = 1, z = 2}",
+        (PxBuilderCmd) {0});
+
+    string = pxString8FromBuilder(&arena, &builder);
+
+    printf("'\x1b[34m%s\x1b[0m'\n", string.memory);
+
 }

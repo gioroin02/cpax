@@ -2,6 +2,9 @@
 #include "../../time/export.h"
 #include "../../structure/export.h"
 
+#include <stdlib.h>
+#include <time.h>
+
 #define PX_COLOR_RGB_UNITS pxCast(pxiword, 3)
 
 typedef union PxColorRGB
@@ -14,6 +17,19 @@ typedef union PxColorRGB
     pxu8 items[PX_COLOR_RGB_UNITS];
 }
 PxColorRGB;
+
+pxb8
+pxColorRGBIsEqual(PxColorRGB* self, PxColorRGB* value)
+{
+    if (self == 0 || value == 0)
+        return 0;
+
+    if (self->r != value->r) return 0;
+    if (self->g != value->g) return 0;
+    if (self->b != value->b) return 0;
+
+    return 1;
+}
 
 typedef struct PxConsoleCell
 {
@@ -29,6 +45,7 @@ typedef struct PxConsoleFrame
 
     pxiword width;
     pxiword height;
+    pxb8    dirty;
 }
 PxConsoleFrame;
 
@@ -50,6 +67,12 @@ pxConsoleFrameMake(PxArena* arena, pxiword width, pxiword height)
     }
 
     return result;
+}
+
+pxb8
+pxConsoleFrameIsDirty(PxConsoleFrame* self)
+{
+    return self->dirty != 0 ? 1 : 0;
 }
 
 pxb8
@@ -79,6 +102,8 @@ pxConsoleFrameUpdate(PxConsoleFrame* self, pxiword x, pxiword y, PxConsoleCell v
     if (y < 0 || y >= self->height) return 0;
 
     pxiword index = x + self->width * y;
+
+    self->dirty = 1;
 
     return pxArrayUpdate(&self->items,
         index, PxConsoleCell, &value);
@@ -122,27 +147,39 @@ pxConsoleFramePaint(PxConsoleFrame* self, pxiword x, pxiword y, pxi32 unicode, P
 void
 pxConsoleWriteFrame(PxWriter* self, PxConsoleFrame* frame)
 {
+    PxConsoleCell item = {0};
+
+    pxConsoleWriteCommand(self, pxConsoleCmdCursorPlace(0, 0));
+
+    PxColorRGB front = {0};
+    PxColorRGB back  = {0};
+
     for (pxiword j = 0; j < frame->height; j += 1) {
         for (pxiword i = 0; i < frame->width; i += 1) {
-            PxConsoleCell item =
-                pxConsoleFrameReadOr(frame, i, j, (PxConsoleCell) {0});
+            item = pxConsoleFrameReadOr(frame, i, j, (PxConsoleCell) {0});
 
-            pxConsoleWriteCommand(self, pxConsoleCmdCursorPlace(i, j));
+            if ((i == 0 && j == 0) || pxColorRGBIsEqual(&front, &item.front) == 0) {
+                front = item.front;
 
-            pxConsoleWriteCommand(self,
-                pxConsoleCmdStyleRGBFront(item.front.r, item.front.g, item.front.b));
+                pxConsoleWriteCommand(self, pxConsoleCmdStyleRGBFront(
+                    item.front.r, item.front.g, item.front.b));
+            }
 
-            pxConsoleWriteCommand(self,
-                pxConsoleCmdStyleRGBBack(item.back.r, item.back.g, item.back.b));
+            if ((i == 0 && j == 0) || pxColorRGBIsEqual(&back, &item.back) == 0) {
+                back = item.back;
+
+                pxConsoleWriteCommand(self, pxConsoleCmdStyleRGBBack(
+                    item.back.r, item.back.g, item.back.b));
+            }
 
             pxConsoleWriteCommand(self, pxConsoleCmdUnicode(item.unicode));
         }
 
-        pxWriterFlush(self);
+        pxConsoleWriteCommand(self, pxConsoleCmdCursorPlace(0, j + 1));
     }
 }
 
-typedef struct PxConsoleGameState
+typedef struct GameState
 {
     pxu8 x, y;
 
@@ -155,7 +192,7 @@ typedef struct PxConsoleGameState
     pxb8 move_down  : 1;
 
 }
-PxConsoleGameState;
+GameState;
 
 int
 main(int argc, char** argv)
@@ -164,22 +201,26 @@ main(int argc, char** argv)
 
     PxArena arena = pxMemoryReserve(32);
 
+    srand(time(0));
+
+    PxConsole console = pxConsoleCreate(&arena);
+    PxReader  reader  = pxConsoleReader(console, &arena, 4 * PX_MEMORY_KIB);
+    PxWriter  writer  = pxConsoleWriter(console, &arena, 8 * PX_MEMORY_KIB);
+
+    PxConsoleMsg message = {0};
+
     PxConsoleFrame frames[PX_CONSOLE_FRAMES] = {
-        pxConsoleFrameMake(&arena, 50, 15),
-        pxConsoleFrameMake(&arena, 50, 15),
-        // pxConsoleFrameMake(&arena, 50, 15),
-        // pxConsoleFrameMake(&arena, 50, 15),
+        pxConsoleFrameMake(&arena, 100, 50),
+        pxConsoleFrameMake(&arena, 100, 50),
     };
 
     pxiword frame = 0;
 
-    PxConsole console = pxConsoleCreate(&arena);
-    PxReader  reader  = pxConsoleReader(console, &arena, PX_MEMORY_KIB);
-    PxWriter  writer  = pxConsoleWriter(console, &arena, 16 * PX_MEMORY_KIB);
-
     pxConsoleSetMode(console, PX_CONSOLE_MODE_MESSAGE);
 
-    PxConsoleGameState game = {0};
+    GameState game = {
+        .front = {.r = 128, .g = 128, .b = 128},
+    };
 
     pxConsoleWriteCommand(&writer, pxConsoleCmdReset());
     pxConsoleWriteCommand(&writer, pxConsoleCmdCursorHide());
@@ -187,13 +228,14 @@ main(int argc, char** argv)
 
     pxb8 active = 1;
 
-    PxClock clock   = pxClockCreate(&arena);
-    pxf32   elasped = 0;
+    PxClock clock = pxClockCreate(&arena);
+
+    pxf32 slice   = 1.0 / 64.0;
+    pxf32 elapsed = 0;
 
     while (active != 0) {
-        elasped += pxClockElapsed(clock);
-
-        PxConsoleMsg message = pxConsolePollMessage(&reader);
+        elapsed += pxClockElapsed(clock);
+        message  = pxConsolePollMessage(&reader);
 
         switch (message.type) {
             case PX_CONSOLE_MSG_KEYBD_PRESS: {
@@ -234,26 +276,28 @@ main(int argc, char** argv)
             default: break;
         }
 
-        for (; elasped > 0.0167; elasped -= 0.0167) {
+        for (pxiword i = 0; i < 64 && slice <= elapsed; i += 1) {
             pxu8 x = game.x + game.move_right - game.move_left;
             pxu8 y = game.y + game.move_down  - game.move_up;
 
             if (x >= 0 && x < frames[frame].width)  game.x = x;
             if (y >= 0 && y < frames[frame].height) game.y = y;
 
-            game.back.r = (game.back.r + 1) % 256;
-            game.back.g = (game.back.g + 2) % 256;
-            game.back.b = (game.back.b + 3) % 256;
+            game.back.r = game.back.r + (128 + rand() % 5 - 2);
+            game.back.g = game.back.g + (128 + rand() % 5 - 2);
+            game.back.b = game.back.b + (128 + rand() % 5 - 2);
 
-            pxConsoleFrameReset(&frames[frame], 0, game.front, game.back);
+            pxConsoleFrameReset(&frames[frame],
+                0, game.front, game.back);
 
             pxConsoleFramePaint(&frames[frame], game.x, game.y,
-                PX_ASCII_SHARP, game.front, game.back);
+                PX_ASCII_SHARP, (PxColorRGB) {0}, game.back);
 
             pxConsoleWriteFrame(&writer, &frames[frame]);
             pxWriterFlush(&writer);
 
-            frame = (frame + 1) % PX_CONSOLE_FRAMES;
+            frame    = (frame + 1) % PX_CONSOLE_FRAMES;
+            elapsed -= slice;
         }
     }
 

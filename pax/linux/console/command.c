@@ -122,9 +122,7 @@ pxLinuxConsoleWriteCommand(PxWriter* self, PxConsoleCmd value)
         default: break;
     }
 
-    pxWriterString8(self, (PxString8) {
-        .memory = memory, .length = length
-    });
+    pxWriterString8(self, pxString8Make(memory, length));
 }
 
 #endif // PX_LINUX_CONSOLE_COMMAND_C

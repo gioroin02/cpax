@@ -51,11 +51,11 @@ typedef struct PxJsonEvent
     {
         PxJsonEventError error;
 
-        PxString8 value_string;
-        pxuword   value_unsigned;
-        pxiword   value_integer;
-        pxfword   value_floating;
-        pxbword   value_boolean;
+        PxString8 string8;
+        pxuword   uword;
+        pxiword   iword;
+        pxfword   fword;
+        pxbword   bword;
     };
 }
 PxJsonEvent;

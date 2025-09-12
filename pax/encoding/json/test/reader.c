@@ -42,12 +42,12 @@ jsonReadEntity(Entity* self, PxJsonReader* reader, PxArena* arena)
         switch (event.type) {
             case PX_JSON_EVENT_STRING: {
                 if (pxString8IsEqual(event.name, pxs8("name")))
-                    self->name = event.value_string;
+                    self->name = event.string8;
             } break;
 
             case PX_JSON_EVENT_UNSIGNED: {
                 if (pxString8IsEqual(event.name, pxs8("code")))
-                    self->code = event.value_unsigned;
+                    self->code = event.uword;
             } break;
 
             default: break;

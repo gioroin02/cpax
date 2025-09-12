@@ -69,7 +69,7 @@ pxJsonEventString(PxString8 value, PxString8 name)
 {
     return (PxJsonEvent) {
         .type         = PX_JSON_EVENT_STRING,
-        .value_string = value,
+        .string8 = value,
         .name         = name,
     };
 }
@@ -79,7 +79,7 @@ pxJsonEventUnsigned(pxuword value, PxString8 name)
 {
     return (PxJsonEvent) {
         .type           = PX_JSON_EVENT_UNSIGNED,
-        .value_unsigned = value,
+        .uword = value,
         .name           = name,
     };
 }
@@ -89,7 +89,7 @@ pxJsonEventInteger(pxiword value, PxString8 name)
 {
     return (PxJsonEvent) {
         .type          = PX_JSON_EVENT_INTEGER,
-        .value_integer = value,
+        .iword = value,
         .name          = name,
     };
 }
@@ -99,7 +99,7 @@ pxJsonEventFloating(pxfword value, PxString8 name)
 {
     return (PxJsonEvent) {
         .type           = PX_JSON_EVENT_FLOATING,
-        .value_floating = value,
+        .fword = value,
         .name           = name,
     };
 }
@@ -109,7 +109,7 @@ pxJsonEventBoolean(pxbword value, PxString8 name)
 {
     return (PxJsonEvent) {
         .type          = PX_JSON_EVENT_BOOLEAN,
-        .value_boolean = value,
+        .bword = value,
         .name          = name,
     };
 }

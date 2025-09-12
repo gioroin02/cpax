@@ -14,8 +14,11 @@
 
 #define pxSize(x) pxCast(pxiword, sizeof(x))
 
-#define pxSizeArray(t, x)   pxCast(pxiword, sizeof(pxArray(t, x))           / sizeof(t))
-#define pxSizeVargs(t, ...) pxCast(pxiword, sizeof(pxVargs(t, __VA_ARGS__)) / sizeof(t))
+#define pxSizeArray(t, x) \
+    pxCast(pxiword, sizeof(pxArray(t, x)) / sizeof(t))
+
+#define pxSizeVargs(t, ...) \
+    pxCast(pxiword, sizeof(pxVargs(t, __VA_ARGS__)) / sizeof(t))
 
 #define pxMin(x, y) ((x) < (y) ? (x) : (y))
 #define pxMax(x, y) ((x) < (y) ? (y) : (x))

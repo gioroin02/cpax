@@ -110,9 +110,9 @@ pxJsonReaderNext(PxJsonReader* self, PxArena* arena)
             case PX_JSON_TOKEN_STRING: {
                 if (parent != PX_JSON_LAYER_OBJECT || self->colon != 0) {
                     result = pxJsonEventString(
-                        token.value_string, self->name);
+                        token.string8, self->name);
                 } else
-                    self->name = token.value_string;
+                    self->name = token.string8;
 
                 self->colon = 0;
                 self->comma = 0;
@@ -120,7 +120,7 @@ pxJsonReaderNext(PxJsonReader* self, PxArena* arena)
 
             case PX_JSON_TOKEN_UNSIGNED: {
                 result = pxJsonEventUnsigned(
-                    token.value_unsigned, self->name);
+                    token.uword, self->name);
 
                 self->colon = 0;
                 self->comma = 0;
@@ -128,7 +128,7 @@ pxJsonReaderNext(PxJsonReader* self, PxArena* arena)
 
             case PX_JSON_TOKEN_INTEGER: {
                 result = pxJsonEventInteger(
-                    token.value_integer, self->name);
+                    token.iword, self->name);
 
                 self->colon = 0;
                 self->comma = 0;
@@ -136,7 +136,7 @@ pxJsonReaderNext(PxJsonReader* self, PxArena* arena)
 
             case PX_JSON_TOKEN_FLOATING: {
                 result = pxJsonEventFloating(
-                    token.value_floating, self->name);
+                    token.fword, self->name);
 
                 self->colon = 0;
                 self->comma = 0;
@@ -144,7 +144,7 @@ pxJsonReaderNext(PxJsonReader* self, PxArena* arena)
 
             case PX_JSON_TOKEN_BOOLEAN: {
                 result = pxJsonEventBoolean(
-                    token.value_boolean, self->name);
+                    token.bword, self->name);
 
                 self->colon = 0;
                 self->comma = 0;

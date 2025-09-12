@@ -32,7 +32,7 @@ pxBuilderCmdUnsigned8(pxuword radix, PxFormatOption options, pxu8 value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_UNSIGNED8,
 
-        .cmd_u8 = {
+        .u8 = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -46,7 +46,7 @@ pxBuilderCmdUnsigned16(pxuword radix, PxFormatOption options, pxu16 value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_UNSIGNED16,
 
-        .cmd_u16 = {
+        .u16 = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -60,7 +60,7 @@ pxBuilderCmdUnsigned32(pxuword radix, PxFormatOption options, pxu32 value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_UNSIGNED32,
 
-        .cmd_u32 = {
+        .u32 = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -74,7 +74,7 @@ pxBuilderCmdUnsigned64(pxuword radix, PxFormatOption options, pxu64 value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_UNSIGNED64,
 
-        .cmd_u64 = {
+        .u64 = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -88,7 +88,7 @@ pxBuilderCmdUnsigned(pxuword radix, PxFormatOption options, pxuword value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_UNSIGNED,
 
-        .cmd_uword = {
+        .uword = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -102,7 +102,7 @@ pxBuilderCmdInteger8(pxuword radix, PxFormatOption options, pxi8 value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_INTEGER8,
 
-        .cmd_i8 = {
+        .i8 = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -116,7 +116,7 @@ pxBuilderCmdInteger16(pxuword radix, PxFormatOption options, pxi16 value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_INTEGER16,
 
-        .cmd_i16 = {
+        .i16 = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -130,7 +130,7 @@ pxBuilderCmdInteger32(pxuword radix, PxFormatOption options, pxi32 value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_INTEGER32,
 
-        .cmd_i32 = {
+        .i32 = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -144,7 +144,7 @@ pxBuilderCmdInteger64(pxuword radix, PxFormatOption options, pxi64 value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_INTEGER64,
 
-        .cmd_i64 = {
+        .i64 = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -158,7 +158,7 @@ pxBuilderCmdInteger(pxuword radix, PxFormatOption options, pxiword value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_INTEGER,
 
-        .cmd_iword = {
+        .iword = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -171,7 +171,7 @@ pxBuilderCmdUnicode(pxi32 value)
 {
     return (PxBuilderCmd) {
         .type    = PX_BUILDER_CMD_UNICODE,
-        .cmd_uni = value,
+        .unicode = value,
     };
 }
 
@@ -179,8 +179,8 @@ PxBuilderCmd
 pxBuilderCmdString8(PxString8 value)
 {
     return (PxBuilderCmd) {
-        .type     = PX_BUILDER_CMD_STRING8,
-        .cmd_str8 = value,
+        .type    = PX_BUILDER_CMD_STRING8,
+        .string8 = value,
     };
 }
 
@@ -188,8 +188,8 @@ PxBuilderCmd
 pxBuilderCmdString16(PxString16 value)
 {
     return (PxBuilderCmd) {
-        .type      = PX_BUILDER_CMD_STRING16,
-        .cmd_str16 = value,
+        .type     = PX_BUILDER_CMD_STRING16,
+        .string16 = value,
     };
 }
 
@@ -197,24 +197,31 @@ PxBuilderCmd
 pxBuilderCmdString32(PxString32 value)
 {
     return (PxBuilderCmd) {
-        .type      = PX_BUILDER_CMD_STRING32,
-        .cmd_str32 = value,
+        .type     = PX_BUILDER_CMD_STRING32,
+        .string32 = value,
     };
+}
+
+PxBuilder
+pxBuilderMake(pxu8* memory, pxiword length)
+{
+    PxBuilder result = {0};
+
+    if (memory != 0 && length > 0) {
+        result.memory = memory;
+        result.length = length;
+    }
+
+    return result;
 }
 
 PxBuilder
 pxBuilderReserve(PxArena* arena, pxiword length)
 {
-    PxBuilder result = {0};
+    pxu8* memory =
+        pxArenaReserve(arena, pxu8, length);
 
-    if (length <= 0) return result;
-
-    result.memory = pxArenaReserve(arena, pxu32, length);
-
-    if (result.memory != 0)
-        result.length = length;
-
-    return result;
+    return pxBuilderMake(memory, length);
 }
 
 void
@@ -234,8 +241,8 @@ pxBuilderFormat(PxBuilder* self, PxString8 format, pxiword start, pxiword stop, 
         PxBuilderCmd command = {0};
         pxi32        unicode = 0;
 
-        index += pxUtf8ReadMemory8Forw(format.memory,
-            format.length, index, &unicode);
+        index += pxUtf8ReadMemory8Forw(
+            format.memory, format.length, index, &unicode);
 
         switch (unicode) {
             case PX_ASCII_DOLLAR: {
@@ -268,7 +275,7 @@ pxBuilderFormat(PxBuilder* self, PxString8 format, pxiword start, pxiword stop, 
 }
 
 pxiword
-pxBuilderList(PxBuilder* self, pxiword start, pxiword stop, PxBuilderCmd* list)
+pxBuilderChain(PxBuilder* self, pxiword start, pxiword stop, PxBuilderCmd* list)
 {
     if (list == 0 || stop <= start) return 0;
 
@@ -285,116 +292,99 @@ pxBuilderList(PxBuilder* self, pxiword start, pxiword stop, PxBuilderCmd* list)
 pxiword
 pxBuilderCommand(PxBuilder* self, PxBuilderCmd command)
 {
-    pxu32*  memory = self->memory + self->size;
+    pxu8*   memory = self->memory + self->size;
     pxiword size   = self->length - self->size;
     pxiword result = 0;
 
     switch (command.type) {
         case PX_BUILDER_CMD_UNSIGNED8: {
-            PxBuilderCmdUnsigned8 cmd = command.cmd_u8;
+            PxBuilderCmdUnsigned8 cmd = command.u8;
 
-            result = pxMemory32WriteUnsigned8(memory, size,
+            result = pxMemory8WriteUnsigned8(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_UNSIGNED16: {
-            PxBuilderCmdUnsigned16 cmd = command.cmd_u16;
+            PxBuilderCmdUnsigned16 cmd = command.u16;
 
-            result = pxMemory32WriteUnsigned16(memory, size,
+            result = pxMemory8WriteUnsigned16(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_UNSIGNED32: {
-            PxBuilderCmdUnsigned32 cmd = command.cmd_u32;
+            PxBuilderCmdUnsigned32 cmd = command.u32;
 
-            result = pxMemory32WriteUnsigned32(memory, size,
+            result = pxMemory8WriteUnsigned32(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_UNSIGNED64: {
-            PxBuilderCmdUnsigned64 cmd = command.cmd_u64;
+            PxBuilderCmdUnsigned64 cmd = command.u64;
 
-            result = pxMemory32WriteUnsigned64(memory, size,
+            result = pxMemory8WriteUnsigned64(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_UNSIGNED: {
-            PxBuilderCmdUnsigned cmd = command.cmd_uword;
+            PxBuilderCmdUnsigned cmd = command.uword;
 
-            result = pxMemory32WriteUnsigned(memory, size,
+            result = pxMemory8WriteUnsigned(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_INTEGER8: {
-            PxBuilderCmdInteger8 cmd = command.cmd_i8;
+            PxBuilderCmdInteger8 cmd = command.i8;
 
-            result = pxMemory32WriteInteger8(memory, size,
+            result = pxMemory8WriteInteger8(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_INTEGER16: {
-            PxBuilderCmdInteger16 cmd = command.cmd_i16;
+            PxBuilderCmdInteger16 cmd = command.i16;
 
-            result = pxMemory32WriteInteger16(memory, size,
+            result = pxMemory8WriteInteger16(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_INTEGER32: {
-            PxBuilderCmdInteger32 cmd = command.cmd_i32;
+            PxBuilderCmdInteger32 cmd = command.i32;
 
-            result = pxMemory32WriteInteger32(memory, size,
+            result = pxMemory8WriteInteger32(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_INTEGER64: {
-            PxBuilderCmdInteger64 cmd = command.cmd_i64;
+            PxBuilderCmdInteger64 cmd = command.i64;
 
-            result = pxMemory32WriteInteger64(memory, size,
+            result = pxMemory8WriteInteger64(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_INTEGER: {
-            PxBuilderCmdInteger cmd = command.cmd_iword;
+            PxBuilderCmdInteger cmd = command.iword;
 
-            result = pxMemory32WriteInteger(memory, size,
+            result = pxMemory8WriteInteger(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_UNICODE: {
-            pxi32 cmd = command.cmd_uni;
-
-            result = pxUtf32UnitsToWrite(cmd);
-
-            if (result != 0)
-                memory[0] = cmd;
+            result = pxUtf8WriteMemory8Forw(memory, size, 0, command.unicode);
         } break;
 
         case PX_BUILDER_CMD_STRING8: {
-            PxString8 cmd = command.cmd_str8;
+            PxString8 cmd = command.string8;
 
-            pxiword length = pxUtf32UnitsFromMemory8(
-                cmd.memory, cmd.length);
+            if (cmd.length < 0 || cmd.length >= size)
+                return 0;
 
-            if (length < 0 || length >= size) return 0;
+            for (pxiword i = 0; i < cmd.length; i += 1)
+                memory[i] = cmd.memory[i];
 
-            pxiword index = 0;
-            pxiword other = 0;
-
-            while (index < length) {
-                pxi32 unicode = 0;
-
-                other += pxUtf8ReadMemory8Forw(
-                    cmd.memory, cmd.length, other, &unicode);
-
-                index += pxUtf32WriteMemory32Forw(
-                    memory, length, index, unicode);
-            }
-
-            result = length;
+            result = cmd.length;
         } break;
 
         case PX_BUILDER_CMD_STRING16: {
-            PxString16 cmd = command.cmd_str16;
+            PxString16 cmd = command.string16;
 
             pxiword length = pxUtf32UnitsFromMemory16(
                 cmd.memory, cmd.length);
@@ -410,7 +400,7 @@ pxBuilderCommand(PxBuilder* self, PxBuilderCmd command)
                 other += pxUtf16ReadMemory16Forw(
                     cmd.memory, cmd.length, other, &unicode);
 
-                index += pxUtf32WriteMemory32Forw(
+                index += pxUtf8WriteMemory8Forw(
                     memory, length, index, unicode);
             }
 
@@ -418,15 +408,27 @@ pxBuilderCommand(PxBuilder* self, PxBuilderCmd command)
         } break;
 
         case PX_BUILDER_CMD_STRING32: {
-            PxString32 cmd = command.cmd_str32;
+            PxString32 cmd = command.string32;
 
-            if (cmd.length < 0 || cmd.length >= size)
-                return 0;
+            pxiword length = pxUtf8UnitsFromMemory32(
+                cmd.memory, cmd.length);
 
-            for (pxiword i = 0; i < cmd.length; i += 1)
-                memory[i] = cmd.memory[i];
+            if (length < 0 || length >= size) return 0;
 
-            result = cmd.length;
+            pxiword index = 0;
+            pxiword other = 0;
+
+            while (index < length) {
+                pxi32 unicode = 0;
+
+                other += pxUtf32ReadMemory32Forw(
+                    cmd.memory, cmd.length, other, &unicode);
+
+                index += pxUtf8WriteMemory8Forw(
+                    memory, length, index, unicode);
+            }
+
+            result = length;
         } break;
 
         default: break;
@@ -440,34 +442,34 @@ pxBuilderCommand(PxBuilder* self, PxBuilderCmd command)
 PxString8
 pxString8FromBuilder(PxArena* arena, PxBuilder* builder)
 {
-    PxString32 string = {
+    PxString8 string = {
         .memory = builder->memory,
         .length = builder->size,
     };
 
-    return pxString8CopyString32(arena, string);
+    return pxString8Copy(arena, string);
 }
 
 PxString16
 pxString16FromBuilder(PxArena* arena, PxBuilder* builder)
 {
-    PxString32 string = {
+    PxString8 string = {
         .memory = builder->memory,
         .length = builder->size,
     };
 
-    return pxString16CopyString32(arena, string);
+    return pxString16CopyString8(arena, string);
 }
 
 PxString32
 pxString32FromBuilder(PxArena* arena, PxBuilder* builder)
 {
-    PxString32 string = {
+    PxString8 string = {
         .memory = builder->memory,
         .length = builder->size,
     };
 
-    return pxString32Copy(arena, string);
+    return pxString32CopyString8(arena, string);
 }
 
 #endif // PX_CORE_FORMAT_BUILDER_C

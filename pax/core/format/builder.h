@@ -118,30 +118,30 @@ typedef struct PxBuilderCmd
 
     union
     {
-        PxBuilderCmdUnsigned8  cmd_u8;
-        PxBuilderCmdUnsigned16 cmd_u16;
-        PxBuilderCmdUnsigned32 cmd_u32;
-        PxBuilderCmdUnsigned64 cmd_u64;
-        PxBuilderCmdUnsigned   cmd_uword;
+        PxBuilderCmdUnsigned8  u8;
+        PxBuilderCmdUnsigned16 u16;
+        PxBuilderCmdUnsigned32 u32;
+        PxBuilderCmdUnsigned64 u64;
+        PxBuilderCmdUnsigned   uword;
 
-        PxBuilderCmdInteger8  cmd_i8;
-        PxBuilderCmdInteger16 cmd_i16;
-        PxBuilderCmdInteger32 cmd_i32;
-        PxBuilderCmdInteger64 cmd_i64;
-        PxBuilderCmdInteger   cmd_iword;
+        PxBuilderCmdInteger8  i8;
+        PxBuilderCmdInteger16 i16;
+        PxBuilderCmdInteger32 i32;
+        PxBuilderCmdInteger64 i64;
+        PxBuilderCmdInteger   iword;
 
-        pxi32 cmd_uni;
+        pxi32 unicode;
 
-        PxString8  cmd_str8;
-        PxString16 cmd_str16;
-        PxString32 cmd_str32;
+        PxString8  string8;
+        PxString16 string16;
+        PxString32 string32;
     };
 }
 PxBuilderCmd;
 
 typedef struct PxBuilder
 {
-    pxu32*  memory;
+    pxu8*   memory;
     pxiword length;
     pxiword size;
 }
@@ -194,6 +194,9 @@ pxBuilderCmdString32(PxString32 value);
 /* Builder */
 
 PxBuilder
+pxBuilderMake(pxu8* memory, pxiword length);
+
+PxBuilder
 pxBuilderReserve(PxArena* arena, pxiword length);
 
 void
@@ -203,7 +206,7 @@ pxiword
 pxBuilderFormat(PxBuilder* self, PxString8 format, pxiword start, pxiword stop, PxBuilderCmd* list);
 
 pxiword
-pxBuilderList(PxBuilder* self, pxiword start, pxiword stop, PxBuilderCmd* list);
+pxBuilderChain(PxBuilder* self, pxiword start, pxiword stop, PxBuilderCmd* list);
 
 pxiword
 pxBuilderCommand(PxBuilder* self, PxBuilderCmd command);

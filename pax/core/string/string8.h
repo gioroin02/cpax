@@ -4,7 +4,7 @@
 #include "utf8.h"
 
 #define pxs8(x) (PxString8) \
-    {.memory = pxCast(pxu8*, x), .length = pxSizeArray(pxu8, x) - 1} \
+    {.memory = pxCast(pxu8*, x), .length = pxSizeArray(pxu8, x) - 1}
 
 typedef struct PxString8
 {

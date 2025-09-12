@@ -42,8 +42,9 @@ PxReportLevel;
 
 typedef enum PxReportFlag
 {
-    PX_REPORT_FLAG_NONE   = 0x0,
-    PX_REPORT_FLAG_COLORS = 0x1,
+    PX_REPORT_FLAG_NONE  = 0x0,
+    PX_REPORT_FLAG_LEVEL = 0x1,
+    PX_REPORT_FLAG_COLOR = 0x2,
 }
 PxReportFlag;
 

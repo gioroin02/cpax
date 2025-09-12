@@ -11,7 +11,7 @@ main(int argc, char** argv)
 
     PxString8 string = {0};
 
-    pxBuilderList(&builder, 0, 5, (PxBuilderCmd[]) {
+    pxBuilderChain(&builder, 0, 5, (PxBuilderCmd[]) {
         pxBuilderCmdString8(pxs8("coords = {x = ")),
         pxBuilderCmdInteger(10, PX_FORMAT_OPTION_LEADING_PLUS, PX_IWORD_MAX),
         pxBuilderCmdString8(pxs8(", y = ")),

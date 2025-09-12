@@ -84,7 +84,7 @@ pxJsonTokenString(PxString8 string)
     return (PxJsonToken) {
         .type         = PX_JSON_TOKEN_STRING,
         .length       = string.length + 2,
-        .value_string = string,
+        .string8 = string,
     };
 }
 
@@ -102,7 +102,7 @@ pxJsonTokenUnsigned(PxString8 string)
     return (PxJsonToken) {
         .type           = PX_JSON_TOKEN_UNSIGNED,
         .length         = string.length,
-        .value_unsigned = value,
+        .uword = value,
     };
 }
 
@@ -120,7 +120,7 @@ pxJsonTokenInteger(PxString8 string)
     return (PxJsonToken) {
         .type          = PX_JSON_TOKEN_INTEGER,
         .length        = string.length,
-        .value_integer = value,
+        .iword = value,
     };
 }
 
@@ -138,7 +138,7 @@ pxJsonTokenFloating(PxString8 string)
     return (PxJsonToken) {
         .type           = PX_JSON_TOKEN_FLOATING,
         .length         = string.length,
-        .value_floating = value,
+        .fword = value,
     };
 }
 
@@ -148,7 +148,7 @@ pxJsonTokenBoolean(PxString8 string, pxbword value)
     return (PxJsonToken) {
         .type          = PX_JSON_TOKEN_BOOLEAN,
         .length        = string.length,
-        .value_boolean = value,
+        .bword = value,
     };
 }
 

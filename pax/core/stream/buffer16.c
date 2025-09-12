@@ -6,27 +6,29 @@
 PxBuffer16
 pxBuffer16Make(pxu16* memory, pxiword length)
 {
-    if (memory == 0 || length <= 0)
-        return (PxBuffer16) {0};
+    PxBuffer16 result = {0};
 
-    return (PxBuffer16) {
-        .memory = memory,
-        .length = length,
-    };
+    if (memory != 0 && length > 0) {
+        result.memory = memory;
+        result.length = length;
+    }
+
+    return result;
 }
 
 PxBuffer16
 pxBuffer16MakeFull(pxu16* memory, pxiword length)
 {
-    if (memory == 0 || length <= 0)
-        return (PxBuffer16) {0};
+    PxBuffer16 result = {0};
 
-    return (PxBuffer16) {
-        .memory = memory,
-        .length = length,
-        .size   = length,
-        .tail   = length,
-    };
+    if (memory != 0 || length > 0) {
+        result.memory = memory;
+        result.length = length;
+        result.size   = length;
+        result.tail   = length;
+    }
+
+    return result;
 }
 
 PxBuffer16

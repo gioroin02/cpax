@@ -6,27 +6,29 @@
 PxBuffer32
 pxBuffer32Make(pxu32* memory, pxiword length)
 {
-    if (memory == 0 || length <= 0)
-        return (PxBuffer32) {0};
+    PxBuffer32 result = {0};
 
-    return (PxBuffer32) {
-        .memory = memory,
-        .length = length,
-    };
+    if (memory != 0 || length > 0) {
+        result.memory = memory;
+        result.length = length;
+    }
+
+    return result;
 }
 
 PxBuffer32
 pxBuffer32MakeFull(pxu32* memory, pxiword length)
 {
-    if (memory == 0 || length <= 0)
-        return (PxBuffer32) {0};
+    PxBuffer32 result = {0};
 
-    return (PxBuffer32) {
-        .memory = memory,
-        .length = length,
-        .size   = length,
-        .tail   = length,
-    };
+    if (memory != 0 && length > 0) {
+        result.memory = memory;
+        result.length = length;
+        result.size   = length;
+        result.tail   = length;
+    }
+
+    return result;
 }
 
 PxBuffer32
@@ -329,7 +331,7 @@ pxBuffer32WriteMemory8Tail(PxBuffer32* self, pxu8* memory, pxiword length)
             pxiword j = self->tail + index + i;
 
             self->memory[j % self->length] =
-                utf32.memory[i];
+                utf32.items[i];
         }
 
         index += utf32.size;
@@ -373,7 +375,7 @@ pxBuffer32WriteMemory16Tail(PxBuffer32* self, pxu16* memory, pxiword length)
             pxiword j = self->tail + index + i;
 
             self->memory[j % self->length] =
-                utf32.memory[i];
+                utf32.items[i];
         }
 
         index += utf32.size;

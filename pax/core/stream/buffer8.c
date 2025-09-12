@@ -6,27 +6,29 @@
 PxBuffer8
 pxBuffer8Make(pxu8* memory, pxiword length)
 {
-    if (memory == 0 || length <= 0)
-        return (PxBuffer8) {0};
+    PxBuffer8 result = {0};
 
-    return (PxBuffer8) {
-        .memory = memory,
-        .length = length,
-    };
+    if (memory != 0 && length > 0) {
+        result.memory = memory;
+        result.length = length;
+    }
+
+    return result;
 }
 
 PxBuffer8
 pxBuffer8MakeFull(pxu8* memory, pxiword length)
 {
-    if (memory == 0 || length <= 0)
-        return (PxBuffer8) {0};
+    PxBuffer8 result = {0};
 
-    return (PxBuffer8) {
-        .memory = memory,
-        .length = length,
-        .size   = length,
-        .tail   = length,
-    };
+    if (memory != 0 && length > 0) {
+        result.memory = memory;
+        result.length = length;
+        result.size   = length;
+        result.tail   = length;
+    }
+
+    return result;
 }
 
 PxBuffer8
@@ -285,7 +287,7 @@ pxBuffer8WriteMemory16Head(PxBuffer8* self, pxu16* memory, pxiword length)
             pxiword j = self->head + index + i;
 
             self->memory[j % self->length] =
-                utf8.memory[i];
+                utf8.items[i];
         }
 
         index += utf8.size;
@@ -329,7 +331,7 @@ pxBuffer8WriteMemory32Head(PxBuffer8* self, pxu32* memory, pxiword length)
             pxiword j = self->head + index + i;
 
             self->memory[j % self->length] =
-                utf8.memory[i];
+                utf8.items[i];
         }
 
         index += utf8.size;
@@ -417,7 +419,7 @@ pxBuffer8WriteMemory16Tail(PxBuffer8* self, pxu16* memory, pxiword length)
             pxiword j = self->tail + index + i;
 
             self->memory[j % self->length] =
-                utf8.memory[i];
+                utf8.items[i];
         }
 
         index += utf8.size;
@@ -461,7 +463,7 @@ pxBuffer8WriteMemory32Tail(PxBuffer8* self, pxu32* memory, pxiword length)
             pxiword j = self->tail + index + i;
 
             self->memory[j % self->length] =
-                utf8.memory[i];
+                utf8.items[i];
         }
 
         index += utf8.size;

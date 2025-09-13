@@ -6,18 +6,17 @@
 
 typedef struct PxJsonReader
 {
-    PxReader reader;
-    PxQueue  stack;
-
+    PxQueue   stack;
     PxString8 name;
+    pxb8      colon;
+    pxb8      comma;
 
-    pxb8 colon;
-    pxb8 comma;
+    PxReader* reader;
 }
 PxJsonReader;
 
 PxJsonReader
-pxJsonReaderMake(PxArena* arena, pxiword length, PxReader reader);
+pxJsonReaderMake(PxArena* arena, pxiword length, PxReader* reader);
 
 PxJsonEvent
 pxJsonReaderNext(PxJsonReader* self, PxArena* arena);

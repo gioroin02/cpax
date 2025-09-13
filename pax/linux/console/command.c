@@ -21,36 +21,36 @@ pxLinuxConsoleWriteCommand(PxWriter* self, PxConsoleCmd value)
     switch (value.type) {
         case PX_CONSOLE_CMD_STYLE_8_FRONT: {
             length = pxBuilderBuild(&builder, "\x1b[3${0}m",
-                pxBuilderCmdUnsigned8(radix, options, value.style8));
+                pxBuilderCmdUnsigned8(radix, options, value.style_8));
         } break;
 
         case PX_CONSOLE_CMD_STYLE_8_BACK: {
             length = pxBuilderBuild(&builder, "\x1b[4${0}m",
-                pxBuilderCmdUnsigned8(radix, options, value.style8));
+                pxBuilderCmdUnsigned8(radix, options, value.style_8));
         } break;
 
         case PX_CONSOLE_CMD_STYLE_256_FRONT: {
             length = pxBuilderBuild(&builder, "\x1b[38;5;${0}m",
-                pxBuilderCmdUnsigned8(radix, options, value.style256));
+                pxBuilderCmdUnsigned8(radix, options, value.style_256));
         } break;
 
         case PX_CONSOLE_CMD_STYLE_256_BACK: {
             length = pxBuilderBuild(&builder, "\x1b[48;5;${0}m",
-                pxBuilderCmdUnsigned8(radix, options, value.style256));
+                pxBuilderCmdUnsigned8(radix, options, value.style_256));
         } break;
 
         case PX_CONSOLE_CMD_STYLE_RGB_FRONT: {
             length = pxBuilderBuild(&builder, "\x1b[38;2;${0};${1};${2}m",
-                pxBuilderCmdUnsigned8(radix, options, value.styleRGB.r),
-                pxBuilderCmdUnsigned8(radix, options, value.styleRGB.g),
-                pxBuilderCmdUnsigned8(radix, options, value.styleRGB.b));
+                pxBuilderCmdUnsigned8(radix, options, value.style_rgb.r),
+                pxBuilderCmdUnsigned8(radix, options, value.style_rgb.g),
+                pxBuilderCmdUnsigned8(radix, options, value.style_rgb.b));
         } break;
 
         case PX_CONSOLE_CMD_STYLE_RGB_BACK: {
             length = pxBuilderBuild(&builder, "\x1b[48;2;${0};${1};${2}m",
-                pxBuilderCmdUnsigned8(radix, options, value.styleRGB.r),
-                pxBuilderCmdUnsigned8(radix, options, value.styleRGB.g),
-                pxBuilderCmdUnsigned8(radix, options, value.styleRGB.b));
+                pxBuilderCmdUnsigned8(radix, options, value.style_rgb.r),
+                pxBuilderCmdUnsigned8(radix, options, value.style_rgb.g),
+                pxBuilderCmdUnsigned8(radix, options, value.style_rgb.b));
         } break;
 
         case PX_CONSOLE_CMD_STYLE_CLEAR: {
@@ -101,17 +101,17 @@ pxLinuxConsoleWriteCommand(PxWriter* self, PxConsoleCmd value)
 
         case PX_CONSOLE_CMD_STRING_8: {
             length = pxBuilderBuild(&builder, "${0}",
-                pxBuilderCmdString8(value.string8));
+                pxBuilderCmdString8(value.string_8));
         } break;
 
         case PX_CONSOLE_CMD_STRING_16: {
             length = pxBuilderBuild(&builder, "${0}",
-                pxBuilderCmdString16(value.string16));
+                pxBuilderCmdString16(value.string_16));
         } break;
 
         case PX_CONSOLE_CMD_STRING_32: {
             length = pxBuilderBuild(&builder, "${0}",
-                pxBuilderCmdString32(value.string32));
+                pxBuilderCmdString32(value.string_32));
         } break;
 
         case PX_CONSOLE_CMD_RESET: {

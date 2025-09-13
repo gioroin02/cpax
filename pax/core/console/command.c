@@ -25,8 +25,8 @@ PxConsoleCmd
 pxConsoleCmdStyle8Front(pxu8 value)
 {
     return (PxConsoleCmd) {
-        .type   = PX_CONSOLE_CMD_STYLE_8_FRONT,
-        .style8 = value,
+        .type    = PX_CONSOLE_CMD_STYLE_8_FRONT,
+        .style_8 = value,
     };
 }
 
@@ -34,8 +34,8 @@ PxConsoleCmd
 pxConsoleCmdStyle256Front(pxu8 value)
 {
     return (PxConsoleCmd) {
-        .type     = PX_CONSOLE_CMD_STYLE_256_FRONT,
-        .style256 = value,
+        .type      = PX_CONSOLE_CMD_STYLE_256_FRONT,
+        .style_256 = value,
     };
 }
 
@@ -45,7 +45,7 @@ pxConsoleCmdStyleRGBFront(pxu8 r, pxu8 g, pxu8 b)
     return (PxConsoleCmd) {
         .type = PX_CONSOLE_CMD_STYLE_RGB_FRONT,
 
-        .styleRGB = {
+        .style_rgb = {
             .r = r,
             .g = g,
             .b = b,
@@ -57,8 +57,8 @@ PxConsoleCmd
 pxConsoleCmdStyle8Back(pxu8 value)
 {
     return (PxConsoleCmd) {
-        .type   = PX_CONSOLE_CMD_STYLE_8_BACK,
-        .style8 = value,
+        .type    = PX_CONSOLE_CMD_STYLE_8_BACK,
+        .style_8 = value,
     };
 }
 
@@ -67,7 +67,7 @@ pxConsoleCmdStyle256Back(pxu8 value)
 {
     return (PxConsoleCmd) {
         .type      = PX_CONSOLE_CMD_STYLE_256_BACK,
-        .style256 = value,
+        .style_256 = value,
     };
 }
 
@@ -77,7 +77,7 @@ pxConsoleCmdStyleRGBBack(pxu8 r, pxu8 g, pxu8 b)
     return (PxConsoleCmd) {
         .type = PX_CONSOLE_CMD_STYLE_RGB_BACK,
 
-        .styleRGB = {
+        .style_rgb = {
             .r = r,
             .g = g,
             .b = b,
@@ -171,8 +171,8 @@ PxConsoleCmd
 pxConsoleCmdString8(PxString8 value)
 {
     return (PxConsoleCmd) {
-        .type    = PX_CONSOLE_CMD_STRING_8,
-        .string8 = value,
+        .type     = PX_CONSOLE_CMD_STRING_8,
+        .string_8 = value,
     };
 }
 
@@ -180,8 +180,8 @@ PxConsoleCmd
 pxConsoleCmdString16(PxString16 value)
 {
     return (PxConsoleCmd) {
-        .type     = PX_CONSOLE_CMD_STRING_16,
-        .string16 = value,
+        .type      = PX_CONSOLE_CMD_STRING_16,
+        .string_16 = value,
     };
 }
 
@@ -189,8 +189,8 @@ PxConsoleCmd
 pxConsoleCmdString32(PxString32 value)
 {
     return (PxConsoleCmd) {
-        .type     = PX_CONSOLE_CMD_STRING_32,
-        .string32 = value,
+        .type      = PX_CONSOLE_CMD_STRING_32,
+        .string_32 = value,
     };
 }
 

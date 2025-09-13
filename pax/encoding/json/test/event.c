@@ -72,7 +72,7 @@ showJsonEvent(PxJsonReader* reader, PxArena* arena)
                 }
 
                 printf(BLUE("'%.*s'"),
-                    pxCast(int, event.string8.length), event.string8.memory);
+                    pxCast(int, event.string_8.length), event.string_8.memory);
             } break;
 
             case PX_JSON_EVENT_UNSIGNED: {
@@ -81,7 +81,7 @@ showJsonEvent(PxJsonReader* reader, PxArena* arena)
                         event.name.memory);
                 }
 
-                printf(PURPLE("%llu"), event.uword);
+                printf(PURPLE("%llu"), event.unsigned_word);
             } break;
 
             case PX_JSON_EVENT_INTEGER: {
@@ -90,7 +90,7 @@ showJsonEvent(PxJsonReader* reader, PxArena* arena)
                         event.name.memory);
                 }
 
-                printf(PURPLE("%lli"), event.iword);
+                printf(PURPLE("%lli"), event.integer_word);
             } break;
 
             case PX_JSON_EVENT_FLOATING: {
@@ -99,7 +99,7 @@ showJsonEvent(PxJsonReader* reader, PxArena* arena)
                         event.name.memory);
                 }
 
-                printf(PURPLE("%lf"), event.fword);
+                printf(PURPLE("%lf"), event.floating_word);
             } break;
 
             case PX_JSON_EVENT_BOOLEAN: {
@@ -108,7 +108,7 @@ showJsonEvent(PxJsonReader* reader, PxArena* arena)
                         event.name.memory);
                 }
 
-                printf("%s", event.bword != 0 ? GREEN("true") : RED("false"));
+                printf("%s", event.boolean_word != 0 ? GREEN("true") : RED("false"));
             } break;
 
             case PX_JSON_EVENT_NULL: {
@@ -130,8 +130,9 @@ showJsonEvent(PxJsonReader* reader, PxArena* arena)
 int
 main(int argc, char** argv)
 {
-    PxArena   arena  = pxMemoryReserve(16);
-    PxBuffer8 source = pxBuffer8Reserve(&arena, 256);
+    PxArena   arena       = pxMemoryReserve(16);
+    PxBuffer8 source      = pxBuffer8Reserve(&arena, 256);
+    PxReader  buff_reader = pxBufferReader(&source, &arena, 256);
 
     pxBuffer8WriteString8Tail(&source, ENTITY);
 
@@ -140,8 +141,8 @@ main(int argc, char** argv)
 
     printf("\n");
 
-    PxJsonReader reader = pxJsonReaderMake(&arena, 16,
-        pxBufferReader(&source, &arena, 256));
+    PxJsonReader reader =
+        pxJsonReaderMake(&arena, 16, &buff_reader);
 
     showJsonEvent(&reader, &arena);
 }

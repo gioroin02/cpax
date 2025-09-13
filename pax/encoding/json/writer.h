@@ -5,15 +5,15 @@
 
 typedef struct PxJsonWriter
 {
-    PxWriter writer;
-    PxQueue  stack;
+    PxQueue stack;
+    pxb8    comma;
 
-    pxb8 comma;
+    PxWriter* writer;
 }
 PxJsonWriter;
 
 PxJsonWriter
-pxJsonWriterMake(PxArena* arena, pxiword length, PxWriter writer);
+pxJsonWriterMake(PxArena* arena, pxiword length, PxWriter* writer);
 
 pxb8
 pxJsonWriterNext(PxJsonWriter* self, PxArena* arena, PxJsonEvent event);

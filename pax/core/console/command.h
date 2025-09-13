@@ -70,18 +70,18 @@ typedef struct PxConsoleCmd
 
     union
     {
-        PxConsoleCmdStyle8   style8;
-        PxConsoleCmdStyle256 style256;
-        PxConsoleCmdStyleRGB styleRGB;
+        PxConsoleCmdStyle8   style_8;
+        PxConsoleCmdStyle256 style_256;
+        PxConsoleCmdStyleRGB style_rgb;
 
         PxConsoleCmdCursorMove  cursor_move;
         PxConsoleCmdCursorPlace cursor_place;
 
         PxConsoleCmdUnicode unicode;
 
-        PxConsoleCmdString8  string8;
-        PxConsoleCmdString16 string16;
-        PxConsoleCmdString32 string32;
+        PxConsoleCmdString8  string_8;
+        PxConsoleCmdString16 string_16;
+        PxConsoleCmdString32 string_32;
     };
 }
 PxConsoleCmd;

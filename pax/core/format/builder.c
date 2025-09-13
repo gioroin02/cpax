@@ -31,7 +31,7 @@ pxBuilderCmdUnsigned8(pxuword radix, PxFormatOption options, pxu8 value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_UNSIGNED8,
 
-        .u8 = {
+        .unsigned_8 = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -45,7 +45,7 @@ pxBuilderCmdUnsigned16(pxuword radix, PxFormatOption options, pxu16 value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_UNSIGNED16,
 
-        .u16 = {
+        .unsigned_16 = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -59,7 +59,7 @@ pxBuilderCmdUnsigned32(pxuword radix, PxFormatOption options, pxu32 value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_UNSIGNED32,
 
-        .u32 = {
+        .unsigned_32 = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -73,7 +73,7 @@ pxBuilderCmdUnsigned64(pxuword radix, PxFormatOption options, pxu64 value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_UNSIGNED64,
 
-        .u64 = {
+        .unsigned_64 = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -87,7 +87,7 @@ pxBuilderCmdUnsigned(pxuword radix, PxFormatOption options, pxuword value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_UNSIGNED,
 
-        .uword = {
+        .unsigned_word = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -101,7 +101,7 @@ pxBuilderCmdInteger8(pxuword radix, PxFormatOption options, pxi8 value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_INTEGER8,
 
-        .i8 = {
+        .integer_8 = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -115,7 +115,7 @@ pxBuilderCmdInteger16(pxuword radix, PxFormatOption options, pxi16 value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_INTEGER16,
 
-        .i16 = {
+        .integer_16 = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -129,7 +129,7 @@ pxBuilderCmdInteger32(pxuword radix, PxFormatOption options, pxi32 value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_INTEGER32,
 
-        .i32 = {
+        .integer_32 = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -143,7 +143,7 @@ pxBuilderCmdInteger64(pxuword radix, PxFormatOption options, pxi64 value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_INTEGER64,
 
-        .i64 = {
+        .integer_64 = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -157,7 +157,7 @@ pxBuilderCmdInteger(pxuword radix, PxFormatOption options, pxiword value)
     return (PxBuilderCmd) {
         .type = PX_BUILDER_CMD_INTEGER,
 
-        .iword = {
+        .integer_word = {
             .radix   = radix,
             .options = options,
             .value   = value,
@@ -178,8 +178,8 @@ PxBuilderCmd
 pxBuilderCmdString8(PxString8 value)
 {
     return (PxBuilderCmd) {
-        .type    = PX_BUILDER_CMD_STRING8,
-        .string8 = value,
+        .type     = PX_BUILDER_CMD_STRING8,
+        .string_8 = value,
     };
 }
 
@@ -187,8 +187,8 @@ PxBuilderCmd
 pxBuilderCmdString16(PxString16 value)
 {
     return (PxBuilderCmd) {
-        .type     = PX_BUILDER_CMD_STRING16,
-        .string16 = value,
+        .type      = PX_BUILDER_CMD_STRING16,
+        .string_16 = value,
     };
 }
 
@@ -196,8 +196,8 @@ PxBuilderCmd
 pxBuilderCmdString32(PxString32 value)
 {
     return (PxBuilderCmd) {
-        .type     = PX_BUILDER_CMD_STRING32,
-        .string32 = value,
+        .type      = PX_BUILDER_CMD_STRING32,
+        .string_32 = value,
     };
 }
 
@@ -297,70 +297,70 @@ pxBuilderCommand(PxBuilder* self, PxBuilderCmd command)
 
     switch (command.type) {
         case PX_BUILDER_CMD_UNSIGNED8: {
-            PxBuilderCmdUnsigned8 cmd = command.u8;
+            PxBuilderCmdUnsigned8 cmd = command.unsigned_8;
 
             result = pxMemory8WriteUnsigned8(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_UNSIGNED16: {
-            PxBuilderCmdUnsigned16 cmd = command.u16;
+            PxBuilderCmdUnsigned16 cmd = command.unsigned_16;
 
             result = pxMemory8WriteUnsigned16(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_UNSIGNED32: {
-            PxBuilderCmdUnsigned32 cmd = command.u32;
+            PxBuilderCmdUnsigned32 cmd = command.unsigned_32;
 
             result = pxMemory8WriteUnsigned32(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_UNSIGNED64: {
-            PxBuilderCmdUnsigned64 cmd = command.u64;
+            PxBuilderCmdUnsigned64 cmd = command.unsigned_64;
 
             result = pxMemory8WriteUnsigned64(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_UNSIGNED: {
-            PxBuilderCmdUnsigned cmd = command.uword;
+            PxBuilderCmdUnsigned cmd = command.unsigned_word;
 
             result = pxMemory8WriteUnsigned(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_INTEGER8: {
-            PxBuilderCmdInteger8 cmd = command.i8;
+            PxBuilderCmdInteger8 cmd = command.integer_8;
 
             result = pxMemory8WriteInteger8(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_INTEGER16: {
-            PxBuilderCmdInteger16 cmd = command.i16;
+            PxBuilderCmdInteger16 cmd = command.integer_16;
 
             result = pxMemory8WriteInteger16(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_INTEGER32: {
-            PxBuilderCmdInteger32 cmd = command.i32;
+            PxBuilderCmdInteger32 cmd = command.integer_32;
 
             result = pxMemory8WriteInteger32(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_INTEGER64: {
-            PxBuilderCmdInteger64 cmd = command.i64;
+            PxBuilderCmdInteger64 cmd = command.integer_64;
 
             result = pxMemory8WriteInteger64(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
         case PX_BUILDER_CMD_INTEGER: {
-            PxBuilderCmdInteger cmd = command.iword;
+            PxBuilderCmdInteger cmd = command.integer_word;
 
             result = pxMemory8WriteInteger(memory, size,
                 cmd.radix, cmd.options, cmd.value);
@@ -371,7 +371,7 @@ pxBuilderCommand(PxBuilder* self, PxBuilderCmd command)
         } break;
 
         case PX_BUILDER_CMD_STRING8: {
-            PxString8 cmd = command.string8;
+            PxString8 cmd = command.string_8;
 
             if (cmd.length < 0 || cmd.length >= size)
                 return 0;
@@ -383,7 +383,7 @@ pxBuilderCommand(PxBuilder* self, PxBuilderCmd command)
         } break;
 
         case PX_BUILDER_CMD_STRING16: {
-            PxString16 cmd = command.string16;
+            PxString16 cmd = command.string_16;
 
             pxiword length = pxUtf32UnitsFromMemory16(
                 cmd.memory, cmd.length);
@@ -407,7 +407,7 @@ pxBuilderCommand(PxBuilder* self, PxBuilderCmd command)
         } break;
 
         case PX_BUILDER_CMD_STRING32: {
-            PxString32 cmd = command.string32;
+            PxString32 cmd = command.string_32;
 
             pxiword length = pxUtf8UnitsFromMemory32(
                 cmd.memory, cmd.length);

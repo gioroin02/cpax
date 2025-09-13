@@ -118,23 +118,23 @@ typedef struct PxBuilderCmd
 
     union
     {
-        PxBuilderCmdUnsigned8  u8;
-        PxBuilderCmdUnsigned16 u16;
-        PxBuilderCmdUnsigned32 u32;
-        PxBuilderCmdUnsigned64 u64;
-        PxBuilderCmdUnsigned   uword;
+        PxBuilderCmdUnsigned8  unsigned_8;
+        PxBuilderCmdUnsigned16 unsigned_16;
+        PxBuilderCmdUnsigned32 unsigned_32;
+        PxBuilderCmdUnsigned64 unsigned_64;
+        PxBuilderCmdUnsigned   unsigned_word;
 
-        PxBuilderCmdInteger8  i8;
-        PxBuilderCmdInteger16 i16;
-        PxBuilderCmdInteger32 i32;
-        PxBuilderCmdInteger64 i64;
-        PxBuilderCmdInteger   iword;
+        PxBuilderCmdInteger8  integer_8;
+        PxBuilderCmdInteger16 integer_16;
+        PxBuilderCmdInteger32 integer_32;
+        PxBuilderCmdInteger64 integer_64;
+        PxBuilderCmdInteger   integer_word;
 
         pxi32 unicode;
 
-        PxString8  string8;
-        PxString16 string16;
-        PxString32 string32;
+        PxString8  string_8;
+        PxString16 string_16;
+        PxString32 string_32;
     };
 }
 PxBuilderCmd;

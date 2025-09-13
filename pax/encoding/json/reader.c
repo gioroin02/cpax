@@ -4,7 +4,7 @@
 #include "reader.h"
 
 PxJsonReader
-pxJsonReaderMake(PxArena* arena, pxiword length, PxReader reader)
+pxJsonReaderMake(PxArena* arena, pxiword length, PxReader* reader)
 {
     PxQueue stack =
         pxQueueReserve(arena, PxJsonLayerType, length);
@@ -27,7 +27,7 @@ pxJsonReaderNext(PxJsonReader* self, PxArena* arena)
         if (pxQueueReadTail(&self->stack, PxJsonLayerType, &parent) == 0)
             parent = PX_JSON_LAYER_NONE;
 
-        PxJsonToken token = pxJsonNext(&self->reader, arena);
+        PxJsonToken token = pxJsonNext(self->reader, arena);
 
         if (token.type == PX_JSON_TOKEN_COUNT) break;
 
@@ -85,7 +85,7 @@ pxJsonReaderNext(PxJsonReader* self, PxArena* arena)
 
             case PX_JSON_TOKEN_COLON: {
                 if (parent == PX_JSON_LAYER_OBJECT) {
-                    token = pxJsonPeek(&self->reader, arena);
+                    token = pxJsonPeek(self->reader, arena);
 
                     switch (token.type) {
                         case PX_JSON_TOKEN_OBJECT_OPEN:
@@ -110,9 +110,9 @@ pxJsonReaderNext(PxJsonReader* self, PxArena* arena)
             case PX_JSON_TOKEN_STRING: {
                 if (parent != PX_JSON_LAYER_OBJECT || self->colon != 0) {
                     result = pxJsonEventString(
-                        token.string8, self->name);
+                        token.string_8, self->name);
                 } else
-                    self->name = token.string8;
+                    self->name = token.string_8;
 
                 self->colon = 0;
                 self->comma = 0;
@@ -120,7 +120,7 @@ pxJsonReaderNext(PxJsonReader* self, PxArena* arena)
 
             case PX_JSON_TOKEN_UNSIGNED: {
                 result = pxJsonEventUnsigned(
-                    token.uword, self->name);
+                    token.unsigned_word, self->name);
 
                 self->colon = 0;
                 self->comma = 0;
@@ -128,7 +128,7 @@ pxJsonReaderNext(PxJsonReader* self, PxArena* arena)
 
             case PX_JSON_TOKEN_INTEGER: {
                 result = pxJsonEventInteger(
-                    token.iword, self->name);
+                    token.integer_word, self->name);
 
                 self->colon = 0;
                 self->comma = 0;
@@ -136,7 +136,7 @@ pxJsonReaderNext(PxJsonReader* self, PxArena* arena)
 
             case PX_JSON_TOKEN_FLOATING: {
                 result = pxJsonEventFloating(
-                    token.fword, self->name);
+                    token.floating_word, self->name);
 
                 self->colon = 0;
                 self->comma = 0;
@@ -144,7 +144,7 @@ pxJsonReaderNext(PxJsonReader* self, PxArena* arena)
 
             case PX_JSON_TOKEN_BOOLEAN: {
                 result = pxJsonEventBoolean(
-                    token.bword, self->name);
+                    token.boolean_word, self->name);
 
                 self->colon = 0;
                 self->comma = 0;

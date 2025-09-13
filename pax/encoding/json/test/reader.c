@@ -42,12 +42,12 @@ jsonReadEntity(Entity* self, PxJsonReader* reader, PxArena* arena)
         switch (event.type) {
             case PX_JSON_EVENT_STRING: {
                 if (pxString8IsEqual(event.name, pxs8("name")))
-                    self->name = event.string8;
+                    self->name = event.string_8;
             } break;
 
             case PX_JSON_EVENT_UNSIGNED: {
                 if (pxString8IsEqual(event.name, pxs8("code")))
-                    self->code = event.uword;
+                    self->code = event.unsigned_word;
             } break;
 
             default: break;
@@ -60,8 +60,9 @@ jsonReadEntity(Entity* self, PxJsonReader* reader, PxArena* arena)
 int
 main(int argc, char** argv)
 {
-    PxArena   arena  = pxMemoryReserve(16);
-    PxBuffer8 source = pxBuffer8Reserve(&arena, 256);
+    PxArena   arena       = pxMemoryReserve(16);
+    PxBuffer8 source      = pxBuffer8Reserve(&arena, 256);
+    PxReader  buff_reader = pxBufferReader(&source, &arena, 256);
 
     Entity entity = {0};
 
@@ -72,8 +73,8 @@ main(int argc, char** argv)
 
     printf("\n");
 
-    PxJsonReader reader = pxJsonReaderMake(&arena, 16,
-        pxBufferReader(&source, &arena, 256));
+    PxJsonReader reader =
+        pxJsonReaderMake(&arena, 16, &buff_reader);
 
     jsonReadEntity(&entity, &reader, &arena);
 

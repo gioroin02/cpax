@@ -10,45 +10,42 @@ main(int argc, char** argv)
     PxConsole console = pxConsoleCreate(&arena);
     PxWriter  writer  = pxConsoleWriter(console, &arena, 1024);
 
-    PxReportLevel level = PX_REPORT_LEVEL_NONE;
+    PxLogger logger = pxLoggerReserve(&arena, 1024, &writer);
 
-    PxReportFlag flags =
-        PX_REPORT_FLAG_LEVEL |
-        PX_REPORT_FLAG_COLOR;
+    pxLoggerSetFlags(&logger, PX_REPORT_FLAG_LEVEL | PX_REPORT_FLAG_COLOR);
+    pxLoggerSetLevel(&logger, PX_REPORT_LEVEL_WARN);
 
-    PxLogger logger = pxLoggerReserve(&arena, 1024, level, flags, &writer);
+    pxLoggerWrite(&logger, "Level is \"warn\"\n\n", (PxFormatCmd) {0});
 
-    pxLoggerAppend(&logger, "Level is \"warn\"\n\n", (PxBuilderCmd) {0});
-
-    pxLoggerError(&logger, "IMPORTANT\n", (PxBuilderCmd) {0});
+    pxLoggerError(&logger, "IMPORTANT\n", (PxFormatCmd) {0});
 
     pxLoggerInfo(&logger, "With args [${0}, ${1}, ${2}, ${3}, ${4}, ${5}]\n",
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 1),
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 2),
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 3),
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 4),
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 5),
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 6),
+        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 1),
+        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 2),
+        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 3),
+        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 4),
+        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 5),
+        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 6),
     );
 
-    pxLoggerWarn(&logger, "No args\n", (PxBuilderCmd) {0});
-    pxLoggerTrace(&logger, "No args\n", (PxBuilderCmd) {0});
+    pxLoggerWarn(&logger, "No args\n", (PxFormatCmd) {0});
+    pxLoggerTrace(&logger, "No args\n", (PxFormatCmd) {0});
 
     pxLoggerSetLevel(&logger, PX_REPORT_LEVEL_TRACE);
 
-    pxLoggerAppend(&logger, "\nlevel is \"trace\"\n\n", (PxBuilderCmd) {0});
+    pxLoggerWrite(&logger, "\nlevel is \"trace\"\n\n", (PxFormatCmd) {0});
 
-    pxLoggerError(&logger, "IMPORTANT\n", (PxBuilderCmd) {0});
+    pxLoggerError(&logger, "IMPORTANT\n", (PxFormatCmd) {0});
 
     pxLoggerInfo(&logger, "With args [${0}, ${1}, ${2}, ${3}, ${4}, ${5}]\n",
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 1),
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 2),
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 3),
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 4),
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 5),
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, 6),
+        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 1),
+        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 2),
+        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 3),
+        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 4),
+        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 5),
+        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 6),
     );
 
-    pxLoggerWarn(&logger, "No args\n", (PxBuilderCmd) {0});
-    pxLoggerTrace(&logger, "No args\n", (PxBuilderCmd) {0});
+    pxLoggerWarn(&logger, "No args\n", (PxFormatCmd) {0});
+    pxLoggerTrace(&logger, "No args\n", (PxFormatCmd) {0});
 }

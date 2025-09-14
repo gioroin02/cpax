@@ -5,145 +5,145 @@
 #include "string16.h"
 #include "string32.h"
 
-#define pxBuilderBuild(self, format, ...) \
-    pxBuilderFormat(self, pxs8(format), 0, pxSizeVargs(PxBuilderCmd, __VA_ARGS__), pxVargs(PxBuilderCmd, __VA_ARGS__))
+#define pxBuilderBuild(self, format, ...) pxBuilderFormat(self, pxs8(format), \
+    0, pxSizeVargs(PxFormatCmd, __VA_ARGS__), pxVargs(PxFormatCmd, __VA_ARGS__))
 
-typedef enum PxBuilderCmdType
+typedef enum PxFormatCmdType
 {
-    PX_BUILDER_CMD_NONE,
+    PX_FORMAT_CMD_NONE,
 
-    PX_BUILDER_CMD_UNSIGNED_8,
-    PX_BUILDER_CMD_UNSIGNED_16,
-    PX_BUILDER_CMD_UNSIGNED_32,
-    PX_BUILDER_CMD_UNSIGNED_64,
-    PX_BUILDER_CMD_UNSIGNED,
+    PX_FORMAT_CMD_UNSIGNED_8,
+    PX_FORMAT_CMD_UNSIGNED_16,
+    PX_FORMAT_CMD_UNSIGNED_32,
+    PX_FORMAT_CMD_UNSIGNED_64,
+    PX_FORMAT_CMD_UNSIGNED,
 
-    PX_BUILDER_CMD_INTEGER_8,
-    PX_BUILDER_CMD_INTEGER_16,
-    PX_BUILDER_CMD_INTEGER_32,
-    PX_BUILDER_CMD_INTEGER_64,
-    PX_BUILDER_CMD_INTEGER,
+    PX_FORMAT_CMD_INTEGER_8,
+    PX_FORMAT_CMD_INTEGER_16,
+    PX_FORMAT_CMD_INTEGER_32,
+    PX_FORMAT_CMD_INTEGER_64,
+    PX_FORMAT_CMD_INTEGER,
 
-    PX_BUILDER_CMD_BOOLEAN_8,
-    PX_BUILDER_CMD_BOOLEAN_16,
-    PX_BUILDER_CMD_BOOLEAN_32,
-    PX_BUILDER_CMD_BOOLEAN_64,
-    PX_BUILDER_CMD_BOOLEAN,
+    PX_FORMAT_CMD_BOOLEAN_8,
+    PX_FORMAT_CMD_BOOLEAN_16,
+    PX_FORMAT_CMD_BOOLEAN_32,
+    PX_FORMAT_CMD_BOOLEAN_64,
+    PX_FORMAT_CMD_BOOLEAN,
 
-    PX_BUILDER_CMD_UNICODE,
+    PX_FORMAT_CMD_UNICODE,
 
-    PX_BUILDER_CMD_STRING_8,
-    PX_BUILDER_CMD_STRING_16,
-    PX_BUILDER_CMD_STRING_32,
+    PX_FORMAT_CMD_STRING_8,
+    PX_FORMAT_CMD_STRING_16,
+    PX_FORMAT_CMD_STRING_32,
 
-    PX_BUILDER_CMD_DELEGATE,
+    PX_FORMAT_CMD_DELEGATE,
 }
-PxBuilderCmdType;
+PxFormatCmdType;
 
-typedef struct PxBuilderCmdUnsigned8
+typedef struct PxFormatCmdUnsigned8
 {
     pxuword        radix;
     PxFormatOption options;
     pxu8           value;
 }
-PxBuilderCmdUnsigned8;
+PxFormatCmdUnsigned8;
 
-typedef struct PxBuilderCmdUnsigned16
+typedef struct PxFormatCmdUnsigned16
 {
     pxuword        radix;
     PxFormatOption options;
     pxu16          value;
 }
-PxBuilderCmdUnsigned16;
+PxFormatCmdUnsigned16;
 
-typedef struct PxBuilderCmdUnsigned32
+typedef struct PxFormatCmdUnsigned32
 {
     pxuword        radix;
     PxFormatOption options;
     pxu32          value;
 }
-PxBuilderCmdUnsigned32;
+PxFormatCmdUnsigned32;
 
-typedef struct PxBuilderCmdUnsigned64
+typedef struct PxFormatCmdUnsigned64
 {
     pxuword        radix;
     PxFormatOption options;
     pxu64          value;
 }
-PxBuilderCmdUnsigned64;
+PxFormatCmdUnsigned64;
 
-typedef struct PxBuilderCmdUnsigned
+typedef struct PxFormatCmdUnsigned
 {
     pxuword        radix;
     PxFormatOption options;
     pxuword        value;
 }
-PxBuilderCmdUnsigned;
+PxFormatCmdUnsigned;
 
-typedef struct PxBuilderCmdInteger8
+typedef struct PxFormatCmdInteger8
 {
     pxuword        radix;
     PxFormatOption options;
     pxi8           value;
 }
-PxBuilderCmdInteger8;
+PxFormatCmdInteger8;
 
-typedef struct PxBuilderCmdInteger16
+typedef struct PxFormatCmdInteger16
 {
     pxuword        radix;
     PxFormatOption options;
     pxi16          value;
 }
-PxBuilderCmdInteger16;
+PxFormatCmdInteger16;
 
-typedef struct PxBuilderCmdInteger32
+typedef struct PxFormatCmdInteger32
 {
     pxuword        radix;
     PxFormatOption options;
     pxi32          value;
 }
-PxBuilderCmdInteger32;
+PxFormatCmdInteger32;
 
-typedef struct PxBuilderCmdInteger64
+typedef struct PxFormatCmdInteger64
 {
     pxuword        radix;
     PxFormatOption options;
     pxi64          value;
 }
-PxBuilderCmdInteger64;
+PxFormatCmdInteger64;
 
-typedef struct PxBuilderCmdInteger
+typedef struct PxFormatCmdInteger
 {
     pxuword        radix;
     PxFormatOption options;
     pxiword        value;
 }
-PxBuilderCmdInteger;
+PxFormatCmdInteger;
 
-typedef struct PxBuilderCmdDelegate
+typedef struct PxFormatCmdDelegate
 {
     void* ctxt;
     void* proc;
 }
-PxBuilderCmdDelegate;
+PxFormatCmdDelegate;
 
-typedef struct PxBuilderCmd
+typedef struct PxFormatCmd
 {
-    PxBuilderCmdType type;
+    PxFormatCmdType type;
 
     union
     {
-        PxBuilderCmdUnsigned8  unsigned_8;
-        PxBuilderCmdUnsigned16 unsigned_16;
-        PxBuilderCmdUnsigned32 unsigned_32;
-        PxBuilderCmdUnsigned64 unsigned_64;
-        PxBuilderCmdUnsigned   unsigned_word;
+        PxFormatCmdUnsigned8  unsigned_8;
+        PxFormatCmdUnsigned16 unsigned_16;
+        PxFormatCmdUnsigned32 unsigned_32;
+        PxFormatCmdUnsigned64 unsigned_64;
+        PxFormatCmdUnsigned   unsigned_word;
 
-        PxBuilderCmdInteger8  integer_8;
-        PxBuilderCmdInteger16 integer_16;
-        PxBuilderCmdInteger32 integer_32;
-        PxBuilderCmdInteger64 integer_64;
-        PxBuilderCmdInteger   integer_word;
+        PxFormatCmdInteger8  integer_8;
+        PxFormatCmdInteger16 integer_16;
+        PxFormatCmdInteger32 integer_32;
+        PxFormatCmdInteger64 integer_64;
+        PxFormatCmdInteger   integer_word;
 
         pxb8    boolean_8;
         pxb16   boolean_16;
@@ -157,10 +157,10 @@ typedef struct PxBuilderCmd
         PxString16 string_16;
         PxString32 string_32;
 
-        PxBuilderCmdDelegate delegate;
+        PxFormatCmdDelegate delegate;
     };
 }
-PxBuilderCmd;
+PxFormatCmd;
 
 typedef struct PxBuilder
 {
@@ -170,69 +170,69 @@ typedef struct PxBuilder
 }
 PxBuilder;
 
-typedef pxiword (PxBuilderProc) (void*, PxBuilder*);
+typedef pxiword (PxFormatProc) (void*, PxBuilder*);
 
 /* Commands */
 
-PxBuilderCmd
-pxBuilderCmdUnsigned8(pxuword radix, PxFormatOption options, pxu8 value);
+PxFormatCmd
+pxFormatCmdUnsigned8(pxuword radix, PxFormatOption options, pxu8 value);
 
-PxBuilderCmd
-pxBuilderCmdUnsigned16(pxuword radix, PxFormatOption options, pxu16 value);
+PxFormatCmd
+pxFormatCmdUnsigned16(pxuword radix, PxFormatOption options, pxu16 value);
 
-PxBuilderCmd
-pxBuilderCmdUnsigned32(pxuword radix, PxFormatOption options, pxu32 value);
+PxFormatCmd
+pxFormatCmdUnsigned32(pxuword radix, PxFormatOption options, pxu32 value);
 
-PxBuilderCmd
-pxBuilderCmdUnsigned64(pxuword radix, PxFormatOption options, pxu64 value);
+PxFormatCmd
+pxFormatCmdUnsigned64(pxuword radix, PxFormatOption options, pxu64 value);
 
-PxBuilderCmd
-pxBuilderCmdUnsigned(pxuword radix, PxFormatOption options, pxuword value);
+PxFormatCmd
+pxFormatCmdUnsigned(pxuword radix, PxFormatOption options, pxuword value);
 
-PxBuilderCmd
-pxBuilderCmdInteger8(pxuword radix, PxFormatOption options, pxi8 value);
+PxFormatCmd
+pxFormatCmdInteger8(pxuword radix, PxFormatOption options, pxi8 value);
 
-PxBuilderCmd
-pxBuilderCmdInteger16(pxuword radix, PxFormatOption options, pxi16 value);
+PxFormatCmd
+pxFormatCmdInteger16(pxuword radix, PxFormatOption options, pxi16 value);
 
-PxBuilderCmd
-pxBuilderCmdInteger32(pxuword radix, PxFormatOption options, pxi32 value);
+PxFormatCmd
+pxFormatCmdInteger32(pxuword radix, PxFormatOption options, pxi32 value);
 
-PxBuilderCmd
-pxBuilderCmdInteger64(pxuword radix, PxFormatOption options, pxi64 value);
+PxFormatCmd
+pxFormatCmdInteger64(pxuword radix, PxFormatOption options, pxi64 value);
 
-PxBuilderCmd
-pxBuilderCmdInteger(pxuword radix, PxFormatOption options, pxiword value);
+PxFormatCmd
+pxFormatCmdInteger(pxuword radix, PxFormatOption options, pxiword value);
 
-PxBuilderCmd
-pxBuilderCmdBoolean8(pxb8 value);
+PxFormatCmd
+pxFormatCmdBoolean8(pxb8 value);
 
-PxBuilderCmd
-pxBuilderCmdBoolean16(pxb16 value);
+PxFormatCmd
+pxFormatCmdBoolean16(pxb16 value);
 
-PxBuilderCmd
-pxBuilderCmdBoolean32(pxb32 value);
+PxFormatCmd
+pxFormatCmdBoolean32(pxb32 value);
 
-PxBuilderCmd
-pxBuilderCmdBoolean64(pxb64 value);
+PxFormatCmd
+pxFormatCmdBoolean64(pxb64 value);
 
-PxBuilderCmd
-pxBuilderCmdBoolean(pxbword value);
+PxFormatCmd
+pxFormatCmdBoolean(pxbword value);
 
-PxBuilderCmd
-pxBuilderCmdUnicode(pxi32 value);
+PxFormatCmd
+pxFormatCmdUnicode(pxi32 value);
 
-PxBuilderCmd
-pxBuilderCmdString8(PxString8 value);
+PxFormatCmd
+pxFormatCmdString8(PxString8 value);
 
-PxBuilderCmd
-pxBuilderCmdString16(PxString16 value);
+PxFormatCmd
+pxFormatCmdString16(PxString16 value);
 
-PxBuilderCmd
-pxBuilderCmdString32(PxString32 value);
+PxFormatCmd
+pxFormatCmdString32(PxString32 value);
 
-PxBuilderCmd
-pxBuilderCmdDelegate(void* ctxt, void* proc);
+PxFormatCmd
+pxFormatCmdDelegate(void* ctxt, void* proc);
 
 /* Builder */
 
@@ -245,14 +245,17 @@ pxBuilderReserve(PxArena* arena, pxiword length);
 void
 pxBuilderClear(PxBuilder* self);
 
-pxiword
-pxBuilderFormat(PxBuilder* self, PxString8 format, pxiword start, pxiword stop, PxBuilderCmd* list);
+void
+pxBuilderReset(PxBuilder* self);
 
 pxiword
-pxBuilderChain(PxBuilder* self, pxiword start, pxiword stop, PxBuilderCmd* list);
+pxBuilderFormat(PxBuilder* self, PxString8 format, pxiword start, pxiword stop, PxFormatCmd* list);
 
 pxiword
-pxBuilderCommand(PxBuilder* self, PxBuilderCmd command);
+pxBuilderChain(PxBuilder* self, pxiword start, pxiword stop, PxFormatCmd* list);
+
+pxiword
+pxBuilderCommand(PxBuilder* self, PxFormatCmd command);
 
 PxString8
 pxString8FromBuilder(PxArena* arena, PxBuilder* builder);

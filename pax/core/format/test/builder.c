@@ -11,12 +11,12 @@ main(int argc, char** argv)
 
     PxString8 string = {0};
 
-    pxBuilderChain(&builder, 0, 5, (PxBuilderCmd[]) {
-        pxBuilderCmdString8(pxs8("coords = {x = ")),
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_LEADING_PLUS, PX_IWORD_MAX),
-        pxBuilderCmdString8(pxs8(", y = ")),
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE, PX_IWORD_MIN),
-        pxBuilderCmdString8(pxs8(", z = ${?}}")),
+    pxBuilderChain(&builder, 0, 5, (PxFormatCmd[]) {
+        pxFormatCmdString8(pxs8("coords = {x = ")),
+        pxFormatCmdInteger(10, PX_FORMAT_OPTION_LEADING_PLUS, PX_IWORD_MAX),
+        pxFormatCmdString8(pxs8(", y = ")),
+        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, PX_IWORD_MIN),
+        pxFormatCmdString8(pxs8(", z = ${?}}")),
     });
 
     string = pxString8FromBuilder(&arena, &builder);
@@ -26,8 +26,8 @@ main(int argc, char** argv)
     pxBuilderClear(&builder);
 
     pxBuilderBuild(&builder, "coords = {x = ${0}, y = ${1}, z = ${2}}",
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_LEADING_PLUS, PX_IWORD_MAX),
-        pxBuilderCmdInteger(10, PX_FORMAT_OPTION_NONE,         PX_IWORD_MIN));
+        pxFormatCmdInteger(10, PX_FORMAT_OPTION_LEADING_PLUS, PX_IWORD_MAX),
+        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE,         PX_IWORD_MIN));
 
     string = pxString8FromBuilder(&arena, &builder);
 
@@ -35,8 +35,7 @@ main(int argc, char** argv)
 
     pxBuilderClear(&builder);
 
-    pxBuilderBuild(&builder, "coords = {x = 0, y = 1, z = 2}",
-        (PxBuilderCmd) {0});
+    pxBuilderBuild(&builder, "coords = {x = 0, y = 1, z = 2}", {0});
 
     string = pxString8FromBuilder(&arena, &builder);
 

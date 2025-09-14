@@ -4,12 +4,10 @@
 #include "logger.h"
 
 PxLogger
-pxLoggerReserve(PxArena* arena, pxiword length, PxReportLevel level, PxReportFlag flags, PxWriter* writer)
+pxLoggerReserve(PxArena* arena, pxiword length, PxWriter* writer)
 {
     return (PxLogger) {
         .builder = pxBuilderReserve(arena, length),
-        .level   = level,
-        .flags   = flags,
         .writer  = writer,
     };
 }
@@ -106,106 +104,70 @@ pxLoggerSetFlags(PxLogger* self, PxReportFlag flags)
     }
     */
 
-void
-pxLoggerHead(PxLogger* self, PxReportLevel level)
+pxb8
+pxLoggerStart(PxLogger* self, PxReportLevel level)
 {
-    if ((self->flags & PX_REPORT_FLAG_LEVEL) == 0) return;
+    PxString8 reset = pxs8("\x1b[0m");
 
-    if ((self->flags & PX_REPORT_FLAG_COLOR) != 0) {
-        switch (level) {
-            case PX_REPORT_LEVEL_FATAL:
-                pxWriterString8(self->writer, pxs8("\x1b[35m"));
-            break;
+    PxString8 colors[] = {
+        [PX_REPORT_LEVEL_FATAL] = pxs8("\x1b[35m"),
+        [PX_REPORT_LEVEL_ERROR] = pxs8("\x1b[31m"),
+        [PX_REPORT_LEVEL_WARN]  = pxs8("\x1b[33m"),
+        [PX_REPORT_LEVEL_INFO]  = pxs8("\x1b[32m"),
+        [PX_REPORT_LEVEL_DEBUG] = pxs8("\x1b[36m"),
+        [PX_REPORT_LEVEL_TRACE] = pxs8("\x1b[34m"),
+    };
 
-            case PX_REPORT_LEVEL_ERROR:
-                pxWriterString8(self->writer, pxs8("\x1b[31m"));
-            break;
+    PxString8 headings[] = {
+        [PX_REPORT_LEVEL_FATAL] = pxs8("FATAL | "),
+        [PX_REPORT_LEVEL_ERROR] = pxs8("ERROR | "),
+        [PX_REPORT_LEVEL_WARN]  = pxs8(" WARN | "),
+        [PX_REPORT_LEVEL_INFO]  = pxs8(" INFO | "),
+        [PX_REPORT_LEVEL_DEBUG] = pxs8("DEBUG | "),
+        [PX_REPORT_LEVEL_TRACE] = pxs8("TRACE | "),
+    };
 
-            case PX_REPORT_LEVEL_WARN:
-                pxWriterString8(self->writer, pxs8("\x1b[33m"));
-            break;
+    pxiword result = 0;
 
-            case PX_REPORT_LEVEL_INFO:
-                pxWriterString8(self->writer, pxs8("\x1b[32m"));
-            break;
+    if ((self->flags & PX_REPORT_FLAG_LEVEL) != 0) {
+        if ((self->flags & PX_REPORT_FLAG_COLOR) != 0)
+            result += pxWriterString8(self->writer, colors[level]);
 
-            case PX_REPORT_LEVEL_DEBUG:
-                pxWriterString8(self->writer, pxs8("\x1b[36m"));
-            break;
+        result += pxWriterString8(self->writer, headings[level]);
 
-            case PX_REPORT_LEVEL_TRACE:
-                pxWriterString8(self->writer, pxs8("\x1b[34m"));
-            break;
-
-            default: break;
-        }
+        if ((self->flags & PX_REPORT_FLAG_COLOR) != 0)
+            result += pxWriterString8(self->writer, reset);
     }
 
-    switch (level) {
-        case PX_REPORT_LEVEL_FATAL:
-            pxWriterString8(self->writer, pxs8("FATAL | "));
-        break;
-
-        case PX_REPORT_LEVEL_ERROR:
-            pxWriterString8(self->writer, pxs8("ERROR | "));
-        break;
-
-        case PX_REPORT_LEVEL_WARN:
-            pxWriterString8(self->writer, pxs8(" WARN | "));
-        break;
-
-        case PX_REPORT_LEVEL_MESSAGE:
-            pxWriterString8(self->writer, pxs8("MESSG | "));
-        break;
-
-        case PX_REPORT_LEVEL_INFO:
-            pxWriterString8(self->writer, pxs8(" INFO | "));
-        break;
-
-        case PX_REPORT_LEVEL_DEBUG:
-            pxWriterString8(self->writer, pxs8("DEBUG | "));
-        break;
-
-        case PX_REPORT_LEVEL_TRACE:
-            pxWriterString8(self->writer, pxs8("TRACE | "));
-        break;
-
-
-        default: break;
-    }
-
-    if ((self->flags & PX_REPORT_FLAG_COLOR) != 0) {
-        switch (level) {
-            case PX_REPORT_LEVEL_FATAL:
-            case PX_REPORT_LEVEL_ERROR:
-            case PX_REPORT_LEVEL_WARN:
-            case PX_REPORT_LEVEL_INFO:
-            case PX_REPORT_LEVEL_DEBUG:
-            case PX_REPORT_LEVEL_TRACE:
-                pxWriterString8(self->writer, pxs8("\x1b[0m"));
-            break;
-
-            default: break;
-        }
-    }
+    return result;
 }
 
 pxb8
-pxLoggerFormat(PxLogger* self, PxReportLevel level, PxString8 format, pxiword start, pxiword stop, PxBuilderCmd* list)
+pxLoggerStop(PxLogger* self, PxReportLevel level)
 {
-    if (level == PX_REPORT_LEVEL_NONE) return 0;
+    pxiword result =
+        pxWriterFlush(self->writer);
 
-    pxBuilderClear(&self->builder);
+    pxBuilderReset(&self->builder);
+
+    return result;
+}
+
+pxb8
+pxLoggerFormat(PxLogger* self, PxReportLevel level, PxString8 format, pxiword start, pxiword stop, PxFormatCmd* list)
+{
+    if (self == 0 || level == PX_REPORT_LEVEL_NONE)
+        return 0;
 
     if (level <= self->level) {
         pxBuilderFormat(&self->builder, format, start, stop, list);
 
-        pxLoggerHead(self, level);
+        pxLoggerStart(self, level);
 
         pxiword size = pxWriterMemory(self->writer,
             self->builder.memory, self->builder.size, 1);
 
-        pxWriterFlush(self->writer);
+        pxLoggerStop(self, level);
 
         if (size != 0) return 1;
     }

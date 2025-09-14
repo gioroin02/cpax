@@ -51,7 +51,7 @@ pxWindowsConsoleModeDefault(PxWindowsConsole* self)
 }
 
 pxb8
-pxWindowsConsoleModeEvent(PxWindowsConsole* self)
+pxWindowsConsoleModeMessage(PxWindowsConsole* self)
 {
     HANDLE input  = GetStdHandle(STD_INPUT_HANDLE);
     HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);

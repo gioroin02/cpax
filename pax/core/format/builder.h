@@ -245,9 +245,6 @@ pxBuilderReserve(PxArena* arena, pxiword length);
 void
 pxBuilderClear(PxBuilder* self);
 
-void
-pxBuilderReset(PxBuilder* self);
-
 pxiword
 pxBuilderFormat(PxBuilder* self, PxString8 format, pxiword start, pxiword stop, PxFormatCmd* list);
 

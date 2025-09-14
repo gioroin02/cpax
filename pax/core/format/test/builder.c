@@ -10,8 +10,9 @@ main(int argc, char** argv)
     PxBuilder builder = pxBuilderReserve(&arena, PX_MEMORY_KIB);
 
     PxString8 string = {0};
+    pxiword   size   = 0;
 
-    pxBuilderChain(&builder, 0, 5, (PxFormatCmd[]) {
+    size = pxBuilderChain(&builder, 0, 5, (PxFormatCmd[]) {
         pxFormatCmdString8(pxs8("coords = {x = ")),
         pxFormatCmdInteger(10, PX_FORMAT_OPTION_LEADING_PLUS, PX_IWORD_MAX),
         pxFormatCmdString8(pxs8(", y = ")),
@@ -21,24 +22,23 @@ main(int argc, char** argv)
 
     string = pxString8FromBuilder(&arena, &builder);
 
-    printf("'\x1b[34m%s\x1b[0m'\n", string.memory);
+    printf("'\x1b[34m%s\x1b[0m' (%lli)\n", string.memory, size);
 
     pxBuilderClear(&builder);
 
-    pxBuilderBuild(&builder, "coords = {x = ${0}, y = ${1}, z = ${2}}",
+    size = pxBuilderBuild(&builder, "coords = {x = ${0}, y = ${1}, z = ${2}}",
         pxFormatCmdInteger(10, PX_FORMAT_OPTION_LEADING_PLUS, PX_IWORD_MAX),
         pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE,         PX_IWORD_MIN));
 
     string = pxString8FromBuilder(&arena, &builder);
 
-    printf("'\x1b[34m%s\x1b[0m'\n", string.memory);
+    printf("'\x1b[34m%s\x1b[0m' (%lli)\n", string.memory, size);
 
     pxBuilderClear(&builder);
 
-    pxBuilderBuild(&builder, "coords = {x = 0, y = 1, z = 2}", {0});
+    size = pxBuilderBuild(&builder, "coords = {x = 0, y = 1, z = 2}", {0});
 
     string = pxString8FromBuilder(&arena, &builder);
 
-    printf("'\x1b[34m%s\x1b[0m'\n", string.memory);
-
+    printf("'\x1b[34m%s\x1b[0m' (%lli)\n", string.memory, size);
 }

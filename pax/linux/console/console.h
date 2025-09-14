@@ -12,7 +12,7 @@ pxb8
 pxLinuxConsoleModeDefault(PxLinuxConsole* self);
 
 pxb8
-pxLinuxConsoleModeEvent(PxLinuxConsole* self);
+pxLinuxConsoleModeMessage(PxLinuxConsole* self);
 
 pxiword
 pxLinuxConsoleWriteMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxiword stride);

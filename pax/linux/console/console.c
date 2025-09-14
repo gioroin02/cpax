@@ -51,7 +51,7 @@ pxLinuxConsoleModeDefault(PxLinuxConsole* self)
 }
 
 pxb8
-pxLinuxConsoleModeEvent(PxLinuxConsole* self)
+pxLinuxConsoleModeMessage(PxLinuxConsole* self)
 {
     PxTermIO inout = self->inout;
 

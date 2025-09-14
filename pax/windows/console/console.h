@@ -12,7 +12,7 @@ pxb8
 pxWindowsConsoleModeDefault(PxWindowsConsole* self);
 
 pxb8
-pxWindowsConsoleModeEvent(PxWindowsConsole* self);
+pxWindowsConsoleModeMessage(PxWindowsConsole* self);
 
 pxiword
 pxWindowsConsoleWriteMemory(PxWindowsConsole* self, void* memory, pxiword amount, pxiword stride);

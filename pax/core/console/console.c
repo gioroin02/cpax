@@ -9,7 +9,7 @@
 
     #define __pxConsoleCreate__      pxWindowsConsoleCreate
     #define __pxConsoleModeDefault__ pxWindowsConsoleModeDefault
-    #define __pxConsoleModeEvent__   pxWindowsConsoleModeEvent
+    #define __pxConsoleModeMessage__ pxWindowsConsoleModeMessage
     #define __pxConsoleWriteMemory__ pxWindowsConsoleWriteMemory
     #define __pxConsoleReadMemory__  pxWindowsConsoleReadMemory
 
@@ -19,7 +19,7 @@
 
     #define __pxConsoleCreate__      pxLinuxConsoleCreate
     #define __pxConsoleModeDefault__ pxLinuxConsoleModeDefault
-    #define __pxConsoleModeEvent__   pxLinuxConsoleModeEvent
+    #define __pxConsoleModeMessage__ pxLinuxConsoleModeMessage
     #define __pxConsoleWriteMemory__ pxLinuxConsoleWriteMemory
     #define __pxConsoleReadMemory__  pxLinuxConsoleReadMemory
 
@@ -43,7 +43,7 @@ pxConsoleSetMode(PxConsole self, PxConsoleMode mode)
             return __pxConsoleModeDefault__(self);
 
         case PX_CONSOLE_MODE_MESSAGE:
-            return __pxConsoleModeEvent__(self);
+            return __pxConsoleModeMessage__(self);
 
         default: break;
     }

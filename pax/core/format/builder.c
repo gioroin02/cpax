@@ -166,7 +166,7 @@ pxBuilderCmdInteger(pxuword radix, PxFormatOption options, pxiword value)
 }
 
 PxBuilderCmd
-pxbuilderCmdBoolean8(pxb8 value)
+pxBuilderCmdBoolean8(pxb8 value)
 {
     return (PxBuilderCmd) {
         .type      = PX_BUILDER_CMD_BOOLEAN_8,
@@ -175,7 +175,7 @@ pxbuilderCmdBoolean8(pxb8 value)
 }
 
 PxBuilderCmd
-pxbuilderCmdBoolean16(pxb16 value)
+pxBuilderCmdBoolean16(pxb16 value)
 {
     return (PxBuilderCmd) {
         .type      = PX_BUILDER_CMD_BOOLEAN_16,
@@ -184,7 +184,7 @@ pxbuilderCmdBoolean16(pxb16 value)
 }
 
 PxBuilderCmd
-pxbuilderCmdBoolean32(pxb32 value)
+pxBuilderCmdBoolean32(pxb32 value)
 {
     return (PxBuilderCmd) {
         .type       = PX_BUILDER_CMD_BOOLEAN_32,
@@ -193,7 +193,7 @@ pxbuilderCmdBoolean32(pxb32 value)
 }
 
 PxBuilderCmd
-pxbuilderCmdBoolean64(pxb64 value)
+pxBuilderCmdBoolean64(pxb64 value)
 {
     return (PxBuilderCmd) {
         .type       = PX_BUILDER_CMD_BOOLEAN_64,
@@ -202,7 +202,7 @@ pxbuilderCmdBoolean64(pxb64 value)
 }
 
 PxBuilderCmd
-pxbuilderCmdBoolean(pxbword value)
+pxBuilderCmdBoolean(pxbword value)
 {
     return (PxBuilderCmd) {
         .type         = PX_BUILDER_CMD_BOOLEAN,
@@ -246,6 +246,19 @@ pxBuilderCmdString32(PxString32 value)
     };
 }
 
+PxBuilderCmd
+pxBuilderCmdDelegate(void* ctxt, void* proc)
+{
+    return (PxBuilderCmd) {
+        .type = PX_BUILDER_CMD_DELEGATE,
+
+        .delegate = {
+            .ctxt = ctxt,
+            .proc = proc,
+        },
+    };
+}
+
 PxBuilder
 pxBuilderMake(pxu8* memory, pxiword length)
 {
@@ -279,9 +292,8 @@ pxBuilderFormat(PxBuilder* self, PxString8 format, pxiword start, pxiword stop, 
 {
     pxiword index  = 0;
     pxiword result = 0;
-    pxiword temp   = 1;
 
-    for (; index < format.length && temp != 0; result += temp) {
+    while (index < format.length) {
         PxBuilderCmd command = {0};
         pxi32        unicode = 0;
 
@@ -312,7 +324,7 @@ pxBuilderFormat(PxBuilder* self, PxString8 format, pxiword start, pxiword stop, 
             break;
         }
 
-        temp = pxBuilderCommand(self, command);
+        result += pxBuilderCommand(self, command);
     }
 
     return result;
@@ -559,6 +571,13 @@ pxBuilderCommand(PxBuilder* self, PxBuilderCmd command)
 
             result = length;
         } break;
+
+        case PX_BUILDER_CMD_DELEGATE: {
+            PxBuilderCmdDelegate cmd = command.delegate;
+
+            result = pxCast(PxBuilderProc*, cmd.proc)
+                (cmd.ctxt, self);
+        }
 
         default: break;
     }

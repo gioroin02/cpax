@@ -36,12 +36,6 @@ pxLoggerSetFlags(PxLogger* self, PxReportFlag flags)
     return result;
 }
 
-void
-pxLoggerFlush(PxLogger* self)
-{
-    pxWriterFlush(self->writer);
-}
-
     /*
     switch (level) {
         case PX_REPORT_LEVEL_FATAL:
@@ -149,31 +143,31 @@ pxLoggerHead(PxLogger* self, PxReportLevel level)
 
     switch (level) {
         case PX_REPORT_LEVEL_FATAL:
-            pxWriterString8(self->writer, pxs8("FATAL "));
+            pxWriterString8(self->writer, pxs8("FATAL | "));
         break;
 
         case PX_REPORT_LEVEL_ERROR:
-            pxWriterString8(self->writer, pxs8("ERROR "));
+            pxWriterString8(self->writer, pxs8("ERROR | "));
         break;
 
         case PX_REPORT_LEVEL_WARN:
-            pxWriterString8(self->writer, pxs8("WARN "));
+            pxWriterString8(self->writer, pxs8(" WARN | "));
         break;
 
         case PX_REPORT_LEVEL_MESSAGE:
-            pxWriterString8(self->writer, pxs8("MESSG "));
+            pxWriterString8(self->writer, pxs8("MESSG | "));
         break;
 
         case PX_REPORT_LEVEL_INFO:
-            pxWriterString8(self->writer, pxs8("INFO "));
+            pxWriterString8(self->writer, pxs8(" INFO | "));
         break;
 
         case PX_REPORT_LEVEL_DEBUG:
-            pxWriterString8(self->writer, pxs8("DEBUG "));
+            pxWriterString8(self->writer, pxs8("DEBUG | "));
         break;
 
         case PX_REPORT_LEVEL_TRACE:
-            pxWriterString8(self->writer, pxs8("TRACE "));
+            pxWriterString8(self->writer, pxs8("TRACE | "));
         break;
 
 
@@ -199,19 +193,17 @@ pxLoggerHead(PxLogger* self, PxReportLevel level)
 pxb8
 pxLoggerFormat(PxLogger* self, PxReportLevel level, PxString8 format, pxiword start, pxiword stop, PxBuilderCmd* list)
 {
+    if (level == PX_REPORT_LEVEL_NONE) return 0;
+
     pxBuilderClear(&self->builder);
 
-    if (level <= self->level |level == PX_REPORT_LEVEL_NONE) {
+    if (level <= self->level) {
         pxBuilderFormat(&self->builder, format, start, stop, list);
 
         pxLoggerHead(self, level);
 
-        PxString8 string = {
-            .memory = self->builder.memory,
-            .length = self->builder.size,
-        };
-
-        pxiword size = pxWriterString8(self->writer, string);
+        pxiword size = pxWriterMemory(self->writer,
+            self->builder.memory, self->builder.size, 1);
 
         pxWriterFlush(self->writer);
 

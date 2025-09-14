@@ -35,6 +35,8 @@ typedef enum PxBuilderCmdType
     PX_BUILDER_CMD_STRING_8,
     PX_BUILDER_CMD_STRING_16,
     PX_BUILDER_CMD_STRING_32,
+
+    PX_BUILDER_CMD_DELEGATE,
 }
 PxBuilderCmdType;
 
@@ -118,6 +120,13 @@ typedef struct PxBuilderCmdInteger
 }
 PxBuilderCmdInteger;
 
+typedef struct PxBuilderCmdDelegate
+{
+    void* ctxt;
+    void* proc;
+}
+PxBuilderCmdDelegate;
+
 typedef struct PxBuilderCmd
 {
     PxBuilderCmdType type;
@@ -147,6 +156,8 @@ typedef struct PxBuilderCmd
         PxString8  string_8;
         PxString16 string_16;
         PxString32 string_32;
+
+        PxBuilderCmdDelegate delegate;
     };
 }
 PxBuilderCmd;
@@ -158,6 +169,8 @@ typedef struct PxBuilder
     pxiword size;
 }
 PxBuilder;
+
+typedef pxiword (PxBuilderProc) (void*, PxBuilder*);
 
 /* Commands */
 
@@ -192,19 +205,19 @@ PxBuilderCmd
 pxBuilderCmdInteger(pxuword radix, PxFormatOption options, pxiword value);
 
 PxBuilderCmd
-pxbuilderCmdBoolean8(pxb8 value);
+pxBuilderCmdBoolean8(pxb8 value);
 
 PxBuilderCmd
-pxbuilderCmdBoolean16(pxb16 value);
+pxBuilderCmdBoolean16(pxb16 value);
 
 PxBuilderCmd
-pxbuilderCmdBoolean32(pxb32 value);
+pxBuilderCmdBoolean32(pxb32 value);
 
 PxBuilderCmd
-pxbuilderCmdBoolean64(pxb64 value);
+pxBuilderCmdBoolean64(pxb64 value);
 
 PxBuilderCmd
-pxbuilderCmdBoolean(pxbword value);
+pxBuilderCmdBoolean(pxbword value);
 
 PxBuilderCmd
 pxBuilderCmdUnicode(pxi32 value);
@@ -217,6 +230,9 @@ pxBuilderCmdString16(PxString16 value);
 
 PxBuilderCmd
 pxBuilderCmdString32(PxString32 value);
+
+PxBuilderCmd
+pxBuilderCmdDelegate(void* ctxt, void* proc);
 
 /* Builder */
 

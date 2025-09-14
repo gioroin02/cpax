@@ -10,7 +10,7 @@ main(int argc, char** argv)
     PxConsole console = pxConsoleCreate(&arena);
     PxWriter  writer  = pxConsoleWriter(console, &arena, 1024);
 
-    PxReportLevel level = PX_REPORT_LEVEL_WARN;
+    PxReportLevel level = PX_REPORT_LEVEL_NONE;
 
     PxReportFlag flags =
         PX_REPORT_FLAG_LEVEL |
@@ -18,7 +18,7 @@ main(int argc, char** argv)
 
     PxLogger logger = pxLoggerReserve(&arena, 1024, level, flags, &writer);
 
-    pxLoggerReport(&logger, "Level is \"warn\"\n\n", (PxBuilderCmd) {0});
+    pxLoggerAppend(&logger, "Level is \"warn\"\n\n", (PxBuilderCmd) {0});
 
     pxLoggerError(&logger, "IMPORTANT\n", (PxBuilderCmd) {0});
 
@@ -34,10 +34,9 @@ main(int argc, char** argv)
     pxLoggerWarn(&logger, "No args\n", (PxBuilderCmd) {0});
     pxLoggerTrace(&logger, "No args\n", (PxBuilderCmd) {0});
 
-    pxLoggerFlush(&logger);
     pxLoggerSetLevel(&logger, PX_REPORT_LEVEL_TRACE);
 
-    pxLoggerReport(&logger, "\nlevel is \"trace\"\n\n", (PxBuilderCmd) {0});
+    pxLoggerAppend(&logger, "\nlevel is \"trace\"\n\n", (PxBuilderCmd) {0});
 
     pxLoggerError(&logger, "IMPORTANT\n", (PxBuilderCmd) {0});
 
@@ -52,6 +51,4 @@ main(int argc, char** argv)
 
     pxLoggerWarn(&logger, "No args\n", (PxBuilderCmd) {0});
     pxLoggerTrace(&logger, "No args\n", (PxBuilderCmd) {0});
-
-    pxLoggerFlush(&logger);
 }

@@ -3,8 +3,8 @@
 
 #include "import.h"
 
-#define pxLoggerReport(self, format, ...) \
-    pxLoggerFormat(self, PX_REPORT_LEVEL_NONE, pxs8(format), 0, pxSizeVargs(PxBuilderCmd, __VA_ARGS__), pxVargs(PxBuilderCmd, __VA_ARGS__))
+#define pxLoggerAppend(self, format, ...) \
+    pxLoggerFormat(self, PX_REPORT_LEVEL_APPEND, pxs8(format), 0, pxSizeVargs(PxBuilderCmd, __VA_ARGS__), pxVargs(PxBuilderCmd, __VA_ARGS__))
 
 #define pxLoggerFatal(self, format, ...) \
     pxLoggerFormat(self, PX_REPORT_LEVEL_FATAL, pxs8(format), 0, pxSizeVargs(PxBuilderCmd, __VA_ARGS__), pxVargs(PxBuilderCmd, __VA_ARGS__))
@@ -30,6 +30,7 @@
 typedef enum PxReportLevel
 {
     PX_REPORT_LEVEL_NONE,
+    PX_REPORT_LEVEL_APPEND,
     PX_REPORT_LEVEL_FATAL,
     PX_REPORT_LEVEL_ERROR,
     PX_REPORT_LEVEL_WARN,
@@ -54,7 +55,7 @@ typedef struct PxLogger
     PxReportLevel level;
     PxReportFlag  flags;
 
-    PxWriter*     writer;
+    PxWriter* writer;
 }
 PxLogger;
 
@@ -66,9 +67,6 @@ pxLoggerSetLevel(PxLogger* self, PxReportLevel level);
 
 PxReportFlag
 pxLoggerSetFlags(PxLogger* self, PxReportFlag flags);
-
-void
-pxLoggerFlush(PxLogger* self);
 
 pxb8
 pxLoggerFormat(PxLogger* self, PxReportLevel level, PxString8 format, pxiword start, pxiword stop, PxBuilderCmd* list);

@@ -2,7 +2,7 @@
 #define PX_ENCODING_JSON_READER_H
 
 #include "token.h"
-#include "event.h"
+#include "message.h"
 
 typedef struct PxJsonReader
 {
@@ -18,7 +18,10 @@ PxJsonReader;
 PxJsonReader
 pxJsonReaderMake(PxArena* arena, pxiword length, PxReader* reader);
 
-PxJsonEvent
-pxJsonReaderNext(PxJsonReader* self, PxArena* arena);
+PxJsonMsg
+pxJsonReadMessage(PxJsonReader* self, PxArena* arena);
+
+pxb8
+pxJsonExpectMessage(PxJsonReader* self, PxArena* arena, PxJsonMsgType type);
 
 #endif // PX_ENCODING_JSON_READER_H

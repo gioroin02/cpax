@@ -15,6 +15,9 @@
 #define pxSize(x) pxCast(pxiword, sizeof(x))
 
 #define pxSizeArray(t, x) \
+    pxCast(pxiword, sizeof(x) / sizeof(t))
+
+#define pxSizeItems(t, x) \
     pxCast(pxiword, sizeof(pxArray(t, x)) / sizeof(t))
 
 #define pxSizeVargs(t, ...) \

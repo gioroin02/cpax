@@ -12,23 +12,29 @@ typedef enum PxBuilderCmdType
 {
     PX_BUILDER_CMD_NONE,
 
-    PX_BUILDER_CMD_UNSIGNED8,
-    PX_BUILDER_CMD_UNSIGNED16,
-    PX_BUILDER_CMD_UNSIGNED32,
-    PX_BUILDER_CMD_UNSIGNED64,
+    PX_BUILDER_CMD_UNSIGNED_8,
+    PX_BUILDER_CMD_UNSIGNED_16,
+    PX_BUILDER_CMD_UNSIGNED_32,
+    PX_BUILDER_CMD_UNSIGNED_64,
     PX_BUILDER_CMD_UNSIGNED,
 
-    PX_BUILDER_CMD_INTEGER8,
-    PX_BUILDER_CMD_INTEGER16,
-    PX_BUILDER_CMD_INTEGER32,
-    PX_BUILDER_CMD_INTEGER64,
+    PX_BUILDER_CMD_INTEGER_8,
+    PX_BUILDER_CMD_INTEGER_16,
+    PX_BUILDER_CMD_INTEGER_32,
+    PX_BUILDER_CMD_INTEGER_64,
     PX_BUILDER_CMD_INTEGER,
+
+    PX_BUILDER_CMD_BOOLEAN_8,
+    PX_BUILDER_CMD_BOOLEAN_16,
+    PX_BUILDER_CMD_BOOLEAN_32,
+    PX_BUILDER_CMD_BOOLEAN_64,
+    PX_BUILDER_CMD_BOOLEAN,
 
     PX_BUILDER_CMD_UNICODE,
 
-    PX_BUILDER_CMD_STRING8,
-    PX_BUILDER_CMD_STRING16,
-    PX_BUILDER_CMD_STRING32,
+    PX_BUILDER_CMD_STRING_8,
+    PX_BUILDER_CMD_STRING_16,
+    PX_BUILDER_CMD_STRING_32,
 }
 PxBuilderCmdType;
 
@@ -130,6 +136,12 @@ typedef struct PxBuilderCmd
         PxBuilderCmdInteger64 integer_64;
         PxBuilderCmdInteger   integer_word;
 
+        pxb8    boolean_8;
+        pxb16   boolean_16;
+        pxb32   boolean_32;
+        pxb64   boolean_64;
+        pxbword boolean_word;
+
         pxi32 unicode;
 
         PxString8  string_8;
@@ -178,6 +190,21 @@ pxBuilderCmdInteger64(pxuword radix, PxFormatOption options, pxi64 value);
 
 PxBuilderCmd
 pxBuilderCmdInteger(pxuword radix, PxFormatOption options, pxiword value);
+
+PxBuilderCmd
+pxbuilderCmdBoolean8(pxb8 value);
+
+PxBuilderCmd
+pxbuilderCmdBoolean16(pxb16 value);
+
+PxBuilderCmd
+pxbuilderCmdBoolean32(pxb32 value);
+
+PxBuilderCmd
+pxbuilderCmdBoolean64(pxb64 value);
+
+PxBuilderCmd
+pxbuilderCmdBoolean(pxbword value);
 
 PxBuilderCmd
 pxBuilderCmdUnicode(pxi32 value);

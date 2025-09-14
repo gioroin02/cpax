@@ -19,26 +19,8 @@
 #define PURPLE(expr) FRONT_PURPLE expr COLOR_RESET
 #define AZURE(expr)  FRONT_AZURE  expr COLOR_RESET
 
-typedef struct Entity
-{
-    PxString8 name;
-    pxuword   code;
-}
-Entity;
-
-void
-jsonWriteEntity(Entity* self, PxJsonWriter* writer, PxArena* arena)
-{
-    PxJsonMsg list[] = {
-        pxJsonMsgObjectOpen(),
-        pxJsonMsgString(self->name, pxs8("name")),
-        pxJsonMsgUnsigned(self->code, pxs8("code")),
-        pxJsonMsgObjectClose(),
-    };
-
-    pxJsonWriteChain(writer, arena,
-        0, pxSizeArray(PxJsonMsg, list), list);
-}
+#define ENTITY \
+    pxs8("{ \"flags\": [16, 32], \"code\": 156, \"name\": \"player\", \"coords\": {\"x\": -1, \"y\": +2, \"z\": null}, \"alive\": true, \"pause\": false }")
 
 void
 showJsonMsg(PxJsonReader* reader, PxArena* arena)
@@ -129,6 +111,15 @@ showJsonMsg(PxJsonReader* reader, PxArena* arena)
                 printf("%s", message.boolean_word != 0 ? GREEN("true") : RED("false"));
             } break;
 
+            case PX_JSON_MSG_NULL: {
+                if (message.name.length > 0) {
+                    printf(AZURE("'%.*s'") ": ", pxCast(int, message.name.length),
+                        message.name.memory);
+                }
+
+                printf(PURPLE("null"));
+            } break;
+
             default: break;
         }
 
@@ -142,12 +133,8 @@ main(int argc, char** argv)
     PxArena   arena       = pxMemoryReserve(16);
     PxBuffer8 source      = pxBuffer8Reserve(&arena, 256);
     PxReader  buff_reader = pxBufferReader(&source, &arena, 256);
-    PxWriter  buff_writer = pxBufferWriter(&source, &arena, 256);
 
-    PxJsonWriter writer =
-        pxJsonWriterMake(&arena, 16, &buff_writer);
-
-    jsonWriteEntity(&(Entity) {.name = pxs8("gio"), .code = 156}, &writer, &arena);
+    pxBuffer8WriteString8Tail(&source, ENTITY);
 
     printf(YELLOW("[start]") "\n%.*s\n" YELLOW("[stop]") "\n",
         pxCast(int, source.size), source.memory);

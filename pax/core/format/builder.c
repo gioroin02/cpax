@@ -29,7 +29,7 @@ PxBuilderCmd
 pxBuilderCmdUnsigned8(pxuword radix, PxFormatOption options, pxu8 value)
 {
     return (PxBuilderCmd) {
-        .type = PX_BUILDER_CMD_UNSIGNED8,
+        .type = PX_BUILDER_CMD_UNSIGNED_8,
 
         .unsigned_8 = {
             .radix   = radix,
@@ -43,7 +43,7 @@ PxBuilderCmd
 pxBuilderCmdUnsigned16(pxuword radix, PxFormatOption options, pxu16 value)
 {
     return (PxBuilderCmd) {
-        .type = PX_BUILDER_CMD_UNSIGNED16,
+        .type = PX_BUILDER_CMD_UNSIGNED_16,
 
         .unsigned_16 = {
             .radix   = radix,
@@ -57,7 +57,7 @@ PxBuilderCmd
 pxBuilderCmdUnsigned32(pxuword radix, PxFormatOption options, pxu32 value)
 {
     return (PxBuilderCmd) {
-        .type = PX_BUILDER_CMD_UNSIGNED32,
+        .type = PX_BUILDER_CMD_UNSIGNED_32,
 
         .unsigned_32 = {
             .radix   = radix,
@@ -71,7 +71,7 @@ PxBuilderCmd
 pxBuilderCmdUnsigned64(pxuword radix, PxFormatOption options, pxu64 value)
 {
     return (PxBuilderCmd) {
-        .type = PX_BUILDER_CMD_UNSIGNED64,
+        .type = PX_BUILDER_CMD_UNSIGNED_64,
 
         .unsigned_64 = {
             .radix   = radix,
@@ -99,7 +99,7 @@ PxBuilderCmd
 pxBuilderCmdInteger8(pxuword radix, PxFormatOption options, pxi8 value)
 {
     return (PxBuilderCmd) {
-        .type = PX_BUILDER_CMD_INTEGER8,
+        .type = PX_BUILDER_CMD_INTEGER_8,
 
         .integer_8 = {
             .radix   = radix,
@@ -113,7 +113,7 @@ PxBuilderCmd
 pxBuilderCmdInteger16(pxuword radix, PxFormatOption options, pxi16 value)
 {
     return (PxBuilderCmd) {
-        .type = PX_BUILDER_CMD_INTEGER16,
+        .type = PX_BUILDER_CMD_INTEGER_16,
 
         .integer_16 = {
             .radix   = radix,
@@ -127,7 +127,7 @@ PxBuilderCmd
 pxBuilderCmdInteger32(pxuword radix, PxFormatOption options, pxi32 value)
 {
     return (PxBuilderCmd) {
-        .type = PX_BUILDER_CMD_INTEGER32,
+        .type = PX_BUILDER_CMD_INTEGER_32,
 
         .integer_32 = {
             .radix   = radix,
@@ -141,7 +141,7 @@ PxBuilderCmd
 pxBuilderCmdInteger64(pxuword radix, PxFormatOption options, pxi64 value)
 {
     return (PxBuilderCmd) {
-        .type = PX_BUILDER_CMD_INTEGER64,
+        .type = PX_BUILDER_CMD_INTEGER_64,
 
         .integer_64 = {
             .radix   = radix,
@@ -166,6 +166,51 @@ pxBuilderCmdInteger(pxuword radix, PxFormatOption options, pxiword value)
 }
 
 PxBuilderCmd
+pxbuilderCmdBoolean8(pxb8 value)
+{
+    return (PxBuilderCmd) {
+        .type      = PX_BUILDER_CMD_BOOLEAN_8,
+        .boolean_8 = value,
+    };
+}
+
+PxBuilderCmd
+pxbuilderCmdBoolean16(pxb16 value)
+{
+    return (PxBuilderCmd) {
+        .type      = PX_BUILDER_CMD_BOOLEAN_16,
+        .boolean_16 = value,
+    };
+}
+
+PxBuilderCmd
+pxbuilderCmdBoolean32(pxb32 value)
+{
+    return (PxBuilderCmd) {
+        .type       = PX_BUILDER_CMD_BOOLEAN_32,
+        .boolean_32 = value,
+    };
+}
+
+PxBuilderCmd
+pxbuilderCmdBoolean64(pxb64 value)
+{
+    return (PxBuilderCmd) {
+        .type       = PX_BUILDER_CMD_BOOLEAN_64,
+        .boolean_64 = value,
+    };
+}
+
+PxBuilderCmd
+pxbuilderCmdBoolean(pxbword value)
+{
+    return (PxBuilderCmd) {
+        .type         = PX_BUILDER_CMD_BOOLEAN,
+        .boolean_word = value,
+    };
+}
+
+PxBuilderCmd
 pxBuilderCmdUnicode(pxi32 value)
 {
     return (PxBuilderCmd) {
@@ -178,7 +223,7 @@ PxBuilderCmd
 pxBuilderCmdString8(PxString8 value)
 {
     return (PxBuilderCmd) {
-        .type     = PX_BUILDER_CMD_STRING8,
+        .type     = PX_BUILDER_CMD_STRING_8,
         .string_8 = value,
     };
 }
@@ -187,7 +232,7 @@ PxBuilderCmd
 pxBuilderCmdString16(PxString16 value)
 {
     return (PxBuilderCmd) {
-        .type      = PX_BUILDER_CMD_STRING16,
+        .type      = PX_BUILDER_CMD_STRING_16,
         .string_16 = value,
     };
 }
@@ -196,7 +241,7 @@ PxBuilderCmd
 pxBuilderCmdString32(PxString32 value)
 {
     return (PxBuilderCmd) {
-        .type      = PX_BUILDER_CMD_STRING32,
+        .type      = PX_BUILDER_CMD_STRING_32,
         .string_32 = value,
     };
 }
@@ -296,28 +341,28 @@ pxBuilderCommand(PxBuilder* self, PxBuilderCmd command)
     pxiword result = 0;
 
     switch (command.type) {
-        case PX_BUILDER_CMD_UNSIGNED8: {
+        case PX_BUILDER_CMD_UNSIGNED_8: {
             PxBuilderCmdUnsigned8 cmd = command.unsigned_8;
 
             result = pxMemory8WriteUnsigned8(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
-        case PX_BUILDER_CMD_UNSIGNED16: {
+        case PX_BUILDER_CMD_UNSIGNED_16: {
             PxBuilderCmdUnsigned16 cmd = command.unsigned_16;
 
             result = pxMemory8WriteUnsigned16(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
-        case PX_BUILDER_CMD_UNSIGNED32: {
+        case PX_BUILDER_CMD_UNSIGNED_32: {
             PxBuilderCmdUnsigned32 cmd = command.unsigned_32;
 
             result = pxMemory8WriteUnsigned32(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
-        case PX_BUILDER_CMD_UNSIGNED64: {
+        case PX_BUILDER_CMD_UNSIGNED_64: {
             PxBuilderCmdUnsigned64 cmd = command.unsigned_64;
 
             result = pxMemory8WriteUnsigned64(memory, size,
@@ -331,28 +376,28 @@ pxBuilderCommand(PxBuilder* self, PxBuilderCmd command)
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
-        case PX_BUILDER_CMD_INTEGER8: {
+        case PX_BUILDER_CMD_INTEGER_8: {
             PxBuilderCmdInteger8 cmd = command.integer_8;
 
             result = pxMemory8WriteInteger8(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
-        case PX_BUILDER_CMD_INTEGER16: {
+        case PX_BUILDER_CMD_INTEGER_16: {
             PxBuilderCmdInteger16 cmd = command.integer_16;
 
             result = pxMemory8WriteInteger16(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
-        case PX_BUILDER_CMD_INTEGER32: {
+        case PX_BUILDER_CMD_INTEGER_32: {
             PxBuilderCmdInteger32 cmd = command.integer_32;
 
             result = pxMemory8WriteInteger32(memory, size,
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
-        case PX_BUILDER_CMD_INTEGER64: {
+        case PX_BUILDER_CMD_INTEGER_64: {
             PxBuilderCmdInteger64 cmd = command.integer_64;
 
             result = pxMemory8WriteInteger64(memory, size,
@@ -366,11 +411,96 @@ pxBuilderCommand(PxBuilder* self, PxBuilderCmd command)
                 cmd.radix, cmd.options, cmd.value);
         } break;
 
+        case PX_BUILDER_CMD_BOOLEAN_8: {
+            pxb8  cmd   = command.boolean_8;
+            void* value = "false";
+
+            result = 5;
+
+            if (cmd != 0) {
+                value  = "true";
+                result = 4;
+            }
+
+            if (size >= result)
+                pxMemoryCopy(memory, value, result, 1);
+            else
+                result = 0;
+        } break;
+
+        case PX_BUILDER_CMD_BOOLEAN_16: {
+            pxb16 cmd   = command.boolean_16;
+            void* value = "false";
+
+            result = 5;
+
+            if (cmd != 0) {
+                value  = "true";
+                result = 4;
+            }
+
+            if (size >= result)
+                pxMemoryCopy(memory, value, result, 1);
+            else
+                result = 0;
+        } break;
+
+        case PX_BUILDER_CMD_BOOLEAN_32: {
+            pxb32 cmd   = command.boolean_32;
+            void* value = "false";
+
+            result = 5;
+
+            if (cmd != 0) {
+                value  = "true";
+                result = 4;
+            }
+
+            if (size >= result)
+                pxMemoryCopy(memory, value, result, 1);
+            else
+                result = 0;
+        } break;
+
+        case PX_BUILDER_CMD_BOOLEAN_64: {
+            pxb64 cmd   = command.boolean_64;
+            void* value = "false";
+
+            result = 5;
+
+            if (cmd != 0) {
+                value  = "true";
+                result = 4;
+            }
+
+            if (size >= result)
+                pxMemoryCopy(memory, value, result, 1);
+            else
+                result = 0;
+        } break;
+
+        case PX_BUILDER_CMD_BOOLEAN: {
+            pxbword cmd   = command.boolean_word;
+            void*   value = "false";
+
+            result = 5;
+
+            if (cmd != 0) {
+                value  = "true";
+                result = 4;
+            }
+
+            if (size >= result)
+                pxMemoryCopy(memory, value, result, 1);
+            else
+                result = 0;
+        } break;
+
         case PX_BUILDER_CMD_UNICODE: {
             result = pxUtf8WriteMemory8Forw(memory, size, 0, command.unicode);
         } break;
 
-        case PX_BUILDER_CMD_STRING8: {
+        case PX_BUILDER_CMD_STRING_8: {
             PxString8 cmd = command.string_8;
 
             if (cmd.length < 0 || cmd.length >= size)
@@ -382,7 +512,7 @@ pxBuilderCommand(PxBuilder* self, PxBuilderCmd command)
             result = cmd.length;
         } break;
 
-        case PX_BUILDER_CMD_STRING16: {
+        case PX_BUILDER_CMD_STRING_16: {
             PxString16 cmd = command.string_16;
 
             pxiword length = pxUtf32UnitsFromMemory16(
@@ -406,7 +536,7 @@ pxBuilderCommand(PxBuilder* self, PxBuilderCmd command)
             result = length;
         } break;
 
-        case PX_BUILDER_CMD_STRING32: {
+        case PX_BUILDER_CMD_STRING_32: {
             PxString32 cmd = command.string_32;
 
             pxiword length = pxUtf8UnitsFromMemory32(

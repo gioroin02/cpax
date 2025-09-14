@@ -10,8 +10,13 @@ main(int argc, char** argv)
     PxConsole console = pxConsoleCreate(&arena);
     PxWriter  writer  = pxConsoleWriter(console, &arena, 1024);
 
-    PxLogger logger = pxLoggerReserve(&arena, 1024, writer,
-        PX_REPORT_LEVEL_WARN, PX_REPORT_FLAG_LEVEL | PX_REPORT_FLAG_COLOR);
+    PxReportLevel level = PX_REPORT_LEVEL_WARN;
+
+    PxReportFlag flags =
+        PX_REPORT_FLAG_LEVEL |
+        PX_REPORT_FLAG_COLOR;
+
+    PxLogger logger = pxLoggerReserve(&arena, 1024, level, flags, &writer);
 
     pxLoggerReport(&logger, "Level is \"warn\"\n\n", (PxBuilderCmd) {0});
 

@@ -29,8 +29,8 @@ PxJsonTokenType;
 
 typedef struct PxJsonTokenError
 {
-    PxString8 message;
     PxString8 subject;
+    PxString8 content;
 }
 PxJsonTokenError;
 
@@ -56,7 +56,7 @@ PxJsonToken
 pxJsonTokenNone();
 
 PxJsonToken
-pxJsonTokenError(PxString8 subject, PxString8 message);
+pxJsonTokenError(PxString8 subject, PxString8 content);
 
 PxJsonToken
 pxJsonTokenObjectOpen();

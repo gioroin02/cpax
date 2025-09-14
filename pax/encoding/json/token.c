@@ -12,15 +12,15 @@ pxJsonTokenNone()
 }
 
 PxJsonToken
-pxJsonTokenError(PxString8 subject, PxString8 message)
+pxJsonTokenError(PxString8 subject, PxString8 content)
 {
     return (PxJsonToken) {
         .type   = PX_JSON_TOKEN_ERROR,
         .length = subject.length,
 
         .error = {
-            .message = message,
             .subject = subject,
+            .content = content,
         },
     };
 }

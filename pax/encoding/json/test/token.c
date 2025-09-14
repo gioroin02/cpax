@@ -52,11 +52,11 @@ showJsonToken(PxReader* reader, PxArena* arena)
 
         switch (token.type) {
             case PX_JSON_TOKEN_ERROR: {
-                PxString8 message = token.error.message;
+                PxString8 content = token.error.content;
                 PxString8 subject = token.error.subject;
 
                 printf(RED("%.*s: %.*s"),
-                    pxCast(int, message.length), message.memory,
+                    pxCast(int, content.length), content.memory,
                     pxCast(int, subject.length), subject.memory);
 
                 token.type = PX_JSON_TOKEN_COUNT;

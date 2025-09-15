@@ -26,140 +26,140 @@ pxFormatSpecFromString8(PxString8 string)
 }
 
 PxFormatCmd
-pxFormatCmdUnsigned8(pxuword radix, PxFormatOption options, pxu8 value)
+pxFormatCmdUnsigned8(pxuword radix, PxFormatFlag flags, pxu8 value)
 {
     return (PxFormatCmd) {
         .type = PX_FORMAT_CMD_UNSIGNED_8,
 
         .unsigned_8 = {
             .radix   = radix,
-            .options = options,
+            .flags = flags,
             .value   = value,
         },
     };
 }
 
 PxFormatCmd
-pxFormatCmdUnsigned16(pxuword radix, PxFormatOption options, pxu16 value)
+pxFormatCmdUnsigned16(pxuword radix, PxFormatFlag flags, pxu16 value)
 {
     return (PxFormatCmd) {
         .type = PX_FORMAT_CMD_UNSIGNED_16,
 
         .unsigned_16 = {
             .radix   = radix,
-            .options = options,
+            .flags = flags,
             .value   = value,
         },
     };
 }
 
 PxFormatCmd
-pxFormatCmdUnsigned32(pxuword radix, PxFormatOption options, pxu32 value)
+pxFormatCmdUnsigned32(pxuword radix, PxFormatFlag flags, pxu32 value)
 {
     return (PxFormatCmd) {
         .type = PX_FORMAT_CMD_UNSIGNED_32,
 
         .unsigned_32 = {
             .radix   = radix,
-            .options = options,
+            .flags = flags,
             .value   = value,
         },
     };
 }
 
 PxFormatCmd
-pxFormatCmdUnsigned64(pxuword radix, PxFormatOption options, pxu64 value)
+pxFormatCmdUnsigned64(pxuword radix, PxFormatFlag flags, pxu64 value)
 {
     return (PxFormatCmd) {
         .type = PX_FORMAT_CMD_UNSIGNED_64,
 
         .unsigned_64 = {
             .radix   = radix,
-            .options = options,
+            .flags = flags,
             .value   = value,
         },
     };
 }
 
 PxFormatCmd
-pxFormatCmdUnsigned(pxuword radix, PxFormatOption options, pxuword value)
+pxFormatCmdUnsigned(pxuword radix, PxFormatFlag flags, pxuword value)
 {
     return (PxFormatCmd) {
         .type = PX_FORMAT_CMD_UNSIGNED,
 
         .unsigned_word = {
             .radix   = radix,
-            .options = options,
+            .flags = flags,
             .value   = value,
         },
     };
 }
 
 PxFormatCmd
-pxFormatCmdInteger8(pxuword radix, PxFormatOption options, pxi8 value)
+pxFormatCmdInteger8(pxuword radix, PxFormatFlag flags, pxi8 value)
 {
     return (PxFormatCmd) {
         .type = PX_FORMAT_CMD_INTEGER_8,
 
         .integer_8 = {
             .radix   = radix,
-            .options = options,
+            .flags = flags,
             .value   = value,
         },
     };
 }
 
 PxFormatCmd
-pxFormatCmdInteger16(pxuword radix, PxFormatOption options, pxi16 value)
+pxFormatCmdInteger16(pxuword radix, PxFormatFlag flags, pxi16 value)
 {
     return (PxFormatCmd) {
         .type = PX_FORMAT_CMD_INTEGER_16,
 
         .integer_16 = {
             .radix   = radix,
-            .options = options,
+            .flags = flags,
             .value   = value,
         },
     };
 }
 
 PxFormatCmd
-pxFormatCmdInteger32(pxuword radix, PxFormatOption options, pxi32 value)
+pxFormatCmdInteger32(pxuword radix, PxFormatFlag flags, pxi32 value)
 {
     return (PxFormatCmd) {
         .type = PX_FORMAT_CMD_INTEGER_32,
 
         .integer_32 = {
             .radix   = radix,
-            .options = options,
+            .flags = flags,
             .value   = value,
         },
     };
 }
 
 PxFormatCmd
-pxFormatCmdInteger64(pxuword radix, PxFormatOption options, pxi64 value)
+pxFormatCmdInteger64(pxuword radix, PxFormatFlag flags, pxi64 value)
 {
     return (PxFormatCmd) {
         .type = PX_FORMAT_CMD_INTEGER_64,
 
         .integer_64 = {
             .radix   = radix,
-            .options = options,
+            .flags = flags,
             .value   = value,
         },
     };
 }
 
 PxFormatCmd
-pxFormatCmdInteger(pxuword radix, PxFormatOption options, pxiword value)
+pxFormatCmdInteger(pxuword radix, PxFormatFlag flags, pxiword value)
 {
     return (PxFormatCmd) {
         .type = PX_FORMAT_CMD_INTEGER,
 
         .integer_word = {
             .radix   = radix,
-            .options = options,
+            .flags = flags,
             .value   = value,
         },
     };
@@ -290,9 +290,11 @@ pxBuilderClear(PxBuilder* self)
 pxiword
 pxBuilderFormat(PxBuilder* self, PxString8 format, pxiword start, pxiword stop, PxFormatCmd* list)
 {
-    pxiword index  = 0;
-    pxiword result = 0;
-    pxb8    state  = 0;
+    pxiword index = 0;
+    pxiword size  = self->size;
+    pxb8    state = 0;
+
+    PxFormatCmd command = {0};
 
     PxString8 left  = {0};
     PxString8 right = format;
@@ -300,7 +302,9 @@ pxBuilderFormat(PxBuilder* self, PxString8 format, pxiword start, pxiword stop, 
     while (pxString8Contains(right, pxs8("$")) > 0) {
         pxString8Split(right, pxs8("$"), &left, &right);
 
-        result += pxBuilderCommand(self, pxFormatCmdString8(left));
+        command = pxFormatCmdString8(left);
+
+        if (pxBuilderCommand(self, command) == 0) break;
 
         left  = pxFormatSpecFromString8(right);
         right = pxString8SliceHead(right, left.length);
@@ -309,14 +313,18 @@ pxBuilderFormat(PxBuilder* self, PxString8 format, pxiword start, pxiword stop, 
             pxString8Slice(left, 1, left.length - 1));
 
         if (index < start || index >= stop || state == 0)
-            result += pxBuilderCommand(self, pxFormatCmdString8(pxs8("${?}")));
+            command = pxFormatCmdString8(pxs8("${?}"));
         else
-            result += pxBuilderCommand(self, list[index]);
+            command = list[index];
+
+        if (pxBuilderCommand(self, command) == 0) break;
     }
 
-    result += pxBuilderCommand(self, pxFormatCmdString8(right));
+    command = pxFormatCmdString8(right);
 
-    return result;
+    pxBuilderCommand(self, command);
+
+    return self->size - size;
 }
 
 pxiword
@@ -324,14 +332,14 @@ pxBuilderChain(PxBuilder* self, pxiword start, pxiword stop, PxFormatCmd* list)
 {
     if (list == 0 || stop <= start) return 0;
 
-    pxiword diff = stop - start;
+    pxiword size = self->size;
 
-    for (pxiword i = 0; i < diff; i += 1) {
-        if (pxBuilderCommand(self, list[i + start]) == 0)
-            return i;
+    for (pxiword i = start; i < stop; i += 1) {
+        if (pxBuilderCommand(self, list[i]) == 0)
+            break;
     }
 
-    return diff;
+    return self->size - size;
 }
 
 pxiword
@@ -346,79 +354,77 @@ pxBuilderCommand(PxBuilder* self, PxFormatCmd command)
             PxFormatCmdUnsigned8 cmd = command.unsigned_8;
 
             result = pxMemory8WriteUnsigned8(memory, size,
-                cmd.radix, cmd.options, cmd.value);
+                cmd.radix, cmd.flags, cmd.value);
         } break;
 
         case PX_FORMAT_CMD_UNSIGNED_16: {
             PxFormatCmdUnsigned16 cmd = command.unsigned_16;
 
             result = pxMemory8WriteUnsigned16(memory, size,
-                cmd.radix, cmd.options, cmd.value);
+                cmd.radix, cmd.flags, cmd.value);
         } break;
 
         case PX_FORMAT_CMD_UNSIGNED_32: {
             PxFormatCmdUnsigned32 cmd = command.unsigned_32;
 
             result = pxMemory8WriteUnsigned32(memory, size,
-                cmd.radix, cmd.options, cmd.value);
+                cmd.radix, cmd.flags, cmd.value);
         } break;
 
         case PX_FORMAT_CMD_UNSIGNED_64: {
             PxFormatCmdUnsigned64 cmd = command.unsigned_64;
 
             result = pxMemory8WriteUnsigned64(memory, size,
-                cmd.radix, cmd.options, cmd.value);
+                cmd.radix, cmd.flags, cmd.value);
         } break;
 
         case PX_FORMAT_CMD_UNSIGNED: {
             PxFormatCmdUnsigned cmd = command.unsigned_word;
 
             result = pxMemory8WriteUnsigned(memory, size,
-                cmd.radix, cmd.options, cmd.value);
+                cmd.radix, cmd.flags, cmd.value);
         } break;
 
         case PX_FORMAT_CMD_INTEGER_8: {
             PxFormatCmdInteger8 cmd = command.integer_8;
 
             result = pxMemory8WriteInteger8(memory, size,
-                cmd.radix, cmd.options, cmd.value);
+                cmd.radix, cmd.flags, cmd.value);
         } break;
 
         case PX_FORMAT_CMD_INTEGER_16: {
             PxFormatCmdInteger16 cmd = command.integer_16;
 
             result = pxMemory8WriteInteger16(memory, size,
-                cmd.radix, cmd.options, cmd.value);
+                cmd.radix, cmd.flags, cmd.value);
         } break;
 
         case PX_FORMAT_CMD_INTEGER_32: {
             PxFormatCmdInteger32 cmd = command.integer_32;
 
             result = pxMemory8WriteInteger32(memory, size,
-                cmd.radix, cmd.options, cmd.value);
+                cmd.radix, cmd.flags, cmd.value);
         } break;
 
         case PX_FORMAT_CMD_INTEGER_64: {
             PxFormatCmdInteger64 cmd = command.integer_64;
 
             result = pxMemory8WriteInteger64(memory, size,
-                cmd.radix, cmd.options, cmd.value);
+                cmd.radix, cmd.flags, cmd.value);
         } break;
 
         case PX_FORMAT_CMD_INTEGER: {
             PxFormatCmdInteger cmd = command.integer_word;
 
             result = pxMemory8WriteInteger(memory, size,
-                cmd.radix, cmd.options, cmd.value);
+                cmd.radix, cmd.flags, cmd.value);
         } break;
 
         case PX_FORMAT_CMD_BOOLEAN_8: {
             pxbword   cmd   = command.boolean_8;
             PxString8 value = pxs8("false");
 
-
-            if (cmd != 0)
-                value = pxs8("true");
+            if (cmd != 0) value = pxs8("true");
 
             result = value.length;
 
@@ -432,9 +438,7 @@ pxBuilderCommand(PxBuilder* self, PxFormatCmd command)
             pxbword   cmd   = command.boolean_16;
             PxString8 value = pxs8("false");
 
-
-            if (cmd != 0)
-                value = pxs8("true");
+            if (cmd != 0) value = pxs8("true");
 
             result = value.length;
 
@@ -448,9 +452,7 @@ pxBuilderCommand(PxBuilder* self, PxFormatCmd command)
             pxbword   cmd   = command.boolean_32;
             PxString8 value = pxs8("false");
 
-
-            if (cmd != 0)
-                value = pxs8("true");
+            if (cmd != 0) value = pxs8("true");
 
             result = value.length;
 
@@ -464,9 +466,7 @@ pxBuilderCommand(PxBuilder* self, PxFormatCmd command)
             pxbword   cmd   = command.boolean_64;
             PxString8 value = pxs8("false");
 
-
-            if (cmd != 0)
-                value = pxs8("true");
+            if (cmd != 0) value = pxs8("true");
 
             result = value.length;
 
@@ -480,9 +480,7 @@ pxBuilderCommand(PxBuilder* self, PxFormatCmd command)
             pxbword   cmd   = command.boolean_word;
             PxString8 value = pxs8("false");
 
-
-            if (cmd != 0)
-                value = pxs8("true");
+            if (cmd != 0) value = pxs8("true");
 
             result = value.length;
 
@@ -493,67 +491,23 @@ pxBuilderCommand(PxBuilder* self, PxFormatCmd command)
         } break;
 
         case PX_FORMAT_CMD_UNICODE: {
-            result = pxUtf8WriteMemory8Forw(memory, size, 0, command.unicode);
+            result = pxUtf8WriteMemory8Forw(memory, size,
+                0, command.unicode);
         } break;
 
         case PX_FORMAT_CMD_STRING_8: {
-            PxString8 cmd = command.string_8;
-
-            if (cmd.length < 0 || cmd.length >= size)
-                return 0;
-
-            for (pxiword i = 0; i < cmd.length; i += 1)
-                memory[i] = cmd.memory[i];
-
-            result = cmd.length;
+            result = pxMemory8WriteString8(memory, size,
+                command.string_8);
         } break;
 
         case PX_FORMAT_CMD_STRING_16: {
-            PxString16 cmd = command.string_16;
-
-            pxiword length = pxUtf32UnitsFromMemory16(
-                cmd.memory, cmd.length);
-
-            if (length < 0 || length >= size) return 0;
-
-            pxiword index = 0;
-            pxiword other = 0;
-
-            while (index < length) {
-                pxi32 unicode = 0;
-
-                other += pxUtf16ReadMemory16Forw(
-                    cmd.memory, cmd.length, other, &unicode);
-
-                index += pxUtf8WriteMemory8Forw(
-                    memory, length, index, unicode);
-            }
-
-            result = length;
+            result = pxMemory8WriteString16(memory, size,
+                command.string_16);
         } break;
 
         case PX_FORMAT_CMD_STRING_32: {
-            PxString32 cmd = command.string_32;
-
-            pxiword length = pxUtf8UnitsFromMemory32(
-                cmd.memory, cmd.length);
-
-            if (length < 0 || length >= size) return 0;
-
-            pxiword index = 0;
-            pxiword other = 0;
-
-            while (index < length) {
-                pxi32 unicode = 0;
-
-                other += pxUtf32ReadMemory32Forw(
-                    cmd.memory, cmd.length, other, &unicode);
-
-                index += pxUtf8WriteMemory8Forw(
-                    memory, length, index, unicode);
-            }
-
-            result = length;
+            result = pxMemory8WriteString32(memory, size,
+                command.string_32);
         } break;
 
         case PX_FORMAT_CMD_DELEGATE: {
@@ -561,7 +515,7 @@ pxBuilderCommand(PxBuilder* self, PxFormatCmd command)
 
             result = pxCast(PxFormatProc*, cmd.proc)
                 (cmd.ctxt, self);
-        }
+        } break;
 
         default: break;
     }

@@ -43,7 +43,7 @@ PxFormatCmdType;
 typedef struct PxFormatCmdUnsigned8
 {
     pxuword        radix;
-    PxFormatOption options;
+    PxFormatFlag flags;
     pxu8           value;
 }
 PxFormatCmdUnsigned8;
@@ -51,7 +51,7 @@ PxFormatCmdUnsigned8;
 typedef struct PxFormatCmdUnsigned16
 {
     pxuword        radix;
-    PxFormatOption options;
+    PxFormatFlag flags;
     pxu16          value;
 }
 PxFormatCmdUnsigned16;
@@ -59,7 +59,7 @@ PxFormatCmdUnsigned16;
 typedef struct PxFormatCmdUnsigned32
 {
     pxuword        radix;
-    PxFormatOption options;
+    PxFormatFlag flags;
     pxu32          value;
 }
 PxFormatCmdUnsigned32;
@@ -67,7 +67,7 @@ PxFormatCmdUnsigned32;
 typedef struct PxFormatCmdUnsigned64
 {
     pxuword        radix;
-    PxFormatOption options;
+    PxFormatFlag flags;
     pxu64          value;
 }
 PxFormatCmdUnsigned64;
@@ -75,7 +75,7 @@ PxFormatCmdUnsigned64;
 typedef struct PxFormatCmdUnsigned
 {
     pxuword        radix;
-    PxFormatOption options;
+    PxFormatFlag flags;
     pxuword        value;
 }
 PxFormatCmdUnsigned;
@@ -83,7 +83,7 @@ PxFormatCmdUnsigned;
 typedef struct PxFormatCmdInteger8
 {
     pxuword        radix;
-    PxFormatOption options;
+    PxFormatFlag flags;
     pxi8           value;
 }
 PxFormatCmdInteger8;
@@ -91,7 +91,7 @@ PxFormatCmdInteger8;
 typedef struct PxFormatCmdInteger16
 {
     pxuword        radix;
-    PxFormatOption options;
+    PxFormatFlag flags;
     pxi16          value;
 }
 PxFormatCmdInteger16;
@@ -99,7 +99,7 @@ PxFormatCmdInteger16;
 typedef struct PxFormatCmdInteger32
 {
     pxuword        radix;
-    PxFormatOption options;
+    PxFormatFlag flags;
     pxi32          value;
 }
 PxFormatCmdInteger32;
@@ -107,7 +107,7 @@ PxFormatCmdInteger32;
 typedef struct PxFormatCmdInteger64
 {
     pxuword        radix;
-    PxFormatOption options;
+    PxFormatFlag flags;
     pxi64          value;
 }
 PxFormatCmdInteger64;
@@ -115,7 +115,7 @@ PxFormatCmdInteger64;
 typedef struct PxFormatCmdInteger
 {
     pxuword        radix;
-    PxFormatOption options;
+    PxFormatFlag flags;
     pxiword        value;
 }
 PxFormatCmdInteger;
@@ -175,34 +175,34 @@ typedef pxiword (PxFormatProc) (void*, PxBuilder*);
 /* Commands */
 
 PxFormatCmd
-pxFormatCmdUnsigned8(pxuword radix, PxFormatOption options, pxu8 value);
+pxFormatCmdUnsigned8(pxuword radix, PxFormatFlag flags, pxu8 value);
 
 PxFormatCmd
-pxFormatCmdUnsigned16(pxuword radix, PxFormatOption options, pxu16 value);
+pxFormatCmdUnsigned16(pxuword radix, PxFormatFlag flags, pxu16 value);
 
 PxFormatCmd
-pxFormatCmdUnsigned32(pxuword radix, PxFormatOption options, pxu32 value);
+pxFormatCmdUnsigned32(pxuword radix, PxFormatFlag flags, pxu32 value);
 
 PxFormatCmd
-pxFormatCmdUnsigned64(pxuword radix, PxFormatOption options, pxu64 value);
+pxFormatCmdUnsigned64(pxuword radix, PxFormatFlag flags, pxu64 value);
 
 PxFormatCmd
-pxFormatCmdUnsigned(pxuword radix, PxFormatOption options, pxuword value);
+pxFormatCmdUnsigned(pxuword radix, PxFormatFlag flags, pxuword value);
 
 PxFormatCmd
-pxFormatCmdInteger8(pxuword radix, PxFormatOption options, pxi8 value);
+pxFormatCmdInteger8(pxuword radix, PxFormatFlag flags, pxi8 value);
 
 PxFormatCmd
-pxFormatCmdInteger16(pxuword radix, PxFormatOption options, pxi16 value);
+pxFormatCmdInteger16(pxuword radix, PxFormatFlag flags, pxi16 value);
 
 PxFormatCmd
-pxFormatCmdInteger32(pxuword radix, PxFormatOption options, pxi32 value);
+pxFormatCmdInteger32(pxuword radix, PxFormatFlag flags, pxi32 value);
 
 PxFormatCmd
-pxFormatCmdInteger64(pxuword radix, PxFormatOption options, pxi64 value);
+pxFormatCmdInteger64(pxuword radix, PxFormatFlag flags, pxi64 value);
 
 PxFormatCmd
-pxFormatCmdInteger(pxuword radix, PxFormatOption options, pxiword value);
+pxFormatCmdInteger(pxuword radix, PxFormatFlag flags, pxiword value);
 
 PxFormatCmd
 pxFormatCmdBoolean8(pxb8 value);

@@ -8,9 +8,6 @@ pxAddressIp4FromString8(PxAddressIp4* self, PxString8 string)
 {
     PxAddressIp4 temp = {0};
 
-    PxFormatOption options =
-        PX_FORMAT_OPTION_LEADING_ZERO;
-
     pxiword groups = pxString8Contains(string, pxs8("."));
 
     if (groups != PX_ADDRESS_IP4_GROUPS - 1) return 0;
@@ -21,7 +18,7 @@ pxAddressIp4FromString8(PxAddressIp4* self, PxString8 string)
     for (pxiword i = 0; i < PX_ADDRESS_IP4_GROUPS; i += 1) {
         pxString8Split(right, pxs8("."), &left, &right);
 
-        if (pxUnsigned8FromString8(&temp.items[i], 10, options, left) == 0)
+        if (pxUnsigned8FromString8(&temp.items[i], 10, 0, left) == 0)
             return 0;
     }
 

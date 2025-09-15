@@ -125,8 +125,8 @@ pxJsonWriteMessage(PxJsonWriter* self, PxArena* arena, PxJsonMsg message)
                 pxWriterByte(self->writer, PX_ASCII_COLON);
             }
 
-            PxString8 string = pxString8FromUnsigned(arena, 10,
-                PX_FORMAT_OPTION_NONE, message.unsigned_word);
+            PxString8 string = pxString8FromUnsigned(arena,
+                10, 0, message.unsigned_word);
 
             pxWriterString8(self->writer, string);
 
@@ -146,8 +146,8 @@ pxJsonWriteMessage(PxJsonWriter* self, PxArena* arena, PxJsonMsg message)
                 pxWriterByte(self->writer, PX_ASCII_COLON);
             }
 
-            PxString8 string = pxString8FromInteger(arena, 10,
-                PX_FORMAT_OPTION_NONE, message.integer_word);
+            PxString8 string = pxString8FromInteger(arena,
+                10, 0, message.integer_word);
 
             pxWriterString8(self->writer, string);
 

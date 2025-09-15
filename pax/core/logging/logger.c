@@ -34,76 +34,6 @@ pxLoggerSetFlags(PxLogger* self, PxReportFlag flags)
     return result;
 }
 
-    /*
-    switch (level) {
-        case PX_REPORT_LEVEL_FATAL:
-            if ((self->flags & PX_REPORT_FLAG_COLORS) != 0)
-                pxWriterString8(self->writer, pxs8("\x1b[35m"));
-
-            pxWriterString8(self->writer, pxs8("[FATAL] "));
-
-            if ((self->flags & PX_REPORT_FLAG_COLORS) != 0)
-                pxWriterString8(self->writer, pxs8("\x1b[0m"));
-        break;
-
-        case PX_REPORT_LEVEL_ERROR:
-            if ((self->flags & PX_REPORT_FLAG_COLORS) != 0)
-                pxWriterString8(self->writer, pxs8("\x1b[31m"));
-
-            pxWriterString8(self->writer, pxs8("[ERROR] "));
-
-            if ((self->flags & PX_REPORT_FLAG_COLORS) != 0)
-                pxWriterString8(self->writer, pxs8("\x1b[0m"));
-        break;
-
-        case PX_REPORT_LEVEL_WARN:
-            if ((self->flags & PX_REPORT_FLAG_COLORS) != 0)
-                pxWriterString8(self->writer, pxs8("\x1b[33m"));
-
-            pxWriterString8(self->writer, pxs8("[WARN] "));
-
-            if ((self->flags & PX_REPORT_FLAG_COLORS) != 0)
-                pxWriterString8(self->writer, pxs8("\x1b[0m"));
-        break;
-
-        case PX_REPORT_LEVEL_MESSAGE:
-            pxWriterString8(self->writer, pxs8("[MESSAGE] "));
-        break;
-
-        case PX_REPORT_LEVEL_INFO:
-            if ((self->flags & PX_REPORT_FLAG_COLORS) != 0)
-                pxWriterString8(self->writer, pxs8("\x1b[32m"));
-
-            pxWriterString8(self->writer, pxs8("[INFO] "));
-
-            if ((self->flags & PX_REPORT_FLAG_COLORS) != 0)
-                pxWriterString8(self->writer, pxs8("\x1b[0m"));
-        break;
-
-        case PX_REPORT_LEVEL_DEBUG:
-            if ((self->flags & PX_REPORT_FLAG_COLORS) != 0)
-                pxWriterString8(self->writer, pxs8("\x1b[36m"));
-
-            pxWriterString8(self->writer, pxs8("[DEBUG] "));
-
-            if ((self->flags & PX_REPORT_FLAG_COLORS) != 0)
-                pxWriterString8(self->writer, pxs8("\x1b[0m"));
-        break;
-
-        case PX_REPORT_LEVEL_TRACE:
-            if ((self->flags & PX_REPORT_FLAG_COLORS) != 0)
-                pxWriterString8(self->writer, pxs8("\x1b[34m"));
-
-            pxWriterString8(self->writer, pxs8("[TRACE] "));
-
-            if ((self->flags & PX_REPORT_FLAG_COLORS) != 0)
-                pxWriterString8(self->writer, pxs8("\x1b[0m"));
-        break;
-
-        default: break;
-    }
-    */
-
 pxb8
 pxLoggerStart(PxLogger* self, PxReportLevel level)
 {
@@ -145,12 +75,7 @@ pxLoggerStart(PxLogger* self, PxReportLevel level)
 pxb8
 pxLoggerStop(PxLogger* self, PxReportLevel level)
 {
-    pxiword result =
-        pxWriterFlush(self->writer);
-
-    pxBuilderReset(&self->builder);
-
-    return result;
+    return pxWriterFlush(self->writer);
 }
 
 pxb8
@@ -160,6 +85,7 @@ pxLoggerFormat(PxLogger* self, PxReportLevel level, PxString8 format, pxiword st
         return 0;
 
     if (level <= self->level) {
+        pxBuilderClear(&self->builder);
         pxBuilderFormat(&self->builder, format, start, stop, list);
 
         pxLoggerStart(self, level);
@@ -168,6 +94,7 @@ pxLoggerFormat(PxLogger* self, PxReportLevel level, PxString8 format, pxiword st
             self->builder.memory, self->builder.size, 1);
 
         pxLoggerStop(self, level);
+        pxBuilderClear(&self->builder);
 
         if (size != 0) return 1;
     }

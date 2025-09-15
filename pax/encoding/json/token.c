@@ -92,12 +92,11 @@ pxJsonTokenString(PxString8 string)
 PxJsonToken
 pxJsonTokenUnsigned(PxString8 string)
 {
-    PxFormatOption options =
-        PX_FORMAT_OPTION_LEADING_PLUS;
+    PxFormatFlag flags = PX_FORMAT_FLAG_LEADING_PLUS;
 
     pxuword value = 0;
 
-    if (pxUnsignedFromString8(&value, 10, options, string) == 0)
+    if (pxUnsignedFromString8(&value, 10, flags, string) == 0)
         return pxJsonTokenError(string, pxs8("Invalid number"));
 
     return (PxJsonToken) {
@@ -110,12 +109,11 @@ pxJsonTokenUnsigned(PxString8 string)
 PxJsonToken
 pxJsonTokenInteger(PxString8 string)
 {
-    PxFormatOption options =
-        PX_FORMAT_OPTION_LEADING_PLUS;
+    PxFormatFlag flags = PX_FORMAT_FLAG_LEADING_PLUS;
 
     pxiword value = 0;
 
-    if (pxIntegerFromString8(&value, 10, options, string) == 0)
+    if (pxIntegerFromString8(&value, 10, flags, string) == 0)
         return pxJsonTokenError(string, pxs8("Invalid number"));
 
     return (PxJsonToken) {
@@ -128,12 +126,11 @@ pxJsonTokenInteger(PxString8 string)
 PxJsonToken
 pxJsonTokenFloating(PxString8 string)
 {
-    PxFormatOption options =
-        PX_FORMAT_OPTION_LEADING_PLUS;
+    PxFormatFlag flags = PX_FORMAT_FLAG_LEADING_PLUS;
 
     pxfword value = 0;
 
-    if (1 /* pxFloatingFromString8(&value, 10, options, string) == 0 */)
+    if (1 /* pxFloatingFromString8(&value, 10, flags, string) == 0 */)
         return pxJsonTokenError(string, pxs8("Not implemented yet"));
 
     return (PxJsonToken) {

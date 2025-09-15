@@ -4,7 +4,7 @@
 #include "memory16.h"
 
 pxiword
-pxMemory16WriteUnsigned8(pxu16* memory, pxiword length, pxuword radix, PxFormatOption options, pxu8 value)
+pxMemory16WriteUnsigned8(pxu16* memory, pxiword length, pxuword radix, PxFormatFlag flags, pxu8 value)
 {
     pxiword size = 0;
     pxu8    temp = value;
@@ -15,7 +15,7 @@ pxMemory16WriteUnsigned8(pxu16* memory, pxiword length, pxuword radix, PxFormatO
     } else
         size += 1;
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     if (size <= 0 || size > length) return 0;
@@ -24,7 +24,7 @@ pxMemory16WriteUnsigned8(pxu16* memory, pxiword length, pxuword radix, PxFormatO
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -35,14 +35,14 @@ pxMemory16WriteUnsigned8(pxu16* memory, pxiword length, pxuword radix, PxFormatO
             return 0;
     }
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         memory[index] = PX_ASCII_PLUS;
 
     return size;
 }
 
 pxiword
-pxMemory16WriteUnsigned16(pxu16* memory, pxiword length, pxuword radix, PxFormatOption options, pxu16 value)
+pxMemory16WriteUnsigned16(pxu16* memory, pxiword length, pxuword radix, PxFormatFlag flags, pxu16 value)
 {
     pxiword size = 0;
     pxu16   temp = value;
@@ -53,7 +53,7 @@ pxMemory16WriteUnsigned16(pxu16* memory, pxiword length, pxuword radix, PxFormat
     } else
         size += 1;
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     if (size <= 0 || size > length) return 0;
@@ -62,7 +62,7 @@ pxMemory16WriteUnsigned16(pxu16* memory, pxiword length, pxuword radix, PxFormat
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -73,14 +73,14 @@ pxMemory16WriteUnsigned16(pxu16* memory, pxiword length, pxuword radix, PxFormat
             return 0;
     }
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         memory[index] = PX_ASCII_PLUS;
 
     return size;
 }
 
 pxiword
-pxMemory16WriteUnsigned32(pxu16* memory, pxiword length, pxuword radix, PxFormatOption options, pxu32 value)
+pxMemory16WriteUnsigned32(pxu16* memory, pxiword length, pxuword radix, PxFormatFlag flags, pxu32 value)
 {
     pxiword size = 0;
     pxu32   temp = value;
@@ -91,7 +91,7 @@ pxMemory16WriteUnsigned32(pxu16* memory, pxiword length, pxuword radix, PxFormat
     } else
         size += 1;
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     if (size <= 0 || size > length) return 0;
@@ -100,7 +100,7 @@ pxMemory16WriteUnsigned32(pxu16* memory, pxiword length, pxuword radix, PxFormat
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -111,14 +111,14 @@ pxMemory16WriteUnsigned32(pxu16* memory, pxiword length, pxuword radix, PxFormat
             return 0;
     }
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         memory[index] = PX_ASCII_PLUS;
 
     return size;
 }
 
 pxiword
-pxMemory16WriteUnsigned64(pxu16* memory, pxiword length, pxuword radix, PxFormatOption options, pxu64 value)
+pxMemory16WriteUnsigned64(pxu16* memory, pxiword length, pxuword radix, PxFormatFlag flags, pxu64 value)
 {
     pxiword size = 0;
     pxu64   temp = value;
@@ -129,7 +129,7 @@ pxMemory16WriteUnsigned64(pxu16* memory, pxiword length, pxuword radix, PxFormat
     } else
         size += 1;
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     if (size <= 0 || size > length) return 0;
@@ -138,7 +138,7 @@ pxMemory16WriteUnsigned64(pxu16* memory, pxiword length, pxuword radix, PxFormat
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -149,14 +149,14 @@ pxMemory16WriteUnsigned64(pxu16* memory, pxiword length, pxuword radix, PxFormat
             return 0;
     }
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         memory[index] = PX_ASCII_PLUS;
 
     return size;
 }
 
 pxiword
-pxMemory16WriteUnsigned(pxu16* memory, pxiword length, pxuword radix, PxFormatOption options, pxuword value)
+pxMemory16WriteUnsigned(pxu16* memory, pxiword length, pxuword radix, PxFormatFlag flags, pxuword value)
 {
     pxiword size = 0;
     pxuword temp = value;
@@ -167,7 +167,7 @@ pxMemory16WriteUnsigned(pxu16* memory, pxiword length, pxuword radix, PxFormatOp
     } else
         size += 1;
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     if (size <= 0 || size > length) return 0;
@@ -176,7 +176,7 @@ pxMemory16WriteUnsigned(pxu16* memory, pxiword length, pxuword radix, PxFormatOp
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -187,14 +187,14 @@ pxMemory16WriteUnsigned(pxu16* memory, pxiword length, pxuword radix, PxFormatOp
             return 0;
     }
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         memory[index] = PX_ASCII_PLUS;
 
     return size;
 }
 
 pxiword
-pxMemory16WriteInteger8(pxu16* memory, pxiword length, pxuword radix, PxFormatOption options, pxi8 value)
+pxMemory16WriteInteger8(pxu16* memory, pxiword length, pxuword radix, PxFormatFlag flags, pxi8 value)
 {
     pxiword size = 0;
     pxu8    temp = pxMagnitudeInteger8(value);
@@ -206,7 +206,7 @@ pxMemory16WriteInteger8(pxu16* memory, pxiword length, pxuword radix, PxFormatOp
     } else
         size += 1;
 
-    if (sign != 0 || (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if (sign != 0 || (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     if (size <= 0 || size > length) return 0;
@@ -215,7 +215,7 @@ pxMemory16WriteInteger8(pxu16* memory, pxiword length, pxuword radix, PxFormatOp
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -228,14 +228,14 @@ pxMemory16WriteInteger8(pxu16* memory, pxiword length, pxuword radix, PxFormatOp
 
     if (sign != 0) memory[index] = PX_ASCII_MINUS;
 
-    if (sign == 0 && (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if (sign == 0 && (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         memory[index] = PX_ASCII_PLUS;
 
     return size;
 }
 
 pxiword
-pxMemory16WriteInteger16(pxu16* memory, pxiword length, pxuword radix, PxFormatOption options, pxi16 value)
+pxMemory16WriteInteger16(pxu16* memory, pxiword length, pxuword radix, PxFormatFlag flags, pxi16 value)
 {
     pxiword size = 0;
     pxu16   temp = pxMagnitudeInteger16(value);
@@ -247,7 +247,7 @@ pxMemory16WriteInteger16(pxu16* memory, pxiword length, pxuword radix, PxFormatO
     } else
         size += 1;
 
-    if (sign != 0 || (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if (sign != 0 || (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     if (size <= 0 || size > length) return 0;
@@ -256,7 +256,7 @@ pxMemory16WriteInteger16(pxu16* memory, pxiword length, pxuword radix, PxFormatO
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -269,14 +269,14 @@ pxMemory16WriteInteger16(pxu16* memory, pxiword length, pxuword radix, PxFormatO
 
     if (sign != 0) memory[index] = PX_ASCII_MINUS;
 
-    if (sign == 0 && (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if (sign == 0 && (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         memory[index] = PX_ASCII_PLUS;
 
     return size;
 }
 
 pxiword
-pxMemory16WriteInteger32(pxu16* memory, pxiword length, pxuword radix, PxFormatOption options, pxi32 value)
+pxMemory16WriteInteger32(pxu16* memory, pxiword length, pxuword radix, PxFormatFlag flags, pxi32 value)
 {
     pxiword size = 0;
     pxu32   temp = pxMagnitudeInteger32(value);
@@ -288,7 +288,7 @@ pxMemory16WriteInteger32(pxu16* memory, pxiword length, pxuword radix, PxFormatO
     } else
         size += 1;
 
-    if (sign != 0 || (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if (sign != 0 || (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     if (size <= 0 || size > length) return 0;
@@ -297,7 +297,7 @@ pxMemory16WriteInteger32(pxu16* memory, pxiword length, pxuword radix, PxFormatO
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -310,14 +310,14 @@ pxMemory16WriteInteger32(pxu16* memory, pxiword length, pxuword radix, PxFormatO
 
     if (sign != 0) memory[index] = PX_ASCII_MINUS;
 
-    if (sign == 0 && (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if (sign == 0 && (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         memory[index] = PX_ASCII_PLUS;
 
     return size;
 }
 
 pxiword
-pxMemory16WriteInteger64(pxu16* memory, pxiword length, pxuword radix, PxFormatOption options, pxi64 value)
+pxMemory16WriteInteger64(pxu16* memory, pxiword length, pxuword radix, PxFormatFlag flags, pxi64 value)
 {
     pxiword size = 0;
     pxu64   temp = pxMagnitudeInteger64(value);
@@ -329,7 +329,7 @@ pxMemory16WriteInteger64(pxu16* memory, pxiword length, pxuword radix, PxFormatO
     } else
         size += 1;
 
-    if (sign != 0 || (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if (sign != 0 || (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     if (size <= 0 || size > length) return 0;
@@ -338,7 +338,7 @@ pxMemory16WriteInteger64(pxu16* memory, pxiword length, pxuword radix, PxFormatO
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -351,14 +351,14 @@ pxMemory16WriteInteger64(pxu16* memory, pxiword length, pxuword radix, PxFormatO
 
     if (sign != 0) memory[index] = PX_ASCII_MINUS;
 
-    if (sign == 0 && (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if (sign == 0 && (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         memory[index] = PX_ASCII_PLUS;
 
     return size;
 }
 
 pxiword
-pxMemory16WriteInteger(pxu16* memory, pxiword length, pxuword radix, PxFormatOption options, pxiword value)
+pxMemory16WriteInteger(pxu16* memory, pxiword length, pxuword radix, PxFormatFlag flags, pxiword value)
 {
     pxiword size = 0;
     pxuword temp = pxMagnitudeInteger(value);
@@ -370,7 +370,7 @@ pxMemory16WriteInteger(pxu16* memory, pxiword length, pxuword radix, PxFormatOpt
     } else
         size += 1;
 
-    if (sign != 0 || (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if (sign != 0 || (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     if (size <= 0 || size > length) return 0;
@@ -379,7 +379,7 @@ pxMemory16WriteInteger(pxu16* memory, pxiword length, pxuword radix, PxFormatOpt
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -392,7 +392,7 @@ pxMemory16WriteInteger(pxu16* memory, pxiword length, pxuword radix, PxFormatOpt
 
     if (sign != 0) memory[index] = PX_ASCII_MINUS;
 
-    if (sign == 0 && (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if (sign == 0 && (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         memory[index] = PX_ASCII_PLUS;
 
     return size;

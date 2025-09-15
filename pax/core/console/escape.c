@@ -163,15 +163,13 @@ pxEscapeGroupFromString8(PxEscape* self, PxString8 string)
     pxuword value = 0;
     pxb8    state = 0;
 
-    PxFormatOption options = PX_FORMAT_OPTION_NONE;
-
     switch (pxString8Contains(string, pxs8(":"))) {
         case 0: {
             pxiword group = self->size;
 
             pxEscapeInsertGroupTail(self);
 
-            state = pxUnsignedFromString8(&value, 10, options, string);
+            state = pxUnsignedFromString8(&value, 10, 0, string);
 
             if (state != 0)
                 pxEscapeInsertValueTail(self, group, value);

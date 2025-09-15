@@ -1,7 +1,7 @@
 #ifndef PX_CORE_FORMAT_EXPORT_H
 #define PX_CORE_FORMAT_EXPORT_H
 
-#include "option.h"
+#include "config.h"
 
 #include "memory8.h"
 #include "memory16.h"

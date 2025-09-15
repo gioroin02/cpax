@@ -52,8 +52,6 @@ main(int argc, char** argv)
     };
 
     if (argc > 1) {
-        PxFormatOption options = PX_FORMAT_OPTION_NONE;
-
         for (pxiword i = 1; i < argc; i += 1) {
             PxString8 arg = pxString8FromMemory(argv[i], 32);
 
@@ -69,14 +67,14 @@ main(int argc, char** argv)
                 arg = pxString8TrimPrefix(arg, SERVER_ARG_PORT);
                 arg = pxString8TrimSpaces(arg);
 
-                pxUnsigned16FromString8(&config.port, 10, options, arg);
+                pxUnsigned16FromString8(&config.port, 10, 0, arg);
             }
 
             if (pxString8BeginsWith(arg, SERVER_ARG_LIFETIME) != 0) {
                 arg = pxString8TrimPrefix(arg, SERVER_ARG_LIFETIME);
                 arg = pxString8TrimSpaces(arg);
 
-                pxUnsigned32FromString8(&config.lifetime, 10, options, arg);
+                pxUnsigned32FromString8(&config.lifetime, 10, 0, arg);
             }
         }
     }

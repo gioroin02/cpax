@@ -20,12 +20,12 @@ main(int argc, char** argv)
     pxLoggerError(&logger, "IMPORTANT\n", (PxFormatCmd) {0});
 
     pxLoggerInfo(&logger, "With args [${0}, ${1}, ${2}, ${3}, ${4}, ${5}]\n",
-        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 1),
-        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 2),
-        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 3),
-        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 4),
-        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 5),
-        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 6),
+        pxFormatCmdInteger(10, PX_FORMAT_FLAG_NONE, 1),
+        pxFormatCmdInteger(10, PX_FORMAT_FLAG_NONE, 2),
+        pxFormatCmdInteger(10, PX_FORMAT_FLAG_NONE, 3),
+        pxFormatCmdInteger(10, PX_FORMAT_FLAG_NONE, 4),
+        pxFormatCmdInteger(10, PX_FORMAT_FLAG_NONE, 5),
+        pxFormatCmdInteger(10, PX_FORMAT_FLAG_NONE, 6),
     );
 
     pxLoggerWarn(&logger, "No args\n", (PxFormatCmd) {0});
@@ -38,12 +38,12 @@ main(int argc, char** argv)
     pxLoggerError(&logger, "IMPORTANT\n", (PxFormatCmd) {0});
 
     pxLoggerInfo(&logger, "With args [${0}, ${1}, ${2}, ${3}, ${4}, ${5}]\n",
-        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 1),
-        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 2),
-        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 3),
-        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 4),
-        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 5),
-        pxFormatCmdInteger(10, PX_FORMAT_OPTION_NONE, 6),
+        pxFormatCmdInteger(10, PX_FORMAT_FLAG_NONE, 1),
+        pxFormatCmdInteger(10, PX_FORMAT_FLAG_NONE, 2),
+        pxFormatCmdInteger(10, PX_FORMAT_FLAG_NONE, 3),
+        pxFormatCmdInteger(10, PX_FORMAT_FLAG_NONE, 4),
+        pxFormatCmdInteger(10, PX_FORMAT_FLAG_NONE, 5),
+        pxFormatCmdInteger(10, PX_FORMAT_FLAG_NONE, 6),
     );
 
     pxLoggerWarn(&logger, "No args\n", (PxFormatCmd) {0});

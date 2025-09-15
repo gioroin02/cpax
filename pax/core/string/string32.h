@@ -3,6 +3,9 @@
 
 #include "utf32.h"
 
+#define pxStringVargs32(x, ...) \
+    (PxString32) {pxVargs(pxu32, x, __VA_ARGS__), pxSizeVargs(pxu32, x, __VA_ARGS__)}
+
 typedef struct PxString32
 {
     pxu32*  memory;

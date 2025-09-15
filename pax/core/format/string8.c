@@ -4,7 +4,7 @@
 #include "string8.h"
 
 PxString8
-pxString8FromUnsigned8(PxArena* arena, pxuword radix, PxFormatOption options, pxu8 value)
+pxString8FromUnsigned8(PxArena* arena, pxuword radix, PxFormatFlag flags, pxu8 value)
 {
     PxString8 result = {0};
     pxiword   size   = 0;
@@ -16,14 +16,14 @@ pxString8FromUnsigned8(PxArena* arena, pxuword radix, PxFormatOption options, px
     } else
         size += 1;
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     pxiword offset = pxArenaOffset(arena);
     pxu8*   memory = pxArenaReserve(arena, pxu8, size + 1);
 
     pxiword amount = pxMemory8WriteUnsigned8(
-        memory, size, radix, options, value);
+        memory, size, radix, flags, value);
 
     if (amount == size) {
         result.memory = memory;
@@ -35,7 +35,7 @@ pxString8FromUnsigned8(PxArena* arena, pxuword radix, PxFormatOption options, px
 }
 
 PxString8
-pxString8FromUnsigned16(PxArena* arena, pxuword radix, PxFormatOption options, pxu16 value)
+pxString8FromUnsigned16(PxArena* arena, pxuword radix, PxFormatFlag flags, pxu16 value)
 {
     PxString8 result = {0};
     pxiword   size   = 0;
@@ -47,14 +47,14 @@ pxString8FromUnsigned16(PxArena* arena, pxuword radix, PxFormatOption options, p
     } else
         size += 1;
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     pxiword offset = pxArenaOffset(arena);
     pxu8*   memory = pxArenaReserve(arena, pxu8, size + 1);
 
     pxiword amount = pxMemory8WriteUnsigned16(
-        memory, size, radix, options, value);
+        memory, size, radix, flags, value);
 
     if (amount == size) {
         result.memory = memory;
@@ -66,7 +66,7 @@ pxString8FromUnsigned16(PxArena* arena, pxuword radix, PxFormatOption options, p
 }
 
 PxString8
-pxString8FromUnsigned32(PxArena* arena, pxuword radix, PxFormatOption options, pxu32 value)
+pxString8FromUnsigned32(PxArena* arena, pxuword radix, PxFormatFlag flags, pxu32 value)
 {
     PxString8 result = {0};
     pxiword   size   = 0;
@@ -78,14 +78,14 @@ pxString8FromUnsigned32(PxArena* arena, pxuword radix, PxFormatOption options, p
     } else
         size += 1;
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     pxiword offset = pxArenaOffset(arena);
     pxu8*   memory = pxArenaReserve(arena, pxu8, size + 1);
 
     pxiword amount = pxMemory8WriteUnsigned32(
-        memory, size, radix, options, value);
+        memory, size, radix, flags, value);
 
     if (amount == size) {
         result.memory = memory;
@@ -97,7 +97,7 @@ pxString8FromUnsigned32(PxArena* arena, pxuword radix, PxFormatOption options, p
 }
 
 PxString8
-pxString8FromUnsigned64(PxArena* arena, pxuword radix, PxFormatOption options, pxu64 value)
+pxString8FromUnsigned64(PxArena* arena, pxuword radix, PxFormatFlag flags, pxu64 value)
 {
     PxString8 result = {0};
     pxiword   size   = 0;
@@ -109,14 +109,14 @@ pxString8FromUnsigned64(PxArena* arena, pxuword radix, PxFormatOption options, p
     } else
         size += 1;
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     pxiword offset = pxArenaOffset(arena);
     pxu8*   memory = pxArenaReserve(arena, pxu8, size + 1);
 
     pxiword amount = pxMemory8WriteUnsigned64(
-        memory, size, radix, options, value);
+        memory, size, radix, flags, value);
 
     if (amount == size) {
         result.memory = memory;
@@ -128,7 +128,7 @@ pxString8FromUnsigned64(PxArena* arena, pxuword radix, PxFormatOption options, p
 }
 
 PxString8
-pxString8FromUnsigned(PxArena* arena, pxuword radix, PxFormatOption options, pxuword value)
+pxString8FromUnsigned(PxArena* arena, pxuword radix, PxFormatFlag flags, pxuword value)
 {
     PxString8 result = {0};
     pxiword   size   = 0;
@@ -140,14 +140,14 @@ pxString8FromUnsigned(PxArena* arena, pxuword radix, PxFormatOption options, pxu
     } else
         size += 1;
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     pxiword offset = pxArenaOffset(arena);
     pxu8*   memory = pxArenaReserve(arena, pxu8, size + 1);
 
     pxiword amount = pxMemory8WriteUnsigned(
-        memory, size, radix, options, value);
+        memory, size, radix, flags, value);
 
     if (amount == size) {
         result.memory = memory;
@@ -159,7 +159,7 @@ pxString8FromUnsigned(PxArena* arena, pxuword radix, PxFormatOption options, pxu
 }
 
 PxString8
-pxString8FromInteger8(PxArena* arena, pxuword radix, PxFormatOption options, pxi8 value)
+pxString8FromInteger8(PxArena* arena, pxuword radix, PxFormatFlag flags, pxi8 value)
 {
     PxString8 result = {0};
     pxiword   size   = 0;
@@ -171,14 +171,14 @@ pxString8FromInteger8(PxArena* arena, pxuword radix, PxFormatOption options, pxi
     } else
         size += 1;
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     pxiword offset = pxArenaOffset(arena);
     pxu8*   memory = pxArenaReserve(arena, pxu8, size + 1);
 
     pxiword amount = pxMemory8WriteInteger8(
-        memory, size, radix, options, value);
+        memory, size, radix, flags, value);
 
     if (amount == size) {
         result.memory = memory;
@@ -190,7 +190,7 @@ pxString8FromInteger8(PxArena* arena, pxuword radix, PxFormatOption options, pxi
 }
 
 PxString8
-pxString8FromInteger16(PxArena* arena, pxuword radix, PxFormatOption options, pxi16 value)
+pxString8FromInteger16(PxArena* arena, pxuword radix, PxFormatFlag flags, pxi16 value)
 {
     PxString8 result = {0};
     pxiword   size   = 0;
@@ -202,14 +202,14 @@ pxString8FromInteger16(PxArena* arena, pxuword radix, PxFormatOption options, px
     } else
         size += 1;
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     pxiword offset = pxArenaOffset(arena);
     pxu8*   memory = pxArenaReserve(arena, pxu8, size + 1);
 
     pxiword amount = pxMemory8WriteInteger16(
-        memory, size, radix, options, value);
+        memory, size, radix, flags, value);
 
     if (amount == size) {
         result.memory = memory;
@@ -221,7 +221,7 @@ pxString8FromInteger16(PxArena* arena, pxuword radix, PxFormatOption options, px
 }
 
 PxString8
-pxString8FromInteger32(PxArena* arena, pxuword radix, PxFormatOption options, pxi32 value)
+pxString8FromInteger32(PxArena* arena, pxuword radix, PxFormatFlag flags, pxi32 value)
 {
     PxString8 result = {0};
     pxiword   size   = 0;
@@ -233,14 +233,14 @@ pxString8FromInteger32(PxArena* arena, pxuword radix, PxFormatOption options, px
     } else
         size += 1;
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     pxiword offset = pxArenaOffset(arena);
     pxu8*   memory = pxArenaReserve(arena, pxu8, size + 1);
 
     pxiword amount = pxMemory8WriteInteger32(
-        memory, size, radix, options, value);
+        memory, size, radix, flags, value);
 
     if (amount == size) {
         result.memory = memory;
@@ -252,7 +252,7 @@ pxString8FromInteger32(PxArena* arena, pxuword radix, PxFormatOption options, px
 }
 
 PxString8
-pxString8FromInteger64(PxArena* arena, pxuword radix, PxFormatOption options, pxi64 value)
+pxString8FromInteger64(PxArena* arena, pxuword radix, PxFormatFlag flags, pxi64 value)
 {
     PxString8 result = {0};
     pxiword   size   = 0;
@@ -264,14 +264,14 @@ pxString8FromInteger64(PxArena* arena, pxuword radix, PxFormatOption options, px
     } else
         size += 1;
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     pxiword offset = pxArenaOffset(arena);
     pxu8*   memory = pxArenaReserve(arena, pxu8, size + 1);
 
     pxiword amount = pxMemory8WriteInteger64(
-        memory, size, radix, options, value);
+        memory, size, radix, flags, value);
 
     if (amount == size) {
         result.memory = memory;
@@ -283,7 +283,7 @@ pxString8FromInteger64(PxArena* arena, pxuword radix, PxFormatOption options, px
 }
 
 PxString8
-pxString8FromInteger(PxArena* arena, pxuword radix, PxFormatOption options, pxiword value)
+pxString8FromInteger(PxArena* arena, pxuword radix, PxFormatFlag flags, pxiword value)
 {
     PxString8 result = {0};
     pxiword   size   = 0;
@@ -295,14 +295,14 @@ pxString8FromInteger(PxArena* arena, pxuword radix, PxFormatOption options, pxiw
     } else
         size += 1;
 
-    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
+    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
         size += 1;
 
     pxiword offset = pxArenaOffset(arena);
     pxu8*   memory = pxArenaReserve(arena, pxu8, size + 1);
 
     pxiword amount = pxMemory8WriteInteger(
-        memory, size, radix, options, value);
+        memory, size, radix, flags, value);
 
     if (amount == size) {
         result.memory = memory;
@@ -314,7 +314,7 @@ pxString8FromInteger(PxArena* arena, pxuword radix, PxFormatOption options, pxiw
 }
 
 pxb8
-pxUnsigned8FromString8(pxu8* self, pxuword radix, PxFormatOption options, PxString8 string)
+pxUnsigned8FromString8(pxu8* self, pxuword radix, PxFormatFlag flags, PxString8 string)
 {
     pxiword index = 0;
     pxu8    temp  = 0;
@@ -323,7 +323,7 @@ pxUnsigned8FromString8(pxu8* self, pxuword radix, PxFormatOption options, PxStri
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
+            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -332,7 +332,7 @@ pxUnsigned8FromString8(pxu8* self, pxuword radix, PxFormatOption options, PxStri
         default: break;
     }
 
-    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
+    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -341,7 +341,7 @@ pxUnsigned8FromString8(pxu8* self, pxuword radix, PxFormatOption options, PxStri
 
     for (; index < string.length; index += 1) {
         pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
@@ -357,7 +357,7 @@ pxUnsigned8FromString8(pxu8* self, pxuword radix, PxFormatOption options, PxStri
 }
 
 pxb8
-pxUnsigned16FromString8(pxu16* self, pxuword radix, PxFormatOption options, PxString8 string)
+pxUnsigned16FromString8(pxu16* self, pxuword radix, PxFormatFlag flags, PxString8 string)
 {
     pxiword index = 0;
     pxu16   temp  = 0;
@@ -366,7 +366,7 @@ pxUnsigned16FromString8(pxu16* self, pxuword radix, PxFormatOption options, PxSt
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
+            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -375,7 +375,7 @@ pxUnsigned16FromString8(pxu16* self, pxuword radix, PxFormatOption options, PxSt
         default: break;
     }
 
-    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
+    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -384,7 +384,7 @@ pxUnsigned16FromString8(pxu16* self, pxuword radix, PxFormatOption options, PxSt
 
     for (; index < string.length; index += 1) {
         pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
@@ -400,7 +400,7 @@ pxUnsigned16FromString8(pxu16* self, pxuword radix, PxFormatOption options, PxSt
 }
 
 pxb8
-pxUnsigned32FromString8(pxu32* self, pxuword radix, PxFormatOption options, PxString8 string)
+pxUnsigned32FromString8(pxu32* self, pxuword radix, PxFormatFlag flags, PxString8 string)
 {
     pxiword index = 0;
     pxu32   temp  = 0;
@@ -409,7 +409,7 @@ pxUnsigned32FromString8(pxu32* self, pxuword radix, PxFormatOption options, PxSt
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
+            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -418,7 +418,7 @@ pxUnsigned32FromString8(pxu32* self, pxuword radix, PxFormatOption options, PxSt
         default: break;
     }
 
-    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
+    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -427,7 +427,7 @@ pxUnsigned32FromString8(pxu32* self, pxuword radix, PxFormatOption options, PxSt
 
     for (; index < string.length; index += 1) {
         pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
@@ -443,7 +443,7 @@ pxUnsigned32FromString8(pxu32* self, pxuword radix, PxFormatOption options, PxSt
 }
 
 pxb8
-pxUnsigned64FromString8(pxu64* self, pxuword radix, PxFormatOption options, PxString8 string)
+pxUnsigned64FromString8(pxu64* self, pxuword radix, PxFormatFlag flags, PxString8 string)
 {
     pxiword index = 0;
     pxu64   temp  = 0;
@@ -452,7 +452,7 @@ pxUnsigned64FromString8(pxu64* self, pxuword radix, PxFormatOption options, PxSt
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
+            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -461,7 +461,7 @@ pxUnsigned64FromString8(pxu64* self, pxuword radix, PxFormatOption options, PxSt
         default: break;
     }
 
-    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
+    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -470,7 +470,7 @@ pxUnsigned64FromString8(pxu64* self, pxuword radix, PxFormatOption options, PxSt
 
     for (; index < string.length; index += 1) {
         pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
@@ -486,7 +486,7 @@ pxUnsigned64FromString8(pxu64* self, pxuword radix, PxFormatOption options, PxSt
 }
 
 pxb8
-pxUnsignedFromString8(pxuword* self, pxuword radix, PxFormatOption options, PxString8 string)
+pxUnsignedFromString8(pxuword* self, pxuword radix, PxFormatFlag flags, PxString8 string)
 {
     pxiword index = 0;
     pxuword temp  = 0;
@@ -495,7 +495,7 @@ pxUnsignedFromString8(pxuword* self, pxuword radix, PxFormatOption options, PxSt
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
+            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -504,7 +504,7 @@ pxUnsignedFromString8(pxuword* self, pxuword radix, PxFormatOption options, PxSt
         default: break;
     }
 
-    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
+    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -513,7 +513,7 @@ pxUnsignedFromString8(pxuword* self, pxuword radix, PxFormatOption options, PxSt
 
     for (; index < string.length; index += 1) {
         pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
@@ -529,7 +529,7 @@ pxUnsignedFromString8(pxuword* self, pxuword radix, PxFormatOption options, PxSt
 }
 
 pxb8
-pxInteger8FromString8(pxi8* self, pxuword radix, PxFormatOption options, PxString8 string)
+pxInteger8FromString8(pxi8* self, pxuword radix, PxFormatFlag flags, PxString8 string)
 {
     pxiword index = 0;
     pxi8    temp  = 0;
@@ -539,7 +539,7 @@ pxInteger8FromString8(pxi8* self, pxuword radix, PxFormatOption options, PxStrin
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
+            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -553,7 +553,7 @@ pxInteger8FromString8(pxi8* self, pxuword radix, PxFormatOption options, PxStrin
         default: break;
     }
 
-    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
+    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -562,7 +562,7 @@ pxInteger8FromString8(pxi8* self, pxuword radix, PxFormatOption options, PxStrin
 
     for (; index < string.length; index += 1) {
         pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
@@ -591,7 +591,7 @@ pxInteger8FromString8(pxi8* self, pxuword radix, PxFormatOption options, PxStrin
 }
 
 pxb8
-pxInteger16FromString8(pxi16* self, pxuword radix, PxFormatOption options, PxString8 string)
+pxInteger16FromString8(pxi16* self, pxuword radix, PxFormatFlag flags, PxString8 string)
 {
     pxiword index = 0;
     pxi16   temp  = 0;
@@ -601,7 +601,7 @@ pxInteger16FromString8(pxi16* self, pxuword radix, PxFormatOption options, PxStr
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
+            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -615,7 +615,7 @@ pxInteger16FromString8(pxi16* self, pxuword radix, PxFormatOption options, PxStr
         default: break;
     }
 
-    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
+    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -624,7 +624,7 @@ pxInteger16FromString8(pxi16* self, pxuword radix, PxFormatOption options, PxStr
 
     for (; index < string.length; index += 1) {
         pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
@@ -653,7 +653,7 @@ pxInteger16FromString8(pxi16* self, pxuword radix, PxFormatOption options, PxStr
 }
 
 pxb8
-pxInteger32FromString8(pxi32* self, pxuword radix, PxFormatOption options, PxString8 string)
+pxInteger32FromString8(pxi32* self, pxuword radix, PxFormatFlag flags, PxString8 string)
 {
     pxiword index = 0;
     pxi32   temp  = 0;
@@ -663,7 +663,7 @@ pxInteger32FromString8(pxi32* self, pxuword radix, PxFormatOption options, PxStr
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
+            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -677,7 +677,7 @@ pxInteger32FromString8(pxi32* self, pxuword radix, PxFormatOption options, PxStr
         default: break;
     }
 
-    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
+    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -686,7 +686,7 @@ pxInteger32FromString8(pxi32* self, pxuword radix, PxFormatOption options, PxStr
 
     for (; index < string.length; index += 1) {
         pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
@@ -715,7 +715,7 @@ pxInteger32FromString8(pxi32* self, pxuword radix, PxFormatOption options, PxStr
 }
 
 pxb8
-pxInteger64FromString8(pxi64* self, pxuword radix, PxFormatOption options, PxString8 string)
+pxInteger64FromString8(pxi64* self, pxuword radix, PxFormatFlag flags, PxString8 string)
 {
     pxiword index = 0;
     pxi64   temp  = 0;
@@ -725,7 +725,7 @@ pxInteger64FromString8(pxi64* self, pxuword radix, PxFormatOption options, PxStr
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
+            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -739,7 +739,7 @@ pxInteger64FromString8(pxi64* self, pxuword radix, PxFormatOption options, PxStr
         default: break;
     }
 
-    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
+    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -748,7 +748,7 @@ pxInteger64FromString8(pxi64* self, pxuword radix, PxFormatOption options, PxStr
 
     for (; index < string.length; index += 1) {
         pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
@@ -777,7 +777,7 @@ pxInteger64FromString8(pxi64* self, pxuword radix, PxFormatOption options, PxStr
 }
 
 pxb8
-pxIntegerFromString8(pxiword* self, pxuword radix, PxFormatOption options, PxString8 string)
+pxIntegerFromString8(pxiword* self, pxuword radix, PxFormatFlag flags, PxString8 string)
 {
     pxiword index = 0;
     pxiword temp  = 0;
@@ -787,7 +787,7 @@ pxIntegerFromString8(pxiword* self, pxuword radix, PxFormatOption options, PxStr
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
+            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -801,7 +801,7 @@ pxIntegerFromString8(pxiword* self, pxuword radix, PxFormatOption options, PxStr
         default: break;
     }
 
-    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
+    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -810,7 +810,7 @@ pxIntegerFromString8(pxiword* self, pxuword radix, PxFormatOption options, PxStr
 
     for (; index < string.length; index += 1) {
         pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
-            options & PX_FORMAT_OPTION_UPPER_CASE);
+            flags & PX_FORMAT_FLAG_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 

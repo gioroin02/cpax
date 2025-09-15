@@ -13,9 +13,9 @@
 #define FALSE RED(F)
 
 void
-showString8FromUnsigned(PxArena* arena, pxuword radix, PxFormatOption options, pxuword value)
+showString8FromUnsigned(PxArena* arena, pxuword radix, PxFormatFlag flags, pxuword value)
 {
-    PxString8 string = pxString8FromUnsigned(arena, radix, options, value);
+    PxString8 string = pxString8FromUnsigned(arena, radix, flags, value);
 
     printf("write (" PURPLE("%llu") ") -> ", value);
 
@@ -28,10 +28,10 @@ showString8FromUnsigned(PxArena* arena, pxuword radix, PxFormatOption options, p
 }
 
 void
-showUnsignedFromString8(pxuword radix, PxFormatOption options, PxString8 value)
+showUnsignedFromString8(pxuword radix, PxFormatFlag flags, PxString8 value)
 {
     pxuword result = 0;
-    pxb8    state  = pxUnsignedFromString8(&result, radix, options, value);
+    pxb8    state  = pxUnsignedFromString8(&result, radix, flags, value);
 
     printf("read (\x1b[34m'");
 
@@ -46,9 +46,9 @@ showUnsignedFromString8(pxuword radix, PxFormatOption options, PxString8 value)
 }
 
 void
-showString8FromInteger(PxArena* arena, pxuword radix, PxFormatOption options, pxiword value)
+showString8FromInteger(PxArena* arena, pxuword radix, PxFormatFlag flags, pxiword value)
 {
-    PxString8 string = pxString8FromInteger(arena, radix, options, value);
+    PxString8 string = pxString8FromInteger(arena, radix, flags, value);
 
     printf("write (" PURPLE("%lli") ") -> ", value);
 
@@ -61,10 +61,10 @@ showString8FromInteger(PxArena* arena, pxuword radix, PxFormatOption options, px
 }
 
 void
-showIntegerFromString8(pxuword radix, PxFormatOption options, PxString8 value)
+showIntegerFromString8(pxuword radix, PxFormatFlag flags, PxString8 value)
 {
     pxiword result = 0;
-    pxb8    state  = pxIntegerFromString8(&result, radix, options, value);
+    pxb8    state  = pxIntegerFromString8(&result, radix, flags, value);
 
     printf("read (\x1b[34m'");
 
@@ -96,12 +96,12 @@ main(int argc, char** argv)
         16,
     };
 
-    PxFormatOption options[OPTIONS] = {
-        PX_FORMAT_OPTION_NONE,
-        PX_FORMAT_OPTION_LEADING_ZERO | PX_FORMAT_OPTION_LEADING_PLUS,
-        PX_FORMAT_OPTION_LEADING_PLUS,
-        PX_FORMAT_OPTION_NONE,
-        PX_FORMAT_OPTION_UPPER_CASE,
+    PxFormatFlag flags[OPTIONS] = {
+        PX_FORMAT_FLAG_NONE,
+        PX_FORMAT_FLAG_LEADING_ZERO | PX_FORMAT_FLAG_LEADING_PLUS,
+        PX_FORMAT_FLAG_LEADING_PLUS,
+        PX_FORMAT_FLAG_NONE,
+        PX_FORMAT_FLAG_UPPER_CASE,
     };
 
     PxString8 strings[STRINGS] = {
@@ -116,14 +116,14 @@ main(int argc, char** argv)
     for (pxiword i = 0; i < OPTIONS; i += 1) {
         printf("Unsigned:\n");
 
-        showString8FromUnsigned(&arena, radices[i], options[i], 255);
-        showString8FromUnsigned(&arena, radices[i], options[i], 0);
+        showString8FromUnsigned(&arena, radices[i], flags[i], 255);
+        showString8FromUnsigned(&arena, radices[i], flags[i], 0);
 
         printf("\nInteger:\n");
 
-        showString8FromInteger(&arena, radices[i], options[i], 255);
-        showString8FromInteger(&arena, radices[i], options[i], 0);
-        showString8FromInteger(&arena, radices[i], options[i], -256);
+        showString8FromInteger(&arena, radices[i], flags[i], 255);
+        showString8FromInteger(&arena, radices[i], flags[i], 0);
+        showString8FromInteger(&arena, radices[i], flags[i], -256);
 
         if (i + 1 != OPTIONS)
             printf("\n");
@@ -133,11 +133,11 @@ main(int argc, char** argv)
         for (pxiword j = 0; j < STRINGS; j += 1) {
             printf("Unsigned:\n");
 
-            showUnsignedFromString8(radices[i], options[i], strings[j]);
+            showUnsignedFromString8(radices[i], flags[i], strings[j]);
 
             printf("Integer:\n");
 
-            showIntegerFromString8(radices[i], options[i], strings[j]);
+            showIntegerFromString8(radices[i], flags[i], strings[j]);
         }
 
         printf("\n");

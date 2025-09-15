@@ -3,7 +3,11 @@
 
 #include "utf8.h"
 
-#define pxs8(x) (PxString8) {.memory = pxCast(pxu8*, x), .length = pxSizeArray(pxu8, x) - 1}
+#define pxs8(x) \
+    (PxString8) {pxCast(pxu8*, x), pxSizeArray(pxu8, x) - 1}
+
+#define pxStringVargs8(x, ...) \
+    (PxString8) {pxVargs(pxu8, x, __VA_ARGS__), pxSizeVargs(pxu8, x, __VA_ARGS__)}
 
 typedef struct PxString8
 {

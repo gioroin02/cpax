@@ -117,7 +117,7 @@ pxWriterUnicode(PxWriter* self, PxArena* arena, pxi32 value)
 }
 
 pxiword
-pxWriterUnsigned8(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption option, pxu8 value)
+pxWriterUnsigned8(PxWriter* self, PxArena* arena, pxuword radix, PxFormatFlag option, pxu8 value)
 {
     pxiword offset = pxArenaOffset(arena);
 
@@ -132,7 +132,7 @@ pxWriterUnsigned8(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption 
 }
 
 pxiword
-pxWriterUnsigned16(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption option, pxu16 value)
+pxWriterUnsigned16(PxWriter* self, PxArena* arena, pxuword radix, PxFormatFlag option, pxu16 value)
 {
     pxiword offset = pxArenaOffset(arena);
 
@@ -147,7 +147,7 @@ pxWriterUnsigned16(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption
 }
 
 pxiword
-pxWriterUnsigned32(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption option, pxu32 value)
+pxWriterUnsigned32(PxWriter* self, PxArena* arena, pxuword radix, PxFormatFlag option, pxu32 value)
 {
     pxiword offset = pxArenaOffset(arena);
 
@@ -162,7 +162,7 @@ pxWriterUnsigned32(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption
 }
 
 pxiword
-pxWriterUnsigned64(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption option, pxu64 value)
+pxWriterUnsigned64(PxWriter* self, PxArena* arena, pxuword radix, PxFormatFlag option, pxu64 value)
 {
     pxiword offset = pxArenaOffset(arena);
 
@@ -177,7 +177,7 @@ pxWriterUnsigned64(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption
 }
 
 pxiword
-pxWriterUnsigned(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption option, pxuword value)
+pxWriterUnsigned(PxWriter* self, PxArena* arena, pxuword radix, PxFormatFlag option, pxuword value)
 {
     pxiword offset = pxArenaOffset(arena);
 
@@ -192,7 +192,7 @@ pxWriterUnsigned(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption o
 }
 
 pxiword
-pxWriterInteger8(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption option, pxi8 value)
+pxWriterInteger8(PxWriter* self, PxArena* arena, pxuword radix, PxFormatFlag option, pxi8 value)
 {
     pxiword offset = pxArenaOffset(arena);
 
@@ -207,7 +207,7 @@ pxWriterInteger8(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption o
 }
 
 pxiword
-pxWriterInteger16(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption option, pxi16 value)
+pxWriterInteger16(PxWriter* self, PxArena* arena, pxuword radix, PxFormatFlag option, pxi16 value)
 {
     pxiword offset = pxArenaOffset(arena);
 
@@ -222,7 +222,7 @@ pxWriterInteger16(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption 
 }
 
 pxiword
-pxWriterInteger32(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption option, pxi32 value)
+pxWriterInteger32(PxWriter* self, PxArena* arena, pxuword radix, PxFormatFlag option, pxi32 value)
 {
     pxiword offset = pxArenaOffset(arena);
 
@@ -237,7 +237,7 @@ pxWriterInteger32(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption 
 }
 
 pxiword
-pxWriterInteger64(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption option, pxi64 value)
+pxWriterInteger64(PxWriter* self, PxArena* arena, pxuword radix, PxFormatFlag option, pxi64 value)
 {
     pxiword offset = pxArenaOffset(arena);
 
@@ -252,7 +252,7 @@ pxWriterInteger64(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption 
 }
 
 pxiword
-pxWriterInteger(PxWriter* self, PxArena* arena, pxuword radix, PxFormatOption option, pxiword value)
+pxWriterInteger(PxWriter* self, PxArena* arena, pxuword radix, PxFormatFlag option, pxiword value)
 {
     pxiword offset = pxArenaOffset(arena);
 

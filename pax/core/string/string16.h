@@ -3,7 +3,11 @@
 
 #include "utf16.h"
 
-#define pxs16(x) (PxString16) {.memory = pxCast(pxu16*, x), .length = pxSizeArray(pxu16, x) - 1}
+#define pxs16(x) \
+    (PxString16) {pxCast(pxu16*, x), pxSizeArray(pxu16, x) - 1}
+
+#define pxStringVargs16(x, ...) \
+    (PxString16) {pxVargs(pxu16, x, __VA_ARGS__), pxSizeVargs(pxu16, x, __VA_ARGS__)}
 
 typedef struct PxString16
 {

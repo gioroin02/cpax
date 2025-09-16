@@ -1,7 +1,7 @@
 #ifndef PX_STREAM_READER_H
 #define PX_STREAM_READER_H
 
-#include "buffer8.h"
+#include "import.h"
 
 typedef pxiword (PxReaderProc) (void*, PxBuffer8*);
 

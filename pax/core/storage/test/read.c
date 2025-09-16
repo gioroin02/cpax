@@ -26,7 +26,7 @@ main(int argc, char** argv)
         if (pxFileRead(file, &buffer) == 0)
             break;
 
-        printf("%.*s", pxCast(int, buffer.size),
+        printf("%.*s", pxas(int, buffer.size),
             buffer.memory);
 
         pxBuffer8Clear(&buffer);

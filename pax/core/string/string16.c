@@ -20,7 +20,7 @@ PxString16
 pxString16FromMemory(void* memory, pxiword length)
 {
     for (pxiword i = 0; i < length; i += 1) {
-        if (pxCast(pxu16*, memory)[i] != 0)
+        if (pxas(pxu16*, memory)[i] != 0)
             continue;
 
         return pxString16Make(memory, i);
@@ -251,7 +251,7 @@ pxString16TrimSpaces(PxString16 self)
 
         if (units <= 0) return (PxString16) {0};
 
-        if (pxAsciiIsSpace(unicode) == 0)
+        if (pxUnicodeIsAsciiCntrl(unicode) == 0)
             break;
     }
 
@@ -263,7 +263,7 @@ pxString16TrimSpaces(PxString16 self)
 
         if (units <= 0) return (PxString16) {0};
 
-        if (pxAsciiIsSpace(unicode) == 0)
+        if (pxUnicodeIsAsciiCntrl(unicode) == 0)
             break;
     }
 
@@ -285,7 +285,7 @@ pxString16TrimSpacesHead(PxString16 self)
 
         if (units <= 0) return (PxString16) {0};
 
-        if (pxAsciiIsSpace(unicode) == 0)
+        if (pxUnicodeIsAsciiCntrl(unicode) == 0)
             break;
     }
 
@@ -307,7 +307,7 @@ pxString16TrimSpacesTail(PxString16 self)
 
         if (units <= 0) return (PxString16) {0};
 
-        if (pxAsciiIsSpace(unicode) == 0)
+        if (pxUnicodeIsAsciiCntrl(unicode) == 0)
             break;
     }
 
@@ -359,7 +359,7 @@ pxString16FindFirst(PxString16 self, pxiword start, PxString16 value, pxiword* i
 pxb8
 pxString16FindFirstMemory16(PxString16 self, pxiword start, pxu16* memory, pxiword length, pxiword* index)
 {
-    start = pxClamp(start, 0, self.length);
+    start = pxbetween(start, 0, self.length);
 
     for (pxiword i = start; i < self.length; i += 1) {
         PxString16 slice = pxString16SliceLength(self, i, length);
@@ -384,7 +384,7 @@ pxString16FindLast(PxString16 self, pxiword start, PxString16 value, pxiword* in
 pxb8
 pxString16FindLastMemory16(PxString16 self, pxiword start, pxu16* memory, pxiword length, pxiword* index)
 {
-    start = pxClamp(start, 0, self.length);
+    start = pxbetween(start, 0, self.length);
 
     for (pxiword i = start; i > 0; i -= 1) {
         PxString16 slice = pxString16SliceLength(self, i - length, length);

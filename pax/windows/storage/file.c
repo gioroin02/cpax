@@ -96,7 +96,7 @@ pxWindowsFileCreate(PxArena* arena, PxString8 base, PxString8 name, PxFileMode m
             pxString16FromPath(arena, &path, pxs16(L"\\"));
 
         if (string.length > 0) {
-            wchar_t* memory = pxCast(wchar_t*, string.memory);
+            wchar_t* memory = pxas(wchar_t*, string.memory);
 
             result->handle = CreateFileW(memory, access, FILE_SHARE_READ,
                 0, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, 0);
@@ -135,7 +135,7 @@ pxWindowsFileReplace(PxArena* arena, PxString8 base, PxString8 name, PxFileMode 
             pxString16FromPath(arena, &path, pxs16(L"\\"));
 
         if (string.length > 0) {
-            wchar_t* memory = pxCast(wchar_t*, string.memory);
+            wchar_t* memory = pxas(wchar_t*, string.memory);
 
             result->handle = CreateFileW(memory, access, FILE_SHARE_READ,
                 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
@@ -174,7 +174,7 @@ pxWindowsFileOpen(PxArena* arena, PxString8 base, PxString8 name, PxFileMode mod
             pxString16FromPath(arena, &path, pxs16(L"\\"));
 
         if (string.length > 0) {
-            wchar_t* memory = pxCast(wchar_t*, string.memory);
+            wchar_t* memory = pxas(wchar_t*, string.memory);
 
             result->handle = CreateFileW(memory, access, FILE_SHARE_READ,
                 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
@@ -223,7 +223,7 @@ pxWindowsFileDestroy(PxWindowsFile* self, PxArena* arena)
         if (size + 1 == length) {
             CloseHandle(self->handle);
 
-            pxb8 state = DeleteFileW(pxCast(wchar_t*, memory));
+            pxb8 state = DeleteFileW(pxas(wchar_t*, memory));
 
             pxArenaRewind(arena, offset);
 
@@ -249,7 +249,7 @@ pxWindowsFileDelete(PxArena* arena, PxString8 base, PxString8 name)
 
     if (string.length > 0) {
         pxb8 result =
-            DeleteFileW(pxCast(wchar_t*, string.memory));
+            DeleteFileW(pxas(wchar_t*, string.memory));
 
         pxArenaRewind(arena, offset);
 
@@ -268,8 +268,8 @@ pxWindowsFileWriteMemory(PxWindowsFile* self, void* memory, pxiword amount, pxiw
     DWORD   temp   = 0;
 
     for (pxiword i = 0; i < length;) {
-        char* mem = pxCast(char*, memory + i);
-        int   len = pxCast(int,   length - i);
+        char* mem = pxas(char*, memory + i);
+        int   len = pxas(int,   length - i);
 
         pxb32 state = WriteFile(self->handle, mem, len, &temp, 0);
 
@@ -288,8 +288,8 @@ pxWindowsFileReadMemory(PxWindowsFile* self, void* memory, pxiword amount, pxiwo
     pxiword length = amount * stride;
     DWORD   temp   = 0;
 
-    char* mem = pxCast(char*, memory);
-    int   len = pxCast(int,   length);
+    char* mem = pxas(char*, memory);
+    int   len = pxas(int,   length);
 
     pxb32 state = ReadFile(self->handle, mem, len, &temp, 0);
 

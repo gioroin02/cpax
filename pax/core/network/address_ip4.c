@@ -4,7 +4,7 @@
 #include "address_ip4.h"
 
 pxb8
-pxAddressIp4FromString8(PxAddressIp4* self, PxString8 string)
+pxAddressIp4FromString8(PxString8 string, PxAddressIp4* self)
 {
     PxAddressIp4 temp = {0};
 
@@ -16,9 +16,16 @@ pxAddressIp4FromString8(PxAddressIp4* self, PxString8 string)
     PxString8 right = string;
 
     for (pxiword i = 0; i < PX_ADDRESS_IP4_GROUPS; i += 1) {
+        pxuword item = 0;
+
         pxString8Split(right, pxs8("."), &left, &right);
 
-        if (pxUnsigned8FromString8(&temp.items[i], 10, 0, left) == 0)
+        if (pxUnsignedFromString8(left, &item, PX_FORMAT_RADIX_10, 0) == 0)
+            return 0;
+
+        if (item <= PX_U8_MAX)
+            temp.items[i] = item;
+        else
             return 0;
     }
 

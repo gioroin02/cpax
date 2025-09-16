@@ -1,6 +1,8 @@
 #ifndef PX_CORE_STORAGE_EXPORT_H
 #define PX_CORE_STORAGE_EXPORT_H
 
+#include "import.h"
+
 #include "attribute.h"
 
 #include "path.h"

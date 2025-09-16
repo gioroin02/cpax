@@ -2,27 +2,27 @@
 
 #include <stdio.h>
 
-#define RED(x)    "\x1b[31m" pxString(x) "\x1b[0m"
-#define GREEN(x)  "\x1b[32m" pxString(x) "\x1b[0m"
-#define YELLOW(x) "\x1b[33m" pxString(x) "\x1b[0m"
-#define BLUE(x)   "\x1b[34m" pxString(x) "\x1b[0m"
-#define PURPLE(x) "\x1b[35m" pxString(x) "\x1b[0m"
-#define AZURE(x)  "\x1b[36m" pxString(x) "\x1b[0m"
+#define RED(x) "\x1b[31m" x "\x1b[0m"
+#define GRN(x) "\x1b[32m" x "\x1b[0m"
+#define YLW(x) "\x1b[33m" x "\x1b[0m"
+#define BLU(x) "\x1b[34m" x "\x1b[0m"
+#define MAG(x) "\x1b[35m" x "\x1b[0m"
+#define CYA(x) "\x1b[36m" x "\x1b[0m"
 
-#define TRUE  GREEN(T)
-#define FALSE RED(F)
+#define TRUE  GRN("T")
+#define FALSE RED("F")
 
 void
 showAddressIp6FromString8(PxString8 string)
 {
     PxAddressIp6 value = {};
-    pxb8         state = pxAddressIp6FromString8(&value, string);
+    pxb8         state = pxAddressIp6FromString8(string, &value);
 
-    printf("ip6 (" BLUE('%48s') ") -> %s, ",
+    printf("ip6 (" BLU("'%48s'") ") -> %s, ",
         string.memory, state != 0 ? TRUE : FALSE);
 
     for (pxiword i = 0; i < PX_ADDRESS_IP6_GROUPS; i += 1)
-        printf("%4x ", value.memory[i]);
+        printf("%4x ", value.items[i]);
     printf("\n");
 }
 

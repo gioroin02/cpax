@@ -3,50 +3,6 @@
 
 #include "convert.h"
 
-pxiword
-pxUtf8UnitsFromMemory16(pxu16* memory, pxiword length)
-{
-    pxiword result = 0;
-
-    for (pxiword index = 0; index < length;) {
-        pxi32 unicode = 0;
-
-        pxiword read = pxUtf16ReadMemory16Forw(
-            memory, length, index, &unicode);
-
-        pxiword write = pxUtf8UnitsToWrite(unicode);
-
-        if (read <= 0 || write <= 0) return 0;
-
-        index  += read;
-        result += write;
-    }
-
-    return result;
-}
-
-pxiword
-pxUtf8UnitsFromMemory32(pxu32* memory, pxiword length)
-{
-    pxiword result = 0;
-
-    for (pxiword index = 0; index < length;) {
-        pxi32 unicode = 0;
-
-        pxiword read = pxUtf32ReadMemory32Forw(
-            memory, length, index, &unicode);
-
-        pxiword write = pxUtf8UnitsToWrite(unicode);
-
-        if (read <= 0 || write <= 0) return 0;
-
-        index  += read;
-        result += write;
-    }
-
-    return result;
-}
-
 PxString8
 pxString8CopyMemory16(PxArena* arena, pxu16* memory, pxiword length)
 {
@@ -171,50 +127,6 @@ pxMemory8WriteString32(pxu8* memory, pxiword length, PxString32 value)
     return size;
 }
 
-pxiword
-pxUtf16UnitsFromMemory8(pxu8* memory, pxiword length)
-{
-    pxiword result = 0;
-
-    for (pxiword index = 0; index < length;) {
-        pxi32 unicode = 0;
-
-        pxiword read = pxUtf8ReadMemory8Forw(
-            memory, length, index, &unicode);
-
-        pxiword write = pxUtf16UnitsToWrite(unicode);
-
-        if (read <= 0 || write <= 0) return 0;
-
-        index  += read;
-        result += write;
-    }
-
-    return result;
-}
-
-pxiword
-pxUtf16UnitsFromMemory32(pxu32* memory, pxiword length)
-{
-    pxiword result = 0;
-
-    for (pxiword index = 0; index < length;) {
-        pxi32 unicode = 0;
-
-        pxiword read = pxUtf32ReadMemory32Forw(
-            memory, length, index, &unicode);
-
-        pxiword write = pxUtf16UnitsToWrite(unicode);
-
-        if (read <= 0 || write <= 0) return 0;
-
-        index  += read;
-        result += write;
-    }
-
-    return result;
-}
-
 PxString16
 pxString16CopyMemory8(PxArena* arena, pxu8* memory, pxiword length)
 {
@@ -337,50 +249,6 @@ pxMemory16WriteString32(pxu16* memory, pxiword length, PxString32 value)
     }
 
     return size;
-}
-
-pxiword
-pxUtf32UnitsFromMemory8(pxu8* memory, pxiword length)
-{
-    pxiword result = 0;
-
-    for (pxiword index = 0; index < length;) {
-        pxi32 unicode = 0;
-
-        pxiword read = pxUtf8ReadMemory8Forw(
-            memory, length, index, &unicode);
-
-        pxiword write = pxUtf32UnitsToWrite(unicode);
-
-        if (read <= 0 || write <= 0) return 0;
-
-        index  += read;
-        result += write;
-    }
-
-    return result;
-}
-
-pxiword
-pxUtf32UnitsFromMemory16(pxu16* memory, pxiword length)
-{
-    pxiword result = 0;
-
-    for (pxiword index = 0; index < length;) {
-        pxi32 unicode = 0;
-
-        pxiword read = pxUtf16ReadMemory16Forw(
-            memory, length, index, &unicode);
-
-        pxiword write = pxUtf32UnitsToWrite(unicode);
-
-        if (read <= 0 || write <= 0) return 0;
-
-        index  += read;
-        result += write;
-    }
-
-    return result;
 }
 
 PxString32

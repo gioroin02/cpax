@@ -6,18 +6,18 @@
 #define COLOR_RESET "\x1b[0m"
 
 #define FRONT_RED    "\x1b[31m"
-#define FRONT_GREEN  "\x1b[32m"
-#define FRONT_YELLOW "\x1b[33m"
-#define FRONT_BLUE   "\x1b[34m"
-#define FRONT_PURPLE "\x1b[35m"
-#define FRONT_AZURE  "\x1b[36m"
+#define FRONT_GRN  "\x1b[32m"
+#define FRONT_YLW "\x1b[33m"
+#define FRONT_BLU   "\x1b[34m"
+#define FRONT_MAG "\x1b[35m"
+#define FRONT_CYA  "\x1b[36m"
 
 #define RED(expr)    FRONT_RED    expr COLOR_RESET
-#define GREEN(expr)  FRONT_GREEN  expr COLOR_RESET
-#define YELLOW(expr) FRONT_YELLOW expr COLOR_RESET
-#define BLUE(expr)   FRONT_BLUE   expr COLOR_RESET
-#define PURPLE(expr) FRONT_PURPLE expr COLOR_RESET
-#define AZURE(expr)  FRONT_AZURE  expr COLOR_RESET
+#define GRN(expr)  FRONT_GRN  expr COLOR_RESET
+#define YLW(expr) FRONT_YLW expr COLOR_RESET
+#define BLU(expr)   FRONT_BLU   expr COLOR_RESET
+#define MAG(expr) FRONT_MAG expr COLOR_RESET
+#define CYA(expr)  FRONT_CYA  expr COLOR_RESET
 
 typedef struct Entity
 {
@@ -67,8 +67,8 @@ main(int argc, char** argv)
 
     pxBuffer8WriteString8Tail(&source, ENTITY);
 
-    printf(YELLOW("[start]") "\n%.*s\n" YELLOW("[stop]") "\n",
-        pxCast(int, source.size), source.memory);
+    printf(YLW("[start]") "\n%.*s\n" YLW("[stop]") "\n",
+        pxas(int, source.size), source.memory);
 
     printf("\n");
 
@@ -77,6 +77,6 @@ main(int argc, char** argv)
 
     jsonReadEntity(&entity, &reader, &arena);
 
-    printf("name = %.*s, code = %llu\n", pxCast(int, entity.name.length),
+    printf("name = %.*s, code = %llu\n", pxas(int, entity.name.length),
         entity.name.memory, entity.code);
 }

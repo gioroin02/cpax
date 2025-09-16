@@ -6,7 +6,7 @@
 #define PX_ADDRESS_IP6_ANY       ((PxAddressIp6) {0})
 #define PX_ADDRESS_IP6_LOCALHOST ((PxAddressIp6) {.h = 1})
 
-#define PX_ADDRESS_IP6_GROUPS pxCast(pxiword, 8)
+#define PX_ADDRESS_IP6_GROUPS pxas(pxiword, 8)
 
 typedef union PxAddressIp6
 {
@@ -21,7 +21,7 @@ typedef union PxAddressIp6
 PxAddressIp6;
 
 pxb8
-pxAddressIp6FromString8(PxAddressIp6* self, PxString8 string);
+pxAddressIp6FromString8(PxString8 string, PxAddressIp6* self);
 
 pxb8
 pxAddressIp6IsEqual(PxAddressIp6 self, PxAddressIp6 value);

@@ -2,14 +2,14 @@
 
 #include <stdio.h>
 
-#define RED(x)    "\x1b[31m" pxString(x) "\x1b[0m"
-#define GREEN(x)  "\x1b[32m" pxString(x) "\x1b[0m"
-#define YELLOW(x) "\x1b[33m" pxString(x) "\x1b[0m"
-#define BLUE(x)   "\x1b[34m" pxString(x) "\x1b[0m"
-#define PURPLE(x) "\x1b[35m" pxString(x) "\x1b[0m"
-#define AZURE(x)  "\x1b[36m" pxString(x) "\x1b[0m"
+#define RED(x) "\x1b[31m" x "\x1b[0m"
+#define GRN(x) "\x1b[32m" x "\x1b[0m"
+#define YLW(x) "\x1b[33m" x "\x1b[0m"
+#define BLU(x) "\x1b[34m" x "\x1b[0m"
+#define MAG(x) "\x1b[35m" x "\x1b[0m"
+#define CYA(x) "\x1b[36m" x "\x1b[0m"
 
-#define TRUE  GREEN("T")
+#define TRUE  GRN("T")
 #define FALSE RED("F")
 
 void
@@ -17,13 +17,13 @@ showAddressFromString8(PxString8 string, PxAddressType type)
 {
     PxAddress value = {};
 
-    pxMemoryZero(&value, 1, pxSize(PxAddress));
+    pxMemoryZero(&value, 1, pxsize(PxAddress));
 
-    pxb8 state = pxAddressFromString8(&value, type, string);
+    pxb8 state = pxAddressFromString8(string, &value, type);
 
     switch (type) {
         case PX_ADDRESS_TYPE_IP4: {
-            printf("ip4 (" BLUE('%24s') ") -> %s, ",
+            printf("ip4 (" BLU("'%24s'") ") -> %s, ",
                 string.memory, state ? TRUE : FALSE);
 
             for (pxiword i = 0; i < PX_ADDRESS_IP4_GROUPS; i += 1)
@@ -32,7 +32,7 @@ showAddressFromString8(PxString8 string, PxAddressType type)
         } break;
 
         case PX_ADDRESS_TYPE_IP6: {
-            printf("ip6 (" BLUE('%48s') ") -> %s, ",
+            printf("ip6 (" BLU("'%48s'") ") -> %s, ",
                 string.memory, state ? TRUE : FALSE);
 
             for (pxiword i = 0; i < PX_ADDRESS_IP6_GROUPS; i += 1)

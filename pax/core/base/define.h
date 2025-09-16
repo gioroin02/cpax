@@ -1,27 +1,21 @@
 #ifndef PX_CORE_BASE_DEFINE_H
 #define PX_CORE_BASE_DEFINE_H
 
-#define __pxString__(x) # x
-#define pxString(x)     __pxString__(x)
+#define pxas(t, x) ((t)(x))
 
-#define __pxConcat__(x, y) x ## y
-#define pxConcat(x, y)    __pxConcat__(x, y)
+#define pxvargs(t, ...) (t[]) {__VA_ARGS__}
 
-#define pxCast(t, x) ((t)(x))
+#define pxsize(x) pxas(pxiword, sizeof(x))
 
-#define pxVargs(t, ...) (t[]) {__VA_ARGS__}
+#define pxarraylen(t, x) \
+    pxas(pxiword, sizeof(x) / sizeof(t))
 
-#define pxSize(x) pxCast(pxiword, sizeof(x))
+#define pxvargslen(t, ...) \
+    pxas(pxiword, sizeof(pxvargs(t, __VA_ARGS__)) / sizeof(t))
 
-#define pxSizeArray(t, x) \
-    pxCast(pxiword, sizeof(x) / sizeof(t))
+#define pxmin(x, y) ((x) < (y) ? (x) : (y))
+#define pxmax(x, y) ((x) < (y) ? (y) : (x))
 
-#define pxSizeVargs(t, ...) \
-    pxCast(pxiword, sizeof(pxVargs(t, __VA_ARGS__)) / sizeof(t))
-
-#define pxMin(x, y) ((x) < (y) ? (x) : (y))
-#define pxMax(x, y) ((x) < (y) ? (y) : (x))
-
-#define pxClamp(x, l, r) pxMax(l, pxMin(x, r))
+#define pxbetween(x, l, r) pxmax(l, pxmin(x, r))
 
 #endif // PX_CORE_BASE_DEFINE_H

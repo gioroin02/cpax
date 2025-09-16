@@ -4,37 +4,37 @@
 #include "import.h"
 
 #define pxQueueReserve(arena, t, length) \
-    pxQueueReserveMemory(arena, length, pxSize(t))
+    pxQueueReserveMemory(arena, length, pxsize(t))
 
 #define pxQueueInsertHead(self, t, x) \
-    pxQueueInsertHeadMemory(self, x, pxSize(t))
+    pxQueueInsertHeadMemory(self, x, pxsize(t))
 
 #define pxQueueInsertTail(self, t, x) \
-    pxQueueInsertTailMemory(self, x, pxSize(t))
+    pxQueueInsertTailMemory(self, x, pxsize(t))
 
 #define pxQueueRemoveHead(self, t, x) \
-    pxQueueRemoveHeadMemory(self, x, pxSize(t))
+    pxQueueRemoveHeadMemory(self, x, pxsize(t))
 
 #define pxQueueRemoveTail(self, t, x) \
-    pxQueueRemoveTailMemory(self, x, pxSize(t))
+    pxQueueRemoveTailMemory(self, x, pxsize(t))
 
 #define pxQueueUpdate(self, index, t, x) \
-    pxQueueUpdateMemory(self, index, x, pxSize(t))
+    pxQueueUpdateMemory(self, index, x, pxsize(t))
 
 #define pxQueueUpdateHead(self, t, x) \
-    pxQueueUpdateHeadMemory(self, x, pxSize(t))
+    pxQueueUpdateHeadMemory(self, x, pxsize(t))
 
 #define pxQueueUpdateTail(self, t, x) \
-    pxQueueUpdateTailMemory(self, x, pxSize(t))
+    pxQueueUpdateTailMemory(self, x, pxsize(t))
 
 #define pxQueueRead(self, index, t, x) \
-    pxQueueReadMemory(self, index, x, pxSize(t))
+    pxQueueReadMemory(self, index, x, pxsize(t))
 
 #define pxQueueReadHead(self, t, x) \
-    pxQueueReadHeadMemory(self, x, pxSize(t))
+    pxQueueReadHeadMemory(self, x, pxsize(t))
 
 #define pxQueueReadTail(self, t, x) \
-    pxQueueReadTailMemory(self, x, pxSize(t))
+    pxQueueReadTailMemory(self, x, pxsize(t))
 
 typedef struct
 {

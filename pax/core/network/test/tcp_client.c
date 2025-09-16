@@ -2,19 +2,19 @@
 
 #include <stdio.h>
 
-#define RED(x)    "\x1b[31m" pxString(x) "\x1b[0m"
-#define GREEN(x)  "\x1b[32m" pxString(x) "\x1b[0m"
-#define YELLOW(x) "\x1b[33m" pxString(x) "\x1b[0m"
-#define BLUE(x)   "\x1b[34m" pxString(x) "\x1b[0m"
-#define PURPLE(x) "\x1b[35m" pxString(x) "\x1b[0m"
-#define AZURE(x)  "\x1b[36m" pxString(x) "\x1b[0m"
+#define RED(x)    "\x1b[31m" x "\x1b[0m"
+#define GRN(x)  "\x1b[32m" x "\x1b[0m"
+#define YLW(x) "\x1b[33m" x "\x1b[0m"
+#define BLU(x)   "\x1b[34m" x "\x1b[0m"
+#define MAG(x) "\x1b[35m" x "\x1b[0m"
+#define CYA(x)  "\x1b[36m" x "\x1b[0m"
 
-#define PANIC PURPLE(PANIC)
-#define ERROR RED(ERROR)
-#define WARN  YELLOW(WARN)
-#define INFO  BLUE(INFO)
-#define DEBUG GREEN(DEBUG)
-#define TRACE AZURE(TRACE)
+#define FATAL MAG("FATAL")
+#define ERROR RED("ERROR")
+#define WARN  YLW("WARN")
+#define INFO  BLU("INFO")
+#define DEBUG GRN("DEBUG")
+#define TRACE CYA("TRACE")
 
 #define CLIENT_MSG pxs8("Hello server!")
 
@@ -25,7 +25,7 @@
 typedef struct ClientConfig
 {
     PxAddress addr;
-    pxu16     port;
+    pxuword   port;
 }
 ClientConfig;
 
@@ -57,21 +57,21 @@ main(int argc, char** argv)
                 arg = pxString8TrimPrefix(arg, CLIENT_ARG_IPV4);
                 arg = pxString8TrimSpaces(arg);
 
-                pxAddressFromString8(&config.addr, PX_ADDRESS_TYPE_IP4, arg);
+                pxAddressFromString8(arg, &config.addr, PX_ADDRESS_TYPE_IP4);
             }
 
             if (pxString8BeginsWith(arg, CLIENT_ARG_IPV6) != 0) {
                 arg = pxString8TrimPrefix(arg, CLIENT_ARG_IPV6);
                 arg = pxString8TrimSpaces(arg);
 
-                pxAddressFromString8(&config.addr, PX_ADDRESS_TYPE_IP6, arg);
+                pxAddressFromString8(arg, &config.addr, PX_ADDRESS_TYPE_IP6);
             }
 
             if (pxString8BeginsWith(arg, CLIENT_ARG_PORT) != 0) {
                 arg = pxString8TrimPrefix(arg, CLIENT_ARG_PORT);
                 arg = pxString8TrimSpaces(arg);
 
-                pxUnsigned16FromString8(&config.port, 10, 0, arg);
+                pxUnsignedFromString8(arg, &config.port, PX_FORMAT_RADIX_10, 0);
             }
         }
     }
@@ -98,7 +98,7 @@ main(int argc, char** argv)
         PxString8 string = pxBuffer8ReadString8Head(
             &client.response, &arena, client.response.size);
 
-        printf(INFO " " BLUE('%s') "\n", string.memory);
+        printf(INFO " " BLU("'%s'") "\n", string.memory);
     }
 
     pxSocketTcpDestroy(client.socket);

@@ -81,8 +81,8 @@ pxLinuxConsoleWriteMemory(PxLinuxConsole* self, void* memory, pxiword amount, px
     pxiword temp   = 0;
 
     for (pxiword i = 0; i < length;) {
-        char* mem = pxCast(char*, memory + i);
-        int   len = pxCast(int,   length - i);
+        char* mem = pxas(char*, memory + i);
+        int   len = pxas(int,   length - i);
 
         do {
             temp = write(STDOUT_FILENO, mem, len);
@@ -103,8 +103,8 @@ pxLinuxConsoleReadMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxi
     pxiword length = amount * stride;
     pxiword temp   = 0;
 
-    char* mem = pxCast(char*, memory);
-    int   len = pxCast(int,   length);
+    char* mem = pxas(char*, memory);
+    int   len = pxas(int,   length);
 
     do {
         temp = read(STDIN_FILENO, mem, len);

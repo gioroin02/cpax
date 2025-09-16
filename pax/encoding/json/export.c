@@ -1,6 +1,8 @@
 #ifndef PX_ENCODING_JSON_EXPORT_C
 #define PX_ENCODING_JSON_EXPORT_C
 
+#include "import.c"
+
 #include "token.c"
 
 #include "message.c"

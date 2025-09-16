@@ -97,6 +97,15 @@ pxJsonTokenNull(PxString8 string);
 PxJsonToken
 pxJsonTokenCount();
 
+pxb8
+pxJsonIsNumber(pxu8 byte);
+
+pxb8
+pxJsonIsNumeric(pxu8 byte);
+
+pxb8
+pxJsonIsLetter(pxu8 byte);
+
 PxJsonToken
 pxJsonPeek(PxReader* reader, PxArena* arena);
 

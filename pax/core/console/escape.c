@@ -167,9 +167,12 @@ pxEscapeGroupFromString8(PxEscape* self, PxString8 string)
         case 0: {
             pxiword group = self->size;
 
+            PxFormatRadix radix = PX_FORMAT_RADIX_10;
+            PxFormatFlag  flags = PX_FORMAT_FLAG_NONE;
+
             pxEscapeInsertGroupTail(self);
 
-            state = pxUnsignedFromString8(&value, 10, 0, string);
+            state = pxUnsignedFromString8(string, &value, radix, flags);
 
             if (state != 0)
                 pxEscapeInsertValueTail(self, group, value);

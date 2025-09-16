@@ -44,7 +44,7 @@ pxAddressLocalhost(PxAddressType type)
 }
 
 pxb8
-pxAddressFromString8(PxAddress* self, PxAddressType type, PxString8 string)
+pxAddressFromString8(PxString8 string, PxAddress* self, PxAddressType type)
 {
     if (self == 0) return 0;
 
@@ -52,10 +52,10 @@ pxAddressFromString8(PxAddress* self, PxAddressType type, PxString8 string)
 
     switch (self->type) {
         case PX_ADDRESS_TYPE_IP4:
-            return pxAddressIp4FromString8(&self->ip4, string);
+            return pxAddressIp4FromString8(string, &self->ip4);
 
         case PX_ADDRESS_TYPE_IP6:
-            return pxAddressIp6FromString8(&self->ip6, string);
+            return pxAddressIp6FromString8(string, &self->ip6);
 
         default: break;
     }

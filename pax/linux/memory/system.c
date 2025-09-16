@@ -13,7 +13,7 @@
 pxiword
 pxLinuxMemoryPageSize()
 {
-    return pxCast(pxiword, sysconf(_SC_PAGESIZE));
+    return pxas(pxiword, sysconf(_SC_PAGESIZE));
 }
 
 PxArena

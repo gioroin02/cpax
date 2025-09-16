@@ -1,13 +1,13 @@
 #ifndef PX_CORE_STRING_STRING8_H
 #define PX_CORE_STRING_STRING8_H
 
-#include "utf8.h"
+#include "unicode.h"
 
 #define pxs8(x) \
-    (PxString8) {pxCast(pxu8*, x), pxSizeArray(pxu8, x) - 1}
+    (PxString8) {pxas(pxu8*, x), pxarraylen(pxu8, x) - 1}
 
 #define pxStringVargs8(x, ...) \
-    (PxString8) {pxVargs(pxu8, x, __VA_ARGS__), pxSizeVargs(pxu8, x, __VA_ARGS__)}
+    (PxString8) {pxvargs(pxu8, x, __VA_ARGS__), pxvargslen(pxu8, x, __VA_ARGS__)}
 
 typedef struct PxString8
 {

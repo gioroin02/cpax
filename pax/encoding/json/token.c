@@ -92,11 +92,12 @@ pxJsonTokenString(PxString8 string)
 PxJsonToken
 pxJsonTokenUnsigned(PxString8 string)
 {
-    PxFormatFlag flags = PX_FORMAT_FLAG_LEADING_PLUS;
+    PxFormatRadix radix = PX_FORMAT_RADIX_10;
+    PxFormatFlag  flags = PX_FORMAT_FLAG_PLUS;
 
     pxuword value = 0;
 
-    if (pxUnsignedFromString8(&value, 10, flags, string) == 0)
+    if (pxUnsignedFromString8(string, &value, radix, flags) == 0)
         return pxJsonTokenError(string, pxs8("Invalid number"));
 
     return (PxJsonToken) {
@@ -109,11 +110,12 @@ pxJsonTokenUnsigned(PxString8 string)
 PxJsonToken
 pxJsonTokenInteger(PxString8 string)
 {
-    PxFormatFlag flags = PX_FORMAT_FLAG_LEADING_PLUS;
+    PxFormatRadix radix = PX_FORMAT_RADIX_10;
+    PxFormatFlag  flags = PX_FORMAT_FLAG_PLUS;
 
     pxiword value = 0;
 
-    if (pxIntegerFromString8(&value, 10, flags, string) == 0)
+    if (pxIntegerFromString8(string, &value, radix, flags) == 0)
         return pxJsonTokenError(string, pxs8("Invalid number"));
 
     return (PxJsonToken) {
@@ -126,11 +128,12 @@ pxJsonTokenInteger(PxString8 string)
 PxJsonToken
 pxJsonTokenFloating(PxString8 string)
 {
-    PxFormatFlag flags = PX_FORMAT_FLAG_LEADING_PLUS;
+    PxFormatRadix radix = PX_FORMAT_RADIX_10;
+    PxFormatFlag  flags = PX_FORMAT_FLAG_PLUS;
 
     pxfword value = 0;
 
-    if (1 /* pxFloatingFromString8(&value, 10, flags, string) == 0 */)
+    if (1 /* pxFloatingFromString8(string, &value, radix, flags) == 0 */)
         return pxJsonTokenError(string, pxs8("Not implemented yet"));
 
     return (PxJsonToken) {
@@ -165,6 +168,46 @@ pxJsonTokenCount()
     return (PxJsonToken) {
         .type = PX_JSON_TOKEN_COUNT,
     };
+}
+
+pxb8
+pxJsonIsNumber(pxu8 byte)
+{
+    if (byte >= PX_ASCII_ZERO && byte <= PX_ASCII_NINE)
+        return 1;
+
+    return 0;
+}
+
+pxb8
+pxJsonIsNumeric(pxu8 byte)
+{
+    if (pxJsonIsNumber(byte) != 0) return 1;
+
+    switch (byte) {
+        case PX_ASCII_PLUS:
+        case PX_ASCII_MINUS:
+        case PX_ASCII_LOWER_E:
+        case PX_ASCII_UPPER_E:
+        case PX_ASCII_POINT:
+            return 1;
+
+        default: break;
+    }
+
+    return 0;
+}
+
+pxb8
+pxJsonIsLetter(pxu8 byte)
+{
+    if (byte >= PX_ASCII_LOWER_A && byte <= PX_ASCII_LOWER_Z)
+        return 1;
+
+    if (byte >= PX_ASCII_UPPER_A && byte <= PX_ASCII_UPPER_Z)
+        return 1;
+
+    return 0;
 }
 
 PxJsonToken
@@ -296,7 +339,7 @@ pxJsonPeekNumber(PxReader* reader, PxArena* arena)
 
     PxJsonTokenType type = PX_JSON_TOKEN_NONE;
 
-    while (pxAsciiIsNumeric(byte, 10, 0) != 0 || pxAsciiIsNumeric(byte, 10, 1) != 0) {
+    while (pxJsonIsNumeric(byte) != 0) {
         switch (byte) {
             case PX_ASCII_PLUS:
             case PX_ASCII_ZERO:
@@ -365,7 +408,7 @@ pxJsonPeekWord(PxReader* reader, PxArena* arena)
     pxiword offset = 0;
     pxu8    byte   = pxReaderPeekByte(reader, offset);
 
-    if (pxAsciiIsLetter(byte) == 0) {
+    if (pxJsonIsLetter(byte) == 0) {
         PxString8 subject = pxString8Copy(arena,
             pxs8("Invalid key word, expected opening letter"));
 
@@ -377,7 +420,7 @@ pxJsonPeekWord(PxReader* reader, PxArena* arena)
     offset += 1;
     byte    = pxReaderPeekByte(reader, offset);
 
-    while (pxAsciiIsLetter(byte) != 0 || pxAsciiIsDigit(byte, 10, 0) != 0) {
+    while (pxJsonIsLetter(byte) != 0 || pxJsonIsNumber(byte) != 0) {
         offset += 1;
         byte    = pxReaderPeekByte(reader, offset);
     }
@@ -467,7 +510,7 @@ pxJsonSkipSpaces(PxReader* reader)
     pxiword offset = 0;
     pxu8    byte   = pxReaderPeekByte(reader, 0);
 
-    while (pxAsciiIsSpace(byte) != 0) {
+    while (pxUnicodeIsAsciiCntrl(byte) != 0) {
         offset += 1;
         byte    = pxReaderByte(reader, 1);
     }

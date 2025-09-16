@@ -6,38 +6,38 @@
 #define COLOR_RESET "\x1b[0m"
 
 #define FRONT_RED    "\x1b[31m"
-#define FRONT_GREEN  "\x1b[32m"
-#define FRONT_YELLOW "\x1b[33m"
-#define FRONT_BLUE   "\x1b[34m"
-#define FRONT_PURPLE "\x1b[35m"
-#define FRONT_AZURE  "\x1b[36m"
+#define FRONT_GRN  "\x1b[32m"
+#define FRONT_YLW "\x1b[33m"
+#define FRONT_BLU   "\x1b[34m"
+#define FRONT_MAG "\x1b[35m"
+#define FRONT_CYA  "\x1b[36m"
 
 #define RED(expr)    FRONT_RED    expr COLOR_RESET
-#define GREEN(expr)  FRONT_GREEN  expr COLOR_RESET
-#define YELLOW(expr) FRONT_YELLOW expr COLOR_RESET
-#define BLUE(expr)   FRONT_BLUE   expr COLOR_RESET
-#define PURPLE(expr) FRONT_PURPLE expr COLOR_RESET
-#define AZURE(expr)  FRONT_AZURE  expr COLOR_RESET
+#define GRN(expr)  FRONT_GRN  expr COLOR_RESET
+#define YLW(expr) FRONT_YLW expr COLOR_RESET
+#define BLU(expr)   FRONT_BLU   expr COLOR_RESET
+#define MAG(expr) FRONT_MAG expr COLOR_RESET
+#define CYA(expr)  FRONT_CYA  expr COLOR_RESET
 
 #define ENTITY \
     pxs8("{ \"flags\": [16, 32], \"code\": 156, \"name\": \"player\", \"coords\": {\"x\": -1, \"y\": +2, \"z\": null}, \"alive\": true, \"pause\": false }")
 
 static const char* const JSON_TOKEN_NAMES[] = {
-    pxString(JSON_TOKEN_NONE),
-    pxString(JSON_TOKEN_ERROR),
-    pxString(JSON_TOKEN_OBJECT_OPEN),
-    pxString(JSON_TOKEN_OBJECT_CLOSE),
-    pxString(JSON_TOKEN_ARRAY_OPEN),
-    pxString(JSON_TOKEN_ARRAY_CLOSE),
-    pxString(JSON_TOKEN_COLON),
-    pxString(JSON_TOKEN_COMMA),
-    pxString(JSON_TOKEN_STRING),
-    pxString(JSON_TOKEN_UNSIGNED),
-    pxString(JSON_TOKEN_INTEGER),
-    pxString(JSON_TOKEN_FLOATING),
-    pxString(JSON_TOKEN_BOOLEAN),
-    pxString(JSON_TOKEN_NULL),
-    pxString(JSON_TOKEN_COUNT),
+    "JSON_TOKEN_NONE",
+    "JSON_TOKEN_ERROR",
+    "JSON_TOKEN_OBJECT_OPEN",
+    "JSON_TOKEN_OBJECT_CLOSE",
+    "JSON_TOKEN_ARRAY_OPEN",
+    "JSON_TOKEN_ARRAY_CLOSE",
+    "JSON_TOKEN_COLON",
+    "JSON_TOKEN_COMMA",
+    "JSON_TOKEN_STRING",
+    "JSON_TOKEN_UNSIGNED",
+    "JSON_TOKEN_INTEGER",
+    "JSON_TOKEN_FLOATING",
+    "JSON_TOKEN_BOOLEAN",
+    "JSON_TOKEN_NULL",
+    "JSON_TOKEN_COUNT",
 };
 
 void
@@ -56,8 +56,8 @@ showJsonToken(PxReader* reader, PxArena* arena)
                 PxString8 subject = token.error.subject;
 
                 printf(RED("%.*s: %.*s"),
-                    pxCast(int, content.length), content.memory,
-                    pxCast(int, subject.length), subject.memory);
+                    pxas(int, content.length), content.memory,
+                    pxas(int, subject.length), subject.memory);
 
                 token.type = PX_JSON_TOKEN_COUNT;
             } break;
@@ -87,28 +87,28 @@ showJsonToken(PxReader* reader, PxArena* arena)
             break;
 
             case PX_JSON_TOKEN_STRING:
-                printf(BLUE("'%.*s'"),
-                    pxCast(int, token.string_8.length), token.string_8.memory);
+                printf(BLU("'%.*s'"),
+                    pxas(int, token.string_8.length), token.string_8.memory);
             break;
 
             case PX_JSON_TOKEN_UNSIGNED:
-                printf(PURPLE("%llu"), token.unsigned_word);
+                printf(MAG("%llu"), token.unsigned_word);
             break;
 
             case PX_JSON_TOKEN_INTEGER:
-                printf(PURPLE("%lli"), token.integer_word);
+                printf(MAG("%lli"), token.integer_word);
             break;
 
             case PX_JSON_TOKEN_FLOATING:
-                printf(PURPLE("%lf"), token.floating_word);
+                printf(MAG("%lf"), token.floating_word);
             break;
 
             case PX_JSON_TOKEN_BOOLEAN:
-                printf("%s", token.boolean_word != 0 ? GREEN("true") : RED("false"));
+                printf("%s", token.boolean_word != 0 ? GRN("true") : RED("false"));
             break;
 
             case PX_JSON_TOKEN_NULL:
-                printf(PURPLE("null"));
+                printf(MAG("null"));
             break;
 
             default: break;
@@ -126,8 +126,8 @@ main(int argc, char** argv)
 
     pxBuffer8WriteString8Tail(&source, ENTITY);
 
-    printf(YELLOW("[start]") "\n%.*s\n" YELLOW("[stop]") "\n",
-        pxCast(int, source.size), source.memory);
+    printf(YLW("[start]") "\n%.*s\n" YLW("[stop]") "\n",
+        pxas(int, source.size), source.memory);
 
     printf("\n");
 

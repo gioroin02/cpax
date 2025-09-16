@@ -24,12 +24,10 @@ main(int argc, char** argv)
 {
     pxu8 memory[PX_MEMORY_KIB] = {0};
 
-    PxArena arena = pxArenaMake(memory, pxSize(memory));
+    PxArena arena = pxArenaMake(memory, pxsize(memory));
 
     PxBuffer8 source = pxBuffer8Reserve(&arena, 256);
-    PxBuffer8 buffer = pxBuffer8Reserve(&arena, 256);
-
-    PxReader reader = pxBufferReader(&source, &buffer);
+    PxReader  reader = pxBufferReader(&source, &arena, 256);
 
     pxBuffer8WriteString8Tail(&source, pxs8("ciao\narrivederci"));
 
@@ -39,6 +37,6 @@ main(int argc, char** argv)
 
     PxString8 line = pxReaderLine(&reader, &arena, 16);
 
-    printf("%.*s\n", pxCast(int, line.length),
+    printf("%.*s\n", pxas(int, line.length),
         line.memory);
 }

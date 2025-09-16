@@ -23,7 +23,7 @@ pxBufferReader(PxBuffer8* self, PxArena* arena, pxiword length)
 pxiword
 pxReaderFill(PxReader* self)
 {
-    PxReaderProc* proc = pxCast(PxReaderProc*, self->proc);
+    PxReaderProc* proc = pxas(PxReaderProc*, self->proc);
 
     if (proc != 0)
         return proc(self->ctxt, &self->buffer);

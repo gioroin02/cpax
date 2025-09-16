@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define PX_COLOR_RGB_UNITS pxCast(pxiword, 3)
+#define PX_COLOR_RGB_UNITS pxas(pxiword, 3)
 
 typedef union PxColorRGB
 {
@@ -197,7 +197,7 @@ GameState;
 int
 main(int argc, char** argv)
 {
-    #define PX_CONSOLE_FRAMES pxCast(pxiword, 2)
+    #define PX_CONSOLE_FRAMES pxas(pxiword, 2)
 
     PxArena arena = pxMemoryReserve(32);
 

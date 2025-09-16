@@ -20,7 +20,7 @@ PxString8
 pxString8FromMemory(void* memory, pxiword length)
 {
     for (pxiword i = 0; i < length; i += 1) {
-        if (pxCast(pxu8*, memory)[i] != 0)
+        if (pxas(pxu8*, memory)[i] != 0)
             continue;
 
         return pxString8Make(memory, i);
@@ -251,7 +251,7 @@ pxString8TrimSpaces(PxString8 self)
 
         if (units <= 0) return (PxString8) {0};
 
-        if (pxAsciiIsSpace(unicode) == 0)
+        if (pxUnicodeIsAsciiCntrl(unicode) == 0)
             break;
     }
 
@@ -263,7 +263,7 @@ pxString8TrimSpaces(PxString8 self)
 
         if (units <= 0) return (PxString8) {0};
 
-        if (pxAsciiIsSpace(unicode) == 0)
+        if (pxUnicodeIsAsciiCntrl(unicode) == 0)
             break;
     }
 
@@ -285,7 +285,7 @@ pxString8TrimSpacesHead(PxString8 self)
 
         if (units <= 0) return (PxString8) {0};
 
-        if (pxAsciiIsSpace(unicode) == 0)
+        if (pxUnicodeIsAsciiCntrl(unicode) == 0)
             break;
     }
 
@@ -307,7 +307,7 @@ pxString8TrimSpacesTail(PxString8 self)
 
         if (units <= 0) return (PxString8) {0};
 
-        if (pxAsciiIsSpace(unicode) == 0)
+        if (pxUnicodeIsAsciiCntrl(unicode) == 0)
             break;
     }
 
@@ -359,7 +359,7 @@ pxString8FindFirst(PxString8 self, pxiword start, PxString8 value, pxiword* inde
 pxb8
 pxString8FindFirstMemory8(PxString8 self, pxiword start, pxu8* memory, pxiword length, pxiword* index)
 {
-    start = pxClamp(start, 0, self.length);
+    start = pxbetween(start, 0, self.length);
 
     for (pxiword i = start; i < self.length; i += 1) {
         PxString8 slice = pxString8SliceLength(self, i, length);
@@ -384,7 +384,7 @@ pxString8FindLast(PxString8 self, pxiword start, PxString8 value, pxiword* index
 pxb8
 pxString8FindLastMemory8(PxString8 self, pxiword start, pxu8* memory, pxiword length, pxiword* index)
 {
-    start = pxClamp(start, 0, self.length);
+    start = pxbetween(start, 0, self.length);
 
     for (pxiword i = start; i > 0; i -= 1) {
         PxString8 slice = pxString8SliceLength(self, i - length, length);

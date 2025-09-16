@@ -7,12 +7,6 @@
 
 /* Utf8 */
 
-pxiword
-pxUtf8UnitsFromMemory16(pxu16* memory, pxiword length);
-
-pxiword
-pxUtf8UnitsFromMemory32(pxu32* memory, pxiword length);
-
 PxString8
 pxString8CopyMemory16(PxArena* arena, pxu16* memory, pxiword length);
 
@@ -36,12 +30,6 @@ pxMemory8WriteString32(pxu8* memory, pxiword length, PxString32 value);
 
 /* Utf16 */
 
-pxiword
-pxUtf16UnitsFromMemory8(pxu8* memory, pxiword length);
-
-pxiword
-pxUtf16UnitsFromMemory32(pxu32* memory, pxiword length);
-
 PxString16
 pxString16CopyMemory8(PxArena* arena, pxu8* memory, pxiword length);
 
@@ -64,12 +52,6 @@ pxiword
 pxMemory16WriteString32(pxu16* memory, pxiword length, PxString32 value);
 
 /* Utf32 */
-
-pxiword
-pxUtf32UnitsFromMemory8(pxu8* memory, pxiword length);
-
-pxiword
-pxUtf32UnitsFromMemory16(pxu16* memory, pxiword length);
 
 PxString32
 pxString32CopyMemory8(PxArena* arena, pxu8* memory, pxiword length);

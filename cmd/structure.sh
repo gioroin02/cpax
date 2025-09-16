@@ -1,11 +1,6 @@
-base="pax/core/base/export.c"
 structure="pax/core/structure/export.c"
 
-pax="$base $structure"
-
-memory="pax/core/memory/export.c"
-
-pax="$pax $memory"
+src="$structure"
 dir="pax/core/structure/test"
 
-gcc -g --std=c99 $pax $dir/queue.c -o structure_queue.exe
+gcc -g --std=c99 $src $dir/queue.c -o structure_queue.exe

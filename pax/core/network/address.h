@@ -31,7 +31,7 @@ PxAddress
 pxAddressLocalhost(PxAddressType type);
 
 pxb8
-pxAddressFromString8(PxAddress* self, PxAddressType type, PxString8 string);
+pxAddressFromString8(PxString8 string, PxAddress* self, PxAddressType type);
 
 pxb8
 pxAddressIsEqual(PxAddress self, PxAddress value);

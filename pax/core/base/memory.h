@@ -3,13 +3,13 @@
 
 #include "number.h"
 
-#define PX_MEMORY_KB pxCast(pxiword, 1000)
-#define PX_MEMORY_MB pxCast(pxiword, 1000 * 1000)
-#define PX_MEMORY_GB pxCast(pxiword, 1000 * 1000 * 1000)
+#define PX_MEMORY_KB pxas(pxiword, 1000)
+#define PX_MEMORY_MB pxas(pxiword, 1000 * 1000)
+#define PX_MEMORY_GB pxas(pxiword, 1000 * 1000 * 1000)
 
-#define PX_MEMORY_KIB pxCast(pxiword, 1024)
-#define PX_MEMORY_MIB pxCast(pxiword, 1024 * 1024)
-#define PX_MEMORY_GIB pxCast(pxiword, 1024 * 1024 * 1024)
+#define PX_MEMORY_KIB pxas(pxiword, 1024)
+#define PX_MEMORY_MIB pxas(pxiword, 1024 * 1024)
+#define PX_MEMORY_GIB pxas(pxiword, 1024 * 1024 * 1024)
 
 void*
 pxMemoryZero(void* memory, pxiword amount, pxiword stride);

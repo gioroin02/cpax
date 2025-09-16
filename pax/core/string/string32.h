@@ -1,10 +1,10 @@
 #ifndef PX_CORE_STRING_STRING32_H
 #define PX_CORE_STRING_STRING32_H
 
-#include "utf32.h"
+#include "unicode.h"
 
 #define pxStringVargs32(x, ...) \
-    (PxString32) {pxVargs(pxu32, x, __VA_ARGS__), pxSizeVargs(pxu32, x, __VA_ARGS__)}
+    (PxString32) {pxvargs(pxu32, x, __VA_ARGS__), pxvargslen(pxu32, x, __VA_ARGS__)}
 
 typedef struct PxString32
 {

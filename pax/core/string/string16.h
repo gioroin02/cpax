@@ -1,13 +1,13 @@
 #ifndef PX_CORE_STRING_STRING16_H
 #define PX_CORE_STRING_STRING16_H
 
-#include "utf16.h"
+#include "unicode.h"
 
 #define pxs16(x) \
-    (PxString16) {pxCast(pxu16*, x), pxSizeArray(pxu16, x) - 1}
+    (PxString16) {pxas(pxu16*, x), pxarraylen(pxu16, x) - 1}
 
 #define pxStringVargs16(x, ...) \
-    (PxString16) {pxVargs(pxu16, x, __VA_ARGS__), pxSizeVargs(pxu16, x, __VA_ARGS__)}
+    (PxString16) {pxvargs(pxu16, x, __VA_ARGS__), pxvargslen(pxu16, x, __VA_ARGS__)}
 
 typedef struct PxString16
 {

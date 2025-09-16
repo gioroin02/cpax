@@ -20,7 +20,7 @@ pxJsonReaderMake(PxArena* arena, pxiword length, PxReader* reader)
 PxJsonMsg
 pxJsonReadMessage(PxJsonReader* self, PxArena* arena)
 {
-    PxJsonMsg     result = pxJsonMsgCount();
+    PxJsonMsg       result = pxJsonMsgCount();
     PxJsonLayerType parent = PX_JSON_LAYER_NONE;
 
     while (result.type == PX_JSON_MSG_COUNT) {

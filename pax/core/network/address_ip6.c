@@ -4,7 +4,7 @@
 #include "address_ip6.h"
 
 pxb8
-pxAddressIp6FromString8(PxAddressIp6* self, PxString8 string)
+pxAddressIp6FromString8(PxString8 string, PxAddressIp6* self)
 {
     PxAddressIp6 temp = {0};
 
@@ -19,9 +19,19 @@ pxAddressIp6FromString8(PxAddressIp6* self, PxString8 string)
             if (groups != PX_ADDRESS_IP6_GROUPS - 1) return 0;
 
             for (pxiword i = 0; i < PX_ADDRESS_IP6_GROUPS; i += 1) {
+                pxuword item = 0;
+
                 pxString8Split(string, pxs8(":"), &group, &string);
 
-                if (pxUnsigned16FromString8(&temp.items[i], 16, 0, group) == 0)
+                PxFormatRadix radix = PX_FORMAT_RADIX_16;
+                PxFormatFlag  flags = PX_FORMAT_FLAG_NONE;
+
+                if (pxUnsignedFromString8(group, &item, radix, flags) == 0)
+                    return 0;
+
+                if (item <= PX_U16_MAX)
+                    temp.items[i] = item;
+                else
                     return 0;
             }
         } break;
@@ -36,11 +46,21 @@ pxAddressIp6FromString8(PxAddressIp6* self, PxString8 string)
             if (pivot >= stop) return 0;
 
             for (pxiword i = start; i < pivot; i += 1) {
+                pxuword item = 0;
+
                 pxString8Split(left, pxs8(":"), &group, &left);
 
                 if (group.length <= 0) break;
 
-                if (pxUnsigned16FromString8(&temp.items[i], 16, 0, group) == 0)
+                PxFormatRadix radix = PX_FORMAT_RADIX_16;
+                PxFormatFlag  flags = PX_FORMAT_FLAG_NONE;
+
+                if (pxUnsignedFromString8(group, &item, radix, flags) == 0)
+                    return 0;
+
+                if (item <= PX_U16_MAX)
+                    temp.items[i] = item;
+                else
                     return 0;
             }
 
@@ -52,11 +72,21 @@ pxAddressIp6FromString8(PxAddressIp6* self, PxString8 string)
             if (start + pivot >= stop) return 0;
 
             for (pxiword i = stop - pivot; i < stop; i += 1) {
+                pxuword item = 0;
+
                 pxString8Split(right, pxs8(":"), &group, &right);
 
                 if (group.length <= 0) break;
 
-                if (pxUnsigned16FromString8(&temp.items[i], 16, 0, group) == 0)
+                PxFormatRadix radix = PX_FORMAT_RADIX_16;
+                PxFormatFlag  flags = PX_FORMAT_FLAG_NONE;
+
+                if (pxUnsignedFromString8(group, &item, radix, flags) == 0)
+                    return 0;
+
+                if (item <= PX_U16_MAX)
+                    temp.items[i] = item;
+                else
                     return 0;
             }
 

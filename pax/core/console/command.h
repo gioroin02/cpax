@@ -3,7 +3,7 @@
 
 #include "import.h"
 
-#define PX_CONSOLE_COLOR_RGB_UNITS pxCast(pxiword, 3)
+#define PX_CONSOLE_COLOR_RGB_UNITS pxas(pxiword, 3)
 
 typedef enum PxConsoleCmdType
 {

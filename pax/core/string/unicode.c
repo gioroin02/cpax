@@ -99,7 +99,7 @@ pxUtf8Encode(PxUtf8* self, pxi32 value)
 }
 
 pxiword
-pxUtf8WriteMemory8Forw(pxu8* memory, pxiword length, pxiword index, pxi32 value)
+pxUtf8WriteForw(pxu8* memory, pxiword length, pxiword index, pxi32 value)
 {
     PxUtf8 utf8 = {0};
 
@@ -115,7 +115,7 @@ pxUtf8WriteMemory8Forw(pxu8* memory, pxiword length, pxiword index, pxi32 value)
 }
 
 pxiword
-pxUtf8WriteMemory8Back(pxu8* memory, pxiword length, pxiword index, pxi32 value)
+pxUtf8WriteBack(pxu8* memory, pxiword length, pxiword index, pxi32 value)
 {
     PxUtf8 utf8 = {0};
 
@@ -182,7 +182,7 @@ pxUtf8Decode(PxUtf8* self, pxi32* value)
 }
 
 pxiword
-pxUtf8ReadMemory8Forw(pxu8* memory, pxiword length, pxiword index, pxi32* value)
+pxUtf8ReadForw(pxu8* memory, pxiword length, pxiword index, pxi32* value)
 {
     PxUtf8 utf8 = {0};
 
@@ -201,7 +201,7 @@ pxUtf8ReadMemory8Forw(pxu8* memory, pxiword length, pxiword index, pxi32* value)
 }
 
 pxiword
-pxUtf8ReadMemory8Back(pxu8* memory, pxiword length, pxiword index, pxi32* value)
+pxUtf8ReadBack(pxu8* memory, pxiword length, pxiword index, pxi32* value)
 {
     PxUtf8  utf8  = {0};
     pxiword start = index;
@@ -275,7 +275,7 @@ pxUtf8UnitsFromMemory16(pxu16* memory, pxiword length)
     for (pxiword index = 0; index < length;) {
         pxi32 unicode = 0;
 
-        pxiword read = pxUtf16ReadMemory16Forw(
+        pxiword read = pxUtf16ReadForw(
             memory, length, index, &unicode);
 
         pxiword write = pxUtf8UnitsToWrite(unicode);
@@ -297,7 +297,7 @@ pxUtf8UnitsFromMemory32(pxu32* memory, pxiword length)
     for (pxiword index = 0; index < length;) {
         pxi32 unicode = 0;
 
-        pxiword read = pxUtf32ReadMemory32Forw(
+        pxiword read = pxUtf32ReadForw(
             memory, length, index, &unicode);
 
         pxiword write = pxUtf8UnitsToWrite(unicode);
@@ -337,7 +337,7 @@ pxUtf16Encode(PxUtf16* self, pxi32 value)
 }
 
 pxiword
-pxUtf16WriteMemory16Forw(pxu16* memory, pxiword length, pxiword index, pxi32 value)
+pxUtf16WriteForw(pxu16* memory, pxiword length, pxiword index, pxi32 value)
 {
     PxUtf16 utf16 = {0};
 
@@ -353,7 +353,7 @@ pxUtf16WriteMemory16Forw(pxu16* memory, pxiword length, pxiword index, pxi32 val
 }
 
 pxiword
-pxUtf16WriteMemory16Back(pxu16* memory, pxiword length, pxiword index, pxi32 value)
+pxUtf16WriteBack(pxu16* memory, pxiword length, pxiword index, pxi32 value)
 {
     PxUtf16 utf16 = {0};
 
@@ -399,7 +399,7 @@ pxUtf16Decode(PxUtf16* self, pxi32* value)
 }
 
 pxiword
-pxUtf16ReadMemory16Forw(pxu16* memory, pxiword length, pxiword index, pxi32* value)
+pxUtf16ReadForw(pxu16* memory, pxiword length, pxiword index, pxi32* value)
 {
     PxUtf16 utf16 = {0};
 
@@ -418,7 +418,7 @@ pxUtf16ReadMemory16Forw(pxu16* memory, pxiword length, pxiword index, pxi32* val
 }
 
 pxiword
-pxUtf16ReadMemory16Back(pxu16* memory, pxiword length, pxiword index, pxi32* value)
+pxUtf16ReadBack(pxu16* memory, pxiword length, pxiword index, pxi32* value)
 {
     PxUtf16 utf16 = {0};
     pxiword start = index;
@@ -473,7 +473,7 @@ pxUtf16UnitsFromMemory8(pxu8* memory, pxiword length)
     for (pxiword index = 0; index < length;) {
         pxi32 unicode = 0;
 
-        pxiword read = pxUtf8ReadMemory8Forw(
+        pxiword read = pxUtf8ReadForw(
             memory, length, index, &unicode);
 
         pxiword write = pxUtf16UnitsToWrite(unicode);
@@ -495,7 +495,7 @@ pxUtf16UnitsFromMemory32(pxu32* memory, pxiword length)
     for (pxiword index = 0; index < length;) {
         pxi32 unicode = 0;
 
-        pxiword read = pxUtf32ReadMemory32Forw(
+        pxiword read = pxUtf32ReadForw(
             memory, length, index, &unicode);
 
         pxiword write = pxUtf16UnitsToWrite(unicode);
@@ -532,7 +532,7 @@ pxUtf32Encode(PxUtf32* self, pxi32 value)
 }
 
 pxiword
-pxUtf32WriteMemory32Forw(pxu32* memory, pxiword length, pxiword index, pxi32 value)
+pxUtf32WriteForw(pxu32* memory, pxiword length, pxiword index, pxi32 value)
 {
     PxUtf32 utf32 = {0};
 
@@ -548,7 +548,7 @@ pxUtf32WriteMemory32Forw(pxu32* memory, pxiword length, pxiword index, pxi32 val
 }
 
 pxiword
-pxUtf32WriteMemory32Back(pxu32* memory, pxiword length, pxiword index, pxi32 value)
+pxUtf32WriteBack(pxu32* memory, pxiword length, pxiword index, pxi32 value)
 {
     PxUtf32 utf32 = {0};
 
@@ -585,7 +585,7 @@ pxUtf32Decode(PxUtf32* self, pxi32* value)
 }
 
 pxiword
-pxUtf32ReadMemory32Forw(pxu32* memory, pxiword length, pxiword index, pxi32* value)
+pxUtf32ReadForw(pxu32* memory, pxiword length, pxiword index, pxi32* value)
 {
     PxUtf32 utf32 = {0};
 
@@ -604,7 +604,7 @@ pxUtf32ReadMemory32Forw(pxu32* memory, pxiword length, pxiword index, pxi32* val
 }
 
 pxiword
-pxUtf32ReadMemory32Back(pxu32* memory, pxiword length, pxiword index, pxi32* value)
+pxUtf32ReadBack(pxu32* memory, pxiword length, pxiword index, pxi32* value)
 {
     PxUtf32 utf32 = {.size = 1};
 
@@ -647,7 +647,7 @@ pxUtf32UnitsFromMemory8(pxu8* memory, pxiword length)
     for (pxiword index = 0; index < length;) {
         pxi32 unicode = 0;
 
-        pxiword read = pxUtf8ReadMemory8Forw(
+        pxiword read = pxUtf8ReadForw(
             memory, length, index, &unicode);
 
         pxiword write = pxUtf32UnitsToWrite(unicode);
@@ -669,7 +669,7 @@ pxUtf32UnitsFromMemory16(pxu16* memory, pxiword length)
     for (pxiword index = 0; index < length;) {
         pxi32 unicode = 0;
 
-        pxiword read = pxUtf16ReadMemory16Forw(
+        pxiword read = pxUtf16ReadForw(
             memory, length, index, &unicode);
 
         pxiword write = pxUtf32UnitsToWrite(unicode);

@@ -6,7 +6,7 @@
 #define pxs16(x) \
     (PxString16) {pxas(pxu16*, x), pxarraylen(pxu16, x) - 1}
 
-#define pxStringVargs16(x, ...) \
+#define pxString16Vargs(x, ...) \
     (PxString16) {pxvargs(pxu16, x, __VA_ARGS__), pxvargslen(pxu16, x, __VA_ARGS__)}
 
 typedef struct PxString16

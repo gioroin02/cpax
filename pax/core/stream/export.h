@@ -6,4 +6,6 @@
 #include "reader.h"
 #include "writer.h"
 
+#include "command.h"
+
 #endif // PX_STREAM_EXPORT_H

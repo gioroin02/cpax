@@ -15,10 +15,10 @@ PxJsonWriter;
 PxJsonWriter
 pxJsonWriterMake(PxArena* arena, pxiword length, PxWriter* writer);
 
-pxiword
-pxJsonWriteChain(PxJsonWriter* self, PxArena* arena, pxiword start, pxiword stop, PxJsonMsg* list);
-
 pxb8
-pxJsonWriteMessage(PxJsonWriter* self, PxArena* arena, PxJsonMsg message);
+pxJsonWriteMsg(PxJsonWriter* self, PxArena* arena, PxJsonMsg message);
+
+pxiword
+pxJsonWriteList(PxJsonWriter* self, PxArena* arena, pxiword start, pxiword stop, PxJsonMsg* list);
 
 #endif // PX_ENCODING_JSON_WRITER_H

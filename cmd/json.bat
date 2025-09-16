@@ -2,9 +2,16 @@ echo off
 
 call cmd\clean.bat
 
+set "base=pax\core\base\export.c"
+set "memory=pax\core\memory\export.c"
+set "string=pax\core\string\export.c"
+set "format=pax\core\format\export.c"
+set "stream=pax\core\stream\export.c"
+set "structure=pax\core\structure\export.c"
+
 set "json=pax\encoding\json\export.c"
 
-set "src=%json%"
+set "src=%base% %memory% %string% %format% %stream% %structure% %json%"
 set "dir=pax\encoding\json\test"
 
 zig cc --std=c99 %src% "%dir%\token.c"   -o json_token.exe

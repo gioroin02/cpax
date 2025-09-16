@@ -24,6 +24,9 @@ pxiword
 pxWriterByte(PxWriter* self, pxu8 value);
 
 pxiword
+pxWriterMemory(PxWriter* self, void* memory, pxiword amount, pxiword stride);
+
+pxiword
 pxWriterUnicode(PxWriter* self, PxArena* arena, pxi32 value);
 
 pxiword
@@ -39,6 +42,17 @@ pxiword
 pxWriterBuffer8(PxWriter* self, PxBuffer8* value);
 
 pxiword
-pxWriterMemory(PxWriter* self, void* memory, pxiword amount, pxiword stride);
+pxWriterBuffer16(PxWriter* self, PxBuffer16* value);
+
+pxiword
+pxWriterBuffer32(PxWriter* self, PxBuffer32* value);
+
+/*
+pxiword
+pxWriterFormatList(PxWriter* self, pxiword start, pxiword stop, PxFormatCmd* list);
+
+pxiword
+pxWriterFormat(PxWriter* self, PxString8 format, pxiword start, pxiword stop, PxFormatCmd* list);
+*/
 
 #endif // PX_STREAM_WRITER_H

@@ -19,9 +19,9 @@ PxJsonReader
 pxJsonReaderMake(PxArena* arena, pxiword length, PxReader* reader);
 
 PxJsonMsg
-pxJsonReadMessage(PxJsonReader* self, PxArena* arena);
+pxJsonReadMsg(PxJsonReader* self, PxArena* arena);
 
 pxb8
-pxJsonExpectMessage(PxJsonReader* self, PxArena* arena, PxJsonMsgType type);
+pxJsonExpectMsg(PxJsonReader* self, PxArena* arena, PxJsonMsgType type);
 
 #endif // PX_ENCODING_JSON_READER_H

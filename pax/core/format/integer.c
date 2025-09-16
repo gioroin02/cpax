@@ -288,10 +288,11 @@ pxString8FromInteger(PxArena* arena, pxiword value, PxFormatRadix radix, PxForma
     pxiword offset = pxArenaOffset(arena);
     pxiword length = pxIntegerDigits(value, radix, flags);
 
-    pxu8* memory = pxArenaReserve(arena, pxu8, length + 1);
+    pxu8* memory =
+        pxArenaReserve(arena, pxu8, length + 1);
 
-    pxiword size = pxMemory8WriteInteger(memory, length,
-        value, radix, flags);
+    pxiword size = pxMemory8WriteInteger(
+        memory, length, value, radix, flags);
 
     if (size == length)
         return pxString8Make(memory, length);
@@ -321,10 +322,11 @@ pxString16FromInteger(PxArena* arena, pxiword value, PxFormatRadix radix, PxForm
     pxiword offset = pxArenaOffset(arena);
     pxiword length = pxIntegerDigits(value, radix, flags);
 
-    pxu16* memory = pxArenaReserve(arena, pxu16, length + 1);
+    pxu16* memory =
+        pxArenaReserve(arena, pxu16, length + 1);
 
-    pxiword size = pxMemory16WriteInteger(memory, length,
-        value, radix, flags);
+    pxiword size = pxMemory16WriteInteger(
+        memory, length, value, radix, flags);
 
     if (size == length)
         return pxString16Make(memory, length);
@@ -354,10 +356,11 @@ pxString32FromInteger(PxArena* arena, pxiword value, PxFormatRadix radix, PxForm
     pxiword offset = pxArenaOffset(arena);
     pxiword length = pxIntegerDigits(value, radix, flags);
 
-    pxu32* memory = pxArenaReserve(arena, pxu32, length + 1);
+    pxu32* memory =
+        pxArenaReserve(arena, pxu32, length + 1);
 
-    pxiword size = pxMemory32WriteInteger(memory, length,
-        value, radix, flags);
+    pxiword size = pxMemory32WriteInteger(
+        memory, length, value, radix, flags);
 
     if (size == length)
         return pxString32Make(memory, length);

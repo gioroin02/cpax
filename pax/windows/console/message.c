@@ -108,7 +108,7 @@ pxWindowsMapConsoleKeybdButton(pxiword button)
 }
 
 PxConsoleMsg
-pxWindowsConsoleReadMessage(PxReader* self)
+pxWindowsConsoleReadMsg(PxReader* self, PxArena* arena)
 {
     PxConsoleMsg result = {.type = PX_CONSOLE_MSG_NONE};
 
@@ -150,7 +150,7 @@ pxWindowsConsoleReadMessage(PxReader* self)
 }
 
 PxConsoleMsg
-pxWindowsConsolePollMessage(PxReader* self)
+pxWindowsConsolePollMsg(PxReader* self, PxArena* arena)
 {
     PxConsoleMsg result = {.type = PX_CONSOLE_MSG_NONE};
 
@@ -160,7 +160,7 @@ pxWindowsConsolePollMessage(PxReader* self)
     GetNumberOfConsoleInputEvents(input, &size);
 
     if (size != 0)
-        result = pxWindowsConsoleReadMessage(self);
+        result = pxWindowsConsoleReadMsg(self, arena);
 
     return result;
 }

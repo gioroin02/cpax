@@ -3,7 +3,7 @@
 
 #include "unicode.h"
 
-#define pxStringVargs32(x, ...) \
+#define pxString32Vargs(x, ...) \
     (PxString32) {pxvargs(pxu32, x, __VA_ARGS__), pxvargslen(pxu32, x, __VA_ARGS__)}
 
 typedef struct PxString32

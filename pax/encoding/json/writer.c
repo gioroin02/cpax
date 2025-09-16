@@ -17,23 +17,8 @@ pxJsonWriterMake(PxArena* arena, pxiword length, PxWriter* writer)
     };
 }
 
-pxiword
-pxJsonWriteChain(PxJsonWriter* self, PxArena* arena, pxiword start, pxiword stop, PxJsonMsg* list)
-{
-    if (start >= stop) return 0;
-
-    pxiword diff = stop - start;
-
-    for (pxiword i = start; i < stop; i += 1) {
-        if (pxJsonWriteMessage(self, arena, list[i]) == 0)
-            return i - start;
-    }
-
-    return diff;
-}
-
 pxb8
-pxJsonWriteMessage(PxJsonWriter* self, PxArena* arena, PxJsonMsg message)
+pxJsonWriteMsg(PxJsonWriter* self, PxArena* arena, PxJsonMsg message)
 {
     PxJsonLayerType parent = PX_JSON_LAYER_NONE;
 
@@ -203,6 +188,19 @@ pxJsonWriteMessage(PxJsonWriter* self, PxArena* arena, PxJsonMsg message)
     pxWriterFlush(self->writer);
 
     return 1;
+}
+
+pxiword
+pxJsonWriteList(PxJsonWriter* self, PxArena* arena, pxiword start, pxiword stop, PxJsonMsg* list)
+{
+    if (start >= stop) return 0;
+
+    for (pxiword i = start; i < stop; i += 1) {
+        if (pxJsonWriteMsg(self, arena, list[i]) == 0)
+            return i - start;
+    }
+
+    return stop - start;
 }
 
 #endif // PX_ENCODING_JSON_WRITER_C

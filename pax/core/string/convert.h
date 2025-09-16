@@ -20,6 +20,9 @@ PxString8
 pxString8CopyString32(PxArena* arena, PxString32 value);
 
 pxiword
+pxMemory8WriteUnicode(pxu8* memory, pxiword length, pxi32 value);
+
+pxiword
 pxMemory8WriteString8(pxu8* memory, pxiword length, PxString8 value);
 
 pxiword
@@ -43,6 +46,9 @@ PxString16
 pxString16CopyString32(PxArena* arena, PxString32 value);
 
 pxiword
+pxMemory16WriteUnicode(pxu16* memory, pxiword length, pxi32 value);
+
+pxiword
 pxMemory16WriteString8(pxu16* memory, pxiword length, PxString8 value);
 
 pxiword
@@ -64,6 +70,9 @@ pxString32CopyMemory16(PxArena* arena, pxu16* memory, pxiword length);
 
 PxString32
 pxString32CopyString16(PxArena* arena, PxString16 value);
+
+pxiword
+pxMemory32WriteUnicode(pxu32* memory, pxiword length, pxi32 value);
 
 pxiword
 pxMemory32WriteString8(pxu32* memory, pxiword length, PxString8 value);

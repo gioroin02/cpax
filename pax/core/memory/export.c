@@ -1,8 +1,6 @@
 #ifndef PX_CORE_MEMORY_EXPORT_C
 #define PX_CORE_MEMORY_EXPORT_C
 
-#include "import.c"
-
 #include "arena.c"
 #include "order.c"
 

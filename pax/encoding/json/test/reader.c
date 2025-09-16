@@ -32,10 +32,10 @@ Entity;
 void
 jsonReadEntity(Entity* self, PxJsonReader* reader, PxArena* arena)
 {
-    if (pxJsonExpectMessage(reader, arena, PX_JSON_MSG_OBJECT_OPEN) == 0)
+    if (pxJsonExpectMsg(reader, arena, PX_JSON_MSG_OBJECT_OPEN) == 0)
         return;
 
-    PxJsonMsg message = pxJsonReadMessage(reader, arena);
+    PxJsonMsg message = pxJsonReadMsg(reader, arena);
 
     while (message.type != PX_JSON_MSG_OBJECT_CLOSE) {
         switch (message.type) {
@@ -52,7 +52,7 @@ jsonReadEntity(Entity* self, PxJsonReader* reader, PxArena* arena)
             default: break;
         }
 
-        message = pxJsonReadMessage(reader, arena);
+        message = pxJsonReadMsg(reader, arena);
     }
 }
 

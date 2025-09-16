@@ -18,7 +18,7 @@ pxJsonReaderMake(PxArena* arena, pxiword length, PxReader* reader)
 }
 
 PxJsonMsg
-pxJsonReadMessage(PxJsonReader* self, PxArena* arena)
+pxJsonReadMsg(PxJsonReader* self, PxArena* arena)
 {
     PxJsonMsg       result = pxJsonMsgCount();
     PxJsonLayerType parent = PX_JSON_LAYER_NONE;
@@ -165,9 +165,9 @@ pxJsonReadMessage(PxJsonReader* self, PxArena* arena)
 }
 
 pxb8
-pxJsonExpectMessage(PxJsonReader* self, PxArena* arena, PxJsonMsgType type)
+pxJsonExpectMsg(PxJsonReader* self, PxArena* arena, PxJsonMsgType type)
 {
-    PxJsonMsg result = pxJsonReadMessage(self, arena);
+    PxJsonMsg result = pxJsonReadMsg(self, arena);
 
     if (result.type != type)
         return 0;

@@ -2,11 +2,17 @@ echo off
 
 call cmd\clean.bat
 
+set "base=pax\core\base\export.c"
+set "memory=pax\core\memory\export.c"
+set "string=pax\core\string\export.c"
+set "format=pax\core\format\export.c"
+set "stream=pax\core\stream\export.c"
+
 set "network=pax\core\network\export.c"
 
 set "winsock=-lws2_32"
 
-set "src=%network%"
+set "src=%base% %memory% %string% %format% %stream% %network%"
 set "lib=%winsock%"
 set "dir=pax\core\network\test"
 

@@ -23,8 +23,7 @@ pxBuffer8WriteMemory16Head(PxBuffer8* self, pxu16* memory, pxiword length)
         PxUtf8 utf8    = {0};
         pxi32  unicode = 0;
 
-        other += pxUtf16ReadMemory16Forw(
-            memory, length, other, &unicode);
+        other += pxUtf16ReadForw(memory, length, other, &unicode);
 
         pxUtf8Encode(&utf8, unicode);
 
@@ -61,8 +60,7 @@ pxBuffer8WriteMemory32Head(PxBuffer8* self, pxu32* memory, pxiword length)
         PxUtf8 utf8    = {0};
         pxi32  unicode = 0;
 
-        other += pxUtf32ReadMemory32Forw(
-            memory, length, other, &unicode);
+        other += pxUtf32ReadForw(memory, length, other, &unicode);
 
         pxUtf8Encode(&utf8, unicode);
 
@@ -114,8 +112,7 @@ pxBuffer8WriteMemory16Tail(PxBuffer8* self, pxu16* memory, pxiword length)
         PxUtf8 utf8    = {0};
         pxi32  unicode = 0;
 
-        other += pxUtf16ReadMemory16Forw(
-            memory, length, other, &unicode);
+        other += pxUtf16ReadForw(memory, length, other, &unicode);
 
         pxUtf8Encode(&utf8, unicode);
 
@@ -152,8 +149,7 @@ pxBuffer8WriteMemory32Tail(PxBuffer8* self, pxu32* memory, pxiword length)
         PxUtf8 utf8    = {0};
         pxi32  unicode = 0;
 
-        other += pxUtf32ReadMemory32Forw(
-            memory, length, other, &unicode);
+        other += pxUtf32ReadForw(memory, length, other, &unicode);
 
         pxUtf8Encode(&utf8, unicode);
 

@@ -1,8 +1,6 @@
 #ifndef PX_CORE_STRING_EXPORT_C
 #define PX_CORE_STRING_EXPORT_C
 
-#include "import.c"
-
 #include "unicode.c"
 
 #include "string8.c"

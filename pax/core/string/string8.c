@@ -38,7 +38,7 @@ pxString8CopyUnicode(PxArena* arena, pxi32 value)
     if (result == 0 || length <= 0)
         return (PxString8) {0};
 
-    pxUtf8WriteMemory8Forw(result, length, 0, value);
+    pxUtf8WriteForw(result, length, 0, value);
 
     return pxString8Make(result, length);
 }
@@ -246,7 +246,7 @@ pxString8TrimSpaces(PxString8 self)
     for (; start < stop; start += units) {
         pxi32 unicode = 0;
 
-        units = pxUtf8ReadMemory8Forw(self.memory,
+        units = pxUtf8ReadForw(self.memory,
             self.length, start, &unicode);
 
         if (units <= 0) return (PxString8) {0};
@@ -258,7 +258,7 @@ pxString8TrimSpaces(PxString8 self)
     for (; start < stop; stop -= units) {
         pxi32 unicode = 0;
 
-        units = pxUtf8ReadMemory8Back(self.memory,
+        units = pxUtf8ReadBack(self.memory,
             self.length, stop - 1, &unicode);
 
         if (units <= 0) return (PxString8) {0};
@@ -280,7 +280,7 @@ pxString8TrimSpacesHead(PxString8 self)
     for (; start < stop; start += units) {
         pxi32 unicode = 0;
 
-        units = pxUtf8ReadMemory8Forw(self.memory,
+        units = pxUtf8ReadForw(self.memory,
             self.length, start, &unicode);
 
         if (units <= 0) return (PxString8) {0};
@@ -302,7 +302,7 @@ pxString8TrimSpacesTail(PxString8 self)
     for (; start < stop; stop -= units) {
         pxi32 unicode = 0;
 
-        units = pxUtf8ReadMemory8Back(self.memory,
+        units = pxUtf8ReadBack(self.memory,
             self.length, stop - 1, &unicode);
 
         if (units <= 0) return (PxString8) {0};
@@ -432,7 +432,7 @@ pxString8Next(PxString8 self, pxiword index, pxiword* units, pxi32* value)
     if (index < 0 || index >= self.length)
         return 0;
 
-    pxiword step = pxUtf8ReadMemory8Forw(self.memory,
+    pxiword step = pxUtf8ReadForw(self.memory,
         self.length, index, value);
 
     if (step == 0) return 0;
@@ -448,7 +448,7 @@ pxString8Prev(PxString8 self, pxiword index, pxiword* units, pxi32* value)
     if (index < 0 || index >= self.length)
         return 0;
 
-    pxiword step = pxUtf8ReadMemory8Back(self.memory,
+    pxiword step = pxUtf8ReadBack(self.memory,
         self.length, index, value);
 
     if (step == 0) return 0;

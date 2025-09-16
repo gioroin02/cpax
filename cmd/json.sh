@@ -1,6 +1,13 @@
+base="pax/core/base/export.c"
+memory="pax/core/memory/export.c"
+string="pax/core/string/export.c"
+format="pax/core/format/export.c"
+stream="pax/core/stream/export.c"
+structure="pax/core/structure/export.c"
+
 json="pax/encoding/json/export.c"
 
-src="$json"
+src="$base $memory $string $format $stream $structure $json"
 dir="pax/encoding/json/test"
 
 zig cc --std=c99 $src $dir/token.c  -o json_token.exe

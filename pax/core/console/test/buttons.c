@@ -15,7 +15,7 @@ main(int argc, char** argv)
     pxb8 active = 1;
 
     while (active != 0) {
-        PxConsoleMsg message = pxConsoleReadMessage(&reader);
+        PxConsoleMsg message = pxConsoleReadMsg(&reader, &arena);
 
         switch (message.type) {
             case PX_CONSOLE_MSG_NONE: printf("none\r\n"); break;

@@ -6,7 +6,7 @@
 #define pxs8(x) \
     (PxString8) {pxas(pxu8*, x), pxarraylen(pxu8, x) - 1}
 
-#define pxStringVargs8(x, ...) \
+#define pxString8Vargs(x, ...) \
     (PxString8) {pxvargs(pxu8, x, __VA_ARGS__), pxvargslen(pxu8, x, __VA_ARGS__)}
 
 typedef struct PxString8

@@ -35,7 +35,7 @@ jsonWriteEntity(Entity* self, PxJsonWriter* writer, PxArena* arena)
         pxJsonMsgObjectClose(),
     };
 
-    pxJsonWriteChain(writer, arena,
+    pxJsonWriteList(writer, arena,
         0, pxarraylen(PxJsonMsg, list), list);
 }
 
@@ -45,7 +45,7 @@ showJsonMsg(PxJsonReader* reader, PxArena* arena)
     PxJsonMsg message = pxJsonMsgNone();
 
     while (message.type != PX_JSON_MSG_COUNT) {
-        message = pxJsonReadMessage(reader, arena);
+        message = pxJsonReadMsg(reader, arena);
 
         if (message.type == PX_JSON_MSG_COUNT) break;
 

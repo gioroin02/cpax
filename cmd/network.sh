@@ -1,6 +1,12 @@
+base="pax/core/base/export.c"
+memory="pax/core/memory/export.c"
+string="pax/core/string/export.c"
+format="pax/core/format/export.c"
+stream="pax/core/stream/export.c"
+
 network="pax/core/network/export.c"
 
-src="$network"
+src="$base $memory $string $format $stream $network"
 dir="pax/core/network/test"
 
 gcc -g --std=c99 $network $dir/address_ip4.c -o network_address_ip4.exe

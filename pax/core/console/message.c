@@ -7,15 +7,15 @@
 
     #include "../../windows/console/message.c"
 
-    #define __pxConsoleReadMessage__ pxWindowsConsoleReadMessage
-    #define __pxConsolePollMessage__ pxWindowsConsolePollMessage
+    #define __pxConsoleReadMsg__ pxWindowsConsoleReadMsg
+    #define __pxConsolePollMsg__ pxWindowsConsolePollMsg
 
 #elif PX_SYSTEM == PX_SYSTEM_LINUX
 
     #include "../../linux/console/message.c"
 
-    #define __pxConsoleReadMessage__ pxLinuxConsoleReadMessage
-    #define __pxConsolePollMessage__ pxLinuxConsolePollMessage
+    #define __pxConsoleReadMsg__ pxLinuxConsoleReadMsg
+    #define __pxConsolePollMsg__ pxLinuxConsolePollMsg
 
 #else
 
@@ -52,15 +52,15 @@ pxConsoleMsgKeybdRelease(pxiword button, pxuword modifs, pxi32 unicode)
 }
 
 PxConsoleMsg
-pxConsoleReadMessage(PxReader* self)
+pxConsoleReadMsg(PxReader* self, PxArena* arena)
 {
-    return __pxConsoleReadMessage__(self);
+    return __pxConsoleReadMsg__(self, arena);
 }
 
 PxConsoleMsg
-pxConsolePollMessage(PxReader* self)
+pxConsolePollMsg(PxReader* self, PxArena* arena)
 {
-    return __pxConsolePollMessage__(self);
+    return __pxConsolePollMsg__(self, arena);
 }
 
 #endif // PX_CORE_CONSOLE_MESSAGE_C

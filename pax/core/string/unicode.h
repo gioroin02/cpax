@@ -216,19 +216,19 @@ pxb8
 pxUtf8Encode(PxUtf8* self, pxi32 value);
 
 pxiword
-pxUtf8WriteMemory8Forw(pxu8* memory, pxiword length, pxiword index, pxi32 value);
+pxUtf8WriteForw(pxu8* memory, pxiword length, pxiword index, pxi32 value);
 
 pxiword
-pxUtf8WriteMemory8Back(pxu8* memory, pxiword length, pxiword index, pxi32 value);
+pxUtf8WriteBack(pxu8* memory, pxiword length, pxiword index, pxi32 value);
 
 pxb8
 pxUtf8Decode(PxUtf8* self, pxi32* value);
 
 pxiword
-pxUtf8ReadMemory8Forw(pxu8* memory, pxiword length, pxiword index, pxi32* value);
+pxUtf8ReadForw(pxu8* memory, pxiword length, pxiword index, pxi32* value);
 
 pxiword
-pxUtf8ReadMemory8Back(pxu8* memory, pxiword length, pxiword index, pxi32* value);
+pxUtf8ReadBack(pxu8* memory, pxiword length, pxiword index, pxi32* value);
 
 pxiword
 pxUtf8UnitsToWrite(pxi32 value);
@@ -254,19 +254,19 @@ pxb8
 pxUtf16Encode(PxUtf16* self, pxi32 value);
 
 pxiword
-pxUtf16WriteMemory16Forw(pxu16* memory, pxiword length, pxiword index, pxi32 value);
+pxUtf16WriteForw(pxu16* memory, pxiword length, pxiword index, pxi32 value);
 
 pxiword
-pxUtf16WriteMemory16Back(pxu16* memory, pxiword length, pxiword index, pxi32 value);
+pxUtf16WriteBack(pxu16* memory, pxiword length, pxiword index, pxi32 value);
 
 pxb8
 pxUtf16Decode(PxUtf16* self, pxi32* value);
 
 pxiword
-pxUtf16ReadMemory16Forw(pxu16* memory, pxiword length, pxiword index, pxi32* value);
+pxUtf16ReadForw(pxu16* memory, pxiword length, pxiword index, pxi32* value);
 
 pxiword
-pxUtf16ReadMemory16Back(pxu16* memory, pxiword length, pxiword index, pxi32* value);
+pxUtf16ReadBack(pxu16* memory, pxiword length, pxiword index, pxi32* value);
 
 pxiword
 pxUtf16UnitsToWrite(pxi32 value);
@@ -286,19 +286,19 @@ pxb8
 pxUtf32Encode(PxUtf32* self, pxi32 value);
 
 pxiword
-pxUtf32WriteMemory32Forw(pxu32* memory, pxiword length, pxiword index, pxi32 value);
+pxUtf32WriteForw(pxu32* memory, pxiword length, pxiword index, pxi32 value);
 
 pxiword
-pxUtf32WriteMemory32Back(pxu32* memory, pxiword length, pxiword index, pxi32 value);
+pxUtf32WriteBack(pxu32* memory, pxiword length, pxiword index, pxi32 value);
 
 pxb8
 pxUtf32Decode(PxUtf32* self, pxi32* value);
 
 pxiword
-pxUtf32ReadMemory32Forw(pxu32* memory, pxiword length, pxiword index, pxi32* value);
+pxUtf32ReadForw(pxu32* memory, pxiword length, pxiword index, pxi32* value);
 
 pxiword
-pxUtf32ReadMemory32Back(pxu32* memory, pxiword length, pxiword index, pxi32* value);
+pxUtf32ReadBack(pxu32* memory, pxiword length, pxiword index, pxi32* value);
 
 pxiword
 pxUtf32UnitsToWrite(pxi32 value);

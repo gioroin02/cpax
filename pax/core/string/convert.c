@@ -19,11 +19,8 @@ pxString8CopyMemory16(PxArena* arena, pxu16* memory, pxiword length)
     while (other < length) {
         pxi32 unicode = 0;
 
-        other += pxUtf16ReadMemory16Forw(
-            memory, length, other, &unicode);
-
-        index += pxUtf8WriteMemory8Forw(
-            result, size, index, unicode);
+        other += pxUtf16ReadForw(memory, length, other, &unicode);
+        index += pxUtf8WriteForw(result, size, index, unicode);
     }
 
     return pxString8Make(result, size);
@@ -51,11 +48,8 @@ pxString8CopyMemory32(PxArena* arena, pxu32* memory, pxiword length)
     while (other < length) {
         pxi32 unicode = 0;
 
-        other += pxUtf32ReadMemory32Forw(
-            memory, length, other, &unicode);
-
-        index += pxUtf8WriteMemory8Forw(
-            result, size, index, unicode);
+        other += pxUtf32ReadForw(memory, length, other, &unicode);
+        index += pxUtf8WriteForw(result, size, index, unicode);
     }
 
     return pxString8Make(result, size);
@@ -65,6 +59,12 @@ PxString8
 pxString8CopyString32(PxArena* arena, PxString32 value)
 {
     return pxString8CopyMemory32(arena, value.memory, value.length);
+}
+
+pxiword
+pxMemory8WriteUnicode(pxu8* memory, pxiword length, pxi32 value)
+{
+    return pxUtf8WriteForw(memory, length, 0, value);
 }
 
 pxiword
@@ -93,11 +93,10 @@ pxMemory8WriteString16(pxu8* memory, pxiword length, PxString16 value)
     while (other < value.length) {
         pxi32 unicode = 0;
 
-        index += pxUtf16ReadMemory16Forw(
-            value.memory, value.length, index, &unicode);
+        index += pxUtf16ReadForw(value.memory, value.length,
+            index, &unicode);
 
-        other += pxUtf8WriteMemory8Forw(
-            memory, length, other, unicode);
+        other += pxUtf8WriteForw(memory, length, other, unicode);
     }
 
     return size;
@@ -117,11 +116,10 @@ pxMemory8WriteString32(pxu8* memory, pxiword length, PxString32 value)
     while (other < value.length) {
         pxi32 unicode = 0;
 
-        index += pxUtf32ReadMemory32Forw(
-            value.memory, value.length, index, &unicode);
+        index += pxUtf32ReadForw(value.memory, value.length,
+            index, &unicode);
 
-        other += pxUtf8WriteMemory8Forw(
-            memory, length, other, unicode);
+        other += pxUtf8WriteForw(memory, length, other, unicode);
     }
 
     return size;
@@ -143,11 +141,8 @@ pxString16CopyMemory8(PxArena* arena, pxu8* memory, pxiword length)
     while (other < length) {
         pxi32 unicode = 0;
 
-        other += pxUtf8ReadMemory8Forw(
-            memory, length, other, &unicode);
-
-        index += pxUtf16WriteMemory16Forw(
-            result, size, index, unicode);
+        other += pxUtf8ReadForw(memory, length, other, &unicode);
+        index += pxUtf16WriteForw(result, size, index, unicode);
     }
 
     return pxString16Make(result, size);
@@ -175,11 +170,8 @@ pxString16CopyMemory32(PxArena* arena, pxu32* memory, pxiword length)
     while (other < length) {
         pxi32 unicode = 0;
 
-        other += pxUtf32ReadMemory32Forw(
-            memory, length, other, &unicode);
-
-        index += pxUtf16WriteMemory16Forw(
-            result, size, index, unicode);
+        other += pxUtf32ReadForw(memory, length, other, &unicode);
+        index += pxUtf16WriteForw(result, size, index, unicode);
     }
 
     return pxString16Make(result, size);
@@ -189,6 +181,12 @@ PxString16
 pxString16CopyString32(PxArena* arena, PxString32 value)
 {
     return pxString16CopyMemory32(arena, value.memory, value.length);
+}
+
+pxiword
+pxMemory16WriteUnicode(pxu16* memory, pxiword length, pxi32 value)
+{
+    return pxUtf16WriteForw(memory, length, 0, value);
 }
 
 pxiword
@@ -205,11 +203,10 @@ pxMemory16WriteString8(pxu16* memory, pxiword length, PxString8 value)
     while (other < value.length) {
         pxi32 unicode = 0;
 
-        index += pxUtf8ReadMemory8Forw(
-            value.memory, value.length, index, &unicode);
+        index += pxUtf8ReadForw(value.memory, value.length,
+            index, &unicode);
 
-        other += pxUtf16WriteMemory16Forw(
-            memory, length, other, unicode);
+        other += pxUtf16WriteForw(memory, length, other, unicode);
     }
 
     return size;
@@ -241,11 +238,10 @@ pxMemory16WriteString32(pxu16* memory, pxiword length, PxString32 value)
     while (other < value.length) {
         pxi32 unicode = 0;
 
-        index += pxUtf32ReadMemory32Forw(
-            value.memory, value.length, index, &unicode);
+        index += pxUtf32ReadForw(value.memory, value.length,
+            index, &unicode);
 
-        other += pxUtf16WriteMemory16Forw(
-            memory, length, other, unicode);
+        other += pxUtf16WriteForw(memory, length, other, unicode);
     }
 
     return size;
@@ -267,11 +263,8 @@ pxString32CopyMemory8(PxArena* arena, pxu8* memory, pxiword length)
     while (other < length) {
         pxi32 unicode = 0;
 
-        other += pxUtf8ReadMemory8Forw(
-            memory, length, other, &unicode);
-
-        index += pxUtf32WriteMemory32Forw(
-            result, size, index, unicode);
+        other += pxUtf8ReadForw(memory, length, other, &unicode);
+        index += pxUtf32WriteForw(result, size, index, unicode);
     }
 
     return pxString32Make(result, size);
@@ -299,11 +292,8 @@ pxString32CopyMemory16(PxArena* arena, pxu16* memory, pxiword length)
     while (other < length) {
         pxi32 unicode = 0;
 
-        other += pxUtf16ReadMemory16Forw(
-            memory, length, other, &unicode);
-
-        index += pxUtf32WriteMemory32Forw(
-            result, size, index, unicode);
+        other += pxUtf16ReadForw(memory, length, other, &unicode);
+        index += pxUtf32WriteForw(result, size, index, unicode);
     }
 
     return pxString32Make(result, size);
@@ -313,6 +303,12 @@ PxString32
 pxString32CopyString16(PxArena* arena, PxString16 value)
 {
     return pxString32CopyMemory16(arena, value.memory, value.length);
+}
+
+pxiword
+pxMemory32WriteUnicode(pxu32* memory, pxiword length, pxi32 value)
+{
+    return pxUtf32WriteForw(memory, length, 0, value);
 }
 
 pxiword
@@ -329,11 +325,10 @@ pxMemory32WriteString8(pxu32* memory, pxiword length, PxString8 value)
     while (other < value.length) {
         pxi32 unicode = 0;
 
-        index += pxUtf8ReadMemory8Forw(
-            value.memory, value.length, index, &unicode);
+        index += pxUtf8ReadForw(value.memory, value.length,
+            index, &unicode);
 
-        other += pxUtf32WriteMemory32Forw(
-            memory, length, other, unicode);
+        other += pxUtf32WriteForw(memory, length, other, unicode);
     }
 
     return size;
@@ -353,11 +348,10 @@ pxMemory32WriteString16(pxu32* memory, pxiword length, PxString16 value)
     while (other < value.length) {
         pxi32 unicode = 0;
 
-        index += pxUtf16ReadMemory16Forw(
-            value.memory, value.length, index, &unicode);
+        index += pxUtf16ReadForw(value.memory, value.length,
+            index, &unicode);
 
-        other += pxUtf32WriteMemory32Forw(
-            memory, length, other, unicode);
+        other += pxUtf32WriteForw(memory, length, other, unicode);
     }
 
     return size;

@@ -7,13 +7,13 @@
 
     #include "../../windows/console/command.c"
 
-    #define __pxConsoleWriteCommand__ pxWindowsConsoleWriteCommand
+    #define __pxConsoleWriteCmd__ pxWindowsConsoleWriteCmd
 
 #elif PX_SYSTEM == PX_SYSTEM_LINUX
 
     #include "../../linux/console/command.c"
 
-    #define __pxConsoleWriteCommand__ pxLinuxConsoleWriteCommand
+    #define __pxConsoleWriteCmd__ pxLinuxConsoleWriteCmd
 
 #else
 
@@ -203,9 +203,16 @@ pxConsoleCmdReset()
 }
 
 void
-pxConsoleWriteCommand(PxWriter* self, PxConsoleCmd value)
+pxConsoleWriteCmd(PxWriter* self, PxArena* arena, PxConsoleCmd value)
 {
-    __pxConsoleWriteCommand__(self, value);
+    __pxConsoleWriteCmd__(self, arena, value);
+}
+
+void
+pxConsoleWriteList(PxWriter* self, PxArena* arena, pxiword start, pxiword stop, PxConsoleCmd* list)
+{
+    for (pxiword i = start; i < stop; i += 1)
+        pxConsoleWriteCmd(self, arena, list[i]);
 }
 
 #endif // PX_CORE_CONSOLE_COMMAND_C

@@ -41,6 +41,22 @@ pxWriterByte(PxWriter* self, pxu8 value)
 }
 
 pxiword
+pxWriterMemory(PxWriter* self, void* memory, pxiword amount, pxiword stride)
+{
+    pxiword length = amount * stride;
+    pxiword temp   = 0;
+
+    for (pxiword i = 0; i < length; i += temp) {
+        temp = pxBuffer8WriteMemory8Tail(&self->buffer,
+            pxas(pxu8*, memory) + i, length - i);
+
+        if (temp == 0) pxWriterFlush(self);
+    }
+
+    return length;
+}
+
+pxiword
 pxWriterUnicode(PxWriter* self, PxArena* arena, pxi32 value)
 {
     pxiword offset = pxArenaOffset(arena);
@@ -107,8 +123,8 @@ pxWriterBuffer8(PxWriter* self, PxBuffer8* value)
     pxiword temp   = 0;
 
     for (pxiword i = 0; i < length; i += temp) {
-        temp =
-            pxBuffer8WriteTail(&self->buffer, value);
+        temp = pxBuffer8WriteTail(
+            &self->buffer, value);
 
         if (temp == 0) pxWriterFlush(self);
     }
@@ -117,14 +133,40 @@ pxWriterBuffer8(PxWriter* self, PxBuffer8* value)
 }
 
 pxiword
-pxWriterMemory(PxWriter* self, void* memory, pxiword amount, pxiword stride)
+pxWriterBuffer16(PxWriter* self, PxBuffer16* value)
 {
-    pxiword length = amount * stride;
+    pxiword length = value->size;
     pxiword temp   = 0;
 
+    pxBuffer16Normalize(value);
+
     for (pxiword i = 0; i < length; i += temp) {
-        temp = pxBuffer8WriteMemory8Tail(&self->buffer,
-            pxas(pxu8*, memory) + i, length - i);
+        temp = pxBuffer8WriteMemory16Tail(&self->buffer,
+            value->memory + value->head, value->size);
+
+        value->size -= temp;
+        value->head  = (value->head + temp) % value->length;
+
+        if (temp == 0) pxWriterFlush(self);
+    }
+
+    return length;
+}
+
+pxiword
+pxWriterBuffer32(PxWriter* self, PxBuffer32* value)
+{
+    pxiword length = value->size;
+    pxiword temp   = 0;
+
+    pxBuffer32Normalize(value);
+
+    for (pxiword i = 0; i < length; i += temp) {
+        temp = pxBuffer8WriteMemory32Tail(&self->buffer,
+            value->memory + value->head, value->size);
+
+        value->size -= temp;
+        value->head  = (value->head + temp) % value->length;
 
         if (temp == 0) pxWriterFlush(self);
     }

@@ -7,35 +7,35 @@
 
     #include "../../windows/network/socket_udp.c"
 
-    #define __pxSocketUdpCreate__          pxWindowsSocketUdpCreate
-    #define __pxSocketUdpDestroy__         pxWindowsSocketUdpDestroy
-    #define __pxSocketUdpGetAddress__      pxWindowsSocketUdpGetAddress
-    #define __pxSocketUdpGetPort__         pxWindowsSocketUdpGetPort
-    #define __pxSocketUdpBind__            pxWindowsSocketUdpBind
-    #define __pxSocketUdpListen__          pxWindowsSocketUdpListen
-    #define __pxSocketUdpConnect__         pxWindowsSocketUdpConnect
-    #define __pxSocketUdpAccept__          pxWindowsSocketUdpAccept
-    #define __pxSocketUdpWriteMemory__     pxWindowsSocketUdpWriteMemory
-    #define __pxSocketUdpWriteHostMemory__ pxWindowsSocketUdpWriteHostMemory
-    #define __pxSocketUdpReadMemory__      pxWindowsSocketUdpReadMemory
-    #define __pxSocketUdpReadHostMemory__  pxWindowsSocketUdpReadHostMemory
+    #define __pxSocketUdpCreate__           pxWindowsSocketUdpCreate
+    #define __pxSocketUdpDestroy__          pxWindowsSocketUdpDestroy
+    #define __pxSocketUdpGetAddress__       pxWindowsSocketUdpGetAddress
+    #define __pxSocketUdpGetPort__          pxWindowsSocketUdpGetPort
+    #define __pxSocketUdpBind__             pxWindowsSocketUdpBind
+    #define __pxSocketUdpListen__           pxWindowsSocketUdpListen
+    #define __pxSocketUdpConnect__          pxWindowsSocketUdpConnect
+    #define __pxSocketUdpAccept__           pxWindowsSocketUdpAccept
+    #define __pxSocketUdpWriteMemory8__     pxWindowsSocketUdpWriteMemory8
+    #define __pxSocketUdpWriteHostMemory8__ pxWindowsSocketUdpWriteHostMemory8
+    #define __pxSocketUdpReadMemory8__      pxWindowsSocketUdpReadMemory8
+    #define __pxSocketUdpReadHostMemory8__  pxWindowsSocketUdpReadHostMemory8
 
 #elif PX_SYSTEM == PX_SYSTEM_LINUX
 
     #include "../../linux/network/socket_udp.c"
 
-    #define __pxSocketUdpCreate__          pxLinuxSocketUdpCreate
-    #define __pxSocketUdpDestroy__         pxLinuxSocketUdpDestroy
-    #define __pxSocketUdpGetAddress__      pxLinuxSocketUdpGetAddress
-    #define __pxSocketUdpGetPort__         pxLinuxSocketUdpGetPort
-    #define __pxSocketUdpBind__            pxLinuxSocketUdpBind
-    #define __pxSocketUdpListen__          pxLinuxSocketUdpListen
-    #define __pxSocketUdpConnect__         pxLinuxSocketUdpConnect
-    #define __pxSocketUdpAccept__          pxLinuxSocketUdpAccept
-    #define __pxSocketUdpWriteMemory__     pxLinuxSocketUdpWriteMemory
-    #define __pxSocketUdpWriteHostMemory__ pxLinuxSocketUdpWriteHostMemory
-    #define __pxSocketUdpReadMemory__      pxLinuxSocketUdpReadMemory
-    #define __pxSocketUdpReadHostMemory__  pxLinuxSocketUdpReadHostMemory
+    #define __pxSocketUdpCreate__           pxLinuxSocketUdpCreate
+    #define __pxSocketUdpDestroy__          pxLinuxSocketUdpDestroy
+    #define __pxSocketUdpGetAddress__       pxLinuxSocketUdpGetAddress
+    #define __pxSocketUdpGetPort__          pxLinuxSocketUdpGetPort
+    #define __pxSocketUdpBind__             pxLinuxSocketUdpBind
+    #define __pxSocketUdpListen__           pxLinuxSocketUdpListen
+    #define __pxSocketUdpConnect__          pxLinuxSocketUdpConnect
+    #define __pxSocketUdpAccept__           pxLinuxSocketUdpAccept
+    #define __pxSocketUdpWriteMemory8__     pxLinuxSocketUdpWriteMemory8
+    #define __pxSocketUdpWriteHostMemory8__ pxLinuxSocketUdpWriteHostMemory8
+    #define __pxSocketUdpReadMemory8__      pxLinuxSocketUdpReadMemory8
+    #define __pxSocketUdpReadHostMemory8__  pxLinuxSocketUdpReadHostMemory8
 
 #else
 
@@ -92,131 +92,51 @@ pxSocketUdpAccept(PxSocketUdp self, PxArena* arena)
 }
 
 pxiword
-pxSocketUdpWrite(PxSocketUdp self, PxBuffer8* buffer)
+pxSocketUdpWriteMemory8(PxSocketUdp self, pxu8* memory, pxiword length)
 {
-    pxBuffer8Normalize(buffer);
-
-    pxu8*   memory = buffer->memory;
-    pxiword size   = buffer->size;
-
-    if (size <= 0) return 0;
-
-    pxiword temp = pxSocketUdpWriteMemory(self, memory, size, 1);
-
-    buffer->size -= temp;
-    buffer->head  = (buffer->head + temp) % buffer->length;
-
-    return temp;
+    return __pxSocketUdpWriteMemory8__(self, memory, length);
 }
 
 pxiword
-pxSocketUdpWriteMemory(PxSocketUdp self, void* memory, pxiword amount, pxiword stride)
+pxSocketUdpWriteHostMemory8(PxSocketUdp self, pxu8* memory, pxiword length, PxAddress address, pxu16 port)
 {
-    return __pxSocketUdpWriteMemory__(self, memory, amount, stride);
+    return __pxSocketUdpWriteHostMemory8__(self, memory, length, address, port);
 }
 
 pxiword
-pxSocketUdpWriteHost(PxSocketUdp self, PxBuffer8* buffer, PxAddress address, pxu16 port)
+pxSocketUdpReadMemory8(PxSocketUdp self, pxu8* memory, pxiword length)
 {
-    pxBuffer8Normalize(buffer);
-
-    pxu8*   memory = buffer->memory;
-    pxiword size   = buffer->size;
-
-    if (size <= 0) return 0;
-
-    pxiword temp = pxSocketUdpWriteHostMemory(self, memory, size, 1, address, port);
-
-    buffer->size -= temp;
-    buffer->head  = (buffer->head + temp) % buffer->length;
-
-    return temp;
+    return __pxSocketUdpReadMemory8__(self, memory, length);
 }
 
 pxiword
-pxSocketUdpWriteHostMemory(PxSocketUdp self, void* memory, pxiword amount, pxiword stride, PxAddress address, pxu16 port)
+pxSocketUdpReadHostMemory8(PxSocketUdp self, pxu8* memory, pxiword length, PxAddress* address, pxu16* port)
 {
-    return __pxSocketUdpWriteHostMemory__(self, memory, amount, stride, address, port);
+    return __pxSocketUdpReadHostMemory8__(self, memory, length, address, port);
 }
 
-pxiword
-pxSocketUdpRead(PxSocketUdp self, PxBuffer8* buffer)
+PxInput
+pxInputFromSocketUdp(PxSocketUdp self)
 {
-    pxBuffer8Normalize(buffer);
+    PxInput result = {0};
 
-    pxu8*   memory = buffer->memory + buffer->size;
-    pxiword size   = buffer->length - buffer->size;
+    if (self == 0) return result;
 
-    if (size <= 0) return 0;
-
-    pxiword temp = pxSocketUdpReadMemory(self, memory, size, 1);
-
-    buffer->size += temp;
-    buffer->tail  = (buffer->tail + temp) % buffer->length;
-
-    return temp;
-}
-
-pxiword
-pxSocketUdpReadMemory(PxSocketUdp self, void* memory, pxiword amount, pxiword stride)
-{
-    return __pxSocketUdpReadMemory__(self, memory, amount, stride);
-}
-
-pxiword
-pxSocketUdpReadHost(PxSocketUdp self, PxBuffer8* buffer, PxAddress* address, pxu16* port)
-{
-    pxBuffer8Normalize(buffer);
-
-    pxu8*   memory = buffer->memory + buffer->size;
-    pxiword size   = buffer->length - buffer->size;
-
-    if (size <= 0) return 0;
-
-    pxiword temp = pxSocketUdpReadHostMemory(self, memory, size, 1, address, port);
-
-    buffer->size += temp;
-    buffer->tail  = (buffer->tail + temp) % buffer->length;
-
-    return temp;
-}
-
-pxiword
-pxSocketUdpReadHostMemory(PxSocketUdp self, void* memory, pxiword amount, pxiword stride, PxAddress* address, pxu16* port)
-{
-    return __pxSocketUdpReadHostMemory__(self, memory, amount, stride, address, port);
-}
-
-PxWriter
-pxSocketUdpWriter(PxSocketUdp self, PxArena* arena, pxiword length)
-{
-    PxWriter result = {0};
-
-    if (self == 0 || length <= 0) return result;
-
-    result.buffer = pxBuffer8Reserve(arena, length);
-
-    if (result.buffer.length > 0) {
-        result.ctxt = self;
-        result.proc = &pxSocketUdpWrite;
-    }
+    result.ctxt = self;
+    result.proc = &pxSocketUdpReadMemory8;
 
     return result;
 }
 
-PxReader
-pxSocketUdpReader(PxSocketUdp self, PxArena* arena, pxiword length)
+PxOutput
+pxOutputFromSocketUdp(PxSocketUdp self)
 {
-    PxReader result = {0};
+    PxOutput result = {0};
 
-    if (self == 0 || length <= 0) return result;
+    if (self == 0) return result;
 
-    result.buffer = pxBuffer8Reserve(arena, length);
-
-    if (result.buffer.length > 0) {
-        result.ctxt = self;
-        result.proc = &pxSocketUdpRead;
-    }
+    result.ctxt = self;
+    result.proc = &pxSocketUdpWriteMemory8;
 
     return result;
 }

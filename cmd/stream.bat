@@ -12,5 +12,4 @@ set "stream=pax\core\stream\export.c"
 set "src=%base% %memory% %string% %format% %stream%"
 set "dir=pax\core\stream\test"
 
-zig cc --std=c99 %src% "%dir%\reader.c"  -o stream_reader.exe
-zig cc --std=c99 %src% "%dir%\command.c" -o stream_command.exe
+zig cc --std=c99 %src% "%dir%\input.c" -o stream_input.exe

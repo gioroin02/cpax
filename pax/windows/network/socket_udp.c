@@ -279,10 +279,9 @@ pxWindowsSocketUdpAccept(PxWindowsSocketUdp* self, PxArena* arena)
 }
 
 pxiword
-pxWindowsSocketUdpWriteMemory(PxWindowsSocketUdp* self, void* memory, pxiword amount, pxiword stride)
+pxWindowsSocketUdpWriteMemory8(PxWindowsSocketUdp* self, pxu8* memory, pxiword length)
 {
-    pxiword length = amount * stride;
-    pxiword temp   = 0;
+    pxiword temp = 0;
 
     for (pxiword i = 0; i < length;) {
         char* mem = pxas(char*, memory + i);
@@ -300,7 +299,7 @@ pxWindowsSocketUdpWriteMemory(PxWindowsSocketUdp* self, void* memory, pxiword am
 }
 
 pxiword
-pxWindowsSocketUdpWriteHostMemory(PxWindowsSocketUdp* self, void* memory, pxiword amount, pxiword stride, PxAddress address, pxu16 port)
+pxWindowsSocketUdpWriteHostMemory8(PxWindowsSocketUdp* self, pxu8* memory, pxiword length, PxAddress address, pxu16 port)
 {
     PxSockData data = {0};
     pxiword    size = 0;
@@ -337,8 +336,7 @@ pxWindowsSocketUdpWriteHostMemory(PxWindowsSocketUdp* self, void* memory, pxiwor
         default: return 0;
     }
 
-    pxiword length = amount * stride;
-    pxiword temp   = 0;
+    pxiword temp = 0;
 
     for (pxiword i = 0; i < length;) {
         char* mem = pxas(char*, memory + i);
@@ -357,10 +355,9 @@ pxWindowsSocketUdpWriteHostMemory(PxWindowsSocketUdp* self, void* memory, pxiwor
 }
 
 pxiword
-pxWindowsSocketUdpReadMemory(PxWindowsSocketUdp* self, void* memory, pxiword amount, pxiword stride)
+pxWindowsSocketUdpReadMemory8(PxWindowsSocketUdp* self, pxu8* memory, pxiword length)
 {
-    pxiword length = amount * stride;
-    pxiword temp   = 0;
+    pxiword temp = 0;
 
     char* mem = pxas(char*, memory);
     int   len = pxas(int,   length);
@@ -374,13 +371,11 @@ pxWindowsSocketUdpReadMemory(PxWindowsSocketUdp* self, void* memory, pxiword amo
 }
 
 pxiword
-pxWindowsSocketUdpReadHostMemory(PxWindowsSocketUdp* self, void* memory, pxiword amount, pxiword stride, PxAddress* address, pxu16* port)
+pxWindowsSocketUdpReadHostMemory8(PxWindowsSocketUdp* self, pxu8* memory, pxiword length, PxAddress* address, pxu16* port)
 {
     PxSockData data = {0};
     pxiword    size = PX_SOCK_DATA_SIZE;
-
-    pxiword length = amount * stride;
-    pxiword temp   = 0;
+    pxiword    temp = 0;
 
     char* mem = pxas(char*, memory);
     int   len = pxas(int,   length);

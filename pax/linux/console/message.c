@@ -4,13 +4,13 @@
 #include "message.h"
 
 PxConsoleMsg
-pxLinuxConsoleReadMsg(PxReader* self, PxArena* arena)
+pxLinuxConsoleReadMsg(PxInput* self, PxArena* arena)
 {
     return (PxConsoleMsg) {.type = PX_CONSOLE_MSG_NONE};
 }
 
 PxConsoleMsg
-pxLinuxConsolePollMsg(PxReader* self, PxArena* arena)
+pxLinuxConsolePollMsg(PxInput* self, PxArena* arena)
 {
     return (PxConsoleMsg) {.type = PX_CONSOLE_MSG_NONE};
 }

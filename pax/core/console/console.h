@@ -21,21 +21,15 @@ pxb8
 pxConsoleSetMode(PxConsole self, PxConsoleMode mode);
 
 pxiword
-pxConsoleWrite(PxConsole self, PxBuffer8* buffer);
+pxConsoleWriteMemory8(PxConsole self, pxu8* memory, pxiword length);
 
 pxiword
-pxConsoleWriteMemory(PxConsole self, void* memory, pxiword amount, pxiword stride);
+pxConsoleReadMemory8(PxConsole self, pxu8* memory, pxiword length);
 
-pxiword
-pxConsoleRead(PxConsole self, PxBuffer8* buffer);
+PxInput
+pxInputFromConsole(PxConsole self);
 
-pxiword
-pxConsoleReadMemory(PxConsole self, void* memory, pxiword amount, pxiword stride);
-
-PxWriter
-pxConsoleWriter(PxConsole self, PxArena* arena, pxiword length);
-
-PxReader
-pxConsoleReader(PxConsole self, PxArena* arena, pxiword length);
+PxOutput
+pxOutputFromConsole(PxConsole self);
 
 #endif // PX_CORE_CONSOLE_CONSOLE_H

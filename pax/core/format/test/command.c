@@ -8,7 +8,7 @@ main(int argc, char** argv)
 {
     PxArena   arena  = pxMemoryReserve(32);
     PxBuffer8 buffer = pxBuffer8Reserve(&arena, 256);
-    PxWriter  writer = pxBufferWriter(&buffer, &arena, 256);
+    PxOutput  writer = pxBufferWriter(&buffer, &arena, 256);
 
     PxString8 string = {0};
     pxiword   size   = 0;

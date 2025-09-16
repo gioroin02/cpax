@@ -3,9 +3,7 @@
 
 #include "import.h"
 
-#include "reader.h"
-#include "writer.h"
-
-#include "command.h"
+#include "input.h"
+#include "output.h"
 
 #endif // PX_STREAM_EXPORT_H

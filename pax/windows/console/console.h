@@ -15,9 +15,9 @@ pxb8
 pxWindowsConsoleModeMessage(PxWindowsConsole* self);
 
 pxiword
-pxWindowsConsoleWriteMemory(PxWindowsConsole* self, void* memory, pxiword amount, pxiword stride);
+pxWindowsConsoleWriteMemory8(PxWindowsConsole* self, pxu8* memory, pxiword length);
 
 pxiword
-pxWindowsConsoleReadMemory(PxWindowsConsole* self, void* memory, pxiword amount, pxiword stride);
+pxWindowsConsoleReadMemory8(PxWindowsConsole* self, pxu8* memory, pxiword length);
 
 #endif // PX_WINDOWS_CONSOLE_CONSOLE_H

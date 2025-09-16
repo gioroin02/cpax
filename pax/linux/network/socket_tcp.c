@@ -290,10 +290,9 @@ pxLinuxSocketTcpAccept(PxLinuxSocketTcp* self, PxArena* arena)
 }
 
 pxiword
-pxLinuxSocketTcpWriteMemory(PxLinuxSocketTcp* self, void* memory, pxiword amount, pxiword stride)
+pxLinuxSocketTcpWriteMemory8(PxLinuxSocketTcp* self, pxu8* memory, pxiword length)
 {
-    pxiword length = amount * stride;
-    pxiword temp   = 0;
+    pxiword temp = 0;
 
     for (pxiword i = 0; i < length;) {
         char* mem = pxas(char*, memory + i);
@@ -313,10 +312,9 @@ pxLinuxSocketTcpWriteMemory(PxLinuxSocketTcp* self, void* memory, pxiword amount
 }
 
 pxiword
-pxLinuxSocketTcpReadMemory(PxLinuxSocketTcp* self, void* memory, pxiword amount, pxiword stride)
+pxLinuxSocketTcpReadMemory8(PxLinuxSocketTcp* self, pxu8* memory, pxiword length)
 {
-    pxiword length = amount * stride;
-    pxiword temp   = 0;
+    pxiword temp = 0;
 
     char* mem = pxas(char*, memory);
     int   len = pxas(int,   length);

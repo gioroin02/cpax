@@ -174,9 +174,9 @@ PxConsoleMsg
 pxConsoleMsgKeybdRelease(pxiword button, pxuword modifs, pxi32 unicode);
 
 PxConsoleMsg
-pxConsoleReadMsg(PxReader* reader, PxArena* arena);
+pxConsoleReadMsg(PxInput* reader, PxArena* arena);
 
 PxConsoleMsg
-pxConsolePollMsg(PxReader* reader, PxArena* arena);
+pxConsolePollMsg(PxInput* reader, PxArena* arena);
 
 #endif // PX_CORE_CONSOLE_MESSAGE_H

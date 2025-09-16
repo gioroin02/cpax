@@ -30,9 +30,9 @@ PxLinuxSocketTcp*
 pxLinuxSocketTcpAccept(PxLinuxSocketTcp* self, PxArena* arena);
 
 pxiword
-pxLinuxSocketTcpWriteMemory(PxLinuxSocketTcp* self, void* memory, pxiword amount, pxiword stride);
+pxLinuxSocketTcpWriteMemory8(PxLinuxSocketTcp* self, pxu8* memory, pxiword length);
 
 pxiword
-pxLinuxSocketTcpReadMemory(PxLinuxSocketTcp* self, void* memory, pxiword amount, pxiword stride);
+pxLinuxSocketTcpReadMemory8(PxLinuxSocketTcp* self, pxu8* memory, pxiword length);
 
 #endif // PX_LINUX_NETWORK_SOCKET_TCP_H

@@ -262,10 +262,9 @@ pxWindowsFileDelete(PxArena* arena, PxString8 base, PxString8 name)
 }
 
 pxiword
-pxWindowsFileWriteMemory(PxWindowsFile* self, void* memory, pxiword amount, pxiword stride)
+pxWindowsFileWriteMemory8(PxWindowsFile* self, pxu8* memory, pxiword length)
 {
-    pxiword length = amount * stride;
-    DWORD   temp   = 0;
+    DWORD temp = 0;
 
     for (pxiword i = 0; i < length;) {
         char* mem = pxas(char*, memory + i);
@@ -283,10 +282,9 @@ pxWindowsFileWriteMemory(PxWindowsFile* self, void* memory, pxiword amount, pxiw
 }
 
 pxiword
-pxWindowsFileReadMemory(PxWindowsFile* self, void* memory, pxiword amount, pxiword stride)
+pxWindowsFileReadMemory8(PxWindowsFile* self, pxu8* memory, pxiword length)
 {
-    pxiword length = amount * stride;
-    DWORD   temp   = 0;
+    DWORD temp = 0;
 
     char* mem = pxas(char*, memory);
     int   len = pxas(int,   length);

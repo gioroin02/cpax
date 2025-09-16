@@ -11,12 +11,12 @@ typedef struct PxJsonReader
     pxb8      colon;
     pxb8      comma;
 
-    PxReader* reader;
+    PxInput* reader;
 }
 PxJsonReader;
 
 PxJsonReader
-pxJsonReaderMake(PxArena* arena, pxiword length, PxReader* reader);
+pxJsonReaderMake(PxArena* arena, pxiword length, PxInput* reader);
 
 PxJsonMsg
 pxJsonReadMsg(PxJsonReader* self, PxArena* arena);

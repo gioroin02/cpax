@@ -30,21 +30,15 @@ PxSocketTcp
 pxSocketTcpAccept(PxSocketTcp self, PxArena* arena);
 
 pxiword
-pxSocketTcpWrite(PxSocketTcp self, PxBuffer8* buffer);
+pxSocketTcpWriteMemory8(PxSocketTcp self, pxu8* memory, pxiword length);
 
 pxiword
-pxSocketTcpWriteMemory(PxSocketTcp self, void* memory, pxiword amount, pxiword stride);
+pxSocketTcpReadMemory8(PxSocketTcp self, pxu8* memory, pxiword length);
 
-pxiword
-pxSocketTcpRead(PxSocketTcp self, PxBuffer8* buffer);
+PxInput
+pxInputFromSocketTcp(PxSocketTcp self);
 
-pxiword
-pxSocketTcpReadMemory(PxSocketTcp self, void* memory, pxiword amount, pxiword stride);
-
-PxReader
-pxSocketTcpReader(PxSocketTcp self, PxArena* arena, pxiword length);
-
-PxWriter
-pxSocketTcpWriter(PxSocketTcp self, PxArena* arena, pxiword length);
+PxOutput
+pxOutputFromSocketTcp(PxSocketTcp self);
 
 #endif // PX_CORE_NETWORK_SOCKET_TCP_H

@@ -290,10 +290,9 @@ pxLinuxSocketUdpAccept(PxLinuxSocketUdp* self, PxArena* arena)
 }
 
 pxiword
-pxLinuxSocketUdpWriteMemory(PxLinuxSocketUdp* self, void* memory, pxiword amount, pxiword stride)
+pxLinuxSocketUdpWriteMemory8(PxLinuxSocketUdp* self, pxu8* memory, pxiword length)
 {
-    pxiword length = amount * stride;
-    pxiword temp   = 0;
+    pxiword temp = 0;
 
     for (pxiword i = 0; i < length;) {
         char* mem = pxas(char*, memory + i);
@@ -313,7 +312,7 @@ pxLinuxSocketUdpWriteMemory(PxLinuxSocketUdp* self, void* memory, pxiword amount
 }
 
 pxiword
-pxLinuxSocketUdpWriteHostMemory(PxLinuxSocketUdp* self, void* memory, pxiword amount, pxiword stride, PxAddress address, pxu16 port)
+pxLinuxSocketUdpWriteHostMemory8(PxLinuxSocketUdp* self, pxu8* memory, pxiword length, PxAddress address, pxu16 port)
 {
     PxSockData data = {0};
     pxiword    size = 0;
@@ -350,8 +349,7 @@ pxLinuxSocketUdpWriteHostMemory(PxLinuxSocketUdp* self, void* memory, pxiword am
         default: return 0;
     }
 
-    pxiword length = amount * stride;
-    pxiword temp   = 0;
+    pxiword temp = 0;
 
     for (pxiword i = 0; i < length;) {
         char* mem = pxas(char*, memory + i);
@@ -372,10 +370,9 @@ pxLinuxSocketUdpWriteHostMemory(PxLinuxSocketUdp* self, void* memory, pxiword am
 }
 
 pxiword
-pxLinuxSocketUdpReadMemory(PxLinuxSocketUdp* self, void* memory, pxiword amount, pxiword stride)
+pxLinuxSocketUdpReadMemory8(PxLinuxSocketUdp* self, pxu8* memory, pxiword length)
 {
-    pxiword length = amount * stride;
-    pxiword temp   = 0;
+    pxiword temp = 0;
 
     char* mem = pxas(char*, memory);
     int   len = pxas(int,   length);
@@ -391,13 +388,11 @@ pxLinuxSocketUdpReadMemory(PxLinuxSocketUdp* self, void* memory, pxiword amount,
 }
 
 pxiword
-pxLinuxSocketUdpReadHostMemory(PxLinuxSocketUdp* self, void* memory, pxiword amount, pxiword stride, PxAddress* address, pxu16* port)
+pxLinuxSocketUdpReadHostMemory8(PxLinuxSocketUdp* self, pxu8* memory, pxiword length, PxAddress* address, pxu16* port)
 {
     PxSockData data = {0};
     pxiword    size = PX_SOCK_DATA_SIZE;
-
-    pxiword length = amount * stride;
-    pxiword temp   = 0;
+    pxiword    temp = 0;
 
     char* mem = pxas(char*, memory);
     int   len = pxas(int,   length);

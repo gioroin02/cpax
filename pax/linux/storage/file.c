@@ -205,45 +205,7 @@ pxLinuxFileClose(PxLinuxFile* self)
 }
 
 pxb8
-pxLinuxFileDestroy(PxLinuxFile* self, PxArena* arena)
-{
-    return 0;
-
-    /*
-    if (self == 0 || self->handle == -1)
-        return 0;
-
-    pxiword length = GetFinalPathNameByHandleW(
-        self->handle, 0, 0, FILE_NAME_NORMALIZED);
-
-    if (length <= 0) return 0;
-
-    pxiword offset = pxArenaOffset(arena);
-    pxu8*   memory = pxArenaReserve(arena, pxu8, length + 1);
-
-    if (memory != 0) {
-        pxiword size = GetFinalPathNameByHandleW(self->handle,
-            memory, length, FILE_NAME_NORMALIZED);
-
-        if (size + 1 == length) {
-            CloseHandle(self->handle);
-
-            pxiword state = unlink(memory);
-
-            pxArenaRewind(arena, offset);
-
-            if (state != 0) return 1;
-        }
-    }
-
-    pxArenaRewind(arena, offset);
-
-    return 0;
-    */
-}
-
-pxb8
-pxLinuxFileDelete(PxArena* arena, PxString8 base, PxString8 name)
+pxLinuxFileDestroy(PxArena* arena, PxString8 base, PxString8 name)
 {
     pxiword offset = pxArenaOffset(arena);
     PxPath  path   = pxPathFromString8(arena, base, pxs8("/"));
@@ -267,10 +229,9 @@ pxLinuxFileDelete(PxArena* arena, PxString8 base, PxString8 name)
 }
 
 pxiword
-pxLinuxFileWriteMemory(PxLinuxFile* self, void* memory, pxiword amount, pxiword stride)
+pxLinuxFileWriteMemory8(PxLinuxFile* self, pxu8* memory, pxiword length)
 {
-    pxiword length = amount * stride;
-    pxiword temp   = 0;
+    pxiword temp = 0;
 
     for (pxiword i = 0; i < length;) {
         char* mem = pxas(char*, memory + i);
@@ -290,10 +251,9 @@ pxLinuxFileWriteMemory(PxLinuxFile* self, void* memory, pxiword amount, pxiword 
 }
 
 pxiword
-pxLinuxFileReadMemory(PxLinuxFile* self, void* memory, pxiword amount, pxiword stride)
+pxLinuxFileReadMemory8(PxLinuxFile* self, pxu8* memory, pxiword length)
 {
-    pxiword length = amount * stride;
-    pxiword temp   = 0;
+    pxiword temp = 0;
 
     char* mem = pxas(char*, memory);
     int   len = pxas(int,   length);

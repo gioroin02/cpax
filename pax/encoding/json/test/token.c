@@ -41,7 +41,7 @@ static const char* const JSON_TOKEN_NAMES[] = {
 };
 
 void
-showJsonToken(PxReader* reader, PxArena* arena)
+showJsonToken(PxInput* reader, PxArena* arena)
 {
     PxJsonToken token = pxJsonTokenNone();
 
@@ -131,7 +131,7 @@ main(int argc, char** argv)
 
     printf("\n");
 
-    PxReader reader = pxBufferReader(&source, &arena, 256);
+    PxInput reader = pxBufferReader(&source, &arena, 256);
 
     showJsonToken(&reader, &arena);
 }

@@ -130,7 +130,7 @@ pxFormatCmdDelegate(void* ctxt, void* proc)
 }
 
 pxiword
-pxWriterFormatCmd(PxWriter* self, PxArena* arena, PxFormatCmd value)
+pxWriterFormatCmd(PxOutput* self, PxArena* arena, PxFormatCmd value)
 {
     pxiword offset = pxArenaOffset(arena);
     pxiword result = 0;
@@ -149,7 +149,7 @@ pxWriterFormatCmd(PxWriter* self, PxArena* arena, PxFormatCmd value)
         break;
 
         case PX_FORMAT_CMD_UNICODE:
-            result = pxWriterUnicode(self, arena, value.unicode);
+            result = pxWriterUnicode(self, value.unicode);
         break;
 
         case PX_FORMAT_CMD_UNSIGNED: {
@@ -194,8 +194,8 @@ pxWriterFormatCmd(PxWriter* self, PxArena* arena, PxFormatCmd value)
         case PX_FORMAT_CMD_DELEGATE: {
             void* proc = value.delegate.proc;
 
-            result = pxas(PxWriterFormatProc*, proc)
-                (self, value.delegate.ctxt);
+            result = pxas(PxOutputFormatProc*, proc)
+                (self, arena, value.delegate.ctxt);
         } break;
 
         default: break;
@@ -207,7 +207,7 @@ pxWriterFormatCmd(PxWriter* self, PxArena* arena, PxFormatCmd value)
 }
 
 pxiword
-pxWriterFormatList(PxWriter* self, PxArena* arena, pxiword start, pxiword stop, PxFormatCmd* list)
+pxWriterFormatList(PxOutput* self, PxArena* arena, pxiword start, pxiword stop, PxFormatCmd* list)
 {
     pxiword result = 0;
 
@@ -218,7 +218,7 @@ pxWriterFormatList(PxWriter* self, PxArena* arena, pxiword start, pxiword stop, 
 }
 
 pxiword
-pxWriterFormat(PxWriter* self, PxArena* arena, PxString8 format, pxiword start, pxiword stop, PxFormatCmd* list)
+pxWriterFormat(PxOutput* self, PxArena* arena, PxString8 format, pxiword start, pxiword stop, PxFormatCmd* list)
 {
     pxiword result = 0;
     pxiword index  = 0;
@@ -241,12 +241,14 @@ pxWriterFormat(PxWriter* self, PxArena* arena, PxString8 format, pxiword start, 
         state = pxIntegerFromString8(left, &index,
             PX_FORMAT_RADIX_10, PX_FORMAT_FLAG_NONE);
 
-        PxFormatCmd command = pxFormatCmdString8(pxs8("${?}"));
+        if (state != 0 && index >= start && index < stop) {
+            pxiword temp = pxWriterFormatCmd(self,
+                arena, list[index]);
 
-        if (state != 0 && index >= start && index < stop)
-            command = list[index];
+            if (temp == 0) break;
 
-        result += pxWriterFormatCmd(self, arena, command);
+            result += temp;
+        }
     }
 
     result += pxWriterFormatCmd(self, arena,

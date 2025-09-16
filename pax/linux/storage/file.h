@@ -27,15 +27,12 @@ void
 pxLinuxFileClose(PxLinuxFile* self);
 
 pxb8
-pxLinuxFileDestroy(PxLinuxFile* self, PxArena* arena);
-
-pxb8
-pxLinuxFileDelete(PxArena* arena, PxString8 base, PxString8 name);
+pxLinuxFileDestroy(PxArena* arena, PxString8 base, PxString8 name);
 
 pxiword
-pxLinuxFileWriteMemory(PxLinuxFile* self, void* memory, pxiword amount, pxiword stride);
+pxLinuxFileWriteMemory(PxLinuxFile* self, pxu8* memory, pxiword length);
 
 pxiword
-pxLinuxFileReadMemory(PxLinuxFile* self, void* memory, pxiword amount, pxiword stride);
+pxLinuxFileReadMemory(PxLinuxFile* self, pxu8* memory, pxiword length);
 
 #endif // PX_LINUX_STORAGE_FILE_H

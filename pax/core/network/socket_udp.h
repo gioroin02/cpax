@@ -30,33 +30,21 @@ PxSocketUdp
 pxSocketUdpAccept(PxSocketUdp self, PxArena* arena);
 
 pxiword
-pxSocketUdpWrite(PxSocketUdp self, PxBuffer8* buffer);
+pxSocketUdpWriteMemory8(PxSocketUdp self, pxu8* memory, pxiword length);
 
 pxiword
-pxSocketUdpWriteMemory(PxSocketUdp self, void* memory, pxiword amount, pxiword stride);
+pxSocketUdpWriteHostMemory8(PxSocketUdp self, pxu8* memory, pxiword length, PxAddress address, pxu16 port);
 
 pxiword
-pxSocketUdpWriteHost(PxSocketUdp self, PxBuffer8* buffer, PxAddress address, pxu16 port);
+pxSocketUdpReadMemory8(PxSocketUdp self, pxu8* memory, pxiword length);
 
 pxiword
-pxSocketUdpWriteHostMemory(PxSocketUdp self, void* memory, pxiword amount, pxiword stride, PxAddress address, pxu16 port);
+pxSocketUdpReadHostMemory8(PxSocketUdp self, pxu8* memory, pxiword length, PxAddress* address, pxu16* port);
 
-pxiword
-pxSocketUdpRead(PxSocketUdp self, PxBuffer8* buffer);
+PxInput
+pxInputFromSocketUdp(PxSocketUdp self);
 
-pxiword
-pxSocketUdpReadMemory(PxSocketUdp self, void* memory, pxiword amount, pxiword stride);
-
-pxiword
-pxSocketUdpReadHost(PxSocketUdp self, PxBuffer8* buffer, PxAddress* address, pxu16* port);
-
-pxiword
-pxSocketUdpReadHostMemory(PxSocketUdp self, void* memory, pxiword amount, pxiword stride, PxAddress* address, pxu16* port);
-
-PxReader
-pxSocketUdpReader(PxSocketUdp self, PxArena* arena, pxiword length);
-
-PxWriter
-pxSocketUdpWriter(PxSocketUdp self, PxArena* arena, pxiword length);
+PxOutput
+pxOutputFromSocketUdp(PxSocketUdp self);
 
 #endif // PX_CORE_NETWORK_SOCKET_UDP_H

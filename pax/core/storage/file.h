@@ -33,21 +33,15 @@ pxb8
 pxFileDelete(PxArena* arena, PxString8 base, PxString8 name);
 
 pxiword
-pxFileWrite(PxFile self, PxBuffer8* buffer);
+pxFileWriteMemory8(PxFile self, pxu8* memory, pxiword length);
 
 pxiword
-pxFileWriteMemory(PxFile self, void* memory, pxiword amount, pxiword stride);
+pxFileReadMemory8(PxFile self, pxu8* memory, pxiword length);
 
-pxiword
-pxFileRead(PxFile self, PxBuffer8* buffer);
+PxInput
+pxInputFromFile(PxFile self);
 
-pxiword
-pxFileReadMemory(PxFile self, void* memory, pxiword amount, pxiword stride);
-
-PxWriter
-pxFileWriter(PxFile self, PxArena* arena, pxiword length);
-
-PxReader
-pxFileReader(PxFile self, PxArena* arena, pxiword length);
+PxOutput
+pxOutputFromFile(PxFile self);
 
 #endif // PX_CORE_STORAGE_FILE_H

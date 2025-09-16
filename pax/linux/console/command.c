@@ -4,41 +4,41 @@
 #include "command.h"
 
 void
-pxLinuxConsoleWriteCmd(PxWriter* self, PxArena* arena, PxConsoleCmd value)
+pxLinuxConsoleWriteCmd(PxOutput* self, PxArena* arena, PxConsoleCmd value)
 {
     switch (value.type) {
         case PX_CONSOLE_CMD_STYLE_8_FRONT: {
             pxWriterFormatVargs(self, arena, "\x1b[3${0}m",
-                pxFormatCmdUnsigned(10, 0, value.style_8));
+                pxFormatCmdUnsigned(value.style_8, 10, 0));
         } break;
 
         case PX_CONSOLE_CMD_STYLE_8_BACK: {
             pxWriterFormatVargs(self, arena, "\x1b[4${0}m",
-                pxFormatCmdUnsigned(10, 0, value.style_8));
+                pxFormatCmdUnsigned(value.style_8, 10, 0));
         } break;
 
         case PX_CONSOLE_CMD_STYLE_256_FRONT: {
             pxWriterFormatVargs(self, arena, "\x1b[38;5;${0}m",
-                pxFormatCmdUnsigned(10, 0, value.style_256));
+                pxFormatCmdUnsigned(value.style_256, 10, 0));
         } break;
 
         case PX_CONSOLE_CMD_STYLE_256_BACK: {
             pxWriterFormatVargs(self, arena, "\x1b[48;5;${0}m",
-                pxFormatCmdUnsigned(10, 0, value.style_256));
+                pxFormatCmdUnsigned(value.style_256, 10, 0));
         } break;
 
         case PX_CONSOLE_CMD_STYLE_RGB_FRONT: {
             pxWriterFormatVargs(self, arena, "\x1b[38;2;${0};${1};${2}m",
-                pxFormatCmdUnsigned(10, 0, value.style_rgb.r),
-                pxFormatCmdUnsigned(10, 0, value.style_rgb.g),
-                pxFormatCmdUnsigned(10, 0, value.style_rgb.b));
+                pxFormatCmdUnsigned(value.style_rgb.r, 10, 0),
+                pxFormatCmdUnsigned(value.style_rgb.g, 10, 0),
+                pxFormatCmdUnsigned(value.style_rgb.b, 10, 0));
         } break;
 
         case PX_CONSOLE_CMD_STYLE_RGB_BACK: {
             pxWriterFormatVargs(self, arena, "\x1b[48;2;${0};${1};${2}m",
-                pxFormatCmdUnsigned(10, 0, value.style_rgb.r),
-                pxFormatCmdUnsigned(10, 0, value.style_rgb.g),
-                pxFormatCmdUnsigned(10, 0, value.style_rgb.b));
+                pxFormatCmdUnsigned(value.style_rgb.r, 10, 0),
+                pxFormatCmdUnsigned(value.style_rgb.g, 10, 0),
+                pxFormatCmdUnsigned(value.style_rgb.b, 10, 0));
         } break;
 
         case PX_CONSOLE_CMD_STYLE_CLEAR:
@@ -55,28 +55,28 @@ pxLinuxConsoleWriteCmd(PxWriter* self, PxArena* arena, PxConsoleCmd value)
 
         case PX_CONSOLE_CMD_CURSOR_UP: {
             pxWriterFormatVargs(self, arena, "\x1b[${0}A",
-                pxFormatCmdUnsigned(10, 0, value.cursor_move));
+                pxFormatCmdUnsigned(value.cursor_move, 10, 0));
         } break;
 
         case PX_CONSOLE_CMD_CURSOR_DOWN: {
             pxWriterFormatVargs(self, arena, "\x1b[${0}B",
-                pxFormatCmdUnsigned(10, 0, value.cursor_move));
+                pxFormatCmdUnsigned(value.cursor_move, 10, 0));
         } break;
 
         case PX_CONSOLE_CMD_CURSOR_RIGHT: {
             pxWriterFormatVargs(self, arena, "\x1b[${0}C",
-                pxFormatCmdUnsigned(10, 0, value.cursor_move));
+                pxFormatCmdUnsigned(value.cursor_move, 10, 0));
         } break;
 
         case PX_CONSOLE_CMD_CURSOR_LEFT: {
             pxWriterFormatVargs(self, arena, "\x1b[${0}D",
-                pxFormatCmdUnsigned(10, 0, value.cursor_move));
+                pxFormatCmdUnsigned(value.cursor_move, 10, 0));
         } break;
 
         case PX_CONSOLE_CMD_CURSOR_PLACE: {
             pxWriterFormatVargs(self, arena, "\x1b[${0};${1}H",
-                pxFormatCmdUnsigned(10, 0, value.cursor_place.y + 1),
-                pxFormatCmdUnsigned(10, 0, value.cursor_place.x + 1));
+                pxFormatCmdUnsigned(value.cursor_place.x + 1, 10, 0),
+                pxFormatCmdUnsigned(value.cursor_place.y + 1, 10, 0));
         } break;
 
         case PX_CONSOLE_CMD_UNICODE:

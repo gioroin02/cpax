@@ -211,7 +211,7 @@ pxJsonIsLetter(pxu8 byte)
 }
 
 PxJsonToken
-pxJsonPeek(PxReader* reader, PxArena* arena)
+pxJsonPeek(PxInput* reader, PxArena* arena)
 {
     pxu8 byte = pxJsonSkipSpaces(reader);
 
@@ -258,7 +258,7 @@ pxJsonPeek(PxReader* reader, PxArena* arena)
 }
 
 PxJsonToken
-pxJsonPeekSymbol(PxReader* reader, PxArena* arena)
+pxJsonPeekSymbol(PxInput* reader, PxArena* arena)
 {
     pxiword offset = 1;
     pxu8    byte   = pxReaderPeekByte(reader, 0);
@@ -294,7 +294,7 @@ pxJsonPeekSymbol(PxReader* reader, PxArena* arena)
 }
 
 PxJsonToken
-pxJsonPeekString(PxReader* reader, PxArena* arena)
+pxJsonPeekString(PxInput* reader, PxArena* arena)
 {
     pxiword offset = 0;
     pxu8    byte   = pxReaderPeekByte(reader, offset);
@@ -332,7 +332,7 @@ pxJsonPeekString(PxReader* reader, PxArena* arena)
 }
 
 PxJsonToken
-pxJsonPeekNumber(PxReader* reader, PxArena* arena)
+pxJsonPeekNumber(PxInput* reader, PxArena* arena)
 {
     pxiword offset = 0;
     pxu8    byte   = pxReaderPeekByte(reader, offset);
@@ -403,7 +403,7 @@ pxJsonPeekNumber(PxReader* reader, PxArena* arena)
 }
 
 PxJsonToken
-pxJsonPeekWord(PxReader* reader, PxArena* arena)
+pxJsonPeekWord(PxInput* reader, PxArena* arena)
 {
     pxiword offset = 0;
     pxu8    byte   = pxReaderPeekByte(reader, offset);
@@ -443,7 +443,7 @@ pxJsonPeekWord(PxReader* reader, PxArena* arena)
 }
 
 PxJsonToken
-pxJsonNext(PxReader* reader, PxArena* arena)
+pxJsonNext(PxInput* reader, PxArena* arena)
 {
     PxJsonToken result = pxJsonTokenNone();
 
@@ -505,7 +505,7 @@ pxJsonNext(PxReader* reader, PxArena* arena)
 }
 
 pxu8
-pxJsonSkipSpaces(PxReader* reader)
+pxJsonSkipSpaces(PxInput* reader)
 {
     pxiword offset = 0;
     pxu8    byte   = pxReaderPeekByte(reader, 0);

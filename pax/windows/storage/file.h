@@ -33,9 +33,9 @@ pxb8
 pxWindowsFileDelete(PxArena* arena, PxString8 base, PxString8 name);
 
 pxiword
-pxWindowsFileWriteMemory(PxWindowsFile* self, void* memory, pxiword amount, pxiword stride);
+pxWindowsFileWriteMemory8(PxWindowsFile* self, pxu8* memory, pxiword length);
 
 pxiword
-pxWindowsFileReadMemory(PxWindowsFile* self, void* memory, pxiword amount, pxiword stride);
+pxWindowsFileReadMemory8(PxWindowsFile* self, pxu8* memory, pxiword length);
 
 #endif // PX_WINDOWS_STORAGE_FILE_H

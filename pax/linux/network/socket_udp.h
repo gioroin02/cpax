@@ -30,15 +30,15 @@ PxLinuxSocketUdp*
 pxLinuxSocketUdpAccept(PxLinuxSocketUdp* self, PxArena* arena);
 
 pxiword
-pxLinuxSocketUdpWriteMemory(PxLinuxSocketUdp* self, void* memory, pxiword amount, pxiword stride);
+pxLinuxSocketUdpWriteMemory8(PxLinuxSocketUdp* self, pxu8* memory, pxiword length);
 
 pxiword
-pxLinuxSocketUdpWriteHostMemory(PxLinuxSocketUdp* self, void* memory, pxiword amount, pxiword stride, PxAddress address, pxu16 port);
+pxLinuxSocketUdpWriteHostMemory8(PxLinuxSocketUdp* self, pxu8* memory, pxiword length, PxAddress address, pxu16 port);
 
 pxiword
-pxLinuxSocketUdpReadMemory(PxLinuxSocketUdp* self, void* memory, pxiword amount, pxiword stride);
+pxLinuxSocketUdpReadMemory8(PxLinuxSocketUdp* self, pxu8* memory, pxiword length);
 
 pxiword
-pxLinuxSocketUdpReadHostMemory(PxLinuxSocketUdp* self, void* memory, pxiword amount, pxiword stride, PxAddress* address, pxu16* port);
+pxLinuxSocketUdpReadHostMemory8(PxLinuxSocketUdp* self, pxu8* memory, pxiword length, PxAddress* address, pxu16* port);
 
 #endif // PX_LINUX_NETWORK_SOCKET_UDP_H

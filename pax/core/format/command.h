@@ -85,7 +85,7 @@ typedef struct PxFormatCmd
 }
 PxFormatCmd;
 
-typedef pxiword (PxWriterFormatProc) (PxWriter*, void*);
+typedef pxiword (PxOutputFormatProc) (PxOutput*, PxArena*, void*);
 
 /* Commands */
 
@@ -119,12 +119,12 @@ pxFormatCmdDelegate(void* ctxt, void* proc);
 /* Writer */
 
 pxiword
-pxWriterFormatCmd(PxWriter* self, PxArena* arena, PxFormatCmd value);
+pxWriterFormatCmd(PxOutput* self, PxArena* arena, PxFormatCmd value);
 
 pxiword
-pxWriterFormatList(PxWriter* self, PxArena* arena, pxiword start, pxiword stop, PxFormatCmd* list);
+pxWriterFormatList(PxOutput* self, PxArena* arena, pxiword start, pxiword stop, PxFormatCmd* list);
 
 pxiword
-pxWriterFormat(PxWriter* self, PxArena* arena, PxString8 format, pxiword start, pxiword stop, PxFormatCmd* list);
+pxWriterFormat(PxOutput* self, PxArena* arena, PxString8 format, pxiword start, pxiword stop, PxFormatCmd* list);
 
 #endif // PX_CORE_STREAM_COMMAND_H

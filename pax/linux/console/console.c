@@ -75,10 +75,9 @@ pxLinuxConsoleModeMessage(PxLinuxConsole* self)
 }
 
 pxiword
-pxLinuxConsoleWriteMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxiword stride)
+pxLinuxConsoleWriteMemory8(PxLinuxConsole* self, pxu8* memory, pxiword length)
 {
-    pxiword length = amount * stride;
-    pxiword temp   = 0;
+    pxiword temp = 0;
 
     for (pxiword i = 0; i < length;) {
         char* mem = pxas(char*, memory + i);
@@ -98,10 +97,9 @@ pxLinuxConsoleWriteMemory(PxLinuxConsole* self, void* memory, pxiword amount, px
 }
 
 pxiword
-pxLinuxConsoleReadMemory(PxLinuxConsole* self, void* memory, pxiword amount, pxiword stride)
+pxLinuxConsoleReadMemory8(PxLinuxConsole* self, pxu8* memory, pxiword length)
 {
-    pxiword length = amount * stride;
-    pxiword temp   = 0;
+    pxiword temp = 0;
 
     char* mem = pxas(char*, memory);
     int   len = pxas(int,   length);

@@ -108,7 +108,7 @@ pxWindowsMapConsoleKeybdButton(pxiword button)
 }
 
 PxConsoleMsg
-pxWindowsConsoleReadMsg(PxReader* self, PxArena* arena)
+pxWindowsConsoleReadMsg(PxInput* self, PxArena* arena)
 {
     PxConsoleMsg result = {.type = PX_CONSOLE_MSG_NONE};
 
@@ -150,7 +150,7 @@ pxWindowsConsoleReadMsg(PxReader* self, PxArena* arena)
 }
 
 PxConsoleMsg
-pxWindowsConsolePollMsg(PxReader* self, PxArena* arena)
+pxWindowsConsolePollMsg(PxInput* self, PxArena* arena)
 {
     PxConsoleMsg result = {.type = PX_CONSOLE_MSG_NONE};
 

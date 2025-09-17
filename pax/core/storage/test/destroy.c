@@ -18,5 +18,5 @@ main(int argc, char** argv)
 
     getchar();
 
-    pxFileDestroy(file, &arena);
+    pxFileDestroy(&arena, base, name);
 }

@@ -8,7 +8,7 @@ main(int argc, char** argv)
     PxArena arena = pxMemoryReserve(16);
 
     PxConsole console = pxConsoleCreate(&arena);
-    PxReader  reader  = pxReaderFromConsole(console, &arena, PX_MEMORY_KIB);
+    PxReader  reader  = pxReaderFromConsole(console);
 
     pxConsoleSetMode(console, PX_CONSOLE_MODE_MESSAGE);
 

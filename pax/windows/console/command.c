@@ -75,8 +75,8 @@ pxWindowsConsoleWriteCmd(PxWriter self, PxArena* arena, PxConsoleCmd value)
 
         case PX_CONSOLE_CMD_CURSOR_PLACE: {
             pxWriterFormatVargs(self, arena, "\x1b[${0};${1}H",
-                pxFormatCmdUnsigned(value.cursor_place.x + 1, 10, 0),
-                pxFormatCmdUnsigned(value.cursor_place.y + 1, 10, 0));
+                pxFormatCmdUnsigned(value.cursor_place.y + 1, 10, 0),
+                pxFormatCmdUnsigned(value.cursor_place.x + 1, 10, 0));
         } break;
 
         case PX_CONSOLE_CMD_UNICODE:

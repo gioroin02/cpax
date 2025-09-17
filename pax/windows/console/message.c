@@ -117,7 +117,7 @@ pxWindowsConsoleReadMsg(PxReader self, PxArena* arena)
     HANDLE input = GetStdHandle(STD_INPUT_HANDLE);
     DWORD  size  = 0;
 
-    if (ReadConsoleReader(input, &record, 1, &size) == 0)
+    if (ReadConsoleInput(input, &record, 1, &size) == 0)
         return result;
 
     switch (record.EventType) {
@@ -157,7 +157,7 @@ pxWindowsConsolePollMsg(PxReader self, PxArena* arena)
     HANDLE input = GetStdHandle(STD_INPUT_HANDLE);
     DWORD  size  = 0;
 
-    GetNumberOfConsoleReaderEvents(input, &size);
+    GetNumberOfConsoleInputEvents(input, &size);
 
     if (size != 0)
         result = pxWindowsConsoleReadMsg(self, arena);

@@ -16,7 +16,6 @@
     #define __pxFileOpen__         pxWindowsFileOpen
     #define __pxFileClose__        pxWindowsFileClose
     #define __pxFileDestroy__      pxWindowsFileDestroy
-    #define __pxFileDelete__       pxWindowsFileDelete
     #define __pxFileWriteMemory8__ pxWindowsFileWriteMemory8
     #define __pxFileReadMemory8__  pxWindowsFileReadMemory8
 
@@ -33,7 +32,6 @@
     #define __pxFileOpen__         pxLinuxFileOpen
     #define __pxFileClose__        pxLinuxFileClose
     #define __pxFileDestroy__      pxLinuxFileDestroy
-    #define __pxFileDelete__       pxLinuxFileDelete
     #define __pxFileWriteMemory8__ pxLinuxFileWriteMemory8
     #define __pxFileReadMemory8__  pxLinuxFileReadMemory8
 
@@ -86,15 +84,9 @@ pxFileClose(PxFile self)
 }
 
 pxb8
-pxFileDestroy(PxFile self, PxArena* arena)
+pxFileDestroy(PxArena* arena, PxString8 base, PxString8 name)
 {
-    return __pxFileDestroy__(self, arena);
-}
-
-pxb8
-pxFileDelete(PxArena* arena, PxString8 base, PxString8 name)
-{
-    return __pxFileDelete__(arena, base, name);
+    return __pxFileDestroy__(arena, base, name);
 }
 
 pxiword

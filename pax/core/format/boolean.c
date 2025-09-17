@@ -54,7 +54,7 @@ pxMemory8WriteBoolean(pxu8* memory, pxiword length, pxbword value, PxFormatFlag 
 {
     pxiword size  = pxBooleanDigits(value, flags);
     pxiword index = 0;
-    pxb8    upper = flags & PX_FORMAT_FLAG_UPPER;
+    pxuword upper = flags & PX_FORMAT_FLAG_UPPER;
 
     if (size <= 0 || size > length) return 0;
 
@@ -98,7 +98,7 @@ pxMemory16WriteBoolean(pxu16* memory, pxiword length, pxbword value, PxFormatFla
 {
     pxiword size  = pxBooleanDigits(value, flags);
     pxiword index = 0;
-    pxb8    upper = flags & PX_FORMAT_FLAG_UPPER;
+    pxuword upper = flags & PX_FORMAT_FLAG_UPPER;
 
     if (size <= 0 || size > length) return 0;
 
@@ -142,7 +142,7 @@ pxMemory32WriteBoolean(pxu32* memory, pxiword length, pxbword value, PxFormatFla
 {
     pxiword size  = pxBooleanDigits(value, flags);
     pxiword index = 0;
-    pxb8    upper = flags & PX_FORMAT_FLAG_UPPER;
+    pxuword upper = flags & PX_FORMAT_FLAG_UPPER;
 
     if (size <= 0 || size > length) return 0;
 
@@ -281,6 +281,108 @@ pxBooleanFromString32(PxString32 string, pxbword* value, PxFormatFlag flags)
     if (size == length) return 1;
 
     return 0;
+}
+
+pxiword
+pxBuffer8WriteBooleanHead(PxBuffer8* self, pxbword value, PxFormatFlag flags)
+{
+    pxiword size  = pxBooleanDigits(value, flags);
+    pxiword index = 0;
+    pxuword upper = flags & PX_FORMAT_FLAG_UPPER;
+
+    if (size <= 0 || size > self->length - self->size)
+        return 0;
+
+    index += value != 0 ? 2 : 0;
+    index += upper != 0 ? 1 : 0;
+
+    return pxBuffer8WriteString8Head(self,
+        PX_STRING_8_BOOLEANS[index]);
+}
+
+pxiword
+pxBuffer8WriteBooleanTail(PxBuffer8* self, pxbword value, PxFormatFlag flags)
+{
+    pxiword size  = pxBooleanDigits(value, flags);
+    pxiword index = 0;
+    pxuword upper = flags & PX_FORMAT_FLAG_UPPER;
+
+    if (size <= 0 || size > self->length - self->size)
+        return 0;
+
+    index += value != 0 ? 2 : 0;
+    index += upper != 0 ? 1 : 0;
+
+    return pxBuffer8WriteString8Tail(self,
+        PX_STRING_8_BOOLEANS[index]);
+}
+
+pxiword
+pxBuffer16WriteBooleanHead(PxBuffer16* self, pxbword value, PxFormatFlag flags)
+{
+    pxiword size  = pxBooleanDigits(value, flags);
+    pxiword index = 0;
+    pxuword upper = flags & PX_FORMAT_FLAG_UPPER;
+
+    if (size <= 0 || size > self->length - self->size)
+        return 0;
+
+    index += value != 0 ? 2 : 0;
+    index += upper != 0 ? 1 : 0;
+
+    return pxBuffer16WriteString16Head(self,
+        PX_STRING_16_BOOLEANS[index]);
+}
+
+pxiword
+pxBuffer16WriteBooleanTail(PxBuffer16* self, pxbword value, PxFormatFlag flags)
+{
+    pxiword size  = pxBooleanDigits(value, flags);
+    pxiword index = 0;
+    pxuword upper = flags & PX_FORMAT_FLAG_UPPER;
+
+    if (size <= 0 || size > self->length - self->size)
+        return 0;
+
+    index += value != 0 ? 2 : 0;
+    index += upper != 0 ? 1 : 0;
+
+    return pxBuffer16WriteString16Tail(self,
+        PX_STRING_16_BOOLEANS[index]);
+}
+
+pxiword
+pxBuffer32WriteBooleanHead(PxBuffer32* self, pxbword value, PxFormatFlag flags)
+{
+    pxiword size  = pxBooleanDigits(value, flags);
+    pxiword index = 0;
+    pxuword upper = flags & PX_FORMAT_FLAG_UPPER;
+
+    if (size <= 0 || size > self->length - self->size)
+        return 0;
+
+    index += value != 0 ? 2 : 0;
+    index += upper != 0 ? 1 : 0;
+
+    return pxBuffer32WriteString32Head(self,
+        PX_STRING_32_BOOLEANS[index]);
+}
+
+pxiword
+pxBuffer32WriteBooleanTail(PxBuffer32* self, pxbword value, PxFormatFlag flags)
+{
+    pxiword size  = pxBooleanDigits(value, flags);
+    pxiword index = 0;
+    pxuword upper = flags & PX_FORMAT_FLAG_UPPER;
+
+    if (size <= 0 || size > self->length - self->size)
+        return 0;
+
+    index += value != 0 ? 2 : 0;
+    index += upper != 0 ? 1 : 0;
+
+    return pxBuffer32WriteString32Tail(self,
+        PX_STRING_32_BOOLEANS[index]);
 }
 
 #endif // PX_CORE_FORMAT_BOOLEAN_C

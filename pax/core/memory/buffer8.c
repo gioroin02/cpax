@@ -1,5 +1,5 @@
-#ifndef PX_MEMORY_BUFFER8_C
-#define PX_MEMORY_BUFFER8_C
+#ifndef PX_MEMORY_BUFFER_8_C
+#define PX_MEMORY_BUFFER_8_C
 
 #include "buffer8.h"
 
@@ -443,4 +443,4 @@ pxBuffer8PeekMemory8Tail(PxBuffer8* self, pxu8* memory, pxiword length)
     return size;
 }
 
-#endif // PX_MEMORY_BUFFER8_C
+#endif // PX_MEMORY_BUFFER_8_C

@@ -35,10 +35,7 @@ pxWindowsMemoryReserve(pxiword amount)
 
     if (result == 0) return (PxArena) {0};
 
-    return (PxArena) {
-        .memory = result,
-        .length = amount * stride,
-    };
+    return pxArenaMake(result, length);
 }
 
 void

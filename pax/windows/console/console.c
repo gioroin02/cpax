@@ -69,7 +69,7 @@ pxWindowsConsoleModeMessage(PxWindowsConsole* self)
 }
 
 pxiword
-pxWindowsConsoleWriteMemory(PxWindowsConsole* self, pxu8* memory, pxiword length)
+pxWindowsConsoleWriteMemory8(PxWindowsConsole* self, pxu8* memory, pxiword length)
 {
     HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
     DWORD  temp   = 0;
@@ -90,7 +90,7 @@ pxWindowsConsoleWriteMemory(PxWindowsConsole* self, pxu8* memory, pxiword length
 }
 
 pxiword
-pxWindowsConsoleReadMemory(PxWindowsConsole* self, pxu8* memory, pxiword length)
+pxWindowsConsoleReadMemory8(PxWindowsConsole* self, pxu8* memory, pxiword length)
 {
     HANDLE input = GetStdHandle(STD_INPUT_HANDLE);
     DWORD  temp  = 0;

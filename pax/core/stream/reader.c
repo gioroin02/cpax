@@ -1,12 +1,12 @@
-#ifndef PX_STREAM_INPUT_C
-#define PX_STREAM_INPUT_C
+#ifndef PX_STREAM_READER_C
+#define PX_STREAM_READER_C
 
-#include "input.h"
+#include "reader.h"
 
-PxInput
-pxInputFromBuffer(PxBuffer8* self)
+PxReader
+pxReaderFromBuffer8(PxBuffer8* self)
 {
-    PxInput result = {0};
+    PxReader result = {0};
 
     if (self == 0) return result;
 
@@ -17,23 +17,22 @@ pxInputFromBuffer(PxBuffer8* self)
 }
 
 pxiword
-pxReadMemory8(PxInput* self, pxu8* memory, pxiword length)
+pxReadMemory8(PxReader self, pxu8* memory, pxiword length)
 {
-    PxInputProc* proc = pxas(PxInputProc*, self->proc);
+    PxReaderProc* proc = pxas(PxReaderProc*, self.proc);
 
     if (proc != 0)
-        return proc(self->ctxt, memory, length);
+        return proc(self.ctxt, memory, length);
 
     return 0;
 }
 
 pxiword
-pxReadByte(PxInput* self, pxu8* value)
+pxReadByte(PxReader self, pxu8* value)
 {
     pxu8 temp = 0;
 
-    pxiword result =
-        pxReadMemory8(self, &temp, 1);
+    pxiword result = pxReadMemory8(self, &temp, 1);
 
     if (value != 0) *value = temp;
 
@@ -41,7 +40,7 @@ pxReadByte(PxInput* self, pxu8* value)
 }
 
 PxString8
-pxReadString8(PxInput* self, PxArena* arena, pxiword length)
+pxReadString8(PxReader self, PxArena* arena, pxiword length)
 {
     pxiword offset = pxArenaOffset(arena);
 
@@ -58,7 +57,7 @@ pxReadString8(PxInput* self, PxArena* arena, pxiword length)
 }
 
 pxiword
-pxReadBuffer8(PxInput* self, PxBuffer8* buffer)
+pxReadBuffer8(PxReader self, PxBuffer8* buffer)
 {
     pxBuffer8Normalize(buffer);
 
@@ -73,4 +72,4 @@ pxReadBuffer8(PxInput* self, PxBuffer8* buffer)
     return size;
 }
 
-#endif // PX_STREAM_INPUT_C
+#endif // PX_STREAM_READER_C

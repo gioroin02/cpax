@@ -4,9 +4,9 @@
 #include "import.h"
 
 PxConsoleMsg
-pxLinuxConsoleReadMsg(PxInput* self, PxArena* arena);
+pxLinuxConsoleReadMsg(PxReader self, PxArena* arena);
 
 PxConsoleMsg
-pxLinuxConsolePollMsg(PxInput* self, PxArena* arena);
+pxLinuxConsolePollMsg(PxReader self, PxArena* arena);
 
 #endif // PX_LINUX_CONSOLE_MESSAGE_H

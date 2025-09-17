@@ -144,9 +144,9 @@ PxConsoleCmd
 pxConsoleCmdReset();
 
 void
-pxConsoleWriteCmd(PxOutput* writer, PxArena* arena, PxConsoleCmd value);
+pxConsoleWriteCmd(PxWriter writer, PxArena* arena, PxConsoleCmd value);
 
 void
-pxConsoleWriteList(PxOutput* self, PxArena* arena, pxiword start, pxiword stop, PxConsoleCmd* list);
+pxConsoleWriteList(PxWriter self, PxArena* arena, pxiword start, pxiword stop, PxConsoleCmd* list);
 
 #endif // PX_CORE_CONSOLE_COMMAND_H

@@ -46,7 +46,7 @@ pxString32FromBoolean(PxArena* arena, pxbword value, PxFormatFlag flags);
 pxb8
 pxBooleanFromString32(PxString32 string, pxbword* value, PxFormatFlag flags);
 
-/* Buffer */ /*
+/* Buffer */
 
 pxiword
 pxBuffer8WriteBooleanHead(PxBuffer8* self, pxbword value, PxFormatFlag flags);
@@ -65,51 +65,5 @@ pxBuffer32WriteBooleanHead(PxBuffer32* self, pxbword value, PxFormatFlag flags);
 
 pxiword
 pxBuffer32WriteBooleanTail(PxBuffer32* self, pxbword value, PxFormatFlag flags);
-
-pxiword
-pxBuffer8ReadBooleanTail(PxBuffer8* self, pxiword length,
-    pxbword* value, PxFormatFlag flags);
-
-pxiword
-pxBuffer16ReadBooleanHead(PxBuffer16* self, pxiword length,
-    pxbword* value, PxFormatFlag flags);
-
-pxiword
-pxBuffer16ReadBooleanTail(PxBuffer16* self, pxiword length,
-    pxbword* value, PxFormatFlag flags);
-
-pxiword
-pxBuffer32ReadBooleanHead(PxBuffer32* memory, pxiword length,
-    pxbword* value, PxFormatFlag flags);
-
-pxiword
-pxBuffer32ReadBooleanTail(PxBuffer32* memory, pxiword length,
-    pxbword* value, PxFormatFlag flags);
-
-pxiword
-pxBuffer8ReadBooleanHead(PxBuffer8* self, pxiword length,
-    pxbword* value, PxFormatFlag flags);
-
-pxiword
-pxBuffer8ReadBooleanTail(PxBuffer8* self, pxiword length,
-    pxbword* value, PxFormatFlag flags);
-
-pxiword
-pxBuffer16ReadBooleanHead(PxBuffer16* self, pxiword length,
-    pxbword* value, PxFormatFlag flags);
-
-pxiword
-pxBuffer16ReadBooleanTail(PxBuffer16* self, pxiword length,
-    pxbword* value, PxFormatFlag flags);
-
-pxiword
-pxBuffer32ReadBooleanHead(PxBuffer32* memory, pxiword length,
-    pxbword* value, PxFormatFlag flags);
-
-pxiword
-pxBuffer32ReadBooleanTail(PxBuffer32* memory, pxiword length,
-    pxbword* value, PxFormatFlag flags);
-
-*/
 
 #endif // PX_CORE_FORMAT_BOOLEAN_H

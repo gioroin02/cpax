@@ -37,18 +37,18 @@ typedef struct sockaddr_in6     PxSockIp6;
 struct PxLinuxSocketUdp
 {
     int        handle;
-    PxSockData address;
+    PxSockData addr;
 };
 
 PxLinuxSocketUdp*
-pxLinuxSocketUdpCreate(PxArena* arena, PxAddressType type)
+pxLinuxSocketUdpCreate(PxArena* arena, PxAddrType type)
 {
     pxiword offset = pxArenaOffset(arena);
     pxiword family = 0;
 
     switch (type) {
-        case PX_ADDRESS_TYPE_IP4: family = AF_INET;  break;
-        case PX_ADDRESS_TYPE_IP6: family = AF_INET6; break;
+        case PX_ADDR_TYPE_IP4: family = AF_INET;  break;
+        case PX_ADDR_TYPE_IP6: family = AF_INET6; break;
 
         default: return 0;
     }
@@ -60,7 +60,7 @@ pxLinuxSocketUdpCreate(PxArena* arena, PxAddressType type)
         result->handle = socket(family, SOCK_DGRAM, 0);
 
         if (result->handle != -1) {
-            result->address.ss_family = family;
+            result->addr.ss_family = family;
 
             return result;
         }
@@ -83,38 +83,38 @@ pxLinuxSocketUdpDestroy(PxLinuxSocketUdp* self)
         result = close(self->handle);
     } while (result == -1 && errno == EINTR);
 
-    self->handle  = -1;
-    self->address = (PxSockData) {0};
+    self->handle = -1;
+    self->addr   = (PxSockData) {0};
 }
 
-PxAddress
-pxLinuxSocketUdpGetAddress(PxLinuxSocketUdp* self)
+PxAddr
+pxLinuxSocketUdpGetAddr(PxLinuxSocketUdp* self)
 {
-    PxAddress result = {.type = PX_ADDRESS_TYPE_NONE};
+    PxAddr result = {.type = PX_ADDR_TYPE_NONE};
 
-    switch (self->address.ss_family) {
+    switch (self->addr.ss_family) {
         case AF_INET: {
-            result.type = PX_ADDRESS_TYPE_IP4;
+            result.type = PX_ADDR_TYPE_IP4;
 
-            void* addr = pxSockIp4Addr(&self->address);
+            void* addr = pxSockIp4Addr(&self->addr);
 
             pxMemoryCopy(result.ip4.items, addr,
-                PX_ADDRESS_IP4_GROUPS, 1);
+                PX_ADDR_IP4_GROUPS, 1);
         } break;
 
         case AF_INET6: {
-            result.type = PX_ADDRESS_TYPE_IP6;
+            result.type = PX_ADDR_TYPE_IP6;
 
-            void* addr = pxSockIp6Addr(&self->address);
+            void* addr = pxSockIp6Addr(&self->addr);
 
             pxMemoryCopy(result.ip6.items, addr,
-                PX_ADDRESS_IP6_GROUPS, 2);
+                PX_ADDR_IP6_GROUPS, 2);
 
             pxMemoryFlip(result.ip6.items,
-                PX_ADDRESS_IP6_GROUPS, 2);
+                PX_ADDR_IP6_GROUPS, 2);
 
             pxMemoryFlip(result.ip6.items,
-                PX_ADDRESS_IP6_GROUPS * 2, 1);
+                PX_ADDR_IP6_GROUPS * 2, 1);
         } break;
 
         default: break;
@@ -128,13 +128,13 @@ pxLinuxSocketUdpGetPort(PxLinuxSocketUdp* self)
 {
     pxu16 temp = 0;
 
-    switch (self->address.ss_family) {
+    switch (self->addr.ss_family) {
         case AF_INET:
-            temp = *pxSockIp4Port(&self->address);
+            temp = *pxSockIp4Port(&self->addr);
         break;
 
         case AF_INET6:
-            temp = *pxSockIp6Port(&self->address);
+            temp = *pxSockIp6Port(&self->addr);
         break;
 
         default: break;
@@ -144,46 +144,46 @@ pxLinuxSocketUdpGetPort(PxLinuxSocketUdp* self)
 }
 
 pxb8
-pxLinuxSocketUdpBind(PxLinuxSocketUdp* self, PxAddress address, pxu16 port)
+pxLinuxSocketUdpBind(PxLinuxSocketUdp* self, PxAddr addr, pxu16 port)
 {
     pxiword family = 0;
 
-    switch (address.type) {
-        case PX_ADDRESS_TYPE_IP4: family = AF_INET;  break;
-        case PX_ADDRESS_TYPE_IP6: family = AF_INET6; break;
+    switch (addr.type) {
+        case PX_ADDR_TYPE_IP4: family = AF_INET;  break;
+        case PX_ADDR_TYPE_IP6: family = AF_INET6; break;
 
         default: return 0;
     }
 
-    if (self->address.ss_family != family) return 0;
+    if (self->addr.ss_family != family) return 0;
 
     PxSockData data = {0};
     pxiword    size = 0;
 
-    switch (address.type) {
-        case PX_ADDRESS_TYPE_IP4: {
+    switch (addr.type) {
+        case PX_ADDR_TYPE_IP4: {
             data.ss_family = AF_INET;
             size           = PX_SOCK_IP4_SIZE;
 
             pxMemoryCopy(pxSockIp4Addr(&data),
-                address.ip4.items, PX_ADDRESS_IP4_GROUPS, 1);
+                addr.ip4.items, PX_ADDR_IP4_GROUPS, 1);
 
             pxMemoryCopyNetFromHost(pxSockIp4Port(&data),
                 &port, 1, 2);
         } break;
 
-        case PX_ADDRESS_TYPE_IP6: {
+        case PX_ADDR_TYPE_IP6: {
             data.ss_family = AF_INET6;
             size           = PX_SOCK_IP6_SIZE;
 
             pxMemoryCopy(pxSockIp6Addr(&data),
-                address.ip6.items, PX_ADDRESS_IP6_GROUPS, 2);
+                addr.ip6.items, PX_ADDR_IP6_GROUPS, 2);
 
             pxMemoryFlip(pxSockIp6Addr(&data),
-                PX_ADDRESS_IP6_GROUPS, 2);
+                PX_ADDR_IP6_GROUPS, 2);
 
             pxMemoryFlip(pxSockIp6Addr(&data),
-                PX_ADDRESS_IP6_GROUPS * 2, 1);
+                PX_ADDR_IP6_GROUPS * 2, 1);
 
             pxMemoryCopyNetFromHost(pxSockIp6Port(&data),
                 &port, 1, 2);
@@ -195,7 +195,7 @@ pxLinuxSocketUdpBind(PxLinuxSocketUdp* self, PxAddress address, pxu16 port)
     if (bind(self->handle, pxSock(&data), size) == -1)
         return 0;
 
-    self->address = data;
+    self->addr = data;
 
     return 1;
 }
@@ -210,35 +210,35 @@ pxLinuxSocketUdpListen(PxLinuxSocketUdp* self)
 }
 
 pxb8
-pxLinuxSocketUdpConnect(PxLinuxSocketUdp* self, PxAddress address, pxu16 port)
+pxLinuxSocketUdpConnect(PxLinuxSocketUdp* self, PxAddr addr, pxu16 port)
 {
     PxSockData data = {0};
     pxiword    size = 0;
 
-    switch (address.type) {
-        case PX_ADDRESS_TYPE_IP4: {
+    switch (addr.type) {
+        case PX_ADDR_TYPE_IP4: {
             data.ss_family = AF_INET;
             size           = PX_SOCK_IP4_SIZE;
 
             pxMemoryCopy(pxSockIp4Addr(&data),
-                address.ip4.items, PX_ADDRESS_IP4_GROUPS, 1);
+                addr.ip4.items, PX_ADDR_IP4_GROUPS, 1);
 
             pxMemoryCopyNetFromHost(pxSockIp4Port(&data),
                 &port, 1, 2);
         } break;
 
-        case PX_ADDRESS_TYPE_IP6: {
+        case PX_ADDR_TYPE_IP6: {
             data.ss_family = AF_INET6;
             size           = PX_SOCK_IP6_SIZE;
 
             pxMemoryCopy(pxSockIp6Addr(&data),
-                address.ip6.items, PX_ADDRESS_IP6_GROUPS, 2);
+                addr.ip6.items, PX_ADDR_IP6_GROUPS, 2);
 
             pxMemoryFlip(pxSockIp6Addr(&data),
-                PX_ADDRESS_IP6_GROUPS, 2);
+                PX_ADDR_IP6_GROUPS, 2);
 
             pxMemoryFlip(pxSockIp6Addr(&data),
-                PX_ADDRESS_IP6_GROUPS * 2, 1);
+                PX_ADDR_IP6_GROUPS * 2, 1);
 
             pxMemoryCopyNetFromHost(pxSockIp6Port(&data),
                 &port, 1, 2);
@@ -255,7 +255,7 @@ pxLinuxSocketUdpConnect(PxLinuxSocketUdp* self, PxAddress address, pxu16 port)
 
     if (result == -1) return 0;
 
-    self->address = data;
+    self->addr = data;
 
     return 1;
 }
@@ -278,7 +278,7 @@ pxLinuxSocketUdpAccept(PxLinuxSocketUdp* self, PxArena* arena)
         } while (result->handle == -1 && errno == EINTR);
 
         if (result->handle != -1) {
-            result->address = data;
+            result->addr = data;
 
             return result;
         }
@@ -312,35 +312,35 @@ pxLinuxSocketUdpWriteMemory8(PxLinuxSocketUdp* self, pxu8* memory, pxiword lengt
 }
 
 pxiword
-pxLinuxSocketUdpWriteHostMemory8(PxLinuxSocketUdp* self, pxu8* memory, pxiword length, PxAddress address, pxu16 port)
+pxLinuxSocketUdpWriteMemory8Host(PxLinuxSocketUdp* self, pxu8* memory, pxiword length, PxAddr addr, pxu16 port)
 {
     PxSockData data = {0};
     pxiword    size = 0;
 
-    switch (address.type) {
-        case PX_ADDRESS_TYPE_IP4: {
+    switch (addr.type) {
+        case PX_ADDR_TYPE_IP4: {
             data.ss_family = AF_INET;
             size           = PX_SOCK_IP4_SIZE;
 
             pxMemoryCopy(pxSockIp4Addr(&data),
-                address.ip4.items, PX_ADDRESS_IP4_GROUPS, 1);
+                addr.ip4.items, PX_ADDR_IP4_GROUPS, 1);
 
             pxMemoryCopyNetFromHost(pxSockIp4Port(&data),
                 &port, 1, 2);
         } break;
 
-        case PX_ADDRESS_TYPE_IP6: {
+        case PX_ADDR_TYPE_IP6: {
             data.ss_family = AF_INET6;
             size           = PX_SOCK_IP6_SIZE;
 
             pxMemoryCopy(pxSockIp6Addr(&data),
-                address.ip6.items, PX_ADDRESS_IP6_GROUPS, 2);
+                addr.ip6.items, PX_ADDR_IP6_GROUPS, 2);
 
             pxMemoryFlip(pxSockIp6Addr(&data),
-                PX_ADDRESS_IP6_GROUPS, 2);
+                PX_ADDR_IP6_GROUPS, 2);
 
             pxMemoryFlip(pxSockIp6Addr(&data),
-                PX_ADDRESS_IP6_GROUPS * 2, 1);
+                PX_ADDR_IP6_GROUPS * 2, 1);
 
             pxMemoryCopyNetFromHost(pxSockIp6Port(&data),
                 &port, 1, 2);
@@ -388,7 +388,7 @@ pxLinuxSocketUdpReadMemory8(PxLinuxSocketUdp* self, pxu8* memory, pxiword length
 }
 
 pxiword
-pxLinuxSocketUdpReadHostMemory8(PxLinuxSocketUdp* self, pxu8* memory, pxiword length, PxAddress* address, pxu16* port)
+pxLinuxSocketUdpReadMemory8Host(PxLinuxSocketUdp* self, pxu8* memory, pxiword length, PxAddr* addr, pxu16* port)
 {
     PxSockData data = {0};
     pxiword    size = PX_SOCK_DATA_SIZE;
@@ -409,11 +409,11 @@ pxLinuxSocketUdpReadHostMemory8(PxLinuxSocketUdp* self, pxu8* memory, pxiword le
             if (port != 0)
                 pxMemoryCopyHostFromNet(port, pxSockIp4Port(&data), 1, 2);
 
-            if (address != 0) {
-                address->type = PX_ADDRESS_TYPE_IP4;
+            if (addr != 0) {
+                addr->type = PX_ADDR_TYPE_IP4;
 
-                pxMemoryCopy(address->ip4.items,
-                    pxSockIp4Addr(&data), PX_ADDRESS_IP4_GROUPS, 1);
+                pxMemoryCopy(addr->ip4.items,
+                    pxSockIp4Addr(&data), PX_ADDR_IP4_GROUPS, 1);
             }
         } break;
 
@@ -421,17 +421,17 @@ pxLinuxSocketUdpReadHostMemory8(PxLinuxSocketUdp* self, pxu8* memory, pxiword le
             if (port != 0)
                 pxMemoryCopyHostFromNet(port, pxSockIp6Port(&data), 1, 2);
 
-            if (address != 0) {
-                address->type = PX_ADDRESS_TYPE_IP6;
+            if (addr != 0) {
+                addr->type = PX_ADDR_TYPE_IP6;
 
-                pxMemoryCopy(address->ip6.items,
-                    pxSockIp6Addr(&data), PX_ADDRESS_IP6_GROUPS, 2);
+                pxMemoryCopy(addr->ip6.items,
+                    pxSockIp6Addr(&data), PX_ADDR_IP6_GROUPS, 2);
 
-                pxMemoryFlip(address->ip6.items,
-                    PX_ADDRESS_IP6_GROUPS, 2);
+                pxMemoryFlip(addr->ip6.items,
+                    PX_ADDR_IP6_GROUPS, 2);
 
-                pxMemoryFlip(address->ip6.items,
-                    PX_ADDRESS_IP6_GROUPS * 2, 1);
+                pxMemoryFlip(addr->ip6.items,
+                    PX_ADDR_IP6_GROUPS * 2, 1);
             }
         } break;
 

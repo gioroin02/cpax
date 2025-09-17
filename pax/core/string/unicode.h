@@ -3,7 +3,7 @@
 
 #include "import.h"
 
-#define PX_ASCII_COUNT pxas(pxiword, 128)
+#define PX_ASCII_POINTS pxas(pxiword, 128)
 
 typedef enum PxAscii
 {

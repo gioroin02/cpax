@@ -1,5 +1,5 @@
-#ifndef PX_CORE_STRING_STRING8_H
-#define PX_CORE_STRING_STRING8_H
+#ifndef PX_CORE_STRING_STRING_8_H
+#define PX_CORE_STRING_STRING_8_H
 
 #include "unicode.h"
 
@@ -127,4 +127,4 @@ pxString8Next(PxString8 self, pxiword index, pxiword* units, pxi32* value);
 pxb8
 pxString8Prev(PxString8 self, pxiword index, pxiword* units, pxi32* value);
 
-#endif // PX_CORE_STRING_STRING8_H
+#endif // PX_CORE_STRING_STRING_8_H

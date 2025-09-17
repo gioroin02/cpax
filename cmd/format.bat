@@ -12,4 +12,5 @@ set "src=%base% %memory% %string% %format%"
 set "dir=pax\core\format\test"
 
 zig cc --std=c99 %src% "%dir%\unsigned.c" -o format_unsigned.exe
+zig cc --std=c99 %src% "%dir%\integer.c"  -o format_integer.exe
 zig cc --std=c99 %src% "%dir%\boolean.c"  -o format_boolean.exe

@@ -6,25 +6,25 @@
 typedef struct PxWindowsSocketTcp PxWindowsSocketTcp;
 
 PxWindowsSocketTcp*
-pxWindowsSocketTcpCreate(PxArena* arena, PxAddressType type);
+pxWindowsSocketTcpCreate(PxArena* arena, PxAddrType type);
 
 void
 pxWindowsSocketTcpDestroy(PxWindowsSocketTcp* self);
 
-PxAddress
-pxWindowsSocketTcpGetAddress(PxWindowsSocketTcp* self);
+PxAddr
+pxWindowsSocketTcpGetAddr(PxWindowsSocketTcp* self);
 
 pxu16
 pxWindowsSocketTcpGetPort(PxWindowsSocketTcp* self);
 
 pxb8
-pxWindowsSocketTcpBind(PxWindowsSocketTcp* self, PxAddress address, pxu16 port);
+pxWindowsSocketTcpBind(PxWindowsSocketTcp* self, PxAddr addr, pxu16 port);
 
 pxb8
 pxWindowsSocketTcpListen(PxWindowsSocketTcp* self);
 
 pxb8
-pxWindowsSocketTcpConnect(PxWindowsSocketTcp* self, PxAddress address, pxu16 port);
+pxWindowsSocketTcpConnect(PxWindowsSocketTcp* self, PxAddr addr, pxu16 port);
 
 PxWindowsSocketTcp*
 pxWindowsSocketTcpAccept(PxWindowsSocketTcp* self, PxArena* arena);

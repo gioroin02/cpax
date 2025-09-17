@@ -4,7 +4,7 @@
 #include "reader.h"
 
 PxJsonReader
-pxJsonReaderMake(PxArena* arena, pxiword length, PxInput* reader)
+pxJsonReaderMake(PxArena* arena, pxiword length, PxReader reader)
 {
     PxQueue stack =
         pxQueueReserve(arena, PxJsonLayerType, length);

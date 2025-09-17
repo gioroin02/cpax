@@ -1,5 +1,5 @@
-#ifndef PX_MEMORY_BUFFER32_C
-#define PX_MEMORY_BUFFER32_C
+#ifndef PX_MEMORY_BUFFER_32_C
+#define PX_MEMORY_BUFFER_32_C
 
 #include "buffer32.h"
 
@@ -443,4 +443,4 @@ pxBuffer32PeekMemory32Tail(PxBuffer32* self, pxu32* memory, pxiword length)
     return size;
 }
 
-#endif // PX_MEMORY_BUFFER32_C
+#endif // PX_MEMORY_BUFFER_32_C

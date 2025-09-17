@@ -4,6 +4,6 @@
 #include "import.h"
 
 void
-pxWindowsConsoleWriteCmd(PxOutput* self, PxArena* arena, PxConsoleCmd value);
+pxWindowsConsoleWriteCmd(PxWriter self, PxArena* arena, PxConsoleCmd value);
 
 #endif // PX_WINDOWS_CONSOLE_COMMAND_H

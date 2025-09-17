@@ -16,9 +16,9 @@ set "src=%base% %memory% %string% %format% %stream% %network%"
 set "lib=%winsock%"
 set "dir=pax\core\network\test"
 
-zig cc --std=c99 %src% "%dir%\address_ip4.c" %lib% -o network_address_ip4.exe
-zig cc --std=c99 %src% "%dir%\address_ip6.c" %lib% -o network_address_ip6.exe
-zig cc --std=c99 %src% "%dir%\address.c"     %lib% -o network_address.exe
+zig cc --std=c99 %src% "%dir%\addr_ip4.c" %lib% -o network_addr_ip4.exe
+zig cc --std=c99 %src% "%dir%\addr_ip6.c" %lib% -o network_addr_ip6.exe
+zig cc --std=c99 %src% "%dir%\addr.c"     %lib% -o network_addr.exe
 
 zig cc --std=c99 %src% "%dir%\udp_server.c"  %lib% -o network_udp_server.exe
 zig cc --std=c99 %src% "%dir%\udp_client.c"  %lib% -o network_udp_client.exe

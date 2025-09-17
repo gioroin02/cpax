@@ -24,8 +24,7 @@ pxUnsignedDigits(pxuword value, PxFormatRadix radix, PxFormatFlag flags)
 }
 
 pxiword
-pxMemory8WriteUnsigned(pxu8* memory, pxiword length,
-    pxuword value, PxFormatRadix radix, PxFormatFlag flags)
+pxMemory8WriteUnsigned(pxu8* memory, pxiword length, pxuword value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword size  = pxUnsignedDigits(value, radix, flags);
     pxuword width = pxMagnitudeFormatRadix(radix);
@@ -43,7 +42,7 @@ pxMemory8WriteUnsigned(pxu8* memory, pxiword length,
         index -= 1;
 
         if (pxUnicodeIsAscii(unicode) != 0)
-            memory[index] = pxas(pxu8, unicode);
+            memory[index] = unicode;
         else
             return 0;
     }
@@ -55,8 +54,7 @@ pxMemory8WriteUnsigned(pxu8* memory, pxiword length,
 }
 
 pxiword
-pxMemory8ReadUnsigned(pxu8* memory, pxiword length,
-    pxuword* value, PxFormatRadix radix, PxFormatFlag flags)
+pxMemory8ReadUnsigned(pxu8* memory, pxiword length, pxuword* value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword index = 0;
     pxuword width = pxMagnitudeFormatRadix(radix);
@@ -94,8 +92,7 @@ pxMemory8ReadUnsigned(pxu8* memory, pxiword length,
 }
 
 pxiword
-pxMemory16WriteUnsigned(pxu16* memory, pxiword length,
-    pxuword value, PxFormatRadix radix, PxFormatFlag flags)
+pxMemory16WriteUnsigned(pxu16* memory, pxiword length, pxuword value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword size  = pxUnsignedDigits(value, radix, flags);
     pxuword width = pxMagnitudeFormatRadix(radix);
@@ -113,7 +110,7 @@ pxMemory16WriteUnsigned(pxu16* memory, pxiword length,
         index -= 1;
 
         if (pxUnicodeIsAscii(unicode) != 0)
-            memory[index] = pxas(pxu16, unicode);
+            memory[index] = unicode;
         else
             return 0;
     }
@@ -125,8 +122,7 @@ pxMemory16WriteUnsigned(pxu16* memory, pxiword length,
 }
 
 pxiword
-pxMemory16ReadUnsigned(pxu16* memory, pxiword length,
-    pxuword* value, PxFormatRadix radix, PxFormatFlag flags)
+pxMemory16ReadUnsigned(pxu16* memory, pxiword length, pxuword* value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword index = 0;
     pxuword width = pxMagnitudeFormatRadix(radix);
@@ -164,8 +160,7 @@ pxMemory16ReadUnsigned(pxu16* memory, pxiword length,
 }
 
 pxiword
-pxMemory32WriteUnsigned(pxu32* memory, pxiword length,
-    pxuword value, PxFormatRadix radix, PxFormatFlag flags)
+pxMemory32WriteUnsigned(pxu32* memory, pxiword length, pxuword value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword size  = pxUnsignedDigits(value, radix, flags);
     pxuword width = pxMagnitudeFormatRadix(radix);
@@ -183,7 +178,7 @@ pxMemory32WriteUnsigned(pxu32* memory, pxiword length,
         index -= 1;
 
         if (pxUnicodeIsAscii(unicode) != 0)
-            memory[index] = pxas(pxu32, unicode);
+            memory[index] = unicode;
         else
             return 0;
     }
@@ -195,8 +190,7 @@ pxMemory32WriteUnsigned(pxu32* memory, pxiword length,
 }
 
 pxiword
-pxMemory32ReadUnsigned(pxu32* memory, pxiword length,
-    pxuword* value, PxFormatRadix radix, PxFormatFlag flags)
+pxMemory32ReadUnsigned(pxu32* memory, pxiword length, pxuword* value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword index = 0;
     pxuword width = pxMagnitudeFormatRadix(radix);
@@ -333,6 +327,210 @@ pxUnsignedFromString32(PxString32 string, pxuword* value, PxFormatRadix radix, P
     if (size == length) return 1;
 
     return 0;
+}
+
+pxiword
+pxBuffer8WriteUnsignedHead(PxBuffer8* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags)
+{
+    pxiword size  = pxUnsignedDigits(value, radix, flags);
+    pxuword width = pxMagnitudeFormatRadix(radix);
+    pxuword temp  = value;
+
+    if (size <= 0 || size > self->length - self->size) return 0;
+
+    pxiword prev  = self->head + self->length - size;
+    pxiword index = 0;
+
+    for (pxiword i = size; i > 0; i -= 1) {
+        pxi32 unicode =
+            pxUnicodeFromDigit(temp, radix, flags);
+
+        temp  /= width;
+        index  = (prev + i - 1) % self->length;
+
+        if (pxUnicodeIsAscii(unicode) != 0)
+            self->memory[index] = unicode;
+        else
+            return 0;
+    }
+
+    if ((flags & PX_FORMAT_FLAG_PLUS) != 0)
+        self->memory[index] = PX_ASCII_PLUS;
+
+    self->size += size;
+    self->head  = prev % self->length;
+
+    return size;
+}
+
+pxiword
+pxBuffer8WriteUnsignedTail(PxBuffer8* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags)
+{
+    pxiword size  = pxUnsignedDigits(value, radix, flags);
+    pxuword width = pxMagnitudeFormatRadix(radix);
+    pxuword temp  = value;
+
+    if (size <= 0 || size > self->length - self->size) return 0;
+
+    pxiword next  = self->tail + size;
+    pxiword index = 0;
+
+    for (pxiword i = size; i > 0; i -= 1) {
+        pxi32 unicode =
+            pxUnicodeFromDigit(temp, radix, flags);
+
+        temp  /= width;
+        index  = (self->tail + i - 1) % self->length;
+
+        if (pxUnicodeIsAscii(unicode) != 0)
+            self->memory[index] = unicode;
+        else
+            return 0;
+    }
+
+    if ((flags & PX_FORMAT_FLAG_PLUS) != 0)
+        self->memory[index] = PX_ASCII_PLUS;
+
+    self->size += size;
+    self->tail  = next % self->length;
+
+    return size;
+}
+
+pxiword
+pxBuffer16WriteUnsignedHead(PxBuffer16* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags)
+{
+    pxiword size  = pxUnsignedDigits(value, radix, flags);
+    pxuword width = pxMagnitudeFormatRadix(radix);
+    pxuword temp  = value;
+
+    if (size <= 0 || size > self->length - self->size) return 0;
+
+    pxiword prev  = self->head + self->length - size;
+    pxiword index = 0;
+
+    for (pxiword i = size; i > 0; i -= 1) {
+        pxi32 unicode =
+            pxUnicodeFromDigit(temp, radix, flags);
+
+        temp  /= width;
+        index  = (prev + i - 1) % self->length;
+
+        if (pxUnicodeIsAscii(unicode) != 0)
+            self->memory[index] = unicode;
+        else
+            return 0;
+    }
+
+    if ((flags & PX_FORMAT_FLAG_PLUS) != 0)
+        self->memory[index] = PX_ASCII_PLUS;
+
+    self->size += size;
+    self->head  = prev % self->length;
+
+    return size;
+}
+
+pxiword
+pxBuffer16WriteUnsignedTail(PxBuffer16* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags)
+{
+    pxiword size  = pxUnsignedDigits(value, radix, flags);
+    pxuword width = pxMagnitudeFormatRadix(radix);
+    pxuword temp  = value;
+
+    if (size <= 0 || size > self->length - self->size) return 0;
+
+    pxiword next  = self->tail + size;
+    pxiword index = 0;
+
+    for (pxiword i = size; i > 0; i -= 1) {
+        pxi32 unicode =
+            pxUnicodeFromDigit(temp, radix, flags);
+
+        temp  /= width;
+        index  = (self->tail + i - 1) % self->length;
+
+        if (pxUnicodeIsAscii(unicode) != 0)
+            self->memory[index] = unicode;
+        else
+            return 0;
+    }
+
+    if ((flags & PX_FORMAT_FLAG_PLUS) != 0)
+        self->memory[index] = PX_ASCII_PLUS;
+
+    self->size += size;
+    self->tail  = next % self->length;
+
+    return size;
+}
+
+pxiword
+pxBuffer32WriteUnsignedHead(PxBuffer32* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags)
+{
+    pxiword size  = pxUnsignedDigits(value, radix, flags);
+    pxuword width = pxMagnitudeFormatRadix(radix);
+    pxuword temp  = value;
+
+    if (size <= 0 || size > self->length - self->size) return 0;
+
+    pxiword prev  = self->head + self->length - size;
+    pxiword index = 0;
+
+    for (pxiword i = size; i > 0; i -= 1) {
+        pxi32 unicode =
+            pxUnicodeFromDigit(temp, radix, flags);
+
+        temp  /= width;
+        index  = (prev + i - 1) % self->length;
+
+        if (pxUnicodeIsAscii(unicode) != 0)
+            self->memory[index] = unicode;
+        else
+            return 0;
+    }
+
+    if ((flags & PX_FORMAT_FLAG_PLUS) != 0)
+        self->memory[index] = PX_ASCII_PLUS;
+
+    self->size += size;
+    self->head  = prev % self->length;
+
+    return size;
+}
+
+pxiword
+pxBuffer32WriteUnsignedTail(PxBuffer32* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags)
+{
+    pxiword size  = pxUnsignedDigits(value, radix, flags);
+    pxuword width = pxMagnitudeFormatRadix(radix);
+    pxuword temp  = value;
+
+    if (size <= 0 || size > self->length - self->size) return 0;
+
+    pxiword next  = self->tail + size;
+    pxiword index = 0;
+
+    for (pxiword i = size; i > 0; i -= 1) {
+        pxi32 unicode =
+            pxUnicodeFromDigit(temp, radix, flags);
+
+        temp  /= width;
+        index  = (self->tail + i - 1) % self->length;
+
+        if (pxUnicodeIsAscii(unicode) != 0)
+            self->memory[index] = unicode;
+        else
+            return 0;
+    }
+
+    if ((flags & PX_FORMAT_FLAG_PLUS) != 0)
+        self->memory[index] = PX_ASCII_PLUS;
+
+    self->size += size;
+    self->tail  = next % self->length;
+
+    return size;
 }
 
 #endif // PX_CORE_FORMAT_UNSIGNED_C

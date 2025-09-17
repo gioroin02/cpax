@@ -4,7 +4,7 @@
 #include "writer.h"
 
 PxJsonWriter
-pxJsonWriterMake(PxArena* arena, pxiword length, PxOutput* writer)
+pxJsonWriterMake(PxArena* arena, pxiword length, PxWriter writer)
 {
     PxQueue stack =
         pxQueueReserve(arena, PxJsonLayerType, length);

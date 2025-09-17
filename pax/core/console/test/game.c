@@ -146,7 +146,7 @@ pxConsoleFramePaint(PxConsoleFrame* self, pxiword x, pxiword y, pxi32 unicode, P
 }
 
 pxiword
-pxWriterFormatConsoleCmd(PxOutput* self, PxArena* arena, PxConsoleCmd value)
+pxWriterFormatConsoleCmd(PxWriter self, PxArena* arena, PxConsoleCmd value)
 {
     pxiword result = 0;
 
@@ -250,7 +250,7 @@ pxWriterFormatConsoleCmd(PxOutput* self, PxArena* arena, PxConsoleCmd value)
 }
 
 void
-pxWriterFormatConsoleFrame(PxOutput* self, PxArena* arena, PxConsoleFrame* frame)
+pxWriterFormatConsoleFrame(PxWriter self, PxArena* arena, PxConsoleFrame* frame)
 {
     PxConsoleCell item = pxConsoleFrameReadOr(frame, 0, 0, (PxConsoleCell) {0});
 
@@ -309,15 +309,15 @@ main(int argc, char** argv)
     PxArena arena = pxMemoryReserve(32);
 
     PxConsole console = pxConsoleCreate(&arena);
-    PxInput  reader  = pxInputFromConsole(console, &arena, PX_MEMORY_KIB);
-    PxOutput  writer  = pxConsoleWriter(console, &arena, PX_MEMORY_KIB);
+    PxReader  reader  = pxReaderFromConsole(console, &arena, PX_MEMORY_KIB);
+    PxWriter  writer  = pxConsoleWriter(console, &arena, PX_MEMORY_KIB);
 
     PxConsoleMsg message = {0};
 
     PxConsoleFrame frame   = pxConsoleFrameMake(&arena, 30, 10);
     PxBuffer8      command = pxBuffer8Reserve(&arena, PX_MEMORY_KIB);
 
-    PxOutput painter = pxBufferWriter(&command, &arena, PX_MEMORY_KIB);
+    PxWriter painter = pxBufferWriter(&command, &arena, PX_MEMORY_KIB);
 
     pxConsoleSetMode(console, PX_CONSOLE_MODE_MESSAGE);
 
@@ -325,10 +325,10 @@ main(int argc, char** argv)
         .front = {.r = 128, .g = 128, .b = 128},
     };
 
-    pxWriterFormatConsoleCmd(&writer, &arena, pxConsoleCmdReset());
-    pxWriterFormatConsoleCmd(&writer, &arena, pxConsoleCmdCursorHide());
+    pxWriterFormatConsoleCmd(writer, &arena, pxConsoleCmdReset());
+    pxWriterFormatConsoleCmd(writer, &arena, pxConsoleCmdCursorHide());
 
-    pxWriterFlush(&writer);
+    pxWriterFlush(writer);
 
     pxb8 active = 1;
 
@@ -341,7 +341,7 @@ main(int argc, char** argv)
         elapsed += pxClockElapsed(clock);
 
         do {
-            message = pxConsolePollMsg(&reader, &arena);
+            message = pxConsolePollMsg(reader, &arena);
 
             switch (message.type) {
                 case PX_CONSOLE_MSG_KEYBD_PRESS: {
@@ -404,18 +404,18 @@ main(int argc, char** argv)
                 PX_ASCII_SHARP, (PxColorRGB) {0}, game.back);
 
             if (pxConsoleFrameIsDirty(&frame_list[frame]) != 0)
-                pxConsoleWriteFrame(&writer, &arena, &frame_list[frame]);
+                pxConsoleWriteFrame(writer, &arena, &frame_list[frame]);
 
-            pxWriterFlush(&writer);
+            pxWriterFlush(writer);
 
             elapsed -= slice;
             frame    = (frame + 1) % frame_size;
         }
     }
 
-    pxWriterFormatConsoleCmd(&writer, &arena, pxConsoleCmdReset());
+    pxWriterFormatConsoleCmd(writer, &arena, pxConsoleCmdReset());
 
-    pxWriterFlush(&writer);
+    pxWriterFlush(writer);
 
     pxConsoleSetMode(console, PX_CONSOLE_MODE_DEFAULT);
 }

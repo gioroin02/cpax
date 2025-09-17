@@ -52,13 +52,13 @@ pxConsoleMsgKeybdRelease(pxiword button, pxuword modifs, pxi32 unicode)
 }
 
 PxConsoleMsg
-pxConsoleReadMsg(PxInput* self, PxArena* arena)
+pxConsoleReadMsg(PxReader self, PxArena* arena)
 {
     return __pxConsoleReadMsg__(self, arena);
 }
 
 PxConsoleMsg
-pxConsolePollMsg(PxInput* self, PxArena* arena)
+pxConsolePollMsg(PxReader self, PxArena* arena)
 {
     return __pxConsolePollMsg__(self, arena);
 }

@@ -12,7 +12,6 @@ typedef enum PxEscapeType
 
     PX_ESCAPE_UNICODE,
     PX_ESCAPE_FUNCTION,
-
     PX_ESCAPE_GRAPHIC,
 
     PX_ESCAPE_UP,

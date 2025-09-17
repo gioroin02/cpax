@@ -1,5 +1,5 @@
-#ifndef PX_MEMORY_BUFFER16_C
-#define PX_MEMORY_BUFFER16_C
+#ifndef PX_MEMORY_BUFFER_16_C
+#define PX_MEMORY_BUFFER_16_C
 
 #include "buffer16.h"
 
@@ -443,4 +443,4 @@ pxBuffer16PeekMemory16Tail(PxBuffer16* self, pxu16* memory, pxiword length)
     return size;
 }
 
-#endif // PX_MEMORY_BUFFER16_C
+#endif // PX_MEMORY_BUFFER_16_C

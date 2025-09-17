@@ -6,25 +6,25 @@
 typedef struct PxLinuxSocketTcp PxLinuxSocketTcp;
 
 PxLinuxSocketTcp*
-pxLinuxSocketTcpCreate(PxArena* arena, PxAddressType type);
+pxLinuxSocketTcpCreate(PxArena* arena, PxAddrType type);
 
 void
 pxLinuxSocketTcpDestroy(PxLinuxSocketTcp* self);
 
-PxAddress
-pxLinuxSocketTcpGetAddress(PxLinuxSocketTcp* self);
+PxAddr
+pxLinuxSocketTcpGetAddr(PxLinuxSocketTcp* self);
 
 pxu16
 pxLinuxSocketTcpGetPort(PxLinuxSocketTcp* self);
 
 pxb8
-pxLinuxSocketTcpBind(PxLinuxSocketTcp* self, PxAddress address, pxu16 port);
+pxLinuxSocketTcpBind(PxLinuxSocketTcp* self, PxAddr addr, pxu16 port);
 
 pxb8
 pxLinuxSocketTcpListen(PxLinuxSocketTcp* self);
 
 pxb8
-pxLinuxSocketTcpConnect(PxLinuxSocketTcp* self, PxAddress address, pxu16 port);
+pxLinuxSocketTcpConnect(PxLinuxSocketTcp* self, PxAddr addr, pxu16 port);
 
 PxLinuxSocketTcp*
 pxLinuxSocketTcpAccept(PxLinuxSocketTcp* self, PxArena* arena);

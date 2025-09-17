@@ -63,10 +63,10 @@ pxConsoleReadMemory8(PxConsole self, pxu8* memory, pxiword length)
     return __pxConsoleReadMemory8__(self, memory, length);
 }
 
-PxInput
-pxInputFromConsole(PxConsole self)
+PxReader
+pxReaderFromConsole(PxConsole self)
 {
-    PxInput result = {0};
+    PxReader result = {0};
 
     if (self == 0) return result;
 
@@ -76,10 +76,10 @@ pxInputFromConsole(PxConsole self)
     return result;
 }
 
-PxOutput
-pxOutputFromConsole(PxConsole self)
+PxWriter
+pxWriterFromConsole(PxConsole self)
 {
-    PxOutput result = {0};
+    PxWriter result = {0};
 
     if (self == 0) return result;
 

@@ -9,7 +9,7 @@
 
     #define __pxSocketTcpCreate__       pxWindowsSocketTcpCreate
     #define __pxSocketTcpDestroy__      pxWindowsSocketTcpDestroy
-    #define __pxSocketTcpGetAddress__   pxWindowsSocketTcpGetAddress
+    #define __pxSocketTcpGetAddr__      pxWindowsSocketTcpGetAddr
     #define __pxSocketTcpGetPort__      pxWindowsSocketTcpGetPort
     #define __pxSocketTcpBind__         pxWindowsSocketTcpBind
     #define __pxSocketTcpListen__       pxWindowsSocketTcpListen
@@ -24,7 +24,7 @@
 
     #define __pxSocketTcpCreate__       pxLinuxSocketTcpCreate
     #define __pxSocketTcpDestroy__      pxLinuxSocketTcpDestroy
-    #define __pxSocketTcpGetAddress__   pxLinuxSocketTcpGetAddress
+    #define __pxSocketTcpGetAddr__      pxLinuxSocketTcpGetAddr
     #define __pxSocketTcpGetPort__      pxLinuxSocketTcpGetPort
     #define __pxSocketTcpBind__         pxLinuxSocketTcpBind
     #define __pxSocketTcpListen__       pxLinuxSocketTcpListen
@@ -40,7 +40,7 @@
 #endif
 
 PxSocketTcp
-pxSocketTcpCreate(PxArena* arena, PxAddressType type)
+pxSocketTcpCreate(PxArena* arena, PxAddrType type)
 {
     return __pxSocketTcpCreate__(arena, type);
 }
@@ -51,10 +51,10 @@ pxSocketTcpDestroy(PxSocketTcp self)
     __pxSocketTcpDestroy__(self);
 }
 
-PxAddress
-pxSocketTcpGetAddress(PxSocketTcp self)
+PxAddr
+pxSocketTcpGetAddr(PxSocketTcp self)
 {
-    return __pxSocketTcpGetAddress__(self);
+    return __pxSocketTcpGetAddr__(self);
 }
 
 pxu16
@@ -64,9 +64,9 @@ pxSocketTcpGetPort(PxSocketTcp self)
 }
 
 pxb8
-pxSocketTcpBind(PxSocketTcp self, PxAddress address, pxu16 port)
+pxSocketTcpBind(PxSocketTcp self, PxAddr addr, pxu16 port)
 {
-    return __pxSocketTcpBind__(self, address, port);
+    return __pxSocketTcpBind__(self, addr, port);
 }
 
 pxb8
@@ -76,9 +76,9 @@ pxSocketTcpListen(PxSocketTcp self)
 }
 
 pxb8
-pxSocketTcpConnect(PxSocketTcp self, PxAddress address, pxu16 port)
+pxSocketTcpConnect(PxSocketTcp self, PxAddr addr, pxu16 port)
 {
-    return __pxSocketTcpConnect__(self, address, port);
+    return __pxSocketTcpConnect__(self, addr, port);
 }
 
 PxSocketTcp
@@ -99,10 +99,10 @@ pxSocketTcpReadMemory8(PxSocketTcp self, pxu8* memory, pxiword length)
     return __pxSocketTcpReadMemory8__(self, memory, length);
 }
 
-PxInput
-pxInputFromSocketTcp(PxSocketTcp self)
+PxReader
+pxReaderFromSocketTcp(PxSocketTcp self)
 {
-    PxInput result = {0};
+    PxReader result = {0};
 
     if (self == 0) return result;
 
@@ -112,10 +112,10 @@ pxInputFromSocketTcp(PxSocketTcp self)
     return result;
 }
 
-PxOutput
-pxOutputFromSocketTcp(PxSocketTcp self)
+PxWriter
+pxWriterFromSocketTcp(PxSocketTcp self)
 {
-    PxOutput result = {0};
+    PxWriter result = {0};
 
     if (self == 0) return result;
 

@@ -4,6 +4,6 @@
 #include "import.h"
 
 void
-pxLinuxConsoleWriteCmd(PxOutput* self, PxArena* arena, PxConsoleCmd value);
+pxLinuxConsoleWriteCmd(PxWriter self, PxArena* arena, PxConsoleCmd value);
 
 #endif // PX_LINUX_CONSOLE_COMMAND_H

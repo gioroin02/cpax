@@ -107,24 +107,24 @@ pxb8
 pxJsonIsLetter(pxu8 byte);
 
 PxJsonToken
-pxJsonPeek(PxInput* reader, PxArena* arena);
+pxJsonPeek(PxReader reader, PxArena* arena);
 
 PxJsonToken
-pxJsonPeekSymbol(PxInput* reader, PxArena* arena);
+pxJsonPeekSymbol(PxReader reader, PxArena* arena);
 
 PxJsonToken
-pxJsonPeekString(PxInput* reader, PxArena* arena);
+pxJsonPeekString(PxReader reader, PxArena* arena);
 
 PxJsonToken
-pxJsonPeekNumber(PxInput* reader, PxArena* arena);
+pxJsonPeekNumber(PxReader reader, PxArena* arena);
 
 PxJsonToken
-pxJsonPeekWord(PxInput* reader, PxArena* arena);
+pxJsonPeekWord(PxReader reader, PxArena* arena);
 
 PxJsonToken
-pxJsonNext(PxInput* reader, PxArena* arena);
+pxJsonNext(PxReader reader, PxArena* arena);
 
 pxu8
-pxJsonSkipSpaces(PxInput* reader);
+pxJsonSkipSpaces(PxReader reader);
 
 #endif // PX_ENCODING_JSON_TOKEN_H

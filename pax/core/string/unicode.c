@@ -45,7 +45,7 @@ pxUnicodeIsSurrogateHigh(pxi32 value)
 pxb8
 pxUnicodeIsAscii(pxi32 value)
 {
-    if (value > 0x0 && value <= 0x7f)
+    if (value >= 0x0 && value <= 0x7f)
         return 1;
 
     return 0;
@@ -54,7 +54,7 @@ pxUnicodeIsAscii(pxi32 value)
 pxb8
 pxUnicodeIsAsciiCntrl(pxi32 value)
 {
-    if (value > 0x0 && value <= 0x20)
+    if (value >= 0x0 && value <= 0x20)
         return 1;
 
     return 0;

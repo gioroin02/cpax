@@ -109,10 +109,10 @@ pxFileReadMemory8(PxFile self, pxu8* memory, pxiword length)
     return __pxFileReadMemory8__(self, memory, length);
 }
 
-PxInput
-pxInputFromFile(PxFile self)
+PxReader
+pxReaderFromFile(PxFile self)
 {
-    PxInput result = {0};
+    PxReader result = {0};
 
     if (self == 0) return result;
 
@@ -122,10 +122,10 @@ pxInputFromFile(PxFile self)
     return result;
 }
 
-PxOutput
-pxOutputFromFile(PxFile self)
+PxWriter
+pxWriterFromFile(PxFile self)
 {
-    PxOutput result = {0};
+    PxWriter result = {0};
 
     if (self == 0) return result;
 

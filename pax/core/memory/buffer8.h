@@ -1,5 +1,5 @@
-#ifndef PX_MEMORY_BUFFER8_H
-#define PX_MEMORY_BUFFER8_H
+#ifndef PX_MEMORY_BUFFER_8_H
+#define PX_MEMORY_BUFFER_8_H
 
 #include "arena.h"
 
@@ -109,4 +109,4 @@ pxBuffer8PeekTail(PxBuffer8* self, PxBuffer8* buffer);
 pxiword
 pxBuffer8PeekMemory8Tail(PxBuffer8* self, pxu8* memory, pxiword length);
 
-#endif // PX_MEMORY_BUFFER8_H
+#endif // PX_MEMORY_BUFFER_8_H

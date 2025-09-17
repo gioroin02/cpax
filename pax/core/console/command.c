@@ -203,13 +203,13 @@ pxConsoleCmdReset()
 }
 
 void
-pxConsoleWriteCmd(PxOutput* self, PxArena* arena, PxConsoleCmd value)
+pxConsoleWriteCmd(PxWriter self, PxArena* arena, PxConsoleCmd value)
 {
     __pxConsoleWriteCmd__(self, arena, value);
 }
 
 void
-pxConsoleWriteList(PxOutput* self, PxArena* arena, pxiword start, pxiword stop, PxConsoleCmd* list)
+pxConsoleWriteList(PxWriter self, PxArena* arena, pxiword start, pxiword stop, PxConsoleCmd* list)
 {
     for (pxiword i = start; i < stop; i += 1)
         pxConsoleWriteCmd(self, arena, list[i]);

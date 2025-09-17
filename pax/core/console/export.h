@@ -1,8 +1,6 @@
 #ifndef PX_CORE_CONSOLE_EXPORT_H
 #define PX_CORE_CONSOLE_EXPORT_H
 
-#include "import.h"
-
 #include "message.h"
 #include "command.h"
 

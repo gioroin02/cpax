@@ -42,7 +42,7 @@ pxUnicodeFromDigit(pxuword value, PxFormatRadix radix, PxFormatFlag flags)
         default: break;
     }
 
-    return PX_ASCII_COUNT;
+    return PX_ASCII_POINTS;
 }
 
 pxuword
@@ -65,7 +65,7 @@ pxDigitFromUnicode(pxi32 value, PxFormatRadix radix, PxFormatFlag flags)
                     return value - PX_ASCII_UPPER_A + 10;
             }
 
-            if (value >= PX_ASCII_LOWER_A && value <= PX_ASCII_LOWER_A)
+            if (value >= PX_ASCII_LOWER_A && value <= PX_ASCII_LOWER_F)
                 return value - PX_ASCII_LOWER_A + 10;
         } break;
 

@@ -1,8 +1,6 @@
 #ifndef PX_CORE_STRING_EXPORT_H
 #define PX_CORE_STRING_EXPORT_H
 
-#include "import.h"
-
 #include "unicode.h"
 
 #include "string8.h"

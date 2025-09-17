@@ -1,5 +1,5 @@
-#ifndef PX_MEMORY_BUFFER32_H
-#define PX_MEMORY_BUFFER32_H
+#ifndef PX_MEMORY_BUFFER_32_H
+#define PX_MEMORY_BUFFER_32_H
 
 #include "arena.h"
 
@@ -109,4 +109,4 @@ pxBuffer32PeekTail(PxBuffer32* self, PxBuffer32* buffer);
 pxiword
 pxBuffer32PeekMemory32Tail(PxBuffer32* self, pxu32* memory, pxiword length);
 
-#endif // PX_MEMORY_BUFFER32_H
+#endif // PX_MEMORY_BUFFER_32_H

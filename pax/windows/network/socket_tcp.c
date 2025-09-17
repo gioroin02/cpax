@@ -37,18 +37,18 @@ typedef struct sockaddr_in6     PxSockIp6;
 struct PxWindowsSocketTcp
 {
     SOCKET     handle;
-    PxSockData address;
+    PxSockData addr;
 };
 
 PxWindowsSocketTcp*
-pxWindowsSocketTcpCreate(PxArena* arena, PxAddressType type)
+pxWindowsSocketTcpCreate(PxArena* arena, PxAddrType type)
 {
     pxiword offset = pxArenaOffset(arena);
     pxiword family = 0;
 
     switch (type) {
-        case PX_ADDRESS_TYPE_IP4: family = AF_INET;  break;
-        case PX_ADDRESS_TYPE_IP6: family = AF_INET6; break;
+        case PX_ADDR_TYPE_IP4: family = AF_INET;  break;
+        case PX_ADDR_TYPE_IP6: family = AF_INET6; break;
 
         default: return 0;
     }
@@ -60,7 +60,7 @@ pxWindowsSocketTcpCreate(PxArena* arena, PxAddressType type)
         result->handle = socket(family, SOCK_STREAM, 0);
 
         if (result->handle != INVALID_SOCKET) {
-            result->address.ss_family = family;
+            result->addr.ss_family = family;
 
             return result;
         }
@@ -79,38 +79,38 @@ pxWindowsSocketTcpDestroy(PxWindowsSocketTcp* self)
     if (self->handle != INVALID_SOCKET)
         closesocket(self->handle);
 
-    self->handle  = INVALID_SOCKET;
-    self->address = (PxSockData) {0};
+    self->handle = INVALID_SOCKET;
+    self->addr   = (PxSockData) {0};
 }
 
-PxAddress
-pxWindowsSocketTcpGetAddress(PxWindowsSocketTcp* self)
+PxAddr
+pxWindowsSocketTcpGetAddr(PxWindowsSocketTcp* self)
 {
-    PxAddress result = {.type = PX_ADDRESS_TYPE_NONE};
+    PxAddr result = {.type = PX_ADDR_TYPE_NONE};
 
-    switch (self->address.ss_family) {
+    switch (self->addr.ss_family) {
         case AF_INET: {
-            result.type = PX_ADDRESS_TYPE_IP4;
+            result.type = PX_ADDR_TYPE_IP4;
 
-            void* addr = pxSockIp4Addr(&self->address);
+            void* addr = pxSockIp4Addr(&self->addr);
 
             pxMemoryCopy(result.ip4.items, addr,
-                PX_ADDRESS_IP4_GROUPS, 1);
+                PX_ADDR_IP4_GROUPS, 1);
         } break;
 
         case AF_INET6: {
-            result.type = PX_ADDRESS_TYPE_IP6;
+            result.type = PX_ADDR_TYPE_IP6;
 
-            void* addr = pxSockIp6Addr(&self->address);
+            void* addr = pxSockIp6Addr(&self->addr);
 
             pxMemoryCopy(result.ip6.items, addr,
-                PX_ADDRESS_IP6_GROUPS, 2);
+                PX_ADDR_IP6_GROUPS, 2);
 
             pxMemoryFlip(result.ip6.items,
-                PX_ADDRESS_IP6_GROUPS, 2);
+                PX_ADDR_IP6_GROUPS, 2);
 
             pxMemoryFlip(result.ip6.items,
-                PX_ADDRESS_IP6_GROUPS * 2, 1);
+                PX_ADDR_IP6_GROUPS * 2, 1);
         } break;
 
         default: break;
@@ -124,13 +124,13 @@ pxWindowsSocketTcpGetPort(PxWindowsSocketTcp* self)
 {
     pxu16 temp = 0;
 
-    switch (self->address.ss_family) {
+    switch (self->addr.ss_family) {
         case AF_INET:
-            temp = *pxSockIp4Port(&self->address);
+            temp = *pxSockIp4Port(&self->addr);
         break;
 
         case AF_INET6:
-            temp = *pxSockIp6Port(&self->address);
+            temp = *pxSockIp6Port(&self->addr);
         break;
 
         default: break;
@@ -140,46 +140,46 @@ pxWindowsSocketTcpGetPort(PxWindowsSocketTcp* self)
 }
 
 pxb8
-pxWindowsSocketTcpBind(PxWindowsSocketTcp* self, PxAddress address, pxu16 port)
+pxWindowsSocketTcpBind(PxWindowsSocketTcp* self, PxAddr addr, pxu16 port)
 {
     pxiword family = 0;
 
-    switch (address.type) {
-        case PX_ADDRESS_TYPE_IP4: family = AF_INET;  break;
-        case PX_ADDRESS_TYPE_IP6: family = AF_INET6; break;
+    switch (addr.type) {
+        case PX_ADDR_TYPE_IP4: family = AF_INET;  break;
+        case PX_ADDR_TYPE_IP6: family = AF_INET6; break;
 
         default: return 0;
     }
 
-    if (self->address.ss_family != family) return 0;
+    if (self->addr.ss_family != family) return 0;
 
     PxSockData data = {0};
     pxiword    size = 0;
 
-    switch (address.type) {
-        case PX_ADDRESS_TYPE_IP4: {
+    switch (addr.type) {
+        case PX_ADDR_TYPE_IP4: {
             data.ss_family = AF_INET;
             size           = PX_SOCK_IP4_SIZE;
 
             pxMemoryCopy(pxSockIp4Addr(&data),
-                address.ip4.items, PX_ADDRESS_IP4_GROUPS, 1);
+                addr.ip4.items, PX_ADDR_IP4_GROUPS, 1);
 
             pxMemoryCopyNetFromHost(pxSockIp4Port(&data),
                 &port, 1, 2);
         } break;
 
-        case PX_ADDRESS_TYPE_IP6: {
+        case PX_ADDR_TYPE_IP6: {
             data.ss_family = AF_INET6;
             size           = PX_SOCK_IP6_SIZE;
 
             pxMemoryCopy(pxSockIp6Addr(&data),
-                address.ip6.items, PX_ADDRESS_IP6_GROUPS, 2);
+                addr.ip6.items, PX_ADDR_IP6_GROUPS, 2);
 
             pxMemoryFlip(pxSockIp6Addr(&data),
-                PX_ADDRESS_IP6_GROUPS, 2);
+                PX_ADDR_IP6_GROUPS, 2);
 
             pxMemoryFlip(pxSockIp6Addr(&data),
-                PX_ADDRESS_IP6_GROUPS * 2, 1);
+                PX_ADDR_IP6_GROUPS * 2, 1);
 
             pxMemoryCopyNetFromHost(pxSockIp6Port(&data),
                 &port, 1, 2);
@@ -191,7 +191,7 @@ pxWindowsSocketTcpBind(PxWindowsSocketTcp* self, PxAddress address, pxu16 port)
     if (bind(self->handle, pxSock(&data), size) == SOCKET_ERROR)
         return 0;
 
-    self->address = data;
+    self->addr = data;
 
     return 1;
 }
@@ -206,35 +206,35 @@ pxWindowsSocketTcpListen(PxWindowsSocketTcp* self)
 }
 
 pxb8
-pxWindowsSocketTcpConnect(PxWindowsSocketTcp* self, PxAddress address, pxu16 port)
+pxWindowsSocketTcpConnect(PxWindowsSocketTcp* self, PxAddr addr, pxu16 port)
 {
     PxSockData data = {0};
     pxiword    size = 0;
 
-    switch (address.type) {
-        case PX_ADDRESS_TYPE_IP4: {
+    switch (addr.type) {
+        case PX_ADDR_TYPE_IP4: {
             data.ss_family = AF_INET;
             size           = PX_SOCK_IP4_SIZE;
 
             pxMemoryCopy(pxSockIp4Addr(&data),
-                address.ip4.items, PX_ADDRESS_IP4_GROUPS, 1);
+                addr.ip4.items, PX_ADDR_IP4_GROUPS, 1);
 
             pxMemoryCopyNetFromHost(pxSockIp4Port(&data),
                 &port, 1, 2);
         } break;
 
-        case PX_ADDRESS_TYPE_IP6: {
+        case PX_ADDR_TYPE_IP6: {
             data.ss_family = AF_INET6;
             size           = PX_SOCK_IP6_SIZE;
 
             pxMemoryCopy(pxSockIp6Addr(&data),
-                address.ip6.items, PX_ADDRESS_IP6_GROUPS, 2);
+                addr.ip6.items, PX_ADDR_IP6_GROUPS, 2);
 
             pxMemoryFlip(pxSockIp6Addr(&data),
-                PX_ADDRESS_IP6_GROUPS, 2);
+                PX_ADDR_IP6_GROUPS, 2);
 
             pxMemoryFlip(pxSockIp6Addr(&data),
-                PX_ADDRESS_IP6_GROUPS * 2, 1);
+                PX_ADDR_IP6_GROUPS * 2, 1);
 
             pxMemoryCopyNetFromHost(pxSockIp6Port(&data),
                 &port, 1, 2);
@@ -246,7 +246,7 @@ pxWindowsSocketTcpConnect(PxWindowsSocketTcp* self, PxAddress address, pxu16 por
     if (connect(self->handle, pxSock(&data), size) == SOCKET_ERROR)
         return 0;
 
-    self->address = data;
+    self->addr = data;
 
     return 1;
 }
@@ -267,7 +267,7 @@ pxWindowsSocketTcpAccept(PxWindowsSocketTcp* self, PxArena* arena)
             pxSock(&data), pxas(int*, &size));
 
         if (result->handle != INVALID_SOCKET) {
-            result->address = data;
+            result->addr = data;
 
             return result;
         }

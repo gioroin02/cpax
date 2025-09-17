@@ -1,11 +1,9 @@
 #ifndef PX_CORE_NETWORK_EXPORT_H
 #define PX_CORE_NETWORK_EXPORT_H
 
-#include "import.h"
-
-#include "address_ip4.h"
-#include "address_ip6.h"
-#include "address.h"
+#include "addr_ip4.h"
+#include "addr_ip6.h"
+#include "addr.h"
 
 #include "socket_tcp.h"
 #include "socket_udp.h"

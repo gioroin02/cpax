@@ -8,4 +8,5 @@ src="$base $memory $string $format"
 dir="pax/core/format/test"
 
 gcc -g --std=c99 $src $dir/unsigned.c -o format_unsigned.exe
+gcc -g --std=c99 $src $dir/integer.c  -o format_integer.exe
 gcc -g --std=c99 $src $dir/boolean.c  -o format_boolean.exe

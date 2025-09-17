@@ -9,28 +9,22 @@ pxIntegerDigits(pxiword value, PxFormatRadix radix, PxFormatFlag flags);
 /* Memory */
 
 pxiword
-pxMemory8WriteInteger(pxu8* memory, pxiword length,
-    pxiword value, PxFormatRadix radix, PxFormatFlag flags);
+pxMemory8WriteInteger(pxu8* memory, pxiword length, pxiword value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxiword
-pxMemory8ReadInteger(pxu8* memory, pxiword length,
-    pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
+pxMemory8ReadInteger(pxu8* memory, pxiword length, pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxiword
-pxMemory16WriteInteger(pxu16* memory, pxiword length,
-    pxiword value, PxFormatRadix radix, PxFormatFlag flags);
+pxMemory16WriteInteger(pxu16* memory, pxiword length, pxiword value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxiword
-pxMemory16ReadInteger(pxu16* memory, pxiword length,
-    pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
+pxMemory16ReadInteger(pxu16* memory, pxiword length, pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxiword
-pxMemory32WriteInteger(pxu32* memory, pxiword length,
-    pxiword value, PxFormatRadix radix, PxFormatFlag flags);
+pxMemory32WriteInteger(pxu32* memory, pxiword length, pxiword value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxiword
-pxMemory32ReadInteger(pxu32* memory, pxiword length,
-    pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
+pxMemory32ReadInteger(pxu32* memory, pxiword length, pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
 
 /* String */
 
@@ -52,7 +46,7 @@ pxString32FromInteger(PxArena* arena, pxiword value, PxFormatRadix radix, PxForm
 pxb8
 pxIntegerFromString32(PxString32 string, pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
 
-/* Buffer */ /*
+/* Buffer */
 
 pxiword
 pxBuffer8WriteIntegerHead(PxBuffer8* self, pxiword value, PxFormatRadix radix, PxFormatFlag flags);
@@ -71,51 +65,5 @@ pxBuffer32WriteIntegerHead(PxBuffer32* self, pxiword value, PxFormatRadix radix,
 
 pxiword
 pxBuffer32WriteIntegerTail(PxBuffer32* self, pxiword value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer8ReadIntegerTail(PxBuffer8* self, pxiword length,
-    pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer16ReadIntegerHead(PxBuffer16* self, pxiword length,
-    pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer16ReadIntegerTail(PxBuffer16* self, pxiword length,
-    pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer32ReadIntegerHead(PxBuffer32* memory, pxiword length,
-    pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer32ReadIntegerTail(PxBuffer32* memory, pxiword length,
-    pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer8ReadIntegerHead(PxBuffer8* self, pxiword length,
-    pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer8ReadIntegerTail(PxBuffer8* self, pxiword length,
-    pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer16ReadIntegerHead(PxBuffer16* self, pxiword length,
-    pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer16ReadIntegerTail(PxBuffer16* self, pxiword length,
-    pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer32ReadIntegerHead(PxBuffer32* memory, pxiword length,
-    pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer32ReadIntegerTail(PxBuffer32* memory, pxiword length,
-    pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
-
-*/
 
 #endif // PX_CORE_FORMAT_INTEGER_H

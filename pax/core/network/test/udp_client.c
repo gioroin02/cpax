@@ -2,12 +2,12 @@
 
 #include <stdio.h>
 
-#define RED(x)    "\x1b[31m" x "\x1b[0m"
-#define GRN(x)  "\x1b[32m" x "\x1b[0m"
+#define RED(x) "\x1b[31m" x "\x1b[0m"
+#define GRN(x) "\x1b[32m" x "\x1b[0m"
 #define YLW(x) "\x1b[33m" x "\x1b[0m"
-#define BLU(x)   "\x1b[34m" x "\x1b[0m"
+#define BLU(x) "\x1b[34m" x "\x1b[0m"
 #define MAG(x) "\x1b[35m" x "\x1b[0m"
-#define CYA(x)  "\x1b[36m" x "\x1b[0m"
+#define CYA(x) "\x1b[36m" x "\x1b[0m"
 
 #define FATAL MAG("FATAL")
 #define ERROR RED("ERROR")
@@ -24,18 +24,19 @@
 
 typedef struct ClientConfig
 {
-    PxAddress addr;
-    pxuword   port;
+    PxAddr  addr;
+    pxuword port;
 }
 ClientConfig;
 
-typedef struct ClientState
+typedef struct Client
 {
     PxSocketUdp socket;
-    PxBuffer8   request;
-    PxBuffer8   response;
+
+    PxBuffer8 request;
+    PxBuffer8 response;
 }
-ClientState;
+Client;
 
 int
 main(int argc, char** argv)
@@ -45,7 +46,7 @@ main(int argc, char** argv)
     if (pxNetworkStart() == 0) return 1;
 
     ClientConfig config = {
-        .addr = pxAddressLocalhost(PX_ADDRESS_TYPE_IP4),
+        .addr = pxAddrLocalhost(PX_ADDR_TYPE_IP4),
         .port = 8000,
     };
 
@@ -57,14 +58,14 @@ main(int argc, char** argv)
                 arg = pxString8TrimPrefix(arg, CLIENT_ARG_IPV4);
                 arg = pxString8TrimSpaces(arg);
 
-                pxAddressFromString8(arg, &config.addr, PX_ADDRESS_TYPE_IP4);
+                pxAddrFromString8(arg, &config.addr, PX_ADDR_TYPE_IP4);
             }
 
             if (pxString8BeginsWith(arg, CLIENT_ARG_IPV6) != 0) {
                 arg = pxString8TrimPrefix(arg, CLIENT_ARG_IPV6);
                 arg = pxString8TrimSpaces(arg);
 
-                pxAddressFromString8(arg, &config.addr, PX_ADDRESS_TYPE_IP6);
+                pxAddrFromString8(arg, &config.addr, PX_ADDR_TYPE_IP6);
             }
 
             if (pxString8BeginsWith(arg, CLIENT_ARG_PORT) != 0) {
@@ -76,7 +77,7 @@ main(int argc, char** argv)
         }
     }
 
-    ClientState client = {0};
+    Client client = {0};
 
     client.socket = pxSocketUdpCreate(&arena, config.addr.type);
 
@@ -87,17 +88,19 @@ main(int argc, char** argv)
 
     pxBuffer8WriteString8Tail(&client.request, CLIENT_MSG);
 
-    pxSocketUdpWriteHost(client.socket,
-        &client.request, config.addr, config.port);
+    pxSocketUdpWriteMemory8Host(client.socket,
+        client.request.memory, client.request.size, config.addr, config.port);
 
-    PxAddress addr = {0};
+    client.request.size = 0;
+
+    PxAddr addr = {0};
     pxu16     port = 0;
 
-    pxb8 state = pxSocketUdpReadHost(client.socket,
-        &client.response, &addr, &port);
+    client.response.size = pxSocketUdpReadMemory8Host(client.socket,
+        client.response.memory, client.response.length, &addr, &port);
 
-    if (state != 0) {
-        if (port == config.port && pxAddressIsEqual(addr, config.addr) != 0) {
+    if (client.response.size != 0) {
+        if (port == config.port && pxAddrIsEqual(addr, config.addr) != 0) {
             PxString8 string = pxBuffer8ReadString8Head(
                 &client.response, &arena, client.response.size);
 

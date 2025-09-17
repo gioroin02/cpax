@@ -5,16 +5,17 @@
 int
 main(int argc, char** argv)
 {
-    pxu8 memory[256] = {0};
+    PxArena   arena  = pxMemoryReserve(16);
+    PxBuffer8 buffer = pxBuffer8Reserve(&arena, PX_MEMORY_KIB);
 
-    pxiword wrote = pxMemory8WriteUnsigned(memory, 256, 16,
+    pxiword wrote = pxBuffer8WriteUnsignedTail(&buffer, 256,
         PX_FORMAT_RADIX_16, PX_FORMAT_FLAG_UPPER | PX_FORMAT_FLAG_PLUS);
 
     pxuword value = 0;
 
-    pxiword read = pxMemory8ReadUnsigned(memory, wrote, &value,
+    pxiword read = pxMemory8ReadUnsigned(buffer.memory, buffer.size, &value,
         PX_FORMAT_RADIX_16, PX_FORMAT_FLAG_UPPER | PX_FORMAT_FLAG_PLUS);
 
-    printf("'%.*s' [%lli], %llu, %lli, %s\n", pxas(int, wrote), memory, wrote,
+    printf("'%.*s' [%lli], %llu, %lli, %s\n", pxas(int, wrote), buffer.memory, wrote,
         value, read, read == wrote ? "ok" : "ko");
 }

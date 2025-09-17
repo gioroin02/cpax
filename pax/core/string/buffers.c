@@ -263,4 +263,28 @@ pxBuffer8PeekString8Tail(PxBuffer8* self, PxArena* arena, pxiword length)
     return (PxString8) {0};
 }
 
+pxiword
+pxBuffer16WriteString16Head(PxBuffer16* self, PxString16 string)
+{
+    return pxBuffer16WriteMemory16Head(self, string.memory, string.length);
+}
+
+pxiword
+pxBuffer16WriteString16Tail(PxBuffer16* self, PxString16 string)
+{
+    return pxBuffer16WriteMemory16Tail(self, string.memory, string.length);
+}
+
+pxiword
+pxBuffer32WriteString32Head(PxBuffer32* self, PxString32 string)
+{
+    return pxBuffer32WriteMemory32Head(self, string.memory, string.length);
+}
+
+pxiword
+pxBuffer32WriteString32Tail(PxBuffer32* self, PxString32 string)
+{
+    return pxBuffer32WriteMemory32Tail(self, string.memory, string.length);
+}
+
 #endif // PX_CORE_STRING_BUFFERS_C

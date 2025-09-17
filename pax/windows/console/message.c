@@ -108,7 +108,7 @@ pxWindowsMapConsoleKeybdButton(pxiword button)
 }
 
 PxConsoleMsg
-pxWindowsConsoleReadMsg(PxInput* self, PxArena* arena)
+pxWindowsConsoleReadMsg(PxReader self, PxArena* arena)
 {
     PxConsoleMsg result = {.type = PX_CONSOLE_MSG_NONE};
 
@@ -117,7 +117,7 @@ pxWindowsConsoleReadMsg(PxInput* self, PxArena* arena)
     HANDLE input = GetStdHandle(STD_INPUT_HANDLE);
     DWORD  size  = 0;
 
-    if (ReadConsoleInput(input, &record, 1, &size) == 0)
+    if (ReadConsoleReader(input, &record, 1, &size) == 0)
         return result;
 
     switch (record.EventType) {
@@ -150,14 +150,14 @@ pxWindowsConsoleReadMsg(PxInput* self, PxArena* arena)
 }
 
 PxConsoleMsg
-pxWindowsConsolePollMsg(PxInput* self, PxArena* arena)
+pxWindowsConsolePollMsg(PxReader self, PxArena* arena)
 {
     PxConsoleMsg result = {.type = PX_CONSOLE_MSG_NONE};
 
     HANDLE input = GetStdHandle(STD_INPUT_HANDLE);
     DWORD  size  = 0;
 
-    GetNumberOfConsoleInputEvents(input, &size);
+    GetNumberOfConsoleReaderEvents(input, &size);
 
     if (size != 0)
         result = pxWindowsConsoleReadMsg(self, arena);

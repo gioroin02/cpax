@@ -4,9 +4,9 @@
 #include "import.h"
 
 PxConsoleMsg
-pxWindowsConsoleReadMsg(PxInput* self, PxArena* arena);
+pxWindowsConsoleReadMsg(PxReader self, PxArena* arena);
 
 PxConsoleMsg
-pxWindowsConsolePollMsg(PxInput* self, PxArena* arena);
+pxWindowsConsolePollMsg(PxReader self, PxArena* arena);
 
 #endif // PX_WINDOWS_CONSOLE_MESSAGE_H

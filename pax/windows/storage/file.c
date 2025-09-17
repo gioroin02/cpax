@@ -203,41 +203,7 @@ pxWindowsFileClose(PxWindowsFile* self)
 }
 
 pxb8
-pxWindowsFileDestroy(PxWindowsFile* self, PxArena* arena)
-{
-    if (self == 0 || self->handle == INVALID_HANDLE_VALUE)
-        return 0;
-
-    pxiword length = GetFinalPathNameByHandleW(
-        self->handle, 0, 0, FILE_NAME_NORMALIZED);
-
-    if (length <= 0) return 0;
-
-    pxiword offset = pxArenaOffset(arena);
-    pxu16*  memory = pxArenaReserve(arena, pxu16, length + 1);
-
-    if (memory != 0) {
-        pxiword size = GetFinalPathNameByHandleW(self->handle,
-            memory, length, FILE_NAME_NORMALIZED);
-
-        if (size + 1 == length) {
-            CloseHandle(self->handle);
-
-            pxb8 state = DeleteFileW(pxas(wchar_t*, memory));
-
-            pxArenaRewind(arena, offset);
-
-            if (state != 0) return 1;
-        }
-    }
-
-    pxArenaRewind(arena, offset);
-
-    return 0;
-}
-
-pxb8
-pxWindowsFileDelete(PxArena* arena, PxString8 base, PxString8 name)
+pxWindowsFileDestroy(PxArena* arena, PxString8 base, PxString8 name)
 {
     pxiword offset = pxArenaOffset(arena);
     PxPath  path   = pxPathFromString8(arena, base, pxs8("/"));

@@ -34,10 +34,7 @@ pxLinuxMemoryReserve(pxiword amount)
 
     if (result == MAP_FAILED) return (PxArena) {0};
 
-    return (PxArena) {
-        .memory = result,
-        .length = length,
-    };
+    return pxArenaMake(result, length);
 }
 
 void

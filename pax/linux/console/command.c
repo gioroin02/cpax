@@ -4,7 +4,7 @@
 #include "command.h"
 
 void
-pxLinuxConsoleWriteCmd(PxOutput* self, PxArena* arena, PxConsoleCmd value)
+pxLinuxConsoleWriteCmd(PxWriter self, PxArena* arena, PxConsoleCmd value)
 {
     switch (value.type) {
         case PX_CONSOLE_CMD_STYLE_8_FRONT: {

@@ -6,6 +6,9 @@
 #define pxArenaReserve(self, t, amount) \
     pxas(t*, pxArenaReserveMemory(self, amount, pxsize(t)))
 
+#define pxArenaCopy(self, value, t, amount) \
+    pxas(t*, pxArenaCopyMemory(self, value, amount, pxsize(t)))
+
 typedef struct PxArena
 {
     pxu8*   memory;

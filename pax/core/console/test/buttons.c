@@ -8,14 +8,14 @@ main(int argc, char** argv)
     PxArena arena = pxMemoryReserve(16);
 
     PxConsole console = pxConsoleCreate(&arena);
-    PxInput  reader  = pxInputFromConsole(console, &arena, PX_MEMORY_KIB);
+    PxReader  reader  = pxReaderFromConsole(console, &arena, PX_MEMORY_KIB);
 
     pxConsoleSetMode(console, PX_CONSOLE_MODE_MESSAGE);
 
     pxb8 active = 1;
 
     while (active != 0) {
-        PxConsoleMsg message = pxConsoleReadMsg(&reader, &arena);
+        PxConsoleMsg message = pxConsoleReadMsg(reader, &arena);
 
         switch (message.type) {
             case PX_CONSOLE_MSG_NONE: printf("none\r\n"); break;

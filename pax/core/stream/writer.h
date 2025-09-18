@@ -1,33 +1,31 @@
-#ifndef PX_STREAM_WRITER_H
-#define PX_STREAM_WRITER_H
+#ifndef PX_CORE_STREAM_WRITER_H
+#define PX_CORE_STREAM_WRITER_H
 
-#include "import.h"
+#include "output.h"
 
 typedef struct PxWriter
 {
-    void* ctxt;
-    void* proc;
+    PxBuffer8 buffer;
+    PxOutput  output;
 }
 PxWriter;
 
-typedef pxiword (PxWriterProc) (void*, pxu8*, pxiword);
-
 PxWriter
-pxWriterFromBuffer8(PxBuffer8* self);
+pxWriterFromOutput(PxOutput, PxArena* arena, pxiword length);
 
 pxiword
-pxWriteMemory8(PxWriter self, pxu8* memory, pxiword length);
+pxWriterFlush(PxWriter* self);
 
 pxiword
-pxWriteByte(PxWriter self, pxu8 value);
+pxWriterMemory8(PxWriter* self, pxu8* memory, pxiword length);
 
 pxiword
-pxWriteString8(PxWriter self, PxString8 value);
+pxWriterByte(PxWriter* self, pxu8 value);
 
 pxiword
-pxWriteUnicode(PxWriter self, pxi32 value);
+pxWriterString8(PxWriter* self, PxString8 value);
 
 pxiword
-pxWriteBuffer8(PxWriter self, PxBuffer8* value);
+pxWriterUnicode(PxWriter* self, pxi32 value);
 
-#endif // PX_STREAM_WRITER_H
+#endif // PX_CORE_STREAM_WRITER_H

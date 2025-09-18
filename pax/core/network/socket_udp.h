@@ -41,10 +41,4 @@ pxSocketUdpReadMemory8(PxSocketUdp self, pxu8* memory, pxiword length);
 pxiword
 pxSocketUdpReadMemory8Host(PxSocketUdp self, pxu8* memory, pxiword length, PxAddr* addr, pxu16* port);
 
-PxReader
-pxReaderFromSocketUdp(PxSocketUdp self);
-
-PxWriter
-pxWriterFromSocketUdp(PxSocketUdp self);
-
 #endif // PX_CORE_NETWORK_SOCKET_UDP_H

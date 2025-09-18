@@ -1,30 +1,40 @@
-#ifndef PX_STREAM_READER_H
-#define PX_STREAM_READER_H
+#ifndef PX_CORE_STREAM_READER_H
+#define PX_CORE_STREAM_READER_H
 
-#include "import.h"
+#include "input.h"
 
 typedef struct PxReader
 {
-    void* ctxt;
-    void* proc;
+    PxBuffer8 buffer;
+    PxInput   input;
 }
 PxReader;
 
-typedef pxiword (PxReaderProc) (void*, pxu8*, pxiword);
-
 PxReader
-pxReaderFromBuffer8(PxBuffer8* self);
+pxReaderFromInput(PxInput input, PxArena* arena, pxiword length);
 
 pxiword
-pxReadMemory8(PxReader self, pxu8* memory, pxiword length);
+pxReaderFill(PxReader* self);
 
 pxiword
-pxReadByte(PxReader self, pxu8* value);
+pxReaderSkip(PxReader* self, pxiword amount);
+
+pxiword
+pxReaderMemory8(PxReader* self, pxu8* memory, pxiword length, pxiword index);
+
+pxiword
+pxReaderMemory8Peek(PxReader* self, pxu8* memory, pxiword length, pxiword index);
+
+pxiword
+pxReaderByte(PxReader* self, pxu8* value, pxiword index);
+
+pxiword
+pxReaderBytePeek(PxReader* self, pxu8* value, pxiword index);
 
 PxString8
-pxReadString8(PxReader self, PxArena* arena, pxiword length);
+pxReaderString8(PxReader* self, PxArena* arena, pxiword length, pxiword index);
 
-pxiword
-pxReadBuffer8(PxReader self, PxBuffer8* buffer);
+PxString8
+pxReaderString8Peek(PxReader* self, PxArena* arena, pxiword length, pxiword index);
 
-#endif // PX_STREAM_READER_H
+#endif // PX_CORE_STREAM_READER_H

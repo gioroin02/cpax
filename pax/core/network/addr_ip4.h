@@ -19,9 +19,6 @@ typedef union PxAddrIp4
 }
 PxAddrIp4;
 
-PxAddrIp4
-pxAddrIp4Copy(PxAddrIp4 value);
-
 pxb8
 pxAddrIp4IsEqual(PxAddrIp4 self, PxAddrIp4 value);
 

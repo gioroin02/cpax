@@ -3,16 +3,16 @@
 #include <stdio.h>
 
 void
-readBytePerByte(PxReader reader)
+readBytePerByte(PxReader* reader)
 {
     pxu8 byte = 0;
 
-    while (pxReadByte(reader, &byte) != 0) {
+    while (pxReaderByte(reader, &byte, 0) != 0) {
         if (byte == 0) break;
 
         printf("%3u", byte);
 
-        if (pxUnicodeIsAscii(byte) != 0)
+        if (byte > 0x20 && byte < 0x80)
             printf(" (%c)", byte);
 
         printf("\n");
@@ -27,15 +27,15 @@ main(int argc, char** argv)
     PxArena arena = pxArenaMake(memory, pxsize(memory));
 
     PxBuffer8 source = pxBuffer8Reserve(&arena, 256);
-    PxReader  reader = pxReaderFromBuffer8(&source);
+    PxReader  reader = pxReaderFromInput(pxInputFromBuffer8(&source), &arena, 4);
 
     pxBuffer8WriteString8Tail(&source, pxs8("ciao\narrivederci"));
 
-    readBytePerByte(reader);
+    readBytePerByte(&reader);
 
     pxBuffer8WriteString8Tail(&source, pxs8("ciao\narrivederci"));
 
-    PxString8 string = pxReadString8(reader, &arena, 16);
+    PxString8 string = pxReaderString8(&reader, &arena, 16, 0);
 
     printf("[%.*s]\n", pxas(int, string.length),
         string.memory);

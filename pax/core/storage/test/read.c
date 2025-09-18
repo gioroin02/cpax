@@ -21,10 +21,10 @@ main(int argc, char** argv)
     if (file != 0) printf("%p\n", file);
 
     PxBuffer8 buffer = pxBuffer8Reserve(&arena, 256);
-    PxReader  reader = pxReaderFromFile(file);
+    PxInput   input  = pxInputFromFile(file);
 
     while (1) {
-        if (pxReadBuffer8(reader, &buffer) == 0)
+        if (pxInputBuffer8(input, &buffer) == 0)
             break;
 
         printf("%.*s", pxas(int, buffer.size),

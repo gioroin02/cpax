@@ -6,6 +6,9 @@
 /* Buffer8 */
 
 pxiword
+pxBuffer8WriteUnicodeHead(PxBuffer8* self, pxi32 value);
+
+pxiword
 pxBuffer8WriteMemory16Head(PxBuffer8* self, pxu16* memory, pxiword length);
 
 pxiword
@@ -19,6 +22,9 @@ pxBuffer8WriteString16Head(PxBuffer8* self, PxString16 string);
 
 pxiword
 pxBuffer8WriteString32Head(PxBuffer8* self, PxString32 string);
+
+pxiword
+pxBuffer8WriteUnicodeTail(PxBuffer8* self, pxi32 value);
 
 pxiword
 pxBuffer8WriteMemory16Tail(PxBuffer8* self, pxu16* memory, pxiword length);
@@ -47,7 +53,12 @@ pxBuffer8PeekString8Head(PxBuffer8* self, PxArena* arena, pxiword length);
 PxString8
 pxBuffer8PeekString8Tail(PxBuffer8* self, PxArena* arena, pxiword length);
 
-/* Buffer16 */ /*
+/* Buffer16 */
+
+pxiword
+pxBuffer16WriteUnicodeHead(PxBuffer16* self, pxi32 value);
+
+/*
 
 pxiword
 pxBuffer16WriteMemory8Head(PxBuffer16* self, pxu8* memory, pxiword length);
@@ -67,6 +78,13 @@ pxBuffer16WriteString16Head(PxBuffer16* self, PxString16 string);
 
 pxiword
 pxBuffer16WriteString32Head(PxBuffer16* self, PxString32 string);
+
+*/
+
+pxiword
+pxBuffer16WriteUnicodeTail(PxBuffer16* self, pxi32 value);
+
+/*
 
 pxiword
 pxBuffer16WriteMemory8Tail(PxBuffer16* self, pxu8* memory, pxiword length);
@@ -99,7 +117,12 @@ pxBuffer16PeekString16Head(PxBuffer16* self, PxArena* arena, pxiword length);
 PxString16
 pxBuffer16PeekString16Tail(PxBuffer16* self, PxArena* arena, pxiword length);
 
-*/ /* Buffer32 */ /*
+*/ /* Buffer32 */
+
+pxiword
+pxBuffer32WriteUnicodeHead(PxBuffer32* self, pxi32 value);
+
+/*
 
 pxiword
 pxBuffer32WriteMemory8Head(PxBuffer32* self, pxu8* memory, pxiword length);
@@ -117,6 +140,9 @@ pxBuffer32WriteString16Head(PxBuffer32* self, PxString16 string);
 
 pxiword
 pxBuffer32WriteString32Head(PxBuffer32* self, PxString32 string);
+
+pxiword
+pxBuffer32WriteUnicodeTail(PxBuffer32* self, pxi32 value);
 
 /*
 

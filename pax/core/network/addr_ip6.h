@@ -20,9 +20,6 @@ typedef union PxAddrIp6
 }
 PxAddrIp6;
 
-PxAddrIp6
-pxAddrIp6Copy(PxAddrIp6 value);
-
 pxb8
 pxAddrIp6IsEqual(PxAddrIp6 self, PxAddrIp6 value);
 

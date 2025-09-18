@@ -8,12 +8,12 @@ typedef struct PxJsonWriter
     PxQueue stack;
     pxb8    comma;
 
-    PxWriter writer;
+    PxWriter* writer;
 }
 PxJsonWriter;
 
 PxJsonWriter
-pxJsonWriterMake(PxArena* arena, pxiword length, PxWriter writer);
+pxJsonWriterReserve(PxArena* arena, pxiword length, PxWriter* writer);
 
 pxb8
 pxJsonWriteMsg(PxJsonWriter* self, PxArena* arena, PxJsonMsg message);

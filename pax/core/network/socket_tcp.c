@@ -99,10 +99,10 @@ pxSocketTcpReadMemory8(PxSocketTcp self, pxu8* memory, pxiword length)
     return __pxSocketTcpReadMemory8__(self, memory, length);
 }
 
-PxReader
-pxReaderFromSocketTcp(PxSocketTcp self)
+PxInput
+pxInputFromSocketTcp(PxSocketTcp self)
 {
-    PxReader result = {0};
+    PxInput result = {0};
 
     if (self == 0) return result;
 
@@ -112,10 +112,10 @@ pxReaderFromSocketTcp(PxSocketTcp self)
     return result;
 }
 
-PxWriter
-pxWriterFromSocketTcp(PxSocketTcp self)
+PxOutput
+pxOutputFromSocketTcp(PxSocketTcp self)
 {
-    PxWriter result = {0};
+    PxOutput result = {0};
 
     if (self == 0) return result;
 

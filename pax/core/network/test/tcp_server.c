@@ -107,10 +107,10 @@ main(int argc, char** argv)
         session.request  = pxBuffer8Reserve(&arena, PX_MEMORY_KIB);
         session.response = pxBuffer8Reserve(&arena, PX_MEMORY_KIB);
 
-        PxReader reader = pxReaderFromSocketTcp(session.socket);
-        PxWriter writer = pxWriterFromSocketTcp(session.socket);
+        PxInput  input  = pxInputFromSocketTcp(session.socket);
+        PxOutput output = pxOutputFromSocketTcp(session.socket);
 
-        pxiword size = pxReadBuffer8(reader, &session.request);
+        pxiword size = pxInputBuffer8(input, &session.request);
 
         if (size != 0) {
             PxString8 string = pxBuffer8ReadString8Head(
@@ -120,7 +120,7 @@ main(int argc, char** argv)
 
             pxBuffer8WriteString8Tail(&session.response, SERVER_MSG);
 
-            pxWriteBuffer8(writer, &session.response);
+            pxOutputBuffer8(output, &session.response);
         }
 
         pxSocketTcpDestroy(session.socket);

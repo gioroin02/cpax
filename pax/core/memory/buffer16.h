@@ -1,5 +1,5 @@
-#ifndef PX_MEMORY_BUFFER_16_H
-#define PX_MEMORY_BUFFER_16_H
+#ifndef PX_CORE_MEMORY_BUFFER_16_H
+#define PX_CORE_MEMORY_BUFFER_16_H
 
 #include "arena.h"
 
@@ -109,4 +109,4 @@ pxBuffer16PeekTail(PxBuffer16* self, PxBuffer16* buffer);
 pxiword
 pxBuffer16PeekMemory16Tail(PxBuffer16* self, pxu16* memory, pxiword length);
 
-#endif // PX_MEMORY_BUFFER_16_H
+#endif // PX_CORE_MEMORY_BUFFER_16_H

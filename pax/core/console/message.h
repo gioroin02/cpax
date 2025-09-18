@@ -1,7 +1,9 @@
 #ifndef PX_CORE_CONSOLE_MESSAGE_H
 #define PX_CORE_CONSOLE_MESSAGE_H
 
-#include "import.h"
+#include "sequence.h"
+
+#define PX_CONSOLE_STYLE_RGB_UNITS pxas(pxiword, 3)
 
 typedef enum PxConsoleMsgType
 {
@@ -14,6 +16,30 @@ typedef enum PxConsoleMsgType
     PX_CONSOLE_MSG_MOUSE_RELEASE,
     PX_CONSOLE_MSG_MOUSE_MOVE,
     PX_CONSOLE_MSG_MOUSE_SCROLL,
+
+    PX_CONSOLE_MSG_STYLE_TEXT_8,
+    PX_CONSOLE_MSG_STYLE_TEXT_256,
+    PX_CONSOLE_MSG_STYLE_TEXT_RGB,
+    PX_CONSOLE_MSG_STYLE_BACK_8,
+    PX_CONSOLE_MSG_STYLE_BACK_256,
+    PX_CONSOLE_MSG_STYLE_BACK_RGB,
+    PX_CONSOLE_MSG_STYLE_CLEAR,
+
+    PX_CONSOLE_MSG_STRING_8,
+    PX_CONSOLE_MSG_STRING_16,
+    PX_CONSOLE_MSG_STRING_32,
+
+    PX_CONSOLE_MSG_UNICODE,
+
+    PX_CONSOLE_MSG_CURSOR_SHOW,
+    PX_CONSOLE_MSG_CURSOR_HIDE,
+    PX_CONSOLE_MSG_CURSOR_MOVE,
+    PX_CONSOLE_MSG_CURSOR_MOVE_UP,
+    PX_CONSOLE_MSG_CURSOR_MOVE_DOWN,
+    PX_CONSOLE_MSG_CURSOR_MOVE_LEFT,
+    PX_CONSOLE_MSG_CURSOR_MOVE_RIGHT,
+
+    PX_CONSOLE_MSG_RESET,
 }
 PxConsoleMsgType;
 
@@ -106,49 +132,61 @@ typedef enum PxConsoleMouseBtn
 }
 PxConsoleMouseBtn;
 
-typedef struct PxConsoleMsgKeybdPress
+typedef struct PxConsoleMsgKeybdButton
 {
     pxiword button;
     pxuword modifs;
     pxi32   unicode;
 }
-PxConsoleMsgKeybdPress;
+PxConsoleMsgKeybdButton;
 
-typedef struct PxConsoleMsgKeybdRelease
-{
-    pxiword button;
-    pxuword modifs;
-    pxi32   unicode;
-}
-PxConsoleMsgKeybdRelease;
-
-typedef struct PxConsoleMsgMousePress
+typedef struct PxConsoleMsgMouseButton
 {
     pxiword button;
     pxuword modifs;
 }
-PxConsoleMsgMousePress;
-
-typedef struct PxConsoleMsgMouseRelease
-{
-    pxiword button;
-    pxuword modifs;
-}
-PxConsoleMsgMouseRelease;
+PxConsoleMsgMouseButton;
 
 typedef struct PxConsoleMsgMouseMove
 {
-    pxiword x;
-    pxiword y;
+    pxiword x, y;
 }
 PxConsoleMsgMouseMove;
 
 typedef struct PxConsoleMsgMouseScroll
 {
-    pxiword x;
-    pxiword y;
+    pxiword x, y;
 }
 PxConsoleMsgMouseScroll;
+
+typedef struct PxConsoleMsgStyle8
+{
+    pxu8 index;
+}
+PxConsoleMsgStyle8;
+
+typedef struct PxConsoleMsgStyle256
+{
+    pxu8 index;
+}
+PxConsoleMsgStyle256;
+
+typedef union PxConsoleMsgStyleRGB
+{
+    struct
+    {
+        pxu8 r, g, b;
+    };
+
+    pxu8 items[PX_CONSOLE_STYLE_RGB_UNITS];
+}
+PxConsoleMsgStyleRGB;
+
+typedef struct PxConsoleMsgCursorMove
+{
+    pxiword x, y;
+}
+PxConsoleMsgCursorMove;
 
 typedef struct PxConsoleMsg
 {
@@ -156,16 +194,32 @@ typedef struct PxConsoleMsg
 
     union
     {
-        PxConsoleMsgKeybdPress   keybd_press;
-        PxConsoleMsgKeybdRelease keybd_release;
+        PxConsoleMsgKeybdButton keybd_button;
 
-        PxConsoleMsgMousePress   mouse_press;
-        PxConsoleMsgMouseRelease mouse_release;
+        PxConsoleMsgMouseButton  mouse_button;
         PxConsoleMsgMouseMove    mouse_move;
         PxConsoleMsgMouseScroll  mouse_scroll;
+
+        PxConsoleMsgStyle8   style_8;
+        PxConsoleMsgStyle256 style_256;
+        PxConsoleMsgStyleRGB style_rgb;
+
+        PxString8  string_8;
+        PxString16 string_16;
+        PxString32 string_32;
+
+        pxi32 unicode;
+
+        PxConsoleMsgCursorMove cursor_move;
     };
 }
 PxConsoleMsg;
+
+typedef struct PxConsoleQueue
+{
+    PxBuffer8 buffer;
+}
+PxConsoleQueue;
 
 PxConsoleMsg
 pxConsoleMsgKeybdPress(pxiword button, pxuword modifs, pxi32 unicode);
@@ -174,9 +228,77 @@ PxConsoleMsg
 pxConsoleMsgKeybdRelease(pxiword button, pxuword modifs, pxi32 unicode);
 
 PxConsoleMsg
-pxConsoleReadMsg(PxReader reader, PxArena* arena);
+pxConsoleMsgStyleText8(pxu8 index);
 
 PxConsoleMsg
-pxConsolePollMsg(PxReader reader, PxArena* arena);
+pxConsoleMsgStyleText256(pxu8 index);
+
+PxConsoleMsg
+pxConsoleMsgStyleTextRGB(pxu8 r, pxu8 g, pxu8 b);
+
+PxConsoleMsg
+pxConsoleMsgStyleBack8(pxu8 index);
+
+PxConsoleMsg
+pxConsoleMsgStyleBack256(pxu8 index);
+
+PxConsoleMsg
+pxConsoleMsgStyleBackRGB(pxu8 r, pxu8 g, pxu8 b);
+
+PxConsoleMsg
+pxConsoleMsgStyleClear();
+
+PxConsoleMsg
+pxConsoleMsgString8(PxString8 value);
+
+PxConsoleMsg
+pxConsoleMsgString16(PxString16 value);
+
+PxConsoleMsg
+pxConsoleMsgString32(PxString32 value);
+
+PxConsoleMsg
+pxConsoleMsgUnicode(pxi32 unicode);
+
+PxConsoleMsg
+pxConsoleMsgCursorShow();
+
+PxConsoleMsg
+pxConsoleMsgCursorHide();
+
+PxConsoleMsg
+pxConsoleMsgCursorMove(pxiword x, pxiword y);
+
+PxConsoleMsg
+pxConsoleMsgCursorMoveUp(pxiword y);
+
+PxConsoleMsg
+pxConsoleMsgCursorMoveDown(pxiword y);
+
+PxConsoleMsg
+pxConsoleMsgCursorMoveLeft(pxiword x);
+
+PxConsoleMsg
+pxConsoleMsgCursorMoveRight(pxiword x);
+
+PxConsoleMsg
+pxConsoleMsgReset();
+
+pxb8
+pxConsoleMsgFromString8(PxString8 string, PxConsoleMsg* value);
+
+/* Message Queue */
+
+PxConsoleQueue
+pxConsoleQueueReserve(PxArena* arena, pxiword length);
+
+pxb8
+pxConsoleQueueWriteMsg(PxConsoleQueue* self,  PxArena* arena, PxConsoleMsg value);
+
+pxb8
+pxConsoleQueueWriteList(PxConsoleQueue* self, PxArena* arena, PxConsoleMsg* values, pxiword length);
+
+PxConsoleMsg
+pxConsoleQueueReadMsg(PxConsoleQueue* self, PxArena* arena);
 
 #endif // PX_CORE_CONSOLE_MESSAGE_H

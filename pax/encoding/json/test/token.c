@@ -3,21 +3,21 @@
 
 #include <stdio.h>
 
-#define COLOR_RESET "\x1b[0m"
+#define STYLE_RESET "\x1b[0m"
 
-#define FRONT_RED    "\x1b[31m"
-#define FRONT_GRN  "\x1b[32m"
-#define FRONT_YLW "\x1b[33m"
-#define FRONT_BLU   "\x1b[34m"
-#define FRONT_MAG "\x1b[35m"
-#define FRONT_CYA  "\x1b[36m"
+#define TEXT_RED "\x1b[31m"
+#define TEXT_GRN "\x1b[32m"
+#define TEXT_YLW "\x1b[33m"
+#define TEXT_BLU "\x1b[34m"
+#define TEXT_MAG "\x1b[35m"
+#define TEXT_CYA "\x1b[36m"
 
-#define RED(expr)    FRONT_RED    expr COLOR_RESET
-#define GRN(expr)  FRONT_GRN  expr COLOR_RESET
-#define YLW(expr) FRONT_YLW expr COLOR_RESET
-#define BLU(expr)   FRONT_BLU   expr COLOR_RESET
-#define MAG(expr) FRONT_MAG expr COLOR_RESET
-#define CYA(expr)  FRONT_CYA  expr COLOR_RESET
+#define RED(x) TEXT_RED x STYLE_RESET
+#define GRN(x) TEXT_GRN x STYLE_RESET
+#define YLW(x) TEXT_YLW x STYLE_RESET
+#define BLU(x) TEXT_BLU x STYLE_RESET
+#define MAG(x) TEXT_MAG x STYLE_RESET
+#define CYA(x) TEXT_CYA x STYLE_RESET
 
 #define ENTITY \
     pxs8("{ \"flags\": [16, 32], \"code\": 156, \"name\": \"player\", \"coords\": {\"x\": -1, \"y\": +2, \"z\": null}, \"alive\": true, \"pause\": false }")
@@ -41,7 +41,7 @@ static const char* const JSON_TOKEN_NAMES[] = {
 };
 
 void
-showJsonToken(PxReader reader, PxArena* arena)
+showJsonToken(PxReader* reader, PxArena* arena)
 {
     PxJsonToken token = pxJsonTokenNone();
 
@@ -131,7 +131,8 @@ main(int argc, char** argv)
 
     printf("\n");
 
-    PxReader reader = pxBufferReader(&source, &arena, 256);
+    PxReader reader = pxReaderFromInput(
+        pxInputFromBuffer8(&source), &arena, 256);
 
     showJsonToken(&reader, &arena);
 }

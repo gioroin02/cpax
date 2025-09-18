@@ -3,17 +3,6 @@
 
 #include "addr_ip4.h"
 
-PxAddrIp4
-pxAddrIp4Copy(PxAddrIp4 value)
-{
-    PxAddrIp4 result = {0};
-
-    pxMemoryCopy(result.items, value.items,
-        PX_ADDR_IP4_GROUPS, 1);
-
-    return result;
-}
-
 pxb8
 pxAddrIp4IsEqual(PxAddrIp4 self, PxAddrIp4 value)
 {
@@ -49,7 +38,7 @@ pxAddrIp4FromString8(PxString8 string, PxAddrIp4* value)
             return 0;
     }
 
-    if (value != 0) *value = pxAddrIp4Copy(temp);
+    if (value != 0) *value = temp;
 
     return 1;
 }

@@ -5,10 +5,9 @@
 void
 showEscapeFromString8(PxString8 string)
 {
-    PxEscape escape = {0};
-    pxiword  size   = 0;
+    PxAnsiSequence sequence = {0};
 
-    pxb8 state = pxEscapeFromString8(&escape, string, &size);
+    pxb8 state = pxAnsiSequenceFromString8(string, &sequence);
 
     printf("\x1b[34m'");
 
@@ -27,21 +26,21 @@ showEscapeFromString8(PxString8 string)
     printf("'\x1b[0m -> %s\n", state != 0 ? "\x1b[32mT\x1b[0m" : "\x1b[31mF\x1b[0m");
 
     if (state != 0) {
-        printf(" -> type  = %u\n", escape.type);
+        printf(" -> func  = %3c\n", sequence.func);
 
-        for (pxiword i = 0; i < escape.size; i += 1) {
-            PxEscapeGroup* group = &escape.groups[i];
+        for (pxiword i = 0; i < sequence.size; i += 1) {
+            PxAnsiSequenceGroup* group = &sequence.groups[i];
 
-            printf(" -> group = {");
+            printf(" -> group = ");
 
             for (pxiword j = 0; j < group->size; j += 1) {
-                printf("%llu", group->values[j]);
+                printf("%3llu", group->values[j]);
 
                 if (j + 1 < group->size)
-                    printf(", ");
+                    printf(" ");
             }
 
-            printf("}\n");
+            printf("\n");
         }
     }
 }
@@ -57,7 +56,7 @@ main(int argc, char** argv)
     showEscapeFromString8(pxs8("\x1b[9m"));
     showEscapeFromString8(pxs8("\x1b[97u"));
     showEscapeFromString8(pxs8("\x1b[12~"));
-    showEscapeFromString8(pxs8("\x1b[12;12H"));
+    showEscapeFromString8(pxs8("\x1b[15;10H"));
     showEscapeFromString8(pxs8("\x1b[97;;229u"));
 
     printf("\nINVALID:\n\n");

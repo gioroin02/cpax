@@ -1,8 +1,7 @@
 #ifndef PX_CORE_CONSOLE_CONSOLE_H
 #define PX_CORE_CONSOLE_CONSOLE_H
 
-#include "command.h"
-#include "message.h"
+#include "import.h"
 
 typedef void* PxConsole;
 
@@ -26,10 +25,10 @@ pxConsoleWriteMemory8(PxConsole self, pxu8* memory, pxiword length);
 pxiword
 pxConsoleReadMemory8(PxConsole self, pxu8* memory, pxiword length);
 
-PxReader
-pxReaderFromConsole(PxConsole self);
+PxInput
+pxInputFromConsole(PxConsole self);
 
-PxWriter
-pxWriterFromConsole(PxConsole self);
+PxOutput
+pxOutputFromConsole(PxConsole self);
 
 #endif // PX_CORE_CONSOLE_CONSOLE_H

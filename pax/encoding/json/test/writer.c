@@ -2,21 +2,21 @@
 
 #include <stdio.h>
 
-#define COLOR_RESET "\x1b[0m"
+#define STYLE_RESET "\x1b[0m"
 
-#define FRONT_RED "\x1b[31m"
-#define FRONT_GRN "\x1b[32m"
-#define FRONT_YLW "\x1b[33m"
-#define FRONT_BLU "\x1b[34m"
-#define FRONT_MAG "\x1b[35m"
-#define FRONT_CYA "\x1b[36m"
+#define TEXT_RED "\x1b[31m"
+#define TEXT_GRN "\x1b[32m"
+#define TEXT_YLW "\x1b[33m"
+#define TEXT_BLU "\x1b[34m"
+#define TEXT_MAG "\x1b[35m"
+#define TEXT_CYA "\x1b[36m"
 
-#define RED(x) FRONT_RED x COLOR_RESET
-#define GRN(x) FRONT_GRN x COLOR_RESET
-#define YLW(x) FRONT_YLW x COLOR_RESET
-#define BLU(x) FRONT_BLU x COLOR_RESET
-#define MAG(x) FRONT_MAG x COLOR_RESET
-#define CYA(x) FRONT_CYA x COLOR_RESET
+#define RED(x) TEXT_RED x STYLE_RESET
+#define GRN(x) TEXT_GRN x STYLE_RESET
+#define YLW(x) TEXT_YLW x STYLE_RESET
+#define BLU(x) TEXT_BLU x STYLE_RESET
+#define MAG(x) TEXT_MAG x STYLE_RESET
+#define CYA(x) TEXT_CYA x STYLE_RESET
 
 typedef struct Entity
 {
@@ -140,11 +140,11 @@ main(int argc, char** argv)
 {
     PxArena   arena       = pxMemoryReserve(16);
     PxBuffer8 source      = pxBuffer8Reserve(&arena, 256);
-    PxReader  buff_reader = pxBufferReader(&source, &arena, 256);
-    PxWriter  buff_writer = pxBufferWriter(&source, &arena, 256);
+    PxReader  buff_reader = pxReaderFromInput(pxInputFromBuffer8(&source), &arena, 256);
+    PxWriter  buff_writer = pxWriterFromOutput(pxOutputFromBuffer8(&source), &arena, 256);
 
     PxJsonWriter writer =
-        pxJsonWriterMake(&arena, 16, &buff_writer);
+        pxJsonWriterReserve(&arena, 16, &buff_writer);
 
     jsonWriteEntity(&(Entity) {.name = pxs8("gio"), .code = 156}, &writer, &arena);
 
@@ -154,7 +154,7 @@ main(int argc, char** argv)
     printf("\n");
 
     PxJsonReader reader =
-        pxJsonReaderMake(&arena, 16, &buff_reader);
+        pxJsonReaderReserve(&arena, 16, &buff_reader);
 
     showJsonMsg(&reader, &arena);
 }

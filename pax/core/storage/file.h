@@ -35,10 +35,10 @@ pxFileWriteMemory8(PxFile self, pxu8* memory, pxiword length);
 pxiword
 pxFileReadMemory8(PxFile self, pxu8* memory, pxiword length);
 
-PxReader
-pxReaderFromFile(PxFile self);
+PxInput
+pxInputFromFile(PxFile self);
 
-PxWriter
-pxWriterFromFile(PxFile self);
+PxOutput
+pxOutputFromFile(PxFile self);
 
 #endif // PX_CORE_STORAGE_FILE_H

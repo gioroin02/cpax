@@ -1,90 +1,65 @@
-#ifndef PX_STREAM_WRITER_C
-#define PX_STREAM_WRITER_C
+#ifndef PX_CORE_STREAM_WRITER_C
+#define PX_CORE_STREAM_WRITER_C
 
 #include "writer.h"
 
 PxWriter
-pxWriterFromBuffer8(PxBuffer8* self)
+pxWriterFromOutput(PxOutput output, PxArena* arena, pxiword length)
 {
     PxWriter result = {0};
 
-    if (self == 0) return result;
+    result.buffer = pxBuffer8Reserve(arena, length);
 
-    result.ctxt = self;
-    result.proc = &pxBuffer8WriteMemory8Tail;
-
-    return result;
-}
-
-pxiword
-pxWriteMemory8(PxWriter self, pxu8* memory, pxiword length)
-{
-    PxWriterProc* proc = pxas(PxWriterProc*, self.proc);
-
-    if (proc != 0)
-        return proc(self.ctxt, memory, length);
-
-    return 0;
-}
-
-pxiword
-pxWriteByte(PxWriter self, pxu8 value)
-{
-    return pxWriteMemory8(self, &value, 1);
-}
-
-pxiword
-pxWriteString8(PxWriter self, PxString8 value)
-{
-    pxu8*   memory = value.memory;
-    pxiword length = value.length;
-    pxiword size   = 0;
-    pxiword temp   = 0;
-
-    for (;size < length; size += temp) {
-        temp = pxWriteMemory8(self,
-            memory + size, length - size);
-
-        if (temp == 0) break;
-    }
-
-    return size;
-}
-
-pxiword
-pxWriteUnicode(PxWriter self, pxi32 value)
-{
-    pxiword result = 0;
-    PxUtf8  utf8   = {0};
-
-    if (pxUtf8Encode(&utf8, value) == 0) return result;
-
-    result = pxWriteMemory8(self, utf8.items, utf8.size);
+    if (result.buffer.length > 0)
+        result.output = output;
 
     return result;
 }
 
 pxiword
-pxWriteBuffer8(PxWriter self, PxBuffer8* value)
+pxWriterFlush(PxWriter* self)
 {
-    pxBuffer8Normalize(value);
-
-    pxu8*   memory = value->memory;
-    pxiword length = value->size;
-    pxiword size   = 0;
-    pxiword temp   = 0;
-
-    for (;size < length; size += temp) {
-        temp = pxWriteMemory8(self,
-            memory + size, length - size);
-
-        if (temp == 0) break;
-    }
-
-    value->size -= size;
-    value->head  = (value->head + size) % value->length;
-
-    return size;
+    return pxOutputBuffer8(self->output, &self->buffer);
 }
 
-#endif // PX_STREAM_WRITER_C
+pxiword
+pxWriterMemory8(PxWriter* self, pxu8* memory, pxiword length)
+{
+    pxiword temp = 0;
+
+    for (pxiword i = 0; i < length; i += temp) {
+        if (length - i > 0) pxWriterFlush(self);
+
+        temp = pxBuffer8WriteMemory8Tail(
+            &self->buffer, memory + i, length - i);
+
+        if (temp == 0) return i;
+    }
+
+    return length;
+}
+
+pxiword
+pxWriterByte(PxWriter* self, pxu8 value)
+{
+    return pxWriterMemory8(self, &value, 1);
+}
+
+pxiword
+pxWriterString8(PxWriter* self, PxString8 value)
+{
+    return pxWriterMemory8(self, value.memory, value.length);
+}
+
+pxiword
+pxWriterUnicode(PxWriter* self, pxi32 value)
+{
+    PxUtf8 utf8 = {0};
+
+    if (pxUtf8Encode(&utf8, value) == 0) return 0;
+
+    return pxWriterMemory8(self,
+        utf8.items, utf8.size);
+}
+
+#endif // PX_CORE_STREAM_WRITER_C

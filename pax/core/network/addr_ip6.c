@@ -33,17 +33,6 @@ pxPartIp6FromString8(PxString8 string, PxAddrIp6* value, pxiword start, pxiword 
     return 1;
 }
 
-PxAddrIp6
-pxAddrIp6Copy(PxAddrIp6 value)
-{
-    PxAddrIp6 result = {0};
-
-    pxMemoryCopy(result.items, value.items,
-        PX_ADDR_IP6_GROUPS, 2);
-
-    return result;
-}
-
 pxb8
 pxAddrIp6IsEqual(PxAddrIp6 self, PxAddrIp6 value)
 {
@@ -98,7 +87,7 @@ pxAddrIp6FromString8(PxString8 string, PxAddrIp6* value)
         default: return 0;
     }
 
-    if (value != 0) *value = pxAddrIp6Copy(temp);
+    if (value != 0) *value = temp;
 
     return 1;
 }

@@ -1,4 +1,5 @@
 #include "../export.h"
+
 #include "../../time/export.h"
 #include "../../structure/export.h"
 
@@ -345,10 +346,10 @@ main(int argc, char** argv)
 
             switch (message.type) {
                 case PX_CONSOLE_MSG_KEYBD_PRESS: {
-                    if (message.keybd_press.button == PX_CONSOLE_KEYBD_ESCAPE)
+                    if (message.keybd_button.button == PX_CONSOLE_KEYBD_ESCAPE)
                         active = 0;
 
-                    switch (message.keybd_press.button) {
+                    switch (message.keybd_button.button) {
                         case PX_CONSOLE_KEYBD_A: game.move_left  = 1; break;
                         case PX_CONSOLE_KEYBD_D: game.move_right = 1; break;
                         case PX_CONSOLE_KEYBD_W: game.move_up    = 1; break;
@@ -364,7 +365,7 @@ main(int argc, char** argv)
                 } break;
 
                 case PX_CONSOLE_MSG_KEYBD_RELEASE: {
-                    switch (message.keybd_release.button) {
+                    switch (message.keybd_button.button) {
                         case PX_CONSOLE_KEYBD_A: game.move_left  = 0; break;
                         case PX_CONSOLE_KEYBD_D: game.move_right = 0; break;
                         case PX_CONSOLE_KEYBD_W: game.move_up    = 0; break;

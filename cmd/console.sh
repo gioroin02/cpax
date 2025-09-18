@@ -12,7 +12,5 @@ structure="pax/core/structure/export.c"
 src="$base $memory $string $format $stream $console"
 dir="pax/core/console/test"
 
-gcc -g --std=c99 $src $dir/escape.c  -o console_escape.exe
-gcc -g --std=c99 $src $dir/buttons.c -o console_buttons.exe
-
-gcc -g --std=c99 $src $time $structure $dir/game.c -o console_game.exe
+gcc -g --std=c99 $src $dir/sequence.c -o console_sequence.exe
+gcc -g --std=c99 $src $dir/queue.c    -o console_queue.exe

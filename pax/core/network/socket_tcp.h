@@ -35,10 +35,10 @@ pxSocketTcpWriteMemory8(PxSocketTcp self, pxu8* memory, pxiword length);
 pxiword
 pxSocketTcpReadMemory8(PxSocketTcp self, pxu8* memory, pxiword length);
 
-PxReader
-pxReaderFromSocketTcp(PxSocketTcp self);
+PxInput
+pxInputFromSocketTcp(PxSocketTcp self);
 
-PxWriter
-pxWriterFromSocketTcp(PxSocketTcp self);
+PxOutput
+pxOutputFromSocketTcp(PxSocketTcp self);
 
 #endif // PX_CORE_NETWORK_SOCKET_TCP_H

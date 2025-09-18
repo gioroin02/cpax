@@ -115,30 +115,4 @@ pxSocketUdpReadMemory8Host(PxSocketUdp self, pxu8* memory, pxiword length, PxAdd
     return __pxSocketUdpReadMemory8Host__(self, memory, length, addr, port);
 }
 
-PxReader
-pxReaderFromSocketUdp(PxSocketUdp self)
-{
-    PxReader result = {0};
-
-    if (self == 0) return result;
-
-    result.ctxt = self;
-    result.proc = &pxSocketUdpReadMemory8;
-
-    return result;
-}
-
-PxWriter
-pxWriterFromSocketUdp(PxSocketUdp self)
-{
-    PxWriter result = {0};
-
-    if (self == 0) return result;
-
-    result.ctxt = self;
-    result.proc = &pxSocketUdpWriteMemory8;
-
-    return result;
-}
-
 #endif // PX_CORE_NETWORK_SOCKET_UDP_C

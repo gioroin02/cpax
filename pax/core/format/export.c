@@ -7,6 +7,6 @@
 #include "integer.c"
 #include "boolean.c"
 
-#include "printer.c"
+#include "printing.c"
 
 #endif // PX_CORE_FORMAT_EXPORT_C

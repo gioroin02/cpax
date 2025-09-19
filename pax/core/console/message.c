@@ -267,7 +267,7 @@ pxConsoleQueueWriteMsg(PxConsoleQueue* self, PxArena* arena, PxConsoleMsg value)
                 pxPrintCmdUnsigned(value.style_8.index),
             };
 
-            return pxBuffer8PrintFormat(&self->buffer,
+            return pxBuffer8PrintFmtTail(&self->buffer,
                 pxs8("\x1b[3${0}m"), list, 1);
         } break;
 
@@ -276,7 +276,7 @@ pxConsoleQueueWriteMsg(PxConsoleQueue* self, PxArena* arena, PxConsoleMsg value)
                 pxPrintCmdUnsigned(value.style_256.index),
             };
 
-            return pxBuffer8PrintFormat(&self->buffer,
+            return pxBuffer8PrintFmtTail(&self->buffer,
                 pxs8("\x1b[38;5;${0}m"), list, 1);
         } break;
 
@@ -287,7 +287,7 @@ pxConsoleQueueWriteMsg(PxConsoleQueue* self, PxArena* arena, PxConsoleMsg value)
                 pxPrintCmdUnsigned(value.style_rgb.b),
             };
 
-            return pxBuffer8PrintFormat(&self->buffer,
+            return pxBuffer8PrintFmtTail(&self->buffer,
                 pxs8("\x1b[38;2;${0};${1};${2}m"), list, 3);
         } break;
 
@@ -296,7 +296,7 @@ pxConsoleQueueWriteMsg(PxConsoleQueue* self, PxArena* arena, PxConsoleMsg value)
                 pxPrintCmdUnsigned(value.style_8.index),
             };
 
-            return pxBuffer8PrintFormat(&self->buffer,
+            return pxBuffer8PrintFmtTail(&self->buffer,
                 pxs8("\x1b[4${0}m"), list, 1);
         } break;
 
@@ -305,7 +305,7 @@ pxConsoleQueueWriteMsg(PxConsoleQueue* self, PxArena* arena, PxConsoleMsg value)
                 pxPrintCmdUnsigned(value.style_256.index),
             };
 
-            return pxBuffer8PrintFormat(&self->buffer,
+            return pxBuffer8PrintFmtTail(&self->buffer,
                 pxs8("\x1b[48;5;${0}m"), list, 1);
         } break;
 
@@ -316,7 +316,7 @@ pxConsoleQueueWriteMsg(PxConsoleQueue* self, PxArena* arena, PxConsoleMsg value)
                 pxPrintCmdUnsigned(value.style_rgb.b),
             };
 
-            return pxBuffer8PrintFormat(&self->buffer,
+            return pxBuffer8PrintFmtTail(&self->buffer,
                 pxs8("\x1b[48;2;${0};${1};${2}m"), list, 3);
         } break;
 
@@ -357,7 +357,7 @@ pxConsoleQueueWriteMsg(PxConsoleQueue* self, PxArena* arena, PxConsoleMsg value)
                 pxPrintCmdUnsigned(value.cursor_move.x + 1),
             };
 
-            return pxBuffer8PrintFormat(&self->buffer,
+            return pxBuffer8PrintFmtTail(&self->buffer,
                 pxs8("\x1b[${0};${1}H"), list, 2);
         } break;
 
@@ -368,7 +368,7 @@ pxConsoleQueueWriteMsg(PxConsoleQueue* self, PxArena* arena, PxConsoleMsg value)
                 pxPrintCmdUnsigned(value.cursor_move.y),
             };
 
-            return pxBuffer8PrintFormat(&self->buffer,
+            return pxBuffer8PrintFmtTail(&self->buffer,
                 pxs8("\x1b[${0}A"), list, 1);
 
         } break;
@@ -380,7 +380,7 @@ pxConsoleQueueWriteMsg(PxConsoleQueue* self, PxArena* arena, PxConsoleMsg value)
                 pxPrintCmdUnsigned(value.cursor_move.y),
             };
 
-            return pxBuffer8PrintFormat(&self->buffer,
+            return pxBuffer8PrintFmtTail(&self->buffer,
                 pxs8("\x1b[${0}B"), list, 1);
         } break;
 
@@ -391,7 +391,7 @@ pxConsoleQueueWriteMsg(PxConsoleQueue* self, PxArena* arena, PxConsoleMsg value)
                 pxPrintCmdUnsigned(value.cursor_move.x),
             };
 
-            return pxBuffer8PrintFormat(&self->buffer,
+            return pxBuffer8PrintFmtTail(&self->buffer,
                 pxs8("\x1b[${0}C"), list, 1);
         } break;
 
@@ -402,7 +402,7 @@ pxConsoleQueueWriteMsg(PxConsoleQueue* self, PxArena* arena, PxConsoleMsg value)
                 pxPrintCmdUnsigned(value.cursor_move.x),
             };
 
-            return pxBuffer8PrintFormat(&self->buffer,
+            return pxBuffer8PrintFmtTail(&self->buffer,
                 pxs8("\x1b[${0}D"), list, 1);
         } break;
 

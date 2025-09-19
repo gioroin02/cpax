@@ -57,8 +57,8 @@ pxAnsiSequenceGroupFromString8(PxString8 string, PxAnsiSequenceGroup* value)
     while (right.length > 0) {
         pxString8Split(right, pxs8(":"), &left, &right);
 
-        PxFormatRadix radix = PX_FORMAT_RADIX_10;
-        PxFormatFlag  flags = PX_FORMAT_FLAG_NONE;
+        PxFmtRadix radix = PX_FORMAT_RADIX_10;
+        PxFmtFlag  flags = PX_FORMAT_FLAG_NONE;
 
         pxuword item  = 0;
         pxb8    state = 0;

@@ -1,5 +1,5 @@
-#ifndef PX_CORE_FORMAT_PRINTER_H
-#define PX_CORE_FORMAT_PRINTER_H
+#ifndef PX_CORE_FORMAT_PRINTING_H
+#define PX_CORE_FORMAT_PRINTING_H
 
 #include "unsigned.h"
 #include "integer.h"
@@ -26,8 +26,8 @@ typedef struct
 {
     PxPrintCmdType type;
 
-    PxFormatRadix radix;
-    PxFormatFlag  flags;
+    PxFmtRadix radix;
+    PxFmtFlag  flags;
 
     union
     {
@@ -69,16 +69,32 @@ pxPrintCmdFloating(pxfword value);
 PxPrintCmd
 pxPrintCmdBoolean(pxbword value);
 
-pxb8
-pxBuffer8PrintHead(PxBuffer8* self, PxPrintCmd value);
+/* Buffer8 */
 
 pxb8
-pxBuffer8PrintTail(PxBuffer8* self, PxPrintCmd value);
+pxBuffer8PrintCmdHead(PxBuffer8* self, PxPrintCmd value);
 
 pxb8
-pxBuffer8PrintList(PxBuffer8* self, PxPrintCmd* values, pxiword length);
+pxBuffer8PrintCmdTail(PxBuffer8* self, PxPrintCmd value);
 
 pxb8
-pxBuffer8PrintFormat(PxBuffer8* self, PxString8 format, PxPrintCmd* values, pxiword length);
+pxBuffer8PrintListHead(PxBuffer8* self, PxPrintCmd* values, pxiword length);
 
-#endif // PX_CORE_FORMAT_PRINTER_H
+pxb8
+pxBuffer8PrintListTail(PxBuffer8* self, PxPrintCmd* values, pxiword length);
+
+pxb8
+pxBuffer8PrintFmtTail(PxBuffer8* self, PxString8 format, PxPrintCmd* values, pxiword length);
+
+/* Writer */
+
+pxiword
+pxWriterNextPrintCmd(PxWriter* self, PxPrintCmd value);
+
+pxiword
+pxWriterNextPrintList(PxWriter* self, PxPrintCmd* values, pxiword length);
+
+pxiword
+pxWriterNextFmt(PxWriter* self, PxString8 format, PxPrintCmd* values, pxiword length);
+
+#endif // PX_CORE_FORMAT_PRINTING_H

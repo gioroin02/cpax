@@ -3,7 +3,7 @@
 
 #include "import.h"
 
-typedef enum PxFormatRadix
+typedef enum PxFmtRadix
 {
     PX_FORMAT_RADIX_NONE = 0,
     PX_FORMAT_RADIX_2    = 2,
@@ -11,23 +11,23 @@ typedef enum PxFormatRadix
     PX_FORMAT_RADIX_10   = 10,
     PX_FORMAT_RADIX_16   = 16,
 }
-PxFormatRadix;
+PxFmtRadix;
 
-typedef enum PxFormatFlag
+typedef enum PxFmtFlag
 {
     PX_FORMAT_FLAG_NONE  = 0x0,
     PX_FORMAT_FLAG_PLUS  = 0x1,
     PX_FORMAT_FLAG_UPPER = 0x2,
 }
-PxFormatFlag;
+PxFmtFlag;
 
 pxuword
-pxMagnitudeFormatRadix(PxFormatRadix radix);
+pxMagnitudeFmtRadix(PxFmtRadix radix);
 
 pxi32
-pxUnicodeFromDigit(pxuword value, PxFormatRadix radix, PxFormatFlag flags);
+pxUnicodeFromDigit(pxuword value, PxFmtRadix radix, PxFmtFlag flags);
 
 pxuword
-pxDigitFromUnicode(pxi32 value, PxFormatRadix radix, PxFormatFlag flags);
+pxDigitFromUnicode(pxi32 value, PxFmtRadix radix, PxFmtFlag flags);
 
 #endif // PX_CORE_FORMAT_CONFIG_H

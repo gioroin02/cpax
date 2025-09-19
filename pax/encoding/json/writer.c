@@ -24,8 +24,8 @@ pxJsonWriterNextMsg(PxJsonWriter* self, PxArena* arena, PxJsonMsg message)
 
     pxQueueReadTail(&self->stack, PxJsonLayerType, &parent);
 
-    PxFormatRadix radix = PX_FORMAT_RADIX_10;
-    PxFormatFlag  flags = PX_FORMAT_FLAG_NONE;
+    PxFmtRadix radix = PX_FORMAT_RADIX_10;
+    PxFmtFlag  flags = PX_FORMAT_FLAG_NONE;
 
     switch (message.type) {
         case PX_JSON_MSG_OBJECT_OPEN: {

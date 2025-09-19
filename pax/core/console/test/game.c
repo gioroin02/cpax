@@ -147,16 +147,16 @@ pxConsoleFramePaint(PxConsoleFrame* self, pxiword x, pxiword y, pxi32 unicode, P
 }
 
 void
-pxWriterFormatConsoleFrame(PxWriter self, PxArena* arena, PxConsoleFrame* frame)
+pxWriteNextConsoleFrame(PxWriter self, PxArena* arena, PxConsoleFrame* frame)
 {
     PxConsoleCell item = pxConsoleFrameReadOr(frame, 0, 0, (PxConsoleCell) {0});
 
     PxColorRGB front = item.front;
     PxColorRGB back  = item.back;
 
-    pxWriterFormatConsoleCmd(self, arena, pxConsoleCmdCursorPlace(0, 0));
-    pxWriterFormatConsoleCmd(self, arena, pxConsoleCmdStyleRGBFront(front.r, front.g, front.b));
-    pxWriterFormatConsoleCmd(self, arena, pxConsoleCmdStyleRGBBack(back.r, back.g, back.b));
+    pxWriteNextConsoleCmd(self, arena, pxConsoleCmdCursorPlace(0, 0));
+    pxWriteNextConsoleCmd(self, arena, pxConsoleCmdStyleRGBFront(front.r, front.g, front.b));
+    pxWriteNextConsoleCmd(self, arena, pxConsoleCmdStyleRGBBack(back.r, back.g, back.b));
 
     for (pxiword j = 0; j < frame->height; j += 1) {
         for (pxiword i = 0; i < frame->width; i += 1) {
@@ -165,22 +165,22 @@ pxWriterFormatConsoleFrame(PxWriter self, PxArena* arena, PxConsoleFrame* frame)
             if (pxColorRGBIsEqual(&front, &item.front) == 0) {
                 front = item.front;
 
-                pxWriterFormatConsoleCmd(self, arena,
+                pxWriteNextConsoleCmd(self, arena,
                     pxConsoleCmdStyleRGBFront(front.r, front.g, front.b));
             }
 
             if (pxColorRGBIsEqual(&back, &item.back) == 0) {
                 back = item.back;
 
-                pxWriterFormatConsoleCmd(self, arena,
+                pxWriteNextConsoleCmd(self, arena,
                     pxConsoleCmdStyleRGBBack(back.r, back.g, back.b));
             }
 
-            pxWriterFormatConsoleCmd(self, arena,
+            pxWriteNextConsoleCmd(self, arena,
                 pxConsoleCmdUnicode(item.unicode));
         }
 
-        pxWriterFormatConsoleCmd(self, arena,
+        pxWriteNextConsoleCmd(self, arena,
             pxConsoleCmdCursorPlace(0, j + 1));
     }
 }
@@ -222,8 +222,8 @@ main(int argc, char** argv)
         .front = {.r = 128, .g = 128, .b = 128},
     };
 
-    pxWriterFormatConsoleCmd(writer, &arena, pxConsoleCmdReset());
-    pxWriterFormatConsoleCmd(writer, &arena, pxConsoleCmdCursorHide());
+    pxWriteNextConsoleCmd(writer, &arena, pxConsoleCmdReset());
+    pxWriteNextConsoleCmd(writer, &arena, pxConsoleCmdCursorHide());
 
     pxWriterFlush(writer);
 
@@ -310,7 +310,7 @@ main(int argc, char** argv)
         }
     }
 
-    pxWriterFormatConsoleCmd(writer, &arena, pxConsoleCmdReset());
+    pxWriteNextConsoleCmd(writer, &arena, pxConsoleCmdReset());
 
     pxWriterFlush(writer);
 

@@ -40,6 +40,44 @@ pxWriterNextMemory8(PxWriter* self, pxu8* memory, pxiword length)
 }
 
 pxiword
+pxWriterNextMemory16(PxWriter* self, pxu16* memory, pxiword length)
+{
+    pxiword result = 0;
+
+    for (pxiword i = 0; i < length;) {
+        pxi32 unicode = 0;
+
+        if (length - i > 0) pxWriterFlush(self);
+
+        i += pxUtf16ReadForw(memory, length, i, &unicode);
+
+        result += pxBuffer8WriteUnicodeTail(
+            &self->buffer, unicode);
+    }
+
+    return result;
+}
+
+pxiword
+pxWriterNextMemory32(PxWriter* self, pxu32* memory, pxiword length)
+{
+    pxiword result = 0;
+
+    for (pxiword i = 0; i < length;) {
+        pxi32 unicode = 0;
+
+        if (length - i > 0) pxWriterFlush(self);
+
+        i += pxUtf32ReadForw(memory, length, i, &unicode);
+
+        result += pxBuffer8WriteUnicodeTail(
+            &self->buffer, unicode);
+    }
+
+    return result;
+}
+
+pxiword
 pxWriterNextByte(PxWriter* self, pxu8 value)
 {
     return pxWriterNextMemory8(self, &value, 1);
@@ -49,6 +87,18 @@ pxiword
 pxWriterNextString8(PxWriter* self, PxString8 value)
 {
     return pxWriterNextMemory8(self, value.memory, value.length);
+}
+
+pxiword
+pxWriterNextString16(PxWriter* self, PxString16 value)
+{
+    return pxWriterNextMemory16(self, value.memory, value.length);
+}
+
+pxiword
+pxWriterNextString32(PxWriter* self, PxString32 value)
+{
+    return pxWriterNextMemory32(self, value.memory, value.length);
 }
 
 pxiword

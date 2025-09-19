@@ -7,6 +7,6 @@
 #include "integer.h"
 #include "boolean.h"
 
-#include "printer.h"
+#include "printing.h"
 
 #endif // PX_CORE_FORMAT_EXPORT_H

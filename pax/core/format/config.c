@@ -4,7 +4,7 @@
 #include "config.h"
 
 pxuword
-pxMagnitudeFormatRadix(PxFormatRadix radix)
+pxMagnitudeFmtRadix(PxFmtRadix radix)
 {
     switch (radix) {
         case PX_FORMAT_RADIX_2:  return 2;
@@ -19,9 +19,9 @@ pxMagnitudeFormatRadix(PxFormatRadix radix)
 }
 
 pxi32
-pxUnicodeFromDigit(pxuword value, PxFormatRadix radix, PxFormatFlag flags)
+pxUnicodeFromDigit(pxuword value, PxFmtRadix radix, PxFmtFlag flags)
 {
-    pxuword width = pxMagnitudeFormatRadix(radix);
+    pxuword width = pxMagnitudeFmtRadix(radix);
     pxuword digit = value % width;
 
     switch (radix) {
@@ -46,7 +46,7 @@ pxUnicodeFromDigit(pxuword value, PxFormatRadix radix, PxFormatFlag flags)
 }
 
 pxuword
-pxDigitFromUnicode(pxi32 value, PxFormatRadix radix, PxFormatFlag flags)
+pxDigitFromUnicode(pxi32 value, PxFmtRadix radix, PxFmtFlag flags)
 {
     switch (radix) {
         case PX_FORMAT_RADIX_2:
@@ -72,7 +72,7 @@ pxDigitFromUnicode(pxi32 value, PxFormatRadix radix, PxFormatFlag flags)
         default: break;
     }
 
-    return pxMagnitudeFormatRadix(radix);
+    return pxMagnitudeFmtRadix(radix);
 }
 
 #endif // PX_CORE_FORMAT_CONFIG_C

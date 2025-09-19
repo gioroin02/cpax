@@ -66,61 +66,55 @@ pxJsonMsgName(PxString8 name)
 }
 
 PxJsonMsg
-pxJsonMsgString(PxString8 value, PxString8 name)
+pxJsonMsgString(PxString8 value)
 {
     return (PxJsonMsg) {
         .type     = PX_JSON_MSG_STRING,
         .string_8 = value,
-        .name     = name,
     };
 }
 
 PxJsonMsg
-pxJsonMsgUnsigned(pxuword value, PxString8 name)
+pxJsonMsgUnsigned(pxuword value)
 {
     return (PxJsonMsg) {
         .type          = PX_JSON_MSG_UNSIGNED,
         .unsigned_word = value,
-        .name          = name,
     };
 }
 
 PxJsonMsg
-pxJsonMsgInteger(pxiword value, PxString8 name)
+pxJsonMsgInteger(pxiword value)
 {
     return (PxJsonMsg) {
         .type         = PX_JSON_MSG_INTEGER,
         .integer_word = value,
-        .name         = name,
     };
 }
 
 PxJsonMsg
-pxJsonMsgFloating(pxfword value, PxString8 name)
+pxJsonMsgFloating(pxfword value)
 {
     return (PxJsonMsg) {
         .type          = PX_JSON_MSG_FLOATING,
         .floating_word = value,
-        .name          = name,
     };
 }
 
 PxJsonMsg
-pxJsonMsgBoolean(pxbword value, PxString8 name)
+pxJsonMsgBoolean(pxbword value)
 {
     return (PxJsonMsg) {
         .type         = PX_JSON_MSG_BOOLEAN,
         .boolean_word = value,
-        .name         = name,
     };
 }
 
 PxJsonMsg
-pxJsonMsgNull(PxString8 name)
+pxJsonMsgNull()
 {
     return (PxJsonMsg) {
         .type = PX_JSON_MSG_NULL,
-        .name = name,
     };
 }
 
@@ -130,6 +124,14 @@ pxJsonMsgCount()
     return (PxJsonMsg) {
         .type = PX_JSON_MSG_COUNT,
     };
+}
+
+PxJsonMsg
+pxJsonMsgPair(PxString8 name, PxJsonMsg value)
+{
+    value.name = name;
+
+    return value;
 }
 
 #endif // PX_ENCODING_JSON_MESSAGE_C

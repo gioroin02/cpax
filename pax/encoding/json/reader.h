@@ -19,9 +19,18 @@ PxJsonReader
 pxJsonReaderReserve(PxArena* arena, pxiword length, PxReader* reader);
 
 PxJsonMsg
-pxJsonReadMsg(PxJsonReader* self, PxArena* arena);
+pxJsonReaderNextMsg(PxJsonReader* self, PxArena* arena);
 
 pxb8
-pxJsonExpectMsg(PxJsonReader* self, PxArena* arena, PxJsonMsgType type);
+pxJsonReaderObjectOpen(PxJsonReader* self, PxArena* arena, PxJsonMsg* message);
+
+pxb8
+pxJsonReaderObjectClose(PxJsonReader* self, PxArena* arena, PxJsonMsg* message);
+
+pxb8
+pxJsonReaderArrayOpen(PxJsonReader* self, PxArena* arena, PxJsonMsg* message);
+
+pxb8
+pxJsonReaderArrayClose(PxJsonReader* self, PxArena* arena, PxJsonMsg* message);
 
 #endif // PX_ENCODING_JSON_READER_H

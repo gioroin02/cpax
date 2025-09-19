@@ -24,7 +24,7 @@ main(int argc, char** argv)
     PxInput   input  = pxInputFromFile(file);
 
     while (1) {
-        if (pxInputBuffer8(input, &buffer) == 0)
+        if (pxInputNextBuffer8(input, &buffer) == 0)
             break;
 
         printf("%.*s", pxas(int, buffer.size),

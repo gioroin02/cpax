@@ -5,17 +5,17 @@
 void
 readBytePerByte(PxReader* reader)
 {
-    pxu8 byte = 0;
+    pxu8 byte = pxReaderPeekByte(reader, 0);
 
-    while (pxReaderByte(reader, &byte, 0) != 0) {
-        if (byte == 0) break;
-
+    while (byte != 0) {
         printf("%3u", byte);
 
         if (byte > 0x20 && byte < 0x80)
             printf(" (%c)", byte);
 
         printf("\n");
+
+        byte = pxReaderNextByte(reader, 1);
     }
 }
 
@@ -35,7 +35,7 @@ main(int argc, char** argv)
 
     pxBuffer8WriteString8Tail(&source, pxs8("ciao\narrivederci"));
 
-    PxString8 string = pxReaderString8(&reader, &arena, 16, 0);
+    PxString8 string = pxReaderNextString8Line(&reader, &arena, 16, 0);
 
     printf("[%.*s]\n", pxas(int, string.length),
         string.memory);

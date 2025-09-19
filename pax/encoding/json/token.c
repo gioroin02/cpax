@@ -1,5 +1,5 @@
-#ifndef PX_ENCODING_JSON_TOKEN_C
-#define PX_ENCODING_JSON_TOKEN_C
+#ifndef PX_JSON_TOKEN_C
+#define PX_JSON_TOKEN_C
 
 #include "token.h"
 
@@ -171,41 +171,38 @@ pxJsonTokenCount()
 }
 
 pxb8
-pxJsonIsNumber(pxu8 byte)
+pxJsonIsLetter(pxu8 value)
 {
-    if (byte >= PX_ASCII_ZERO && byte <= PX_ASCII_NINE)
+    if (value >= PX_ASCII_LOWER_A && value <= PX_ASCII_LOWER_Z)
+        return 1;
+
+    if (value >= PX_ASCII_UPPER_A && value <= PX_ASCII_UPPER_Z)
         return 1;
 
     return 0;
 }
 
 pxb8
-pxJsonIsNumeric(pxu8 byte)
+pxJsonIsNumber(pxu8 value)
 {
-    if (pxJsonIsNumber(byte) != 0) return 1;
-
-    switch (byte) {
-        case PX_ASCII_PLUS:
-        case PX_ASCII_MINUS:
-        case PX_ASCII_LOWER_E:
-        case PX_ASCII_UPPER_E:
-        case PX_ASCII_POINT:
-            return 1;
-
-        default: break;
-    }
+    if (value >= PX_ASCII_ZERO && value <= PX_ASCII_NINE)
+        return 1;
 
     return 0;
 }
 
 pxb8
-pxJsonIsLetter(pxu8 byte)
+pxJsonIsNumeric(pxu8 value)
 {
-    if (byte >= PX_ASCII_LOWER_A && byte <= PX_ASCII_LOWER_Z)
+    if (value >= PX_ASCII_ZERO && value <= PX_ASCII_NINE)
         return 1;
 
-    if (byte >= PX_ASCII_UPPER_A && byte <= PX_ASCII_UPPER_Z)
-        return 1;
+    if (value == PX_ASCII_PLUS)  return 1;
+    if (value == PX_ASCII_MINUS) return 1;
+    if (value == PX_ASCII_POINT) return 1;
+
+    if (value == PX_ASCII_LOWER_E) return 1;
+    if (value == PX_ASCII_UPPER_E) return 1;
 
     return 0;
 }
@@ -213,14 +210,11 @@ pxJsonIsLetter(pxu8 byte)
 PxJsonToken
 pxJsonPeek(PxReader* reader, PxArena* arena)
 {
-    PxJsonToken result = pxJsonTokenNone();
-
     pxu8 byte = pxJsonSkipSpaces(reader);
 
     switch (byte) {
         case PX_ASCII_NULL:
-            result = pxJsonTokenCount();
-        break;
+            return pxJsonTokenCount();
 
         case PX_ASCII_BRACE_LEFT:
         case PX_ASCII_BRACE_RIGHT:
@@ -228,12 +222,7 @@ pxJsonPeek(PxReader* reader, PxArena* arena)
         case PX_ASCII_SQUARE_RIGHT:
         case PX_ASCII_COLON:
         case PX_ASCII_COMMA:
-            result = pxJsonPeekSymbol(reader, arena);
-        break;
-
-        case PX_ASCII_QUOTE:
-            result = pxJsonPeekString(reader, arena);
-        break;
+            return pxJsonPeekSymbol(reader, arena);
 
         case PX_ASCII_PLUS:
         case PX_ASCII_MINUS:
@@ -247,37 +236,28 @@ pxJsonPeek(PxReader* reader, PxArena* arena)
         case PX_ASCII_SEVEN:
         case PX_ASCII_EIGHT:
         case PX_ASCII_NINE:
-            result = pxJsonPeekNumber(reader, arena);
-        break;
+            return pxJsonPeekNumber(reader, arena);
 
         case PX_ASCII_LOWER_T:
         case PX_ASCII_LOWER_F:
         case PX_ASCII_LOWER_N:
-            result = pxJsonPeekWord(reader, arena);
-        break;
+            return pxJsonPeekWord(reader, arena);
 
         default: break;
     }
 
-    if (result.type == PX_JSON_TOKEN_NONE) {
-        PxString8 message =
-            pxString8Copy(arena, pxs8("Unkown symbol"));
+    PxString8 message =
+        pxString8Copy(arena, pxs8("Unknown symbol"));
 
-        PxString8 subject = pxString8CopyUnicode(arena, byte);
+    PxString8 subject = pxString8CopyUnicode(arena, byte);
 
-        return pxJsonTokenError(subject, message);
-    }
-
-    return result;
+    return pxJsonTokenError(subject, message);
 }
 
 PxJsonToken
 pxJsonPeekSymbol(PxReader* reader, PxArena* arena)
 {
-    pxiword offset = 1;
-    pxu8    byte   = 0;
-
-    pxReaderBytePeek(reader, &byte, 0);
+    pxu8 byte = pxReaderPeekByte(reader, 0);
 
     switch (byte) {
         case PX_ASCII_BRACE_LEFT:
@@ -302,7 +282,7 @@ pxJsonPeekSymbol(PxReader* reader, PxArena* arena)
     }
 
     PxString8 message =
-        pxString8Copy(arena, pxs8("Unkown symbol"));
+        pxString8Copy(arena, pxs8("Unknown symbol"));
 
     PxString8 subject = pxString8CopyUnicode(arena, byte);
 
@@ -312,10 +292,8 @@ pxJsonPeekSymbol(PxReader* reader, PxArena* arena)
 PxJsonToken
 pxJsonPeekString(PxReader* reader, PxArena* arena)
 {
-    pxiword offset = 0;
-    pxu8    byte   = 0;
-
-    pxReaderBytePeek(reader, &byte, offset);
+    pxu8    byte = pxReaderPeekByte(reader, 0);
+    pxiword size = 0;
 
     if (byte != PX_ASCII_QUOTE) {
         PxString8 message = pxString8Copy(arena,
@@ -326,15 +304,12 @@ pxJsonPeekString(PxReader* reader, PxArena* arena)
         return pxJsonTokenError(subject, message);
     }
 
-    offset += 1;
+    size += 1;
+    byte  = pxReaderPeekByte(reader, size);
 
-    while (pxReaderBytePeek(reader, &byte, offset) != 0) {
-        if (byte == PX_ASCII_NULL || byte == PX_ASCII_QUOTE)
-            break;
-
-        offset += 1;
-
-        pxReaderBytePeek(reader, &byte, offset);
+    while (byte != PX_ASCII_NULL && byte != PX_ASCII_QUOTE) {
+        size += 1;
+        byte  = pxReaderPeekByte(reader, size);
     }
 
     if (byte != PX_ASCII_QUOTE) {
@@ -346,10 +321,8 @@ pxJsonPeekString(PxReader* reader, PxArena* arena)
         return pxJsonTokenError(subject, message);
     }
 
-    PxString8 string = {0};
-
-    string = pxReaderString8Peek(reader, arena, offset + 1, 0);
-    string = pxString8SliceLength(string, 1, string.length - 2);
+    PxString8 string =
+        pxReaderPeekString8(reader, arena, size - 1, 1, 0);
 
     return pxJsonTokenString(string);
 }
@@ -357,14 +330,12 @@ pxJsonPeekString(PxReader* reader, PxArena* arena)
 PxJsonToken
 pxJsonPeekNumber(PxReader* reader, PxArena* arena)
 {
-    pxiword offset = 0;
-    pxu8    byte   = 0;
+    pxu8    byte = pxReaderPeekByte(reader, 0);
+    pxiword size = 0;
 
     PxJsonTokenType type = PX_JSON_TOKEN_NONE;
 
-    while (pxReaderBytePeek(reader, &byte, offset) != 0) {
-        if (pxJsonIsNumeric(byte) == 0) break;
-
+    while (pxJsonIsNumeric(byte) != 0) {
         switch (byte) {
             case PX_ASCII_PLUS:
             case PX_ASCII_ZERO:
@@ -402,12 +373,11 @@ pxJsonPeekNumber(PxReader* reader, PxArena* arena)
             } break;
         }
 
-        offset += 1;
-
-        pxReaderBytePeek(reader, &byte, offset);
+        size += 1;
+        byte  = pxReaderPeekByte(reader, size);
     }
 
-    PxString8 string = pxReaderString8Peek(reader, arena, offset, 0);
+    PxString8 string = pxReaderPeekString8(reader, arena, size, 0, 0);
 
     switch (type) {
         case PX_JSON_TOKEN_UNSIGNED:
@@ -431,10 +401,8 @@ pxJsonPeekNumber(PxReader* reader, PxArena* arena)
 PxJsonToken
 pxJsonPeekWord(PxReader* reader, PxArena* arena)
 {
-    pxiword offset = 0;
-    pxu8    byte   = 0;
-
-    pxReaderBytePeek(reader, &byte, offset);
+    pxu8    byte = pxReaderPeekByte(reader, 0);
+    pxiword size = 0;
 
     if (pxJsonIsLetter(byte) == 0) {
         PxString8 subject = pxString8Copy(arena,
@@ -445,18 +413,15 @@ pxJsonPeekWord(PxReader* reader, PxArena* arena)
         return pxJsonTokenError(subject, message);
     }
 
-    offset += 1;
+    size += 1;
+    byte  = pxReaderPeekByte(reader, size);
 
-    while (pxReaderBytePeek(reader, &byte, offset) != 0) {
-        if (pxJsonIsLetter(byte) == 0 && pxJsonIsNumber(byte) == 0)
-            break;
-
-        offset += 1;
-
-        pxReaderBytePeek(reader, &byte, offset);
+    while (pxJsonIsLetter(byte) != 0 || pxJsonIsNumber(byte) != 0) {
+        size += 1;
+        byte  = pxReaderPeekByte(reader, size);
     }
 
-    PxString8 string = pxReaderString8Peek(reader, arena, offset, 0);
+    PxString8 string = pxReaderPeekString8(reader, arena, size, 0, 0);
 
     if (pxString8IsEqual(string, pxs8("true")) != 0)
         return pxJsonTokenBoolean(string, 1);
@@ -476,9 +441,9 @@ pxJsonPeekWord(PxReader* reader, PxArena* arena)
 PxJsonToken
 pxJsonNext(PxReader* reader, PxArena* arena)
 {
-    PxJsonToken result = pxJsonTokenNone();
-
     pxu8 byte = pxJsonSkipSpaces(reader);
+
+    PxJsonToken result = pxJsonTokenNone();
 
     switch (byte) {
         case PX_ASCII_NULL:
@@ -524,7 +489,7 @@ pxJsonNext(PxReader* reader, PxArena* arena)
 
     if (result.type == PX_JSON_TOKEN_NONE) {
         PxString8 message =
-            pxString8Copy(arena, pxs8("Unkown symbol"));
+            pxString8Copy(arena, pxs8("Unknown symbol"));
 
         PxString8 subject = pxString8CopyUnicode(arena, byte);
 
@@ -539,16 +504,12 @@ pxJsonNext(PxReader* reader, PxArena* arena)
 pxu8
 pxJsonSkipSpaces(PxReader* reader)
 {
-    pxu8 byte = 0;
+    pxu8 byte = pxReaderPeekByte(reader, 0);
 
-    while (pxReaderBytePeek(reader, &byte, 0) != 0) {
-        if (pxUnicodeIsAsciiCntrl(byte) == 0)
-            break;
-
-        pxReaderSkip(reader, 1);
-    }
+    while (pxUnicodeIsAsciiCntrl(byte) != 0 && byte != 0)
+        byte = pxReaderNextByte(reader, 1);
 
     return byte;
 }
 
-#endif // PX_ENCODING_JSON_TOKEN_C
+#endif // PX_JSON_TOKEN_C

@@ -1,138 +1,76 @@
 #include "../export.h"
+#include "../../../core/memory/export.h"
 
 #include <stdio.h>
 
-#define STYLE_RESET "\x1b[0m"
+#define COLOR_RESET "\x1b[0m"
 
-#define TEXT_RED "\x1b[31m"
-#define TEXT_GRN "\x1b[32m"
-#define TEXT_YLW "\x1b[33m"
-#define TEXT_BLU "\x1b[34m"
-#define TEXT_MAG "\x1b[35m"
-#define TEXT_CYA "\x1b[36m"
+#define FRONT_RED    "\x1b[31m"
+#define FRONT_GREEN  "\x1b[32m"
+#define FRONT_YELLOW "\x1b[33m"
+#define FRONT_BLUE   "\x1b[34m"
+#define FRONT_PURPLE "\x1b[35m"
+#define FRONT_AZURE  "\x1b[36m"
 
-#define RED(x) TEXT_RED x STYLE_RESET
-#define GRN(x) TEXT_GRN x STYLE_RESET
-#define YLW(x) TEXT_YLW x STYLE_RESET
-#define BLU(x) TEXT_BLU x STYLE_RESET
-#define MAG(x) TEXT_MAG x STYLE_RESET
-#define CYA(x) TEXT_CYA x STYLE_RESET
+#define RED(expr)    FRONT_RED    expr COLOR_RESET
+#define GREEN(expr)  FRONT_GREEN  expr COLOR_RESET
+#define YELLOW(expr) FRONT_YELLOW expr COLOR_RESET
+#define BLUE(expr)   FRONT_BLUE   expr COLOR_RESET
+#define PURPLE(expr) FRONT_PURPLE expr COLOR_RESET
+#define AZURE(expr)  FRONT_AZURE  expr COLOR_RESET
+
+typedef pxiword EntityTag;
+
+#define ENTITY_TAGS_ITEMS pxas(pxiword, 16)
+
+typedef struct EntityTags
+{
+    EntityTag items[ENTITY_TAGS_ITEMS];
+    pxiword   size;
+}
+EntityTags;
 
 typedef struct Entity
 {
     PxString8 name;
     pxuword   code;
+
+    EntityTags tags;
 }
 Entity;
 
-void
-jsonWriteEntity(Entity* self, PxJsonWriter* writer, PxArena* arena)
-{
-    PxJsonMsg list[] = {
-        pxJsonMsgObjectOpen(),
-        pxJsonMsgString(self->name, pxs8("name")),
-        pxJsonMsgUnsigned(self->code, pxs8("code")),
-        pxJsonMsgObjectClose(),
-    };
+#define ENTITY \
+    pxs8("{\"name\": \"gio\", \"code\": 156, \"tags\": [1, -2, true, null, false, \"something\"]}")
 
-    pxJsonWriteList(writer, arena,
-        0, pxarraylen(PxJsonMsg, list), list);
+pxb8
+entityTagsWriteJson(EntityTags* self, PxJsonWriter* writer, PxArena* arena)
+{
+    pxJsonWriterArrayOpen(writer, arena);
+
+    for (pxiword i = 0; i < self->size; i += 1)
+        pxJsonWriterNextMsg(writer, arena, pxJsonMsgUnsigned(self->items[i]));
+
+    pxJsonWriterArrayClose(writer, arena);
+
+    return 1;
 }
 
-void
-showJsonMsg(PxJsonReader* reader, PxArena* arena)
+pxb8
+entityWriteJson(Entity* self, PxJsonWriter* writer, PxArena* arena)
 {
-    PxJsonMsg message = pxJsonMsgNone();
+    pxJsonWriterObjectOpen(writer, arena);
 
-    while (message.type != PX_JSON_MSG_COUNT) {
-        message = pxJsonReadMsg(reader, arena);
+    pxJsonWriterObjectItem(writer, arena,
+        &self->tags, &entityTagsWriteJson, pxs8("tags"));
 
-        if (message.type == PX_JSON_MSG_COUNT) break;
+    pxJsonWriterNextList(writer, arena, (PxJsonMsg[]) {
+        pxJsonMsgPair(pxs8("name"), pxJsonMsgString(self->name)),
+        pxJsonMsgPair(pxs8("code"), pxJsonMsgUnsigned(self->code)),
+    }, 2);
 
-        switch (message.type) {
-            case PX_JSON_MSG_ERROR: {
-                PxString8 content = message.error.content;
-                PxString8 subject = message.error.subject;
+    pxJsonWriterObjectClose(writer, arena);
 
-                printf(RED("%.*s: %.*s"),
-                    pxas(int, content.length), content.memory,
-                    pxas(int, subject.length), subject.memory);
-
-                message.type = PX_JSON_MSG_COUNT;
-            } break;
-
-            case PX_JSON_MSG_OBJECT_OPEN:
-                printf("OBJECT_OPEN");
-            break;
-
-            case PX_JSON_MSG_OBJECT_CLOSE:
-                printf("OBJECT_CLOSE");
-            break;
-
-            case PX_JSON_MSG_ARRAY_OPEN:
-                printf("ARRAY_OPEN");
-            break;
-
-            case PX_JSON_MSG_ARRAY_CLOSE:
-                printf("ARRAY_CLOSE");
-            break;
-
-            case PX_JSON_MSG_NAME:
-                printf(CYA("%.*s"), pxas(int, message.name.length),
-                    message.name.memory);
-            break;
-
-            case PX_JSON_MSG_STRING: {
-                if (message.name.length > 0) {
-                    printf(CYA("'%.*s'") ": ", pxas(int, message.name.length),
-                        message.name.memory);
-                }
-
-                printf(BLU("'%.*s'"),
-                    pxas(int, message.string_8.length), message.string_8.memory);
-            } break;
-
-            case PX_JSON_MSG_UNSIGNED: {
-                if (message.name.length > 0) {
-                    printf(CYA("'%.*s'") ": ", pxas(int, message.name.length),
-                        message.name.memory);
-                }
-
-                printf(MAG("%llu"), message.unsigned_word);
-            } break;
-
-            case PX_JSON_MSG_INTEGER: {
-                if (message.name.length > 0) {
-                    printf(CYA("'%.*s'") ": ", pxas(int, message.name.length),
-                        message.name.memory);
-                }
-
-                printf(MAG("%lli"), message.integer_word);
-            } break;
-
-            case PX_JSON_MSG_FLOATING: {
-                if (message.name.length > 0) {
-                    printf(CYA("'%.*s'") ": ", pxas(int, message.name.length),
-                        message.name.memory);
-                }
-
-                printf(MAG("%lf"), message.floating_word);
-            } break;
-
-            case PX_JSON_MSG_BOOLEAN: {
-                if (message.name.length > 0) {
-                    printf(CYA("'%.*s'") ": ", pxas(int, message.name.length),
-                        message.name.memory);
-                }
-
-                printf("%s", message.boolean_word != 0 ? GRN("true") : RED("false"));
-            } break;
-
-            default: break;
-        }
-
-        printf("\n");
-    }
+    return 1;
 }
 
 int
@@ -140,21 +78,13 @@ main(int argc, char** argv)
 {
     PxArena   arena       = pxMemoryReserve(16);
     PxBuffer8 source      = pxBuffer8Reserve(&arena, 256);
-    PxReader  buff_reader = pxReaderFromInput(pxInputFromBuffer8(&source), &arena, 256);
     PxWriter  buff_writer = pxWriterFromOutput(pxOutputFromBuffer8(&source), &arena, 256);
 
     PxJsonWriter writer =
         pxJsonWriterReserve(&arena, 16, &buff_writer);
 
-    jsonWriteEntity(&(Entity) {.name = pxs8("gio"), .code = 156}, &writer, &arena);
+    entityWriteJson(&(Entity) {.name = pxs8("gio"), .code = 156, .tags = {.items = {1, 2, 3}, .size = 3}}, &writer, &arena);
 
-    printf(YLW("[start]") "\n%.*s\n" YLW("[stop]") "\n",
+    printf(YELLOW("[start]") "\n%.*s\n" YELLOW("[stop]") "\n",
         pxas(int, source.size), source.memory);
-
-    printf("\n");
-
-    PxJsonReader reader =
-        pxJsonReaderReserve(&arena, 16, &buff_reader);
-
-    showJsonMsg(&reader, &arena);
 }

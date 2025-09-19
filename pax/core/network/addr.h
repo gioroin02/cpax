@@ -30,9 +30,6 @@ pxAddrAny(PxAddrType type);
 PxAddr
 pxAddrLocalhost(PxAddrType type);
 
-PxAddr
-pxAddrCopy(PxAddr value);
-
 pxb8
 pxAddrIsEqual(PxAddr self, PxAddr value);
 

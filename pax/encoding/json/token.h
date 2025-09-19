@@ -98,13 +98,13 @@ PxJsonToken
 pxJsonTokenCount();
 
 pxb8
-pxJsonIsNumber(pxu8 byte);
+pxJsonIsLetter(pxu8 value);
 
 pxb8
-pxJsonIsNumeric(pxu8 byte);
+pxJsonIsNumber(pxu8 value);
 
 pxb8
-pxJsonIsLetter(pxu8 byte);
+pxJsonIsNumeric(pxu8 value);
 
 PxJsonToken
 pxJsonPeek(PxReader* reader, PxArena* arena);

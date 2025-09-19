@@ -43,26 +43,6 @@ pxAddrLocalhost(PxAddrType type)
     return result;
 }
 
-PxAddr
-pxAddrCopy(PxAddr value)
-{
-    PxAddr result = {.type = value.type};
-
-    switch (value.type) {
-        case PX_ADDR_TYPE_IP4:
-            result.ip4 = pxAddrIp4Copy(value.ip4);
-        break;
-
-        case PX_ADDR_TYPE_IP6:
-            result.ip6 = pxAddrIp6Copy(value.ip6);
-        break;
-
-        default: break;
-    }
-
-    return result;
-}
-
 pxb8
 pxAddrIsEqual(PxAddr self, PxAddr value)
 {

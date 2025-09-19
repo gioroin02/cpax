@@ -263,132 +263,151 @@ pxConsoleQueueWriteMsg(PxConsoleQueue* self, PxArena* arena, PxConsoleMsg value)
 {
     switch (value.type) {
         case PX_CONSOLE_MSG_STYLE_TEXT_8: {
-            pxu8 format[] = "\x1b[3${0}m";
+            PxPrintCmd list[] = {
+                pxPrintCmdUnsigned(value.style_8.index),
+            };
 
-            return pxBuffer8PrintVargs(&self->buffer, format,
-                pxPrintCmdUnsigned(value.style_8.index));
+            return pxBuffer8PrintFormat(&self->buffer,
+                pxs8("\x1b[3${0}m"), list, 1);
         } break;
 
         case PX_CONSOLE_MSG_STYLE_TEXT_256: {
-            pxu8 format[] = "\x1b[38;5;${0}m";
+            PxPrintCmd list[] = {
+                pxPrintCmdUnsigned(value.style_256.index),
+            };
 
-            return pxBuffer8PrintVargs(&self->buffer, format,
-                pxPrintCmdUnsigned(value.style_256.index));
+            return pxBuffer8PrintFormat(&self->buffer,
+                pxs8("\x1b[38;5;${0}m"), list, 1);
         } break;
 
         case PX_CONSOLE_MSG_STYLE_TEXT_RGB: {
-            pxu8 format[] = "\x1b[38;2;${0};${1};${2}m";
-
-            return pxBuffer8PrintVargs(&self->buffer, format,
+            PxPrintCmd list[] = {
                 pxPrintCmdUnsigned(value.style_rgb.r),
                 pxPrintCmdUnsigned(value.style_rgb.g),
-                pxPrintCmdUnsigned(value.style_rgb.b));
+                pxPrintCmdUnsigned(value.style_rgb.b),
+            };
+
+            return pxBuffer8PrintFormat(&self->buffer,
+                pxs8("\x1b[38;2;${0};${1};${2}m"), list, 3);
         } break;
 
         case PX_CONSOLE_MSG_STYLE_BACK_8: {
-            pxu8 format[] = "\x1b[4${0}m";
+            PxPrintCmd list[] = {
+                pxPrintCmdUnsigned(value.style_8.index),
+            };
 
-            return pxBuffer8PrintVargs(&self->buffer, format,
-                pxPrintCmdUnsigned(value.style_8.index));
+            return pxBuffer8PrintFormat(&self->buffer,
+                pxs8("\x1b[4${0}m"), list, 1);
         } break;
 
         case PX_CONSOLE_MSG_STYLE_BACK_256: {
-            pxu8 format[] = "\x1b[48;5;${0}m";
+            PxPrintCmd list[] = {
+                pxPrintCmdUnsigned(value.style_256.index),
+            };
 
-            return pxBuffer8PrintVargs(&self->buffer, format,
-                pxPrintCmdUnsigned(value.style_256.index));
+            return pxBuffer8PrintFormat(&self->buffer,
+                pxs8("\x1b[48;5;${0}m"), list, 1);
         } break;
 
         case PX_CONSOLE_MSG_STYLE_BACK_RGB: {
-            pxu8 format[] = "\x1b[48;2;${0};${1};${2}m";
-
-            return pxBuffer8PrintVargs(&self->buffer, format,
+            PxPrintCmd list[] = {
                 pxPrintCmdUnsigned(value.style_rgb.r),
                 pxPrintCmdUnsigned(value.style_rgb.g),
-                pxPrintCmdUnsigned(value.style_rgb.b));
+                pxPrintCmdUnsigned(value.style_rgb.b),
+            };
+
+            return pxBuffer8PrintFormat(&self->buffer,
+                pxs8("\x1b[48;2;${0};${1};${2}m"), list, 3);
         } break;
 
         case PX_CONSOLE_MSG_STYLE_CLEAR: {
-            return pxBuffer8PrintVargs(&self->buffer, "\x1b[0m", {0});
+            return pxBuffer8WriteString8Tail(&self->buffer, pxs8("\x1b[0m"));
         } break;
 
         case PX_CONSOLE_MSG_STRING_8: {
-            return pxBuffer8PrintVargs(&self->buffer, "${0}",
-                pxPrintCmdString8(value.string_8));
+            return pxBuffer8WriteString8Tail(&self->buffer, value.string_8);
         } break;
 
         case PX_CONSOLE_MSG_STRING_16: {
-            return pxBuffer8PrintVargs(&self->buffer, "${0}",
-                pxPrintCmdString16(value.string_16));
+            return pxBuffer8WriteString16Tail(&self->buffer, value.string_16);
         } break;
 
         case PX_CONSOLE_MSG_STRING_32: {
-            return pxBuffer8PrintVargs(&self->buffer, "${0}",
-                pxPrintCmdString32(value.string_32));
+            return pxBuffer8WriteString32Tail(&self->buffer, value.string_32);
         } break;
 
         case PX_CONSOLE_MSG_UNICODE: {
-            return pxBuffer8PrintVargs(&self->buffer, "${0}",
-                pxPrintCmdUnicode(value.unicode));
+            return pxBuffer8WriteUnicodeTail(&self->buffer, value.unicode);
         } break;
 
         case PX_CONSOLE_MSG_CURSOR_SHOW: {
-            return pxBuffer8PrintVargs(&self->buffer, "\x1b[?25h", {0});
+            return pxBuffer8WriteString8Tail(&self->buffer, pxs8("\x1b[?25h"));
         } break;
 
         case PX_CONSOLE_MSG_CURSOR_HIDE: {
-            return pxBuffer8PrintVargs(&self->buffer, "\x1b[?25l", {0});
+            return pxBuffer8WriteString8Tail(&self->buffer, pxs8("\x1b[?25l"));
         } break;
 
         case PX_CONSOLE_MSG_CURSOR_MOVE: {
             if (value.cursor_move.x <= 0 && value.cursor_move.y <= 0)
                 return 1;
 
-            pxu8 format[] = "\x1b[${0};${1}H";
-
-            return pxBuffer8PrintVargs(&self->buffer, format,
+            PxPrintCmd list[] = {
                 pxPrintCmdUnsigned(value.cursor_move.y + 1),
-                pxPrintCmdUnsigned(value.cursor_move.x + 1));
+                pxPrintCmdUnsigned(value.cursor_move.x + 1),
+            };
+
+            return pxBuffer8PrintFormat(&self->buffer,
+                pxs8("\x1b[${0};${1}H"), list, 2);
         } break;
 
         case PX_CONSOLE_MSG_CURSOR_MOVE_UP: {
             if (value.cursor_move.y <= 0) return 1;
 
-            pxu8 format[] = "\x1b[${0}A";
+            PxPrintCmd list[] = {
+                pxPrintCmdUnsigned(value.cursor_move.y),
+            };
 
-            return pxBuffer8PrintVargs(&self->buffer, format,
-                pxPrintCmdUnsigned(value.cursor_move.y));
+            return pxBuffer8PrintFormat(&self->buffer,
+                pxs8("\x1b[${0}A"), list, 1);
+
         } break;
 
         case PX_CONSOLE_MSG_CURSOR_MOVE_DOWN: {
             if (value.cursor_move.y <= 0) return 1;
 
-            pxu8 format[] = "\x1b[${0}B";
+            PxPrintCmd list[] = {
+                pxPrintCmdUnsigned(value.cursor_move.y),
+            };
 
-            return pxBuffer8PrintVargs(&self->buffer, format,
-                pxPrintCmdUnsigned(value.cursor_move.y));
+            return pxBuffer8PrintFormat(&self->buffer,
+                pxs8("\x1b[${0}B"), list, 1);
         } break;
 
         case PX_CONSOLE_MSG_CURSOR_MOVE_RIGHT: {
             if (value.cursor_move.x <= 0) return 1;
 
-            pxu8 format[] = "\x1b[${0}C";
+            PxPrintCmd list[] = {
+                pxPrintCmdUnsigned(value.cursor_move.x),
+            };
 
-            return pxBuffer8PrintVargs(&self->buffer, format,
-                pxPrintCmdUnsigned(value.cursor_move.x));
+            return pxBuffer8PrintFormat(&self->buffer,
+                pxs8("\x1b[${0}C"), list, 1);
         } break;
 
         case PX_CONSOLE_MSG_CURSOR_MOVE_LEFT: {
             if (value.cursor_move.x <= 0) return 1;
 
-            pxu8 format[] = "\x1b[${0}D";
+            PxPrintCmd list[] = {
+                pxPrintCmdUnsigned(value.cursor_move.x),
+            };
 
-            return pxBuffer8PrintVargs(&self->buffer, format,
-                pxPrintCmdUnsigned(value.cursor_move.x));
+            return pxBuffer8PrintFormat(&self->buffer,
+                pxs8("\x1b[${0}D"), list, 1);
         } break;
 
         case PX_CONSOLE_MSG_RESET: {
-            return pxBuffer8PrintVargs(&self->buffer, "\x1b\x63", {0});
+            return pxBuffer8WriteString8Tail(&self->buffer, pxs8("\x1b\x63"));
         } break;
 
         default: break;

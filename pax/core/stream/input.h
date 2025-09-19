@@ -16,12 +16,15 @@ PxInput
 pxInputFromBuffer8(PxBuffer8* self);
 
 pxiword
-pxInputMemory8(PxInput self, pxu8* memory, pxiword length);
+pxInputNextMemory8(PxInput self, pxu8* memory, pxiword length);
 
 pxiword
-pxInputBuffer8(PxInput self, PxBuffer8* buffer);
+pxInputNextBuffer8(PxInput self, PxBuffer8* buffer);
 
 pxiword
-pxInputByte(PxInput self, pxu8* value);
+pxInputNextByte(PxInput self, pxu8* value);
+
+PxString8
+pxInputNextString8(PxInput self, PxArena* arena, pxiword length);
 
 #endif // PX_CORE_STREAM_INPUT_H

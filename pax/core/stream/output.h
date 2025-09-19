@@ -16,18 +16,18 @@ PxOutput
 pxOutputFromBuffer8(PxBuffer8* self);
 
 pxiword
-pxOutputMemory8(PxOutput self, pxu8* memory, pxiword length);
+pxOutputNextMemory8(PxOutput self, pxu8* memory, pxiword length);
 
 pxiword
-pxOutputByte(PxOutput self, pxu8 value);
+pxOutputNextBuffer8(PxOutput self, PxBuffer8* value);
 
 pxiword
-pxOutputString8(PxOutput self, PxString8 value);
+pxOutputNextByte(PxOutput self, pxu8 value);
 
 pxiword
-pxOutputUnicode(PxOutput self, pxi32 value);
+pxOutputNextString8(PxOutput self, PxString8 value);
 
 pxiword
-pxOutputBuffer8(PxOutput self, PxBuffer8* value);
+pxOutputNextUnicode(PxOutput self, pxi32 value);
 
 #endif // PX_CORE_STREAM_OUTPUT_H

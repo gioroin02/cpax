@@ -17,15 +17,15 @@ pxiword
 pxWriterFlush(PxWriter* self);
 
 pxiword
-pxWriterMemory8(PxWriter* self, pxu8* memory, pxiword length);
+pxWriterNextMemory8(PxWriter* self, pxu8* memory, pxiword length);
 
 pxiword
-pxWriterByte(PxWriter* self, pxu8 value);
+pxWriterNextByte(PxWriter* self, pxu8 value);
 
 pxiword
-pxWriterString8(PxWriter* self, PxString8 value);
+pxWriterNextString8(PxWriter* self, PxString8 value);
 
 pxiword
-pxWriterUnicode(PxWriter* self, pxi32 value);
+pxWriterNextUnicode(PxWriter* self, pxi32 value);
 
 #endif // PX_CORE_STREAM_WRITER_H

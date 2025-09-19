@@ -3,42 +3,24 @@
 
 #include <stdio.h>
 
-#define STYLE_RESET "\x1b[0m"
+#define COLOR_RESET "\x1b[0m"
 
-#define TEXT_RED "\x1b[31m"
-#define TEXT_GRN "\x1b[32m"
-#define TEXT_YLW "\x1b[33m"
-#define TEXT_BLU "\x1b[34m"
-#define TEXT_MAG "\x1b[35m"
-#define TEXT_CYA "\x1b[36m"
+#define FRONT_RED    "\x1b[31m"
+#define FRONT_GREEN  "\x1b[32m"
+#define FRONT_YELLOW "\x1b[33m"
+#define FRONT_BLUE   "\x1b[34m"
+#define FRONT_PURPLE "\x1b[35m"
+#define FRONT_AZURE  "\x1b[36m"
 
-#define RED(x) TEXT_RED x STYLE_RESET
-#define GRN(x) TEXT_GRN x STYLE_RESET
-#define YLW(x) TEXT_YLW x STYLE_RESET
-#define BLU(x) TEXT_BLU x STYLE_RESET
-#define MAG(x) TEXT_MAG x STYLE_RESET
-#define CYA(x) TEXT_CYA x STYLE_RESET
+#define RED(expr)    FRONT_RED    expr COLOR_RESET
+#define GREEN(expr)  FRONT_GREEN  expr COLOR_RESET
+#define YELLOW(expr) FRONT_YELLOW expr COLOR_RESET
+#define BLUE(expr)   FRONT_BLUE   expr COLOR_RESET
+#define PURPLE(expr) FRONT_PURPLE expr COLOR_RESET
+#define AZURE(expr)  FRONT_AZURE  expr COLOR_RESET
 
 #define ENTITY \
     pxs8("{ \"flags\": [16, 32], \"code\": 156, \"name\": \"player\", \"coords\": {\"x\": -1, \"y\": +2, \"z\": null}, \"alive\": true, \"pause\": false }")
-
-static const char* const JSON_TOKEN_NAMES[] = {
-    "JSON_TOKEN_NONE",
-    "JSON_TOKEN_ERROR",
-    "JSON_TOKEN_OBJECT_OPEN",
-    "JSON_TOKEN_OBJECT_CLOSE",
-    "JSON_TOKEN_ARRAY_OPEN",
-    "JSON_TOKEN_ARRAY_CLOSE",
-    "JSON_TOKEN_COLON",
-    "JSON_TOKEN_COMMA",
-    "JSON_TOKEN_STRING",
-    "JSON_TOKEN_UNSIGNED",
-    "JSON_TOKEN_INTEGER",
-    "JSON_TOKEN_FLOATING",
-    "JSON_TOKEN_BOOLEAN",
-    "JSON_TOKEN_NULL",
-    "JSON_TOKEN_COUNT",
-};
 
 void
 showJsonToken(PxReader* reader, PxArena* arena)
@@ -87,28 +69,28 @@ showJsonToken(PxReader* reader, PxArena* arena)
             break;
 
             case PX_JSON_TOKEN_STRING:
-                printf(BLU("'%.*s'"),
+                printf(BLUE("'%.*s'"),
                     pxas(int, token.string_8.length), token.string_8.memory);
             break;
 
             case PX_JSON_TOKEN_UNSIGNED:
-                printf(MAG("%llu"), token.unsigned_word);
+                printf(PURPLE("%llu"), token.unsigned_word);
             break;
 
             case PX_JSON_TOKEN_INTEGER:
-                printf(MAG("%lli"), token.integer_word);
+                printf(PURPLE("%lli"), token.integer_word);
             break;
 
             case PX_JSON_TOKEN_FLOATING:
-                printf(MAG("%lf"), token.floating_word);
+                printf(PURPLE("%lf"), token.floating_word);
             break;
 
             case PX_JSON_TOKEN_BOOLEAN:
-                printf("%s", token.boolean_word != 0 ? GRN("true") : RED("false"));
+                printf("%s", token.boolean_word != 0 ? GREEN("true") : RED("false"));
             break;
 
             case PX_JSON_TOKEN_NULL:
-                printf(MAG("null"));
+                printf(PURPLE("null"));
             break;
 
             default: break;
@@ -126,13 +108,12 @@ main(int argc, char** argv)
 
     pxBuffer8WriteString8Tail(&source, ENTITY);
 
-    printf(YLW("[start]") "\n%.*s\n" YLW("[stop]") "\n",
+    printf(YELLOW("[start]") "\n%.*s\n" YELLOW("[stop]") "\n",
         pxas(int, source.size), source.memory);
 
     printf("\n");
 
-    PxReader reader = pxReaderFromInput(
-        pxInputFromBuffer8(&source), &arena, 256);
+    PxReader reader = pxReaderFromInput(pxInputFromBuffer8(&source), &arena, 256);
 
     showJsonToken(&reader, &arena);
 }

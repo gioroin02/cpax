@@ -18,5 +18,7 @@ main(int argc, char** argv)
 
     getchar();
 
+    pxFileClose(file);
+
     pxFileDestroy(&arena, base, name);
 }

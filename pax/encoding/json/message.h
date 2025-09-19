@@ -82,24 +82,27 @@ PxJsonMsg
 pxJsonMsgName(PxString8 name);
 
 PxJsonMsg
-pxJsonMsgString(PxString8 value, PxString8 name);
+pxJsonMsgString(PxString8 value);
 
 PxJsonMsg
-pxJsonMsgUnsigned(pxuword value, PxString8 name);
+pxJsonMsgUnsigned(pxuword value);
 
 PxJsonMsg
-pxJsonMsgInteger(pxiword value, PxString8 name);
+pxJsonMsgInteger(pxiword value);
 
 PxJsonMsg
-pxJsonMsgFloating(pxfword value, PxString8 name);
+pxJsonMsgFloating(pxfword value);
 
 PxJsonMsg
-pxJsonMsgBoolean(pxbword value, PxString8 name);
+pxJsonMsgBoolean(pxbword value);
 
 PxJsonMsg
-pxJsonMsgNull(PxString8 name);
+pxJsonMsgNull();
 
 PxJsonMsg
 pxJsonMsgCount();
+
+PxJsonMsg
+pxJsonMsgPair(PxString8 name, PxJsonMsg message);
 
 #endif // PX_ENCODING_JSON_MESSAGE_H

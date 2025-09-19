@@ -5,9 +5,6 @@
 #include "integer.h"
 #include "boolean.h"
 
-#define pxBuffer8PrintVargs(self, format, ...) pxBuffer8PrintFormat(self, pxs8(format), \
-    pxvargs(PxPrintCmd, __VA_ARGS__), pxvargslen(PxPrintCmd, __VA_ARGS__))
-
 typedef enum PxPrintCmdType
 {
     PX_PRINT_CMD_NONE,

@@ -19,91 +19,136 @@ pxReaderFromInput(PxInput input, PxArena* arena, pxiword length)
 pxiword
 pxReaderFill(PxReader* self)
 {
-    return pxInputBuffer8(self->input, &self->buffer);
+    return pxInputNextBuffer8(self->input, &self->buffer);
+}
+
+pxu8
+pxReaderNextByte(PxReader* self, pxiword index)
+{
+    if (index < 0) return 0;
+
+    if (self->buffer.size <= 0 && pxReaderFill(self) <= 0)
+        return 0;
+
+    for (pxiword i = 0; i < index;) {
+        i += pxBuffer8DropHead(&self->buffer, index - i);
+
+        if (i < index || self->buffer.size <= 0) {
+            if (pxReaderFill(self) <= 0)
+                return 0;
+        } else
+            break;
+    }
+
+    return pxBuffer8GetForwOr(&self->buffer, 0, 0);
+}
+
+pxiword
+pxReaderNextMemory8(PxReader* self, pxu8* memory, pxiword length, pxiword index, pxu8 pivot)
+{
+    if (memory == 0 || length <= 0) return 0;
+
+    pxReaderNextByte(self, index);
+
+    pxu8 byte = pxReaderPeekByte(self, 0);
+
+    for (pxiword i = 0; i < length; i += 1) {
+        if (byte != 0 && byte != pivot)
+            memory[i] = byte;
+        else
+            return i;
+
+        byte = pxReaderNextByte(self, 1);
+    }
+
+    return length;
+}
+
+PxString8
+pxReaderNextString8(PxReader* self, PxArena* arena, pxiword length, pxiword index, pxu8 pivot)
+{
+    pxiword offset = pxArenaOffset(arena);
+    pxu8*   memory = pxArenaReserve(arena, pxu8, length + 1);
+
+    pxiword size =
+        pxReaderNextMemory8(self, memory, length, index, pivot);
+
+    if (size < length)
+        pxArenaRewind(arena, offset + size + 1);
+
+    return pxString8Make(memory, size);
+}
+
+pxu8
+pxReaderPeekByte(PxReader* self, pxiword index)
+{
+    if (index < 0 || index >= self->buffer.length)
+        return 0;
+
+    pxiword size = index - self->buffer.size + 1;
+    pxiword temp = 0;
+
+    if (index < self->buffer.size)
+        return pxBuffer8GetForwOr(&self->buffer, index, 0);
+
+    for (pxiword i = 0; i < size; i += temp) {
+        temp = pxReaderFill(self);
+
+        if (temp <= 0)
+            return 0;
+    }
+
+    return pxBuffer8GetForwOr(&self->buffer, index, 0);
+}
+
+pxiword
+pxReaderPeekMemory8(PxReader* self, pxu8* memory, pxiword length, pxiword index, pxu8 pivot)
+{
+    if (memory == 0 || length <= 0) return 0;
+
+    for (pxiword i = 0; i < length; i += 1) {
+        pxu8 byte = pxReaderPeekByte(self, index + i);
+
+        if (byte != 0 && byte != pivot)
+            memory[i] = byte;
+        else
+            return i;
+    }
+
+    return length;
+}
+
+PxString8
+pxReaderPeekString8(PxReader* self, PxArena* arena, pxiword length, pxiword index, pxu8 pivot)
+{
+    pxiword offset = pxArenaOffset(arena);
+    pxu8*   memory = pxArenaReserve(arena, pxu8, length + 1);
+
+    pxiword size =
+        pxReaderPeekMemory8(self, memory, length, index, pivot);
+
+    if (size < length)
+        pxArenaRewind(arena, offset + size + 1);
+
+    return pxString8Make(memory, size);
 }
 
 pxiword
 pxReaderSkip(PxReader* self, pxiword amount)
 {
-    pxiword result = 0;
+    if (amount < 0) return 0;
 
-    if (amount <= 0) return result;
+    for (pxiword i = 0; i < amount;) {
+        i += pxBuffer8DropHead(&self->buffer, amount - i);
 
-    while (result < amount) {
-        if (self->buffer.size <= 0 && pxReaderFill(self) <= 0)
-            return result;
-
-        result += pxBuffer8DropHead(&self->buffer,
-            amount - result);
+        if (i < amount) {
+            if (pxReaderFill(self) <= 0)
+                return i;
+        } else
+            break;
     }
 
     return amount;
-}
-
-pxiword
-pxReaderMemory8(PxReader* self, pxu8* memory, pxiword length, pxiword index)
-{
-    pxiword temp = pxReaderSkip(self, index);
-
-    if (temp < index) return temp;
-
-    if (self->buffer.size <= 0) pxReaderFill(self);
-
-    pxiword size =
-        pxBuffer8ReadMemory8Head(&self->buffer, memory, length);
-
-    return index + size;
-}
-
-pxiword
-pxReaderMemory8Peek(PxReader* self, pxu8* memory, pxiword length, pxiword index)
-{
-    if (self->buffer.size <= 0) pxReaderFill(self);
-
-    pxiword size = pxmin(self->buffer.size - index, length);
-
-    for (pxiword i = 0; i < size; i += 1)
-        memory[i] = pxBuffer8GetForwOr(&self->buffer, i + index, 0);
-
-    return size;
-}
-
-pxiword
-pxReaderByte(PxReader* self, pxu8* value, pxiword index)
-{
-    return pxReaderMemory8(self, value, 1, index);
-}
-
-pxiword
-pxReaderBytePeek(PxReader* self, pxu8* value, pxiword index)
-{
-    return pxReaderMemory8Peek(self, value, 1, index);
-}
-
-PxString8
-pxReaderString8(PxReader* self, PxArena* arena, pxiword length, pxiword index)
-{
-    pxiword offset = pxArenaOffset(arena);
-    pxu8*   memory = pxArenaReserve(arena, pxu8, length + 1);
-
-    pxiword size = pxReaderMemory8(self, memory, length, index);
-
-    pxArenaRewind(arena, offset + size - index + 1);
-
-    return pxString8Make(memory, size);
-}
-
-PxString8
-pxReaderString8Peek(PxReader* self, PxArena* arena, pxiword length, pxiword index)
-{
-    pxiword offset = pxArenaOffset(arena);
-    pxu8*   memory = pxArenaReserve(arena, pxu8, length + 1);
-
-    pxiword size = pxReaderMemory8Peek(self, memory, length, index);
-
-    pxArenaRewind(arena, offset + size - index + 1);
-
-    return pxString8Make(memory, size);
 }
 
 #endif // PX_CORE_STREAM_READER_C

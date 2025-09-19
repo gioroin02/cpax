@@ -24,14 +24,14 @@ main(int argc, char** argv)
 
     printf("'\x1b[34m%s\x1b[0m' (%lli)\n", string.memory, size);
 
-    size = pxBuffer8PrintVargs(&buffer, "coords = {x = ${0}, y = ${1}, z = ${-1}}",
-        pxPrintCmdInteger(PX_IWORD_MAX), pxPrintCmdInteger(PX_IWORD_MIN));
+    size = pxBuffer8PrintFormat(&buffer, pxs8("coords = {x = ${0}, y = ${1}, z = ${-1}}"),
+        (PxPrintCmd[]) {pxPrintCmdInteger(PX_IWORD_MAX), pxPrintCmdInteger(PX_IWORD_MIN)}, 2);
 
     string = pxBuffer8ReadString8Head(&buffer, &arena, buffer.size);
 
     printf("'\x1b[34m%s\x1b[0m' (%lli)\n", string.memory, size);
 
-    size = pxBuffer8PrintVargs(&buffer, "coords = {x = 0, y = 1, z = 2}", {0});
+    size = pxBuffer8PrintFormat(&buffer, pxs8("coords = {x = 0, y = 1, z = 2}"), 0, 0);
 
     string = pxBuffer8ReadString8Head(&buffer, &arena, buffer.size);
 

@@ -1,7 +1,7 @@
 #ifndef PX_CORE_CONSOLE_MESSAGE_H
 #define PX_CORE_CONSOLE_MESSAGE_H
 
-#include "sequence.h"
+#include "escape.h"
 
 #define PX_CONSOLE_STYLE_RGB_UNITS pxas(pxiword, 3)
 
@@ -284,8 +284,11 @@ pxConsoleMsgCursorMoveRight(pxiword x);
 PxConsoleMsg
 pxConsoleMsgReset();
 
-pxb8
-pxConsoleMsgFromString8(PxString8 string, PxConsoleMsg* value);
+PxConsoleEscSeqnc
+pxConsoleEscSeqncFromConsoleMsg(PxConsoleMsg value);
+
+PxConsoleMsg
+pxConsoleMsgFromConsoleEscSeqnc(PxConsoleEscSeqnc value);
 
 /* Message Queue */
 
@@ -293,12 +296,22 @@ PxConsoleQueue
 pxConsoleQueueReserve(PxArena* arena, pxiword length);
 
 pxb8
-pxConsoleQueueWriteMsg(PxConsoleQueue* self,  PxArena* arena, PxConsoleMsg value);
+pxConsoleQueueWriteMsg(PxConsoleQueue* self,  PxConsoleMsg value);
 
 pxb8
-pxConsoleQueueWriteList(PxConsoleQueue* self, PxArena* arena, PxConsoleMsg* values, pxiword length);
+pxConsoleQueueWriteList(PxConsoleQueue* self, PxConsoleMsg* values, pxiword length);
 
-PxConsoleMsg
-pxConsoleQueueReadMsg(PxConsoleQueue* self, PxArena* arena);
+pxb8
+pxConsoleQueueReadMsg(PxConsoleQueue* self, PxArena* arena, PxConsoleMsg* value);
+
+/* Reader */
+
+pxb8
+pxReaderConsoleQueue(PxReader* self, PxConsoleQueue* value);
+
+/* Writer */
+
+pxb8
+pxWriterConsoleQueue(PxWriter* self, PxConsoleQueue* value);
 
 #endif // PX_CORE_CONSOLE_MESSAGE_H

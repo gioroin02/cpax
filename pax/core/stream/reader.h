@@ -3,11 +3,11 @@
 
 #include "input.h"
 
-#define pxReaderNextMemory8Line(self, memory, length, index) \
-    pxReaderNextMemory8(self, memory, length, index, PX_ASCII_LINE_FEED)
+#define pxReaderMemory8Line(self, memory, length, index) \
+    pxReaderMemory8(self, memory, length, index, PX_ASCII_LINE_FEED)
 
-#define pxReaderNextString8Line(self, arena, length, index) \
-    pxReaderNextString8(self, arena, length, index, PX_ASCII_LINE_FEED)
+#define pxReaderString8Line(self, arena, length, index) \
+    pxReaderString8(self, arena, length, index, PX_ASCII_LINE_FEED)
 
 #define pxReaderPeekMemory8Line(self, memory, length, index) \
     pxReaderPeekMemory8(self, memory, length, index, PX_ASCII_LINE_FEED)
@@ -29,19 +29,25 @@ pxiword
 pxReaderFill(PxReader* self);
 
 pxu8
-pxReaderNextByte(PxReader* self, pxiword index);
+pxReaderByte(PxReader* self, pxiword index);
 
 pxiword
-pxReaderNextMemory8(PxReader* self, pxu8* memory, pxiword length, pxiword index, pxu8 pivot);
+pxReaderMemory8(PxReader* self, pxu8* memory, pxiword length, pxiword index, pxu8 pivot);
+
+pxiword
+pxReaderBuffer8(PxReader* self, PxBuffer8* value, pxiword index, pxu8 pivot);
 
 PxString8
-pxReaderNextString8(PxReader* self, PxArena* arena, pxiword length, pxiword index, pxu8 pivot);
+pxReaderString8(PxReader* self, PxArena* arena, pxiword length, pxiword index, pxu8 pivot);
 
 pxu8
 pxReaderPeekByte(PxReader* self, pxiword index);
 
 pxiword
 pxReaderPeekMemory8(PxReader* self, pxu8* memory, pxiword length, pxiword index, pxu8 pivot);
+
+pxiword
+pxReaderPeekBuffer8(PxReader* self, PxBuffer8* value, pxiword index, pxu8 pivot);
 
 PxString8
 pxReaderPeekString8(PxReader* self, PxArena* arena, pxiword length, pxiword index, pxu8 pivot);

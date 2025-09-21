@@ -16,5 +16,8 @@ set "structure=pax\core\structure\export.c"
 set "src=%base% %memory% %string% %format% %stream% %console%"
 set "dir=pax\core\console\test"
 
-zig cc --std=c99 %src% "%dir%\sequence.c" -o console_sequence.exe
-zig cc --std=c99 %src% "%dir%\queue.c"    -o console_queue.exe
+zig cc --std=c99 %src% "%dir%\escape.c"  -o console_escape.exe
+zig cc --std=c99 %src% "%dir%\message.c" -o console_message.exe
+zig cc --std=c99 %src% "%dir%\queue.c"   -o console_queue.exe
+
+zig cc --std=c99 %src% %time% %structure% "%dir%\game.c" -o console_game.exe

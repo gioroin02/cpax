@@ -4,71 +4,71 @@
 #include "config.h"
 
 pxiword
-pxUnsignedDigits(pxuword value, PxFmtRadix radix, PxFmtFlag flags);
+pxUnsignedDigits(pxuword value, PxFormatRadix radix, PxFormatFlag flags);
 
 /* Memory */
 
 pxiword
-pxMemory8WriteUnsigned(pxu8* memory, pxiword length, pxuword value, PxFmtRadix radix, PxFmtFlag flags);
+pxMemory8WriteUnsigned(pxu8* memory, pxiword length, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxiword
-pxMemory8ReadUnsigned(pxu8* memory, pxiword length, pxuword* value, PxFmtRadix radix, PxFmtFlag flags);
+pxMemory8ReadUnsigned(pxu8* memory, pxiword length, pxuword* value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxiword
-pxMemory16WriteUnsigned(pxu16* memory, pxiword length, pxuword value, PxFmtRadix radix, PxFmtFlag flags);
+pxMemory16WriteUnsigned(pxu16* memory, pxiword length, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxiword
-pxMemory16ReadUnsigned(pxu16* memory, pxiword length, pxuword* value, PxFmtRadix radix, PxFmtFlag flags);
+pxMemory16ReadUnsigned(pxu16* memory, pxiword length, pxuword* value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxiword
-pxMemory32WriteUnsigned(pxu32* memory, pxiword length, pxuword value, PxFmtRadix radix, PxFmtFlag flags);
+pxMemory32WriteUnsigned(pxu32* memory, pxiword length, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxiword
-pxMemory32ReadUnsigned(pxu32* memory, pxiword length, pxuword* value, PxFmtRadix radix, PxFmtFlag flags);
+pxMemory32ReadUnsigned(pxu32* memory, pxiword length, pxuword* value, PxFormatRadix radix, PxFormatFlag flags);
 
 /* String */
 
 PxString8
-pxString8FromUnsigned(PxArena* arena, pxuword value, PxFmtRadix radix, PxFmtFlag flags);
+pxString8FromUnsigned(PxArena* arena, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxb8
-pxUnsignedFromString8(PxString8 string, pxuword* value, PxFmtRadix radix, PxFmtFlag flags);
+pxUnsignedFromString8(PxString8 string, pxuword* value, PxFormatRadix radix, PxFormatFlag flags);
 
 PxString16
-pxString16FromUnsigned(PxArena* arena, pxuword value, PxFmtRadix radix, PxFmtFlag flags);
+pxString16FromUnsigned(PxArena* arena, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxb8
-pxUnsignedFromString16(PxString16 string, pxuword* value, PxFmtRadix radix, PxFmtFlag flags);
+pxUnsignedFromString16(PxString16 string, pxuword* value, PxFormatRadix radix, PxFormatFlag flags);
 
 PxString32
-pxString32FromUnsigned(PxArena* arena, pxuword value, PxFmtRadix radix, PxFmtFlag flags);
+pxString32FromUnsigned(PxArena* arena, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxb8
-pxUnsignedFromString32(PxString32 string, pxuword* value, PxFmtRadix radix, PxFmtFlag flags);
+pxUnsignedFromString32(PxString32 string, pxuword* value, PxFormatRadix radix, PxFormatFlag flags);
 
 /* Buffer */
 
 pxiword
-pxBuffer8WriteUnsignedHead(PxBuffer8* self, pxuword value, PxFmtRadix radix, PxFmtFlag flags);
+pxBuffer8WriteUnsignedHead(PxBuffer8* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxiword
-pxBuffer8WriteUnsignedTail(PxBuffer8* self, pxuword value, PxFmtRadix radix, PxFmtFlag flags);
+pxBuffer8WriteUnsignedTail(PxBuffer8* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxiword
-pxBuffer16WriteUnsignedHead(PxBuffer16* self, pxuword value, PxFmtRadix radix, PxFmtFlag flags);
+pxBuffer16WriteUnsignedHead(PxBuffer16* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxiword
-pxBuffer16WriteUnsignedTail(PxBuffer16* self, pxuword value, PxFmtRadix radix, PxFmtFlag flags);
+pxBuffer16WriteUnsignedTail(PxBuffer16* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxiword
-pxBuffer32WriteUnsignedHead(PxBuffer32* self, pxuword value, PxFmtRadix radix, PxFmtFlag flags);
+pxBuffer32WriteUnsignedHead(PxBuffer32* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxiword
-pxBuffer32WriteUnsignedTail(PxBuffer32* self, pxuword value, PxFmtRadix radix, PxFmtFlag flags);
+pxBuffer32WriteUnsignedTail(PxBuffer32* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
 
 /* Writer */
 
 pxiword
-pxWriterNextUnsigned(PxWriter* self, pxuword value, PxFmtRadix radix, PxFmtFlag flags);
+pxWriterUnsigned(PxWriter* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
 
 #endif // PX_CORE_FORMAT_UNSIGNED_H

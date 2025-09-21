@@ -10,8 +10,8 @@ pxPartIp6FromString8(PxString8 string, PxAddrIp6* value, pxiword start, pxiword 
 
     if (groups != stop - start - 1) return 0;
 
-    PxFmtRadix radix = PX_FORMAT_RADIX_16;
-    PxFmtFlag  flags = PX_FORMAT_FLAG_NONE;
+    PxFormatRadix radix = PX_FORMAT_RADIX_16;
+    PxFormatFlag  flags = PX_FORMAT_FLAG_NONE;
 
     PxString8 left  = {0};
     PxString8 right = string;

@@ -26,8 +26,8 @@ typedef struct
 {
     PxPrintCmdType type;
 
-    PxFmtRadix radix;
-    PxFmtFlag  flags;
+    PxFormatRadix radix;
+    PxFormatFlag  flags;
 
     union
     {
@@ -89,12 +89,12 @@ pxBuffer8PrintFmtTail(PxBuffer8* self, PxString8 format, PxPrintCmd* values, pxi
 /* Writer */
 
 pxiword
-pxWriterNextPrintCmd(PxWriter* self, PxPrintCmd value);
+pxWriterPrintCmd(PxWriter* self, PxPrintCmd value);
 
 pxiword
-pxWriterNextPrintList(PxWriter* self, PxPrintCmd* values, pxiword length);
+pxWriterPrintList(PxWriter* self, PxPrintCmd* values, pxiword length);
 
 pxiword
-pxWriterNextFmt(PxWriter* self, PxString8 format, PxPrintCmd* values, pxiword length);
+pxWriterFmt(PxWriter* self, PxString8 format, PxPrintCmd* values, pxiword length);
 
 #endif // PX_CORE_FORMAT_PRINTING_H

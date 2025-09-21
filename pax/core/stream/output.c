@@ -17,7 +17,7 @@ pxOutputFromBuffer8(PxBuffer8* self)
 }
 
 pxiword
-pxOutputNextMemory8(PxOutput self, pxu8* memory, pxiword length)
+pxOutputMemory8(PxOutput self, pxu8* memory, pxiword length)
 {
     PxOutputProc* proc = pxas(PxOutputProc*, self.proc);
 
@@ -28,7 +28,7 @@ pxOutputNextMemory8(PxOutput self, pxu8* memory, pxiword length)
 }
 
 pxiword
-pxOutputNextBuffer8(PxOutput self, PxBuffer8* value)
+pxOutputBuffer8(PxOutput self, PxBuffer8* value)
 {
     pxBuffer8Normalize(value);
 
@@ -38,7 +38,7 @@ pxOutputNextBuffer8(PxOutput self, PxBuffer8* value)
     pxiword temp   = 0;
 
     for (;size < length; size += temp) {
-        temp = pxOutputNextMemory8(self,
+        temp = pxOutputMemory8(self,
             memory + size, length - size);
 
         if (temp == 0) break;
@@ -51,13 +51,13 @@ pxOutputNextBuffer8(PxOutput self, PxBuffer8* value)
 }
 
 pxiword
-pxOutputNextByte(PxOutput self, pxu8 value)
+pxOutputByte(PxOutput self, pxu8 value)
 {
-    return pxOutputNextMemory8(self, &value, 1);
+    return pxOutputMemory8(self, &value, 1);
 }
 
 pxiword
-pxOutputNextString8(PxOutput self, PxString8 value)
+pxOutputString8(PxOutput self, PxString8 value)
 {
     pxu8*   memory = value.memory;
     pxiword length = value.length;
@@ -65,7 +65,7 @@ pxOutputNextString8(PxOutput self, PxString8 value)
     pxiword temp   = 0;
 
     for (;size < length; size += temp) {
-        temp = pxOutputNextMemory8(self,
+        temp = pxOutputMemory8(self,
             memory + size, length - size);
 
         if (temp == 0) break;
@@ -75,14 +75,14 @@ pxOutputNextString8(PxOutput self, PxString8 value)
 }
 
 pxiword
-pxOutputNextUnicode(PxOutput self, pxi32 value)
+pxOutputUnicode(PxOutput self, pxi32 value)
 {
     pxiword result = 0;
     PxUtf8  utf8   = {0};
 
     if (pxUtf8Encode(&utf8, value) == 0) return result;
 
-    result = pxOutputNextMemory8(self, utf8.items, utf8.size);
+    result = pxOutputMemory8(self, utf8.items, utf8.size);
 
     return result;
 }

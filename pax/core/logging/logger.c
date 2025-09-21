@@ -62,12 +62,12 @@ pxLoggerWriteStart(PxLogger* self, PxReportLevel level)
 
     if ((self->flags & PX_REPORT_FLAG_LEVEL) != 0) {
         if ((self->flags & PX_REPORT_FLAG_COLOR) != 0)
-            result += pxWriterNextString8(self->writer, colors[level]);
+            result += pxWriterString8(self->writer, colors[level]);
 
-        result += pxWriterNextString8(self->writer, headings[level]);
+        result += pxWriterString8(self->writer, headings[level]);
 
         if ((self->flags & PX_REPORT_FLAG_COLOR) != 0)
-            result += pxWriterNextString8(self->writer, reset);
+            result += pxWriterString8(self->writer, reset);
     }
 
     return result;
@@ -87,7 +87,7 @@ pxLoggerWriteFmt(PxLogger* self, PxString8 format, PxPrintCmd* values, pxiword l
 
     if (self->level >= level) {
         pxLoggerWriteStart(self, level);
-        pxWriterNextFmt(self->writer, format, values, length);
+        pxWriterFmt(self->writer, format, values, length);
         pxLoggerWriteStop(self, level);
 
         return 1;

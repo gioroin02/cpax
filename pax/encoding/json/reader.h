@@ -19,7 +19,7 @@ PxJsonReader
 pxJsonReaderReserve(PxArena* arena, pxiword length, PxReader* reader);
 
 PxJsonMsg
-pxJsonReaderNextMsg(PxJsonReader* self, PxArena* arena);
+pxJsonReaderMsg(PxJsonReader* self, PxArena* arena);
 
 pxb8
 pxJsonReaderObjectOpen(PxJsonReader* self, PxArena* arena, PxJsonMsg* message);

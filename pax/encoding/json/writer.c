@@ -18,18 +18,18 @@ pxJsonWriterReserve(PxArena* arena, pxiword length, PxWriter* writer)
 }
 
 pxb8
-pxJsonWriterNextMsg(PxJsonWriter* self, PxArena* arena, PxJsonMsg message)
+pxJsonWriterMsg(PxJsonWriter* self, PxArena* arena, PxJsonMsg message)
 {
     PxJsonLayerType parent = PX_JSON_LAYER_NONE;
 
     pxQueueReadTail(&self->stack, PxJsonLayerType, &parent);
 
-    PxFmtRadix radix = PX_FORMAT_RADIX_10;
-    PxFmtFlag  flags = PX_FORMAT_FLAG_NONE;
+    PxFormatRadix radix = PX_FORMAT_RADIX_10;
+    PxFormatFlag  flags = PX_FORMAT_FLAG_NONE;
 
     switch (message.type) {
         case PX_JSON_MSG_OBJECT_OPEN: {
-            pxWriterNextByte(self->writer, PX_ASCII_BRACE_LEFT);
+            pxWriterByte(self->writer, PX_ASCII_BRACE_LEFT);
 
             PxJsonLayerType layer = PX_JSON_LAYER_OBJECT;
 
@@ -40,7 +40,7 @@ pxJsonWriterNextMsg(PxJsonWriter* self, PxArena* arena, PxJsonMsg message)
         } break;
 
         case PX_JSON_MSG_OBJECT_CLOSE: {
-            pxWriterNextByte(self->writer,
+            pxWriterByte(self->writer,
                 PX_ASCII_BRACE_RIGHT);
 
             pxQueueDropTail(&self->stack);
@@ -49,7 +49,7 @@ pxJsonWriterNextMsg(PxJsonWriter* self, PxArena* arena, PxJsonMsg message)
         } break;
 
         case PX_JSON_MSG_ARRAY_OPEN: {
-            pxWriterNextByte(self->writer, PX_ASCII_SQUARE_LEFT);
+            pxWriterByte(self->writer, PX_ASCII_SQUARE_LEFT);
 
             PxJsonLayerType layer = PX_JSON_LAYER_ARRAY;
 
@@ -60,7 +60,7 @@ pxJsonWriterNextMsg(PxJsonWriter* self, PxArena* arena, PxJsonMsg message)
         } break;
 
         case PX_JSON_MSG_ARRAY_CLOSE: {
-            pxWriterNextByte(self->writer,
+            pxWriterByte(self->writer,
                 PX_ASCII_SQUARE_RIGHT);
 
             pxQueueDropTail(&self->stack);
@@ -72,72 +72,72 @@ pxJsonWriterNextMsg(PxJsonWriter* self, PxArena* arena, PxJsonMsg message)
             if (parent != PX_JSON_LAYER_OBJECT) return 0;
 
             if (self->comma != 0)
-                pxWriterNextByte(self->writer, PX_ASCII_COMMA);
+                pxWriterByte(self->writer, PX_ASCII_COMMA);
 
-            pxWriterNextByte(self->writer, PX_ASCII_QUOTE);
-            pxWriterNextString8(self->writer, message.name);
-            pxWriterNextByte(self->writer, PX_ASCII_QUOTE);
-            pxWriterNextByte(self->writer, PX_ASCII_COLON);
+            pxWriterByte(self->writer, PX_ASCII_QUOTE);
+            pxWriterString8(self->writer, message.name);
+            pxWriterByte(self->writer, PX_ASCII_QUOTE);
+            pxWriterByte(self->writer, PX_ASCII_COLON);
         } break;
 
         case PX_JSON_MSG_STRING: {
             if (self->comma != 0)
-                pxWriterNextByte(self->writer, PX_ASCII_COMMA);
+                pxWriterByte(self->writer, PX_ASCII_COMMA);
 
             if (parent == PX_JSON_LAYER_OBJECT) {
                 if (message.name.length <= 0) return 0;
 
-                pxWriterNextByte(self->writer, PX_ASCII_QUOTE);
-                pxWriterNextString8(self->writer, message.name);
-                pxWriterNextByte(self->writer, PX_ASCII_QUOTE);
-                pxWriterNextByte(self->writer, PX_ASCII_COLON);
+                pxWriterByte(self->writer, PX_ASCII_QUOTE);
+                pxWriterString8(self->writer, message.name);
+                pxWriterByte(self->writer, PX_ASCII_QUOTE);
+                pxWriterByte(self->writer, PX_ASCII_COLON);
             }
 
-            pxWriterNextByte(self->writer, PX_ASCII_QUOTE);
-            pxWriterNextString8(self->writer, message.string_8);
-            pxWriterNextByte(self->writer, PX_ASCII_QUOTE);
+            pxWriterByte(self->writer, PX_ASCII_QUOTE);
+            pxWriterString8(self->writer, message.string_8);
+            pxWriterByte(self->writer, PX_ASCII_QUOTE);
 
             self->comma = 1;
         } break;
 
         case PX_JSON_MSG_UNSIGNED: {
             if (self->comma != 0)
-                pxWriterNextByte(self->writer, PX_ASCII_COMMA);
+                pxWriterByte(self->writer, PX_ASCII_COMMA);
 
             if (parent == PX_JSON_LAYER_OBJECT) {
                 if (message.name.length <= 0) return 0;
 
-                pxWriterNextByte(self->writer, PX_ASCII_QUOTE);
-                pxWriterNextString8(self->writer, message.name);
-                pxWriterNextByte(self->writer, PX_ASCII_QUOTE);
-                pxWriterNextByte(self->writer, PX_ASCII_COLON);
+                pxWriterByte(self->writer, PX_ASCII_QUOTE);
+                pxWriterString8(self->writer, message.name);
+                pxWriterByte(self->writer, PX_ASCII_QUOTE);
+                pxWriterByte(self->writer, PX_ASCII_COLON);
             }
 
             PxString8 string = pxString8FromUnsigned(arena,
                 message.unsigned_word, radix, flags);
 
-            pxWriterNextString8(self->writer, string);
+            pxWriterString8(self->writer, string);
 
             self->comma = 1;
         } break;
 
         case PX_JSON_MSG_INTEGER: {
             if (self->comma != 0)
-                pxWriterNextByte(self->writer, PX_ASCII_COMMA);
+                pxWriterByte(self->writer, PX_ASCII_COMMA);
 
             if (parent == PX_JSON_LAYER_OBJECT) {
                 if (message.name.length <= 0) return 0;
 
-                pxWriterNextByte(self->writer, PX_ASCII_QUOTE);
-                pxWriterNextString8(self->writer, message.name);
-                pxWriterNextByte(self->writer, PX_ASCII_QUOTE);
-                pxWriterNextByte(self->writer, PX_ASCII_COLON);
+                pxWriterByte(self->writer, PX_ASCII_QUOTE);
+                pxWriterString8(self->writer, message.name);
+                pxWriterByte(self->writer, PX_ASCII_QUOTE);
+                pxWriterByte(self->writer, PX_ASCII_COLON);
             }
 
             PxString8 string = pxString8FromInteger(arena,
                 message.integer_word, radix, flags);
 
-            pxWriterNextString8(self->writer, string);
+            pxWriterString8(self->writer, string);
 
             self->comma = 1;
         } break;
@@ -148,39 +148,39 @@ pxJsonWriterNextMsg(PxJsonWriter* self, PxArena* arena, PxJsonMsg message)
 
         case PX_JSON_MSG_BOOLEAN: {
             if (self->comma != 0)
-                pxWriterNextByte(self->writer, PX_ASCII_COMMA);
+                pxWriterByte(self->writer, PX_ASCII_COMMA);
 
             if (parent == PX_JSON_LAYER_OBJECT) {
                 if (message.name.length <= 0) return 0;
 
-                pxWriterNextByte(self->writer, PX_ASCII_QUOTE);
-                pxWriterNextString8(self->writer, message.name);
-                pxWriterNextByte(self->writer, PX_ASCII_QUOTE);
-                pxWriterNextByte(self->writer, PX_ASCII_COLON);
+                pxWriterByte(self->writer, PX_ASCII_QUOTE);
+                pxWriterString8(self->writer, message.name);
+                pxWriterByte(self->writer, PX_ASCII_QUOTE);
+                pxWriterByte(self->writer, PX_ASCII_COLON);
             }
 
             PxString8 string = pxString8FromBoolean(arena,
                 message.boolean_word, flags);
 
-            pxWriterNextString8(self->writer, string);
+            pxWriterString8(self->writer, string);
 
             self->comma = 1;
         } break;
 
         case PX_JSON_MSG_NULL: {
             if (self->comma != 0)
-                pxWriterNextByte(self->writer, PX_ASCII_COMMA);
+                pxWriterByte(self->writer, PX_ASCII_COMMA);
 
             if (parent == PX_JSON_LAYER_OBJECT) {
                 if (message.name.length <= 0) return 0;
 
-                pxWriterNextByte(self->writer, PX_ASCII_QUOTE);
-                pxWriterNextString8(self->writer, message.name);
-                pxWriterNextByte(self->writer, PX_ASCII_QUOTE);
-                pxWriterNextByte(self->writer, PX_ASCII_COLON);
+                pxWriterByte(self->writer, PX_ASCII_QUOTE);
+                pxWriterString8(self->writer, message.name);
+                pxWriterByte(self->writer, PX_ASCII_QUOTE);
+                pxWriterByte(self->writer, PX_ASCII_COLON);
             }
 
-            pxWriterNextString8(self->writer, pxs8("null"));
+            pxWriterString8(self->writer, pxs8("null"));
 
             self->comma = 1;
         } break;
@@ -194,10 +194,10 @@ pxJsonWriterNextMsg(PxJsonWriter* self, PxArena* arena, PxJsonMsg message)
 }
 
 pxiword
-pxJsonWriterNextList(PxJsonWriter* self, PxArena* arena, PxJsonMsg* values, pxiword length)
+pxJsonWriterList(PxJsonWriter* self, PxArena* arena, PxJsonMsg* values, pxiword length)
 {
     for (pxiword i = 0; i < length; i += 1) {
-        if (pxJsonWriterNextMsg(self, arena, values[i]) == 0)
+        if (pxJsonWriterMsg(self, arena, values[i]) == 0)
             return i;
     }
 
@@ -209,7 +209,7 @@ pxJsonWriterObjectItem(PxJsonWriter* self, PxArena* arena, void* ctxt, void* pro
 {
     PxJsonWriterProc* temp = pxas(PxJsonWriterProc*, proc);
 
-    pxJsonWriterNextMsg(self, arena, pxJsonMsgName(name));
+    pxJsonWriterMsg(self, arena, pxJsonMsgName(name));
 
     if (proc != 0)
         return temp(ctxt, self, arena);
@@ -220,13 +220,13 @@ pxJsonWriterObjectItem(PxJsonWriter* self, PxArena* arena, void* ctxt, void* pro
 pxb8
 pxJsonWriterObjectOpen(PxJsonWriter* self, PxArena* arena)
 {
-    return pxJsonWriterNextMsg(self, arena, pxJsonMsgObjectOpen());
+    return pxJsonWriterMsg(self, arena, pxJsonMsgObjectOpen());
 }
 
 pxb8
 pxJsonWriterObjectClose(PxJsonWriter* self, PxArena* arena)
 {
-    return pxJsonWriterNextMsg(self, arena, pxJsonMsgObjectClose());
+    return pxJsonWriterMsg(self, arena, pxJsonMsgObjectClose());
 }
 
 pxb8
@@ -243,13 +243,13 @@ pxJsonWriterArrayItem(PxJsonWriter* self, PxArena* arena, void* ctxt, void* proc
 pxb8
 pxJsonWriterArrayOpen(PxJsonWriter* self, PxArena* arena)
 {
-    return pxJsonWriterNextMsg(self, arena, pxJsonMsgArrayOpen());
+    return pxJsonWriterMsg(self, arena, pxJsonMsgArrayOpen());
 }
 
 pxb8
 pxJsonWriterArrayClose(PxJsonWriter* self, PxArena* arena)
 {
-    return pxJsonWriterNextMsg(self, arena, pxJsonMsgArrayClose());
+    return pxJsonWriterMsg(self, arena, pxJsonMsgArrayClose());
 }
 
 #endif // PX_ENCODING_JSON_WRITER_C

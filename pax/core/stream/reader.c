@@ -19,11 +19,11 @@ pxReaderFromInput(PxInput input, PxArena* arena, pxiword length)
 pxiword
 pxReaderFill(PxReader* self)
 {
-    return pxInputNextBuffer8(self->input, &self->buffer);
+    return pxInputBuffer8(self->input, &self->buffer);
 }
 
 pxu8
-pxReaderNextByte(PxReader* self, pxiword index)
+pxReaderByte(PxReader* self, pxiword index)
 {
     if (index < 0) return 0;
 
@@ -44,11 +44,11 @@ pxReaderNextByte(PxReader* self, pxiword index)
 }
 
 pxiword
-pxReaderNextMemory8(PxReader* self, pxu8* memory, pxiword length, pxiword index, pxu8 pivot)
+pxReaderMemory8(PxReader* self, pxu8* memory, pxiword length, pxiword index, pxu8 pivot)
 {
     if (memory == 0 || length <= 0) return 0;
 
-    pxReaderNextByte(self, index);
+    pxReaderByte(self, index);
 
     pxu8 byte = pxReaderPeekByte(self, 0);
 
@@ -58,20 +58,37 @@ pxReaderNextMemory8(PxReader* self, pxu8* memory, pxiword length, pxiword index,
         else
             return i;
 
-        byte = pxReaderNextByte(self, 1);
+        byte = pxReaderByte(self, 1);
     }
 
     return length;
 }
 
+pxiword
+pxReaderBuffer8(PxReader* self, PxBuffer8* value, pxiword index, pxu8 pivot)
+{
+    pxBuffer8Normalize(value);
+
+    pxu8*   memory = value->memory + value->size;
+    pxiword length = value->length - value->size;
+
+    pxiword size =
+        pxReaderMemory8(self, memory, length, index, pivot);
+
+    value->size += size;
+    value->tail  = (value->tail + size) % value->length;
+
+    return size;
+}
+
 PxString8
-pxReaderNextString8(PxReader* self, PxArena* arena, pxiword length, pxiword index, pxu8 pivot)
+pxReaderString8(PxReader* self, PxArena* arena, pxiword length, pxiword index, pxu8 pivot)
 {
     pxiword offset = pxArenaOffset(arena);
     pxu8*   memory = pxArenaReserve(arena, pxu8, length + 1);
 
     pxiword size =
-        pxReaderNextMemory8(self, memory, length, index, pivot);
+        pxReaderMemory8(self, memory, length, index, pivot);
 
     if (size < length)
         pxArenaRewind(arena, offset + size + 1);
@@ -116,6 +133,23 @@ pxReaderPeekMemory8(PxReader* self, pxu8* memory, pxiword length, pxiword index,
     }
 
     return length;
+}
+
+pxiword
+pxReaderPeekBuffer8(PxReader* self, PxBuffer8* value, pxiword index, pxu8 pivot)
+{
+    pxBuffer8Normalize(value);
+
+    pxu8*   memory = value->memory + value->size;
+    pxiword length = value->length - value->size;
+
+    pxiword size =
+        pxReaderPeekMemory8(self, memory, length, index, pivot);
+
+    value->size += size;
+    value->tail  = (value->tail + size) % value->length;
+
+    return size;
 }
 
 PxString8

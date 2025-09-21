@@ -18,7 +18,7 @@ pxJsonReaderReserve(PxArena* arena, pxiword length, PxReader* reader)
 }
 
 PxJsonMsg
-pxJsonReaderNextMsg(PxJsonReader* self, PxArena* arena)
+pxJsonReaderMsg(PxJsonReader* self, PxArena* arena)
 {
     PxJsonMsg       result = pxJsonMsgCount();
     PxJsonLayerType parent = PX_JSON_LAYER_NONE;
@@ -167,7 +167,7 @@ pxJsonReaderObjectOpen(PxJsonReader* self, PxArena* arena, PxJsonMsg* message)
 {
     if (message == 0) return 0;
 
-    *message = pxJsonReaderNextMsg(self, arena);
+    *message = pxJsonReaderMsg(self, arena);
 
     if (message->type != PX_JSON_MSG_OBJECT_OPEN)
         return 0;
@@ -180,7 +180,7 @@ pxJsonReaderObjectClose(PxJsonReader* self, PxArena* arena, PxJsonMsg* message)
 {
     if (message == 0) return 0;
 
-    *message = pxJsonReaderNextMsg(self, arena);
+    *message = pxJsonReaderMsg(self, arena);
 
     if (message->type != PX_JSON_MSG_OBJECT_CLOSE)
         return 0;
@@ -193,7 +193,7 @@ pxJsonReaderArrayOpen(PxJsonReader* self, PxArena* arena, PxJsonMsg* message)
 {
     if (message == 0) return 0;
 
-    *message = pxJsonReaderNextMsg(self, arena);
+    *message = pxJsonReaderMsg(self, arena);
 
     if (message->type != PX_JSON_MSG_ARRAY_OPEN)
         return 0;
@@ -206,7 +206,7 @@ pxJsonReaderArrayClose(PxJsonReader* self, PxArena* arena, PxJsonMsg* message)
 {
     if (message == 0) return 0;
 
-    *message = pxJsonReaderNextMsg(self, arena);
+    *message = pxJsonReaderMsg(self, arena);
 
     if (message->type != PX_JSON_MSG_ARRAY_CLOSE)
         return 0;

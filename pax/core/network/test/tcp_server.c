@@ -110,7 +110,7 @@ main(int argc, char** argv)
         PxInput  input  = pxInputFromSocketTcp(session.socket);
         PxOutput output = pxOutputFromSocketTcp(session.socket);
 
-        pxiword size = pxInputNextBuffer8(input, &session.request);
+        pxiword size = pxInputBuffer8(input, &session.request);
 
         if (size != 0) {
             PxString8 string = pxBuffer8ReadString8Head(
@@ -120,7 +120,7 @@ main(int argc, char** argv)
 
             pxBuffer8WriteString8Tail(&session.response, SERVER_MSG);
 
-            pxOutputNextBuffer8(output, &session.response);
+            pxOutputBuffer8(output, &session.response);
         }
 
         pxSocketTcpDestroy(session.socket);

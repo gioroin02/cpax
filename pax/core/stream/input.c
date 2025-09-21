@@ -17,7 +17,7 @@ pxInputFromBuffer8(PxBuffer8* self)
 }
 
 pxiword
-pxInputNextMemory8(PxInput self, pxu8* memory, pxiword length)
+pxInputMemory8(PxInput self, pxu8* memory, pxiword length)
 {
     PxInputProc* proc = pxas(PxInputProc*, self.proc);
 
@@ -28,14 +28,14 @@ pxInputNextMemory8(PxInput self, pxu8* memory, pxiword length)
 }
 
 pxiword
-pxInputNextBuffer8(PxInput self, PxBuffer8* buffer)
+pxInputBuffer8(PxInput self, PxBuffer8* buffer)
 {
     pxBuffer8Normalize(buffer);
 
     pxu8*   memory = buffer->memory + buffer->size;
     pxiword length = buffer->length - buffer->size;
 
-    pxiword size = pxInputNextMemory8(self, memory, length);
+    pxiword size = pxInputMemory8(self, memory, length);
 
     buffer->size += size;
     buffer->tail  = (buffer->tail + size) % buffer->length;
@@ -44,11 +44,11 @@ pxInputNextBuffer8(PxInput self, PxBuffer8* buffer)
 }
 
 pxiword
-pxInputNextByte(PxInput self, pxu8* value)
+pxInputByte(PxInput self, pxu8* value)
 {
     pxu8 temp = 0;
 
-    pxiword result = pxInputNextMemory8(self, &temp, 1);
+    pxiword result = pxInputMemory8(self, &temp, 1);
 
     if (value != 0) *value = temp;
 
@@ -56,13 +56,13 @@ pxInputNextByte(PxInput self, pxu8* value)
 }
 
 PxString8
-pxInputNextString8(PxInput self, PxArena* arena, pxiword length)
+pxInputString8(PxInput self, PxArena* arena, pxiword length)
 {
     pxiword offset = pxArenaOffset(arena);
     pxu8*   memory = pxArenaReserve(arena, pxu8, length + 1);
 
     pxiword size =
-        pxInputNextMemory8(self, memory, length);
+        pxInputMemory8(self, memory, length);
 
     if (size < length)
         pxArenaRewind(arena, offset + size + 1);

@@ -19,45 +19,38 @@ typedef union PxColorRGB
 PxColorRGB;
 
 pxb8
-pxColorRGBIsEqual(PxColorRGB* self, PxColorRGB* value)
+pxColorRGBIsEqual(PxColorRGB self, PxColorRGB value)
 {
-    if (self == 0 || value == 0) return 0;
-
-    if (self->r != value->r) return 0;
-    if (self->g != value->g) return 0;
-    if (self->b != value->b) return 0;
-
-    return 1;
+    return pxMemoryIsEqual(self.items, value.items, 3, 1);
 }
 
-typedef struct PxConsoleCell
+typedef struct PxConsoleValue
 {
     pxi32      unicode;
-    PxColorRGB front;
+    PxColorRGB text;
     PxColorRGB back;
 }
-PxConsoleCell;
+PxConsoleValue;
 
-typedef struct PxConsoleFrame
+typedef struct PxConsoleBatch
 {
     PxArray items;
 
     pxiword width;
     pxiword height;
-
-    pxb8 dirty;
+    pxb8    dirty;
 }
-PxConsoleFrame;
+PxConsoleBatch;
 
-PxConsoleFrame
-pxConsoleFrameMake(PxArena* arena, pxiword width, pxiword height)
+PxConsoleBatch
+pxConsoleBatchReserve(PxArena* arena, pxiword width, pxiword height)
 {
-    PxConsoleFrame result = {0};
+    PxConsoleBatch result = {0};
 
     if (width <= 0 || height <= 0) return result;
 
     result.items = pxArrayReserve(arena,
-        PxConsoleCell, width * height);
+        PxConsoleValue, width * height);
 
     if (result.items.length > 0) {
         pxArrayFill(&result.items);
@@ -70,13 +63,13 @@ pxConsoleFrameMake(PxArena* arena, pxiword width, pxiword height)
 }
 
 pxb8
-pxConsoleFrameIsDirty(PxConsoleFrame* self)
+pxConsoleBatchIsDirty(PxConsoleBatch* self)
 {
     return self->dirty != 0 ? 1 : 0;
 }
 
 pxb8
-pxConsoleFrameRead(PxConsoleFrame* self, pxiword x, pxiword y, PxConsoleCell* value)
+pxConsoleBatchRead(PxConsoleBatch* self, pxiword x, pxiword y, PxConsoleValue* value)
 {
     if (x < 0 || x >= self->width)  return 0;
     if (y < 0 || y >= self->height) return 0;
@@ -84,19 +77,22 @@ pxConsoleFrameRead(PxConsoleFrame* self, pxiword x, pxiword y, PxConsoleCell* va
     pxiword index = x + self->width * y;
 
     return pxArrayRead(&self->items,
-        index, PxConsoleCell, value);
+        index, PxConsoleValue, value);
 }
 
-PxConsoleCell
-pxConsoleFrameReadOr(PxConsoleFrame* self, pxiword x, pxiword y, PxConsoleCell value)
+PxConsoleValue
+pxConsoleBatchReadOr(PxConsoleBatch* self, pxiword x, pxiword y, PxConsoleValue value)
 {
-    pxConsoleFrameRead(self, x, y, &value);
+    PxConsoleValue result = {0};
 
-    return value;
+    if (pxConsoleBatchRead(self, x, y, &result) == 0)
+        return value;
+
+    return result;
 }
 
 pxb8
-pxConsoleFrameUpdate(PxConsoleFrame* self, pxiword x, pxiword y, PxConsoleCell value)
+pxConsoleBatchUpdate(PxConsoleBatch* self, pxiword x, pxiword y, PxConsoleValue value)
 {
     if (x < 0 || x >= self->width)  return 0;
     if (y < 0 || y >= self->height) return 0;
@@ -104,23 +100,23 @@ pxConsoleFrameUpdate(PxConsoleFrame* self, pxiword x, pxiword y, PxConsoleCell v
     pxiword index = x + self->width * y;
 
     return pxArrayUpdate(&self->items,
-        index, PxConsoleCell, &value);
+        index, PxConsoleValue, &value);
 }
 
 pxb8
-pxConsoleFrameReset(PxConsoleFrame* self, pxi32 unicode, PxColorRGB front, PxColorRGB back)
+pxConsoleBatchReset(PxConsoleBatch* self, pxi32 unicode, PxColorRGB text, PxColorRGB back)
 {
     if (unicode < 32) unicode = 32;
 
-    PxConsoleCell item = {
+    PxConsoleValue item = {
         .unicode = unicode,
-        .front   = front,
+        .text   = text,
         .back    = back,
     };
 
     for (pxiword j = 0; j < self->height; j += 1) {
         for (pxiword i = 0; i < self->width; i += 1) {
-            if (pxConsoleFrameUpdate(self, i, j, item) == 0)
+            if (pxConsoleBatchUpdate(self, i, j, item) == 0)
                 return 0;
         }
     }
@@ -131,74 +127,73 @@ pxConsoleFrameReset(PxConsoleFrame* self, pxi32 unicode, PxColorRGB front, PxCol
 }
 
 pxb8
-pxConsoleFramePaint(PxConsoleFrame* self, pxiword x, pxiword y, pxi32 unicode, PxColorRGB front, PxColorRGB back)
+pxConsoleBatchPaint(PxConsoleBatch* self, pxiword x, pxiword y, pxi32 unicode, PxColorRGB text, PxColorRGB back)
 {
     if (unicode < 32) unicode = 32;
 
-    PxConsoleCell item = {
+    PxConsoleValue item = {
         .unicode = unicode,
-        .front   = front,
+        .text   = text,
         .back    = back,
     };
 
     self->dirty = 1;
 
-    return pxConsoleFrameUpdate(self, x, y, item);
+    return pxConsoleBatchUpdate(self, x, y, item);
 }
 
 void
-pxWriteNextConsoleFrame(PxWriter self, PxArena* arena, PxConsoleFrame* frame)
+pxConsoleQueueWriteBatch(PxConsoleQueue* self, PxConsoleBatch* batch)
 {
-    PxConsoleCell item = pxConsoleFrameReadOr(frame, 0, 0, (PxConsoleCell) {0});
+    PxConsoleValue item = pxConsoleBatchReadOr(batch, 0, 0, (PxConsoleValue) {0});
 
-    PxColorRGB front = item.front;
-    PxColorRGB back  = item.back;
+    PxColorRGB text = item.text;
+    PxColorRGB back = item.back;
 
-    pxWriteNextConsoleCmd(self, arena, pxConsoleCmdCursorPlace(0, 0));
-    pxWriteNextConsoleCmd(self, arena, pxConsoleCmdStyleRGBFront(front.r, front.g, front.b));
-    pxWriteNextConsoleCmd(self, arena, pxConsoleCmdStyleRGBBack(back.r, back.g, back.b));
+    pxConsoleQueueWriteMsg(self, pxConsoleMsgCursorMove(0, 0));
+    pxConsoleQueueWriteMsg(self, pxConsoleMsgStyleTextRGB(text.r, text.g, text.b));
+    pxConsoleQueueWriteMsg(self, pxConsoleMsgStyleBackRGB(back.r, back.g, back.b));
 
-    for (pxiword j = 0; j < frame->height; j += 1) {
-        for (pxiword i = 0; i < frame->width; i += 1) {
-            item = pxConsoleFrameReadOr(frame, i, j, (PxConsoleCell) {0});
+    for (pxiword j = 0; j < batch->height; j += 1) {
+        for (pxiword i = 0; i < batch->width; i += 1) {
+            item = pxConsoleBatchReadOr(batch, i, j, (PxConsoleValue) {0});
 
-            if (pxColorRGBIsEqual(&front, &item.front) == 0) {
-                front = item.front;
+            if (pxColorRGBIsEqual(text, item.text) == 0) {
+                text = item.text;
 
-                pxWriteNextConsoleCmd(self, arena,
-                    pxConsoleCmdStyleRGBFront(front.r, front.g, front.b));
+                pxConsoleQueueWriteMsg(self,
+                    pxConsoleMsgStyleTextRGB(text.r, text.g, text.b));
             }
 
-            if (pxColorRGBIsEqual(&back, &item.back) == 0) {
+            if (pxColorRGBIsEqual(back, item.back) == 0) {
                 back = item.back;
 
-                pxWriteNextConsoleCmd(self, arena,
-                    pxConsoleCmdStyleRGBBack(back.r, back.g, back.b));
+                pxConsoleQueueWriteMsg(self,
+                    pxConsoleMsgStyleBackRGB(back.r, back.g, back.b));
             }
 
-            pxWriteNextConsoleCmd(self, arena,
-                pxConsoleCmdUnicode(item.unicode));
+            pxConsoleQueueWriteMsg(self,
+                pxConsoleMsgUnicode(item.unicode));
         }
 
-        pxWriteNextConsoleCmd(self, arena,
-            pxConsoleCmdCursorPlace(0, j + 1));
+        pxConsoleQueueWriteMsg(self,
+            pxConsoleMsgCursorMove(0, j + 1));
     }
 }
 
-typedef struct GameState
+typedef struct Game
 {
     pxu8 x, y;
 
-    PxColorRGB front;
+    PxColorRGB text;
     PxColorRGB back;
 
     pxb8 move_left  : 1;
     pxb8 move_right : 1;
     pxb8 move_up    : 1;
     pxb8 move_down  : 1;
-
 }
-GameState;
+Game;
 
 int
 main(int argc, char** argv)
@@ -206,40 +201,44 @@ main(int argc, char** argv)
     PxArena arena = pxMemoryReserve(32);
 
     PxConsole console = pxConsoleCreate(&arena);
-    PxReader  reader  = pxReaderFromConsole(console, &arena, PX_MEMORY_KIB);
-    PxWriter  writer  = pxConsoleWriter(console, &arena, PX_MEMORY_KIB);
 
-    PxConsoleMsg message = {0};
+    PxReader reader = pxReaderFromInput(
+        pxInputFromConsole(console), &arena, PX_MEMORY_KIB);
 
-    PxConsoleFrame frame   = pxConsoleFrameMake(&arena, 30, 10);
-    PxBuffer8      command = pxBuffer8Reserve(&arena, PX_MEMORY_KIB);
+    PxWriter writer = pxWriterFromOutput(
+        pxOutputFromConsole(console), &arena, PX_MEMORY_KIB);
 
-    PxWriter painter = pxBufferWriter(&command, &arena, PX_MEMORY_KIB);
+    PxConsoleMsg   message = {0};
+    PxConsoleBatch batch   = pxConsoleBatchReserve(&arena, 200, 40);
+
+    PxConsoleQueue input  = pxConsoleQueueReserve(&arena, PX_MEMORY_KIB);
+    PxConsoleQueue output = pxConsoleQueueReserve(&arena, PX_MEMORY_KIB * 16);
 
     pxConsoleSetMode(console, PX_CONSOLE_MODE_MESSAGE);
 
-    GameState game = {
-        .front = {.r = 128, .g = 128, .b = 128},
+    Game game = {
+        .text = {.r = 128, .g = 128, .b = 128},
     };
 
-    pxWriteNextConsoleCmd(writer, &arena, pxConsoleCmdReset());
-    pxWriteNextConsoleCmd(writer, &arena, pxConsoleCmdCursorHide());
+    pxConsoleQueueWriteMsg(&output, pxConsoleMsgReset());
+    pxConsoleQueueWriteMsg(&output, pxConsoleMsgCursorHide());
 
-    pxWriterFlush(writer);
+    pxWriterConsoleQueue(&writer, &output);
+    pxWriterFlush(&writer);
 
     pxb8 active = 1;
 
     PxClock clock = pxClockCreate(&arena);
 
-    pxf32 slice   = 1.0 / 64.0;
+    pxf32 slice   = 1.0 / 144.0;
     pxf32 elapsed = 0;
 
     for (pxiword i = 0; active != 0; i += 1) {
         elapsed += pxClockElapsed(clock);
 
-        do {
-            message = pxConsolePollMsg(reader, &arena);
+        // pxReaderConsoleQueue(&reader, &input);
 
+        while (pxConsoleQueueReadMsg(&input, &arena, &message) != 0) {
             switch (message.type) {
                 case PX_CONSOLE_MSG_KEYBD_PRESS: {
                     if (message.keybd_button.button == PX_CONSOLE_KEYBD_ESCAPE)
@@ -284,35 +283,36 @@ main(int argc, char** argv)
             pxu8 x = game.x + game.move_right - game.move_left;
             pxu8 y = game.y + game.move_down  - game.move_up;
 
-            if (x >= 0 && x < frame_list[frame].width)  game.x = x;
-            if (y >= 0 && y < frame_list[frame].height) game.y = y;
+            if (x >= 0 && x < batch.width)  game.x = x;
+            if (y >= 0 && y < batch.height) game.y = y;
 
-            pxf32 comp_r = (1 + sin(i * 0.0001 + 3)) * 128;
-            pxf32 comp_g = (1 + sin(i * 0.0001 + 5)) * 128;
-            pxf32 comp_b = (1 + sin(i * 0.0001 + 7)) * 128;
+            pxf32 comp_r = pxbetween((1 + sin(i * slice + 3)) * 128, 1, 255);
+            pxf32 comp_g = pxbetween((1 + sin(i * slice + 5)) * 128, 1, 255);
+            pxf32 comp_b = pxbetween((1 + sin(i * slice + 7)) * 128, 1, 255);
 
-            game.back.r = pxas(pxu8, pxbetween(comp_r, 0, 256));
-            game.back.g = pxas(pxu8, pxbetween(comp_g, 0, 256));
-            game.back.b = pxas(pxu8, pxbetween(comp_b, 0, 256));
+            game.back.r = pxas(pxu8, comp_r);
+            game.back.g = pxas(pxu8, comp_g);
+            game.back.b = pxas(pxu8, comp_b);
 
-            pxConsoleFrameReset(&frame_list[frame], 0, game.front, game.back);
+            pxConsoleBatchReset(&batch, 0, game.text, game.back);
 
-            pxConsoleFramePaint(&frame_list[frame], game.x, game.y,
+            pxConsoleBatchPaint(&batch, game.x, game.y,
                 PX_ASCII_SHARP, (PxColorRGB) {0}, game.back);
 
-            if (pxConsoleFrameIsDirty(&frame_list[frame]) != 0)
-                pxConsoleWriteFrame(writer, &arena, &frame_list[frame]);
+            if (pxConsoleBatchIsDirty(&batch) != 0)
+                pxConsoleQueueWriteBatch(&output, &batch);
 
-            pxWriterFlush(writer);
+            pxWriterConsoleQueue(&writer, &output);
+            pxWriterFlush(&writer);
 
-            elapsed -= slice;
-            frame    = (frame + 1) % frame_size;
+            elapsed = 0;
         }
     }
 
-    pxWriteNextConsoleCmd(writer, &arena, pxConsoleCmdReset());
+    pxConsoleQueueWriteMsg(&output, pxConsoleMsgReset());
 
-    pxWriterFlush(writer);
+    pxWriterConsoleQueue(&writer, &output);
+    pxWriterFlush(&writer);
 
     pxConsoleSetMode(console, PX_CONSOLE_MODE_DEFAULT);
 }

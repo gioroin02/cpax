@@ -28,7 +28,7 @@ showJsonMsg(PxJsonReader* reader, PxArena* arena)
     PxJsonMsg message = pxJsonMsgNone();
 
     while (message.type != PX_JSON_MSG_COUNT) {
-        message = pxJsonReaderNextMsg(reader, arena);
+        message = pxJsonReaderMsg(reader, arena);
 
         if (message.type == PX_JSON_MSG_COUNT) break;
 

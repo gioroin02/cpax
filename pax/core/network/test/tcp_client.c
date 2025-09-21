@@ -94,9 +94,9 @@ main(int argc, char** argv)
 
     pxBuffer8WriteString8Tail(&client.request, CLIENT_MSG);
 
-    pxOutputNextBuffer8(output, &client.request);
+    pxOutputBuffer8(output, &client.request);
 
-    pxiword size = pxInputNextBuffer8(input, &client.response);
+    pxiword size = pxInputBuffer8(input, &client.response);
 
     if (size != 0) {
         PxString8 string = pxBuffer8ReadString8Head(

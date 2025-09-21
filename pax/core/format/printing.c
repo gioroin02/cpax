@@ -324,42 +324,42 @@ pxBuffer8PrintFmtTail(PxBuffer8* self, PxString8 format, PxPrintCmd* values, pxi
 }
 
 pxiword
-pxWriterNextPrintCmd(PxWriter* self, PxPrintCmd value)
+pxWriterPrintCmd(PxWriter* self, PxPrintCmd value)
 {
     switch (value.type) {
         case PX_PRINT_CMD_STRING_8: {
-            return pxWriterNextString8(self, value.string_8);
+            return pxWriterString8(self, value.string_8);
         } break;
 
         case PX_PRINT_CMD_STRING_16: {
-            return pxWriterNextString16(self, value.string_16);
+            return pxWriterString16(self, value.string_16);
         } break;
 
         case PX_PRINT_CMD_STRING_32: {
-            return pxWriterNextString32(self, value.string_32);
+            return pxWriterString32(self, value.string_32);
         } break;
 
         case PX_PRINT_CMD_UNICODE: {
-            return pxWriterNextUnicode(self, value.unicode);
+            return pxWriterUnicode(self, value.unicode);
         } break;
 
         case PX_PRINT_CMD_UNSIGNED: {
-            return pxWriterNextUnsigned(self,
+            return pxWriterUnsigned(self,
                 value.unsigned_word, value.radix, value.flags);
         } break;
 
         case PX_PRINT_CMD_INTEGER: {
-            return pxWriterNextInteger(self,
+            return pxWriterInteger(self,
                 value.integer_word, value.radix, value.flags);
         } break;
 
         case PX_PRINT_CMD_FLOATING: {
-            return 0; /* pxWriterNextFloating(self,
+            return 0; /* pxWriterFloating(self,
                 value.floating_word, value.radix, value.flags); */
         } break;
 
         case PX_PRINT_CMD_BOOLEAN: {
-            return pxWriterNextBoolean(self,
+            return pxWriterBoolean(self,
                 value.boolean_word, value.flags);
         } break;
 
@@ -370,18 +370,18 @@ pxWriterNextPrintCmd(PxWriter* self, PxPrintCmd value)
 }
 
 pxiword
-pxWriterNextPrintList(PxWriter* self, PxPrintCmd* values, pxiword length)
+pxWriterPrintList(PxWriter* self, PxPrintCmd* values, pxiword length)
 {
     pxiword result = 0;
 
     for (pxiword i = 0; i < length; i += 1)
-        result += pxWriterNextPrintCmd(self, values[i]);
+        result += pxWriterPrintCmd(self, values[i]);
 
     return result;
 }
 
 pxiword
-pxWriterNextFmt(PxWriter* self, PxString8 format, PxPrintCmd* values, pxiword length)
+pxWriterFmt(PxWriter* self, PxString8 format, PxPrintCmd* values, pxiword length)
 {
     PxString8 left  = {0};
     PxString8 right = format;
@@ -393,7 +393,7 @@ pxWriterNextFmt(PxWriter* self, PxString8 format, PxPrintCmd* values, pxiword le
     while (right.length > 0) {
         pxString8Split(right, pxs8("$"), &left, &right);
 
-        result += pxWriterNextPrintCmd(self, pxPrintCmdString8(left));
+        result += pxWriterPrintCmd(self, pxPrintCmdString8(left));
 
         if (right.length <= 0) break;
 
@@ -405,7 +405,7 @@ pxWriterNextFmt(PxWriter* self, PxString8 format, PxPrintCmd* values, pxiword le
         if (state == 0 || index < 0 || index >= length)
             continue;
 
-        result += pxWriterNextPrintCmd(self, values[index]);
+        result += pxWriterPrintCmd(self, values[index]);
     }
 
     return result;

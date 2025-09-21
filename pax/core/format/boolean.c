@@ -44,13 +44,13 @@ static const PxString32 PX_STRING_32_BOOLEANS[] =
 };
 
 pxiword
-pxBooleanDigits(pxbword value, PxFmtFlag flags)
+pxBooleanDigits(pxbword value, PxFormatFlag flags)
 {
     return value != 0 ? 4 : 5;
 }
 
 pxiword
-pxMemory8WriteBoolean(pxu8* memory, pxiword length, pxbword value, PxFmtFlag flags)
+pxMemory8WriteBoolean(pxu8* memory, pxiword length, pxbword value, PxFormatFlag flags)
 {
     pxiword size  = pxBooleanDigits(value, flags);
     pxiword index = 0;
@@ -68,7 +68,7 @@ pxMemory8WriteBoolean(pxu8* memory, pxiword length, pxbword value, PxFmtFlag fla
 }
 
 pxiword
-pxMemory8ReadBoolean(pxu8* memory, pxiword length, pxbword* value, PxFmtFlag flags)
+pxMemory8ReadBoolean(pxu8* memory, pxiword length, pxbword* value, PxFormatFlag flags)
 {
     pxiword index = 0;
 
@@ -94,7 +94,7 @@ pxMemory8ReadBoolean(pxu8* memory, pxiword length, pxbword* value, PxFmtFlag fla
 }
 
 pxiword
-pxMemory16WriteBoolean(pxu16* memory, pxiword length, pxbword value, PxFmtFlag flags)
+pxMemory16WriteBoolean(pxu16* memory, pxiword length, pxbword value, PxFormatFlag flags)
 {
     pxiword size  = pxBooleanDigits(value, flags);
     pxiword index = 0;
@@ -112,7 +112,7 @@ pxMemory16WriteBoolean(pxu16* memory, pxiword length, pxbword value, PxFmtFlag f
 }
 
 pxiword
-pxMemory16ReadBoolean(pxu16* memory, pxiword length, pxbword* value, PxFmtFlag flags)
+pxMemory16ReadBoolean(pxu16* memory, pxiword length, pxbword* value, PxFormatFlag flags)
 {
     pxiword index = 0;
 
@@ -138,7 +138,7 @@ pxMemory16ReadBoolean(pxu16* memory, pxiword length, pxbword* value, PxFmtFlag f
 }
 
 pxiword
-pxMemory32WriteBoolean(pxu32* memory, pxiword length, pxbword value, PxFmtFlag flags)
+pxMemory32WriteBoolean(pxu32* memory, pxiword length, pxbword value, PxFormatFlag flags)
 {
     pxiword size  = pxBooleanDigits(value, flags);
     pxiword index = 0;
@@ -156,7 +156,7 @@ pxMemory32WriteBoolean(pxu32* memory, pxiword length, pxbword value, PxFmtFlag f
 }
 
 pxiword
-pxMemory32ReadBoolean(pxu32* memory, pxiword length, pxbword* value, PxFmtFlag flags)
+pxMemory32ReadBoolean(pxu32* memory, pxiword length, pxbword* value, PxFormatFlag flags)
 {
     pxiword index = 0;
 
@@ -182,7 +182,7 @@ pxMemory32ReadBoolean(pxu32* memory, pxiword length, pxbword* value, PxFmtFlag f
 }
 
 PxString8
-pxString8FromBoolean(PxArena* arena, pxbword value, PxFmtFlag flags)
+pxString8FromBoolean(PxArena* arena, pxbword value, PxFormatFlag flags)
 {
     pxiword offset = pxArenaOffset(arena);
     pxiword length = pxBooleanDigits(value, flags);
@@ -202,7 +202,7 @@ pxString8FromBoolean(PxArena* arena, pxbword value, PxFmtFlag flags)
 }
 
 pxb8
-pxBooleanFromString8(PxString8 string, pxbword* value, PxFmtFlag flags)
+pxBooleanFromString8(PxString8 string, pxbword* value, PxFormatFlag flags)
 {
     pxu8*   memory = string.memory;
     pxiword length = string.length;
@@ -216,7 +216,7 @@ pxBooleanFromString8(PxString8 string, pxbword* value, PxFmtFlag flags)
 }
 
 PxString16
-pxString16FromBoolean(PxArena* arena, pxbword value, PxFmtFlag flags)
+pxString16FromBoolean(PxArena* arena, pxbword value, PxFormatFlag flags)
 {
     pxiword offset = pxArenaOffset(arena);
     pxiword length = pxBooleanDigits(value, flags);
@@ -236,7 +236,7 @@ pxString16FromBoolean(PxArena* arena, pxbword value, PxFmtFlag flags)
 }
 
 pxb8
-pxBooleanFromString16(PxString16 string, pxbword* value, PxFmtFlag flags)
+pxBooleanFromString16(PxString16 string, pxbword* value, PxFormatFlag flags)
 {
     pxu16*  memory = string.memory;
     pxiword length = string.length;
@@ -250,7 +250,7 @@ pxBooleanFromString16(PxString16 string, pxbword* value, PxFmtFlag flags)
 }
 
 PxString32
-pxString32FromBoolean(PxArena* arena, pxbword value, PxFmtFlag flags)
+pxString32FromBoolean(PxArena* arena, pxbword value, PxFormatFlag flags)
 {
     pxiword offset = pxArenaOffset(arena);
     pxiword length = pxBooleanDigits(value, flags);
@@ -270,7 +270,7 @@ pxString32FromBoolean(PxArena* arena, pxbword value, PxFmtFlag flags)
 }
 
 pxb8
-pxBooleanFromString32(PxString32 string, pxbword* value, PxFmtFlag flags)
+pxBooleanFromString32(PxString32 string, pxbword* value, PxFormatFlag flags)
 {
     pxu32*  memory = string.memory;
     pxiword length = string.length;
@@ -284,7 +284,7 @@ pxBooleanFromString32(PxString32 string, pxbword* value, PxFmtFlag flags)
 }
 
 pxiword
-pxBuffer8WriteBooleanHead(PxBuffer8* self, pxbword value, PxFmtFlag flags)
+pxBuffer8WriteBooleanHead(PxBuffer8* self, pxbword value, PxFormatFlag flags)
 {
     pxiword size  = pxBooleanDigits(value, flags);
     pxiword index = 0;
@@ -301,7 +301,7 @@ pxBuffer8WriteBooleanHead(PxBuffer8* self, pxbword value, PxFmtFlag flags)
 }
 
 pxiword
-pxBuffer8WriteBooleanTail(PxBuffer8* self, pxbword value, PxFmtFlag flags)
+pxBuffer8WriteBooleanTail(PxBuffer8* self, pxbword value, PxFormatFlag flags)
 {
     pxiword size  = pxBooleanDigits(value, flags);
     pxiword index = 0;
@@ -318,7 +318,7 @@ pxBuffer8WriteBooleanTail(PxBuffer8* self, pxbword value, PxFmtFlag flags)
 }
 
 pxiword
-pxBuffer16WriteBooleanHead(PxBuffer16* self, pxbword value, PxFmtFlag flags)
+pxBuffer16WriteBooleanHead(PxBuffer16* self, pxbword value, PxFormatFlag flags)
 {
     pxiword size  = pxBooleanDigits(value, flags);
     pxiword index = 0;
@@ -335,7 +335,7 @@ pxBuffer16WriteBooleanHead(PxBuffer16* self, pxbword value, PxFmtFlag flags)
 }
 
 pxiword
-pxBuffer16WriteBooleanTail(PxBuffer16* self, pxbword value, PxFmtFlag flags)
+pxBuffer16WriteBooleanTail(PxBuffer16* self, pxbword value, PxFormatFlag flags)
 {
     pxiword size  = pxBooleanDigits(value, flags);
     pxiword index = 0;
@@ -352,7 +352,7 @@ pxBuffer16WriteBooleanTail(PxBuffer16* self, pxbword value, PxFmtFlag flags)
 }
 
 pxiword
-pxBuffer32WriteBooleanHead(PxBuffer32* self, pxbword value, PxFmtFlag flags)
+pxBuffer32WriteBooleanHead(PxBuffer32* self, pxbword value, PxFormatFlag flags)
 {
     pxiword size  = pxBooleanDigits(value, flags);
     pxiword index = 0;
@@ -369,7 +369,7 @@ pxBuffer32WriteBooleanHead(PxBuffer32* self, pxbword value, PxFmtFlag flags)
 }
 
 pxiword
-pxBuffer32WriteBooleanTail(PxBuffer32* self, pxbword value, PxFmtFlag flags)
+pxBuffer32WriteBooleanTail(PxBuffer32* self, pxbword value, PxFormatFlag flags)
 {
     pxiword size  = pxBooleanDigits(value, flags);
     pxiword index = 0;
@@ -386,14 +386,14 @@ pxBuffer32WriteBooleanTail(PxBuffer32* self, pxbword value, PxFmtFlag flags)
 }
 
 pxiword
-pxWriterNextBoolean(PxWriter* self, pxbword value, PxFmtFlag flags)
+pxWriterBoolean(PxWriter* self, pxbword value, PxFormatFlag flags)
 {
     pxu8 memory[32] = {0};
 
     pxiword size = pxMemory8WriteBoolean(
         memory, pxarraylen(pxu8, memory), value, flags);
 
-    return pxWriterNextMemory8(self, memory, size);
+    return pxWriterMemory8(self, memory, size);
 }
 
 #endif // PX_CORE_FORMAT_BOOLEAN_C

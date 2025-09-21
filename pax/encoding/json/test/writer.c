@@ -48,7 +48,7 @@ entityTagsWriteJson(EntityTags* self, PxJsonWriter* writer, PxArena* arena)
     pxJsonWriterArrayOpen(writer, arena);
 
     for (pxiword i = 0; i < self->size; i += 1)
-        pxJsonWriterNextMsg(writer, arena, pxJsonMsgUnsigned(self->items[i]));
+        pxJsonWriterMsg(writer, arena, pxJsonMsgUnsigned(self->items[i]));
 
     pxJsonWriterArrayClose(writer, arena);
 
@@ -63,7 +63,7 @@ entityWriteJson(Entity* self, PxJsonWriter* writer, PxArena* arena)
     pxJsonWriterObjectItem(writer, arena,
         &self->tags, &entityTagsWriteJson, pxs8("tags"));
 
-    pxJsonWriterNextList(writer, arena, (PxJsonMsg[]) {
+    pxJsonWriterList(writer, arena, (PxJsonMsg[]) {
         pxJsonMsgPair(pxs8("name"), pxJsonMsgString(self->name)),
         pxJsonMsgPair(pxs8("code"), pxJsonMsgUnsigned(self->code)),
     }, 2);

@@ -18,10 +18,10 @@ PxJsonWriter
 pxJsonWriterReserve(PxArena* arena, pxiword length, PxWriter* writer);
 
 pxb8
-pxJsonWriterNextMsg(PxJsonWriter* self, PxArena* arena, PxJsonMsg message);
+pxJsonWriterMsg(PxJsonWriter* self, PxArena* arena, PxJsonMsg message);
 
 pxiword
-pxJsonWriterNextList(PxJsonWriter* self, PxArena* arena, PxJsonMsg* values, pxiword length);
+pxJsonWriterList(PxJsonWriter* self, PxArena* arena, PxJsonMsg* values, pxiword length);
 
 pxb8
 pxJsonWriterObjectItem(PxJsonWriter* self, PxArena* arena, void* ctxt, void* proc, PxString8 name);

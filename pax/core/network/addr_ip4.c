@@ -18,8 +18,8 @@ pxAddrIp4FromString8(PxString8 string, PxAddrIp4* value)
 
     if (groups != PX_ADDR_IP4_GROUPS - 1) return 0;
 
-    PxFmtRadix radix = PX_FORMAT_RADIX_10;
-    PxFmtFlag  flags = PX_FORMAT_FLAG_NONE;
+    PxFormatRadix radix = PX_FORMAT_RADIX_10;
+    PxFormatFlag  flags = PX_FORMAT_FLAG_NONE;
 
     PxString8 left  = {0};
     PxString8 right = string;

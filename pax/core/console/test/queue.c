@@ -10,10 +10,12 @@ main(int argc, char** argv)
     PxConsoleQueue queue =
         pxConsoleQueueReserve(&arena, PX_MEMORY_KIB);
 
-    pxConsoleQueueWriteList(&queue, &arena, (PxConsoleMsg[]) {
-        pxConsoleMsgCursorMoveRight(1),
+    pxConsoleQueueWriteList(&queue, (PxConsoleMsg[]) {
+        pxConsoleMsgReset(),
+        pxConsoleMsgCursorHide(),
+        pxConsoleMsgString8(pxs8("test")),
         pxConsoleMsgStyleText256(55),
-    }, 2);
+    }, 4);
 
     for (pxiword i = 0; i < queue.buffer.size; i += 1) {
         pxu8 byte = pxBuffer8GetForwOr(&queue.buffer, i, 0);
@@ -26,7 +28,9 @@ main(int argc, char** argv)
 
     printf("\n");
 
-    PxConsoleMsg value = pxConsoleQueueReadMsg(&queue, &arena);
+    PxConsoleMsg value = {0};
+
+    pxConsoleQueueReadMsg(&queue, &arena, &value);
 
     for (pxiword i = 0; i < queue.buffer.size; i += 1) {
         pxu8 byte = pxBuffer8GetForwOr(&queue.buffer, i, 0);

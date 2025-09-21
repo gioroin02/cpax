@@ -19,11 +19,11 @@ pxWriterFromOutput(PxOutput output, PxArena* arena, pxiword length)
 pxiword
 pxWriterFlush(PxWriter* self)
 {
-    return pxOutputNextBuffer8(self->output, &self->buffer);
+    return pxOutputBuffer8(self->output, &self->buffer);
 }
 
 pxiword
-pxWriterNextMemory8(PxWriter* self, pxu8* memory, pxiword length)
+pxWriterMemory8(PxWriter* self, pxu8* memory, pxiword length)
 {
     pxiword temp = 0;
 
@@ -40,7 +40,7 @@ pxWriterNextMemory8(PxWriter* self, pxu8* memory, pxiword length)
 }
 
 pxiword
-pxWriterNextMemory16(PxWriter* self, pxu16* memory, pxiword length)
+pxWriterMemory16(PxWriter* self, pxu16* memory, pxiword length)
 {
     pxiword result = 0;
 
@@ -59,7 +59,7 @@ pxWriterNextMemory16(PxWriter* self, pxu16* memory, pxiword length)
 }
 
 pxiword
-pxWriterNextMemory32(PxWriter* self, pxu32* memory, pxiword length)
+pxWriterMemory32(PxWriter* self, pxu32* memory, pxiword length)
 {
     pxiword result = 0;
 
@@ -78,31 +78,79 @@ pxWriterNextMemory32(PxWriter* self, pxu32* memory, pxiword length)
 }
 
 pxiword
-pxWriterNextByte(PxWriter* self, pxu8 value)
+pxWriterByte(PxWriter* self, pxu8 value)
 {
-    return pxWriterNextMemory8(self, &value, 1);
+    return pxWriterMemory8(self, &value, 1);
 }
 
 pxiword
-pxWriterNextString8(PxWriter* self, PxString8 value)
+pxWriterBuffer8(PxWriter* self, PxBuffer8* value)
 {
-    return pxWriterNextMemory8(self, value.memory, value.length);
+    pxBuffer8Normalize(value);
+
+    pxu8*   memory = value->memory;
+    pxiword length = value->size;
+
+    pxiword size = pxWriterMemory8(self, memory, length);
+
+    value->size -= size;
+    value->head  = (value->head + size) % value->length;
+
+    return size;
 }
 
 pxiword
-pxWriterNextString16(PxWriter* self, PxString16 value)
+pxWriterBuffer16(PxWriter* self, PxBuffer16* value)
 {
-    return pxWriterNextMemory16(self, value.memory, value.length);
+    pxBuffer16Normalize(value);
+
+    pxu16*  memory = value->memory;
+    pxiword length = value->size;
+
+    pxiword size = pxWriterMemory16(self, memory, length);
+
+    value->size -= size;
+    value->head  = (value->head + size) % value->length;
+
+    return size;
 }
 
 pxiword
-pxWriterNextString32(PxWriter* self, PxString32 value)
+pxWriterBuffer32(PxWriter* self, PxBuffer32* value)
 {
-    return pxWriterNextMemory32(self, value.memory, value.length);
+    pxBuffer32Normalize(value);
+
+    pxu32*  memory = value->memory;
+    pxiword length = value->size;
+
+    pxiword size = pxWriterMemory32(self, memory, length);
+
+    value->size -= size;
+    value->head  = (value->head + size) % value->length;
+
+    return size;
 }
 
 pxiword
-pxWriterNextUnicode(PxWriter* self, pxi32 value)
+pxWriterString8(PxWriter* self, PxString8 value)
+{
+    return pxWriterMemory8(self, value.memory, value.length);
+}
+
+pxiword
+pxWriterString16(PxWriter* self, PxString16 value)
+{
+    return pxWriterMemory16(self, value.memory, value.length);
+}
+
+pxiword
+pxWriterString32(PxWriter* self, PxString32 value)
+{
+    return pxWriterMemory32(self, value.memory, value.length);
+}
+
+pxiword
+pxWriterUnicode(PxWriter* self, pxi32 value)
 {
     PxUtf8 utf8 = {0};
 
@@ -111,7 +159,7 @@ pxWriterNextUnicode(PxWriter* self, pxi32 value)
     pxu8*   memory = utf8.items;
     pxiword length = utf8.size;
 
-    return pxWriterNextMemory8(self, memory, length);
+    return pxWriterMemory8(self, memory, length);
 }
 
 #endif // PX_CORE_STREAM_WRITER_C

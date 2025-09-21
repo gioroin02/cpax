@@ -4,10 +4,10 @@
 #include "unsigned.h"
 
 pxiword
-pxIntegerDigits(pxiword value, PxFmtRadix radix, PxFmtFlag flags)
+pxIntegerDigits(pxiword value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword digits = 1;
-    pxuword width  = pxMagnitudeFmtRadix(radix);
+    pxuword width  = pxMagnitudeFormatRadix(radix);
     pxuword temp   = pxMagnitudeInteger(value);
     pxb8    sign   = pxDirectionInteger(value) < 0 ? 1 : 0;
 
@@ -25,10 +25,10 @@ pxIntegerDigits(pxiword value, PxFmtRadix radix, PxFmtFlag flags)
 }
 
 pxiword
-pxMemory8WriteInteger(pxu8* memory, pxiword length, pxiword value, PxFmtRadix radix, PxFmtFlag flags)
+pxMemory8WriteInteger(pxu8* memory, pxiword length, pxiword value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword size  = pxIntegerDigits(value, radix, flags);
-    pxuword width = pxMagnitudeFmtRadix(radix);
+    pxuword width = pxMagnitudeFormatRadix(radix);
     pxuword temp  = pxMagnitudeInteger(value);
     pxb8    sign  = pxDirectionInteger(value) < 0 ? 1 : 0;
 
@@ -58,10 +58,10 @@ pxMemory8WriteInteger(pxu8* memory, pxiword length, pxiword value, PxFmtRadix ra
 }
 
 pxiword
-pxMemory8ReadInteger(pxu8* memory, pxiword length, pxiword* value, PxFmtRadix radix, PxFmtFlag flags)
+pxMemory8ReadInteger(pxu8* memory, pxiword length, pxiword* value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword index = 0;
-    pxiword width = pxMagnitudeFmtRadix(radix);
+    pxiword width = pxMagnitudeFormatRadix(radix);
     pxiword temp  = 0;
     pxb8    sign  = 0;
 
@@ -109,10 +109,10 @@ pxMemory8ReadInteger(pxu8* memory, pxiword length, pxiword* value, PxFmtRadix ra
 }
 
 pxiword
-pxMemory16WriteInteger(pxu16* memory, pxiword length, pxiword value, PxFmtRadix radix, PxFmtFlag flags)
+pxMemory16WriteInteger(pxu16* memory, pxiword length, pxiword value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword size  = pxIntegerDigits(value, radix, flags);
-    pxuword width = pxMagnitudeFmtRadix(radix);
+    pxuword width = pxMagnitudeFormatRadix(radix);
     pxuword temp  = pxMagnitudeInteger(value);
     pxb8    sign  = pxDirectionInteger(value) < 0 ? 1 : 0;
 
@@ -142,10 +142,10 @@ pxMemory16WriteInteger(pxu16* memory, pxiword length, pxiword value, PxFmtRadix 
 }
 
 pxiword
-pxMemory16ReadInteger(pxu16* memory, pxiword length, pxiword* value, PxFmtRadix radix, PxFmtFlag flags)
+pxMemory16ReadInteger(pxu16* memory, pxiword length, pxiword* value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword index = 0;
-    pxiword width = pxMagnitudeFmtRadix(radix);
+    pxiword width = pxMagnitudeFormatRadix(radix);
     pxiword temp  = 0;
     pxb8    sign  = 0;
 
@@ -193,10 +193,10 @@ pxMemory16ReadInteger(pxu16* memory, pxiword length, pxiword* value, PxFmtRadix 
 }
 
 pxiword
-pxMemory32WriteInteger(pxu32* memory, pxiword length, pxiword value, PxFmtRadix radix, PxFmtFlag flags)
+pxMemory32WriteInteger(pxu32* memory, pxiword length, pxiword value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword size  = pxIntegerDigits(value, radix, flags);
-    pxuword width = pxMagnitudeFmtRadix(radix);
+    pxuword width = pxMagnitudeFormatRadix(radix);
     pxuword temp  = pxMagnitudeInteger(value);
     pxb8    sign  = pxDirectionInteger(value) < 0 ? 1 : 0;
 
@@ -226,10 +226,10 @@ pxMemory32WriteInteger(pxu32* memory, pxiword length, pxiword value, PxFmtRadix 
 }
 
 pxiword
-pxMemory32ReadInteger(pxu32* memory, pxiword length, pxiword* value, PxFmtRadix radix, PxFmtFlag flags)
+pxMemory32ReadInteger(pxu32* memory, pxiword length, pxiword* value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword index = 0;
-    pxiword width = pxMagnitudeFmtRadix(radix);
+    pxiword width = pxMagnitudeFormatRadix(radix);
     pxiword temp  = 0;
     pxb8    sign  = 0;
 
@@ -277,7 +277,7 @@ pxMemory32ReadInteger(pxu32* memory, pxiword length, pxiword* value, PxFmtRadix 
 }
 
 PxString8
-pxString8FromInteger(PxArena* arena, pxiword value, PxFmtRadix radix, PxFmtFlag flags)
+pxString8FromInteger(PxArena* arena, pxiword value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword offset = pxArenaOffset(arena);
     pxiword length = pxIntegerDigits(value, radix, flags);
@@ -297,7 +297,7 @@ pxString8FromInteger(PxArena* arena, pxiword value, PxFmtRadix radix, PxFmtFlag 
 }
 
 pxb8
-pxIntegerFromString8(PxString8 string, pxiword* value, PxFmtRadix radix, PxFmtFlag flags)
+pxIntegerFromString8(PxString8 string, pxiword* value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxu8*   memory = string.memory;
     pxiword length = string.length;
@@ -311,7 +311,7 @@ pxIntegerFromString8(PxString8 string, pxiword* value, PxFmtRadix radix, PxFmtFl
 }
 
 PxString16
-pxString16FromInteger(PxArena* arena, pxiword value, PxFmtRadix radix, PxFmtFlag flags)
+pxString16FromInteger(PxArena* arena, pxiword value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword offset = pxArenaOffset(arena);
     pxiword length = pxIntegerDigits(value, radix, flags);
@@ -331,7 +331,7 @@ pxString16FromInteger(PxArena* arena, pxiword value, PxFmtRadix radix, PxFmtFlag
 }
 
 pxb8
-pxIntegerFromString16(PxString16 string, pxiword* value, PxFmtRadix radix, PxFmtFlag flags)
+pxIntegerFromString16(PxString16 string, pxiword* value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxu16*  memory = string.memory;
     pxiword length = string.length;
@@ -345,7 +345,7 @@ pxIntegerFromString16(PxString16 string, pxiword* value, PxFmtRadix radix, PxFmt
 }
 
 PxString32
-pxString32FromInteger(PxArena* arena, pxiword value, PxFmtRadix radix, PxFmtFlag flags)
+pxString32FromInteger(PxArena* arena, pxiword value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword offset = pxArenaOffset(arena);
     pxiword length = pxIntegerDigits(value, radix, flags);
@@ -365,7 +365,7 @@ pxString32FromInteger(PxArena* arena, pxiword value, PxFmtRadix radix, PxFmtFlag
 }
 
 pxb8
-pxIntegerFromString32(PxString32 string, pxiword* value, PxFmtRadix radix, PxFmtFlag flags)
+pxIntegerFromString32(PxString32 string, pxiword* value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxu32*  memory = string.memory;
     pxiword length = string.length;
@@ -379,10 +379,10 @@ pxIntegerFromString32(PxString32 string, pxiword* value, PxFmtRadix radix, PxFmt
 }
 
 pxiword
-pxBuffer8WriteIntegerHead(PxBuffer8* self, pxiword value, PxFmtRadix radix, PxFmtFlag flags)
+pxBuffer8WriteIntegerHead(PxBuffer8* self, pxiword value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword size  = pxIntegerDigits(value, radix, flags);
-    pxuword width = pxMagnitudeFmtRadix(radix);
+    pxuword width = pxMagnitudeFormatRadix(radix);
     pxuword temp  = pxMagnitudeInteger(value);
     pxb8    sign  = pxDirectionInteger(value) < 0 ? 1 : 0;
 
@@ -416,10 +416,10 @@ pxBuffer8WriteIntegerHead(PxBuffer8* self, pxiword value, PxFmtRadix radix, PxFm
 }
 
 pxiword
-pxBuffer8WriteIntegerTail(PxBuffer8* self, pxiword value, PxFmtRadix radix, PxFmtFlag flags)
+pxBuffer8WriteIntegerTail(PxBuffer8* self, pxiword value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword size  = pxIntegerDigits(value, radix, flags);
-    pxuword width = pxMagnitudeFmtRadix(radix);
+    pxuword width = pxMagnitudeFormatRadix(radix);
     pxuword temp  = pxMagnitudeInteger(value);
     pxb8    sign  = pxDirectionInteger(value) < 0 ? 1 : 0;
 
@@ -453,10 +453,10 @@ pxBuffer8WriteIntegerTail(PxBuffer8* self, pxiword value, PxFmtRadix radix, PxFm
 }
 
 pxiword
-pxBuffer16WriteIntegerHead(PxBuffer16* self, pxiword value, PxFmtRadix radix, PxFmtFlag flags)
+pxBuffer16WriteIntegerHead(PxBuffer16* self, pxiword value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword size  = pxIntegerDigits(value, radix, flags);
-    pxuword width = pxMagnitudeFmtRadix(radix);
+    pxuword width = pxMagnitudeFormatRadix(radix);
     pxuword temp  = pxMagnitudeInteger(value);
     pxb8    sign  = pxDirectionInteger(value) < 0 ? 1 : 0;
 
@@ -490,10 +490,10 @@ pxBuffer16WriteIntegerHead(PxBuffer16* self, pxiword value, PxFmtRadix radix, Px
 }
 
 pxiword
-pxBuffer16WriteIntegerTail(PxBuffer16* self, pxiword value, PxFmtRadix radix, PxFmtFlag flags)
+pxBuffer16WriteIntegerTail(PxBuffer16* self, pxiword value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword size  = pxIntegerDigits(value, radix, flags);
-    pxuword width = pxMagnitudeFmtRadix(radix);
+    pxuword width = pxMagnitudeFormatRadix(radix);
     pxuword temp  = pxMagnitudeInteger(value);
     pxb8    sign  = pxDirectionInteger(value) < 0 ? 1 : 0;
 
@@ -527,10 +527,10 @@ pxBuffer16WriteIntegerTail(PxBuffer16* self, pxiword value, PxFmtRadix radix, Px
 }
 
 pxiword
-pxBuffer32WriteIntegerHead(PxBuffer32* self, pxiword value, PxFmtRadix radix, PxFmtFlag flags)
+pxBuffer32WriteIntegerHead(PxBuffer32* self, pxiword value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword size  = pxIntegerDigits(value, radix, flags);
-    pxuword width = pxMagnitudeFmtRadix(radix);
+    pxuword width = pxMagnitudeFormatRadix(radix);
     pxuword temp  = pxMagnitudeInteger(value);
     pxb8    sign  = pxDirectionInteger(value) < 0 ? 1 : 0;
 
@@ -564,10 +564,10 @@ pxBuffer32WriteIntegerHead(PxBuffer32* self, pxiword value, PxFmtRadix radix, Px
 }
 
 pxiword
-pxBuffer32WriteIntegerTail(PxBuffer32* self, pxiword value, PxFmtRadix radix, PxFmtFlag flags)
+pxBuffer32WriteIntegerTail(PxBuffer32* self, pxiword value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxiword size  = pxIntegerDigits(value, radix, flags);
-    pxuword width = pxMagnitudeFmtRadix(radix);
+    pxuword width = pxMagnitudeFormatRadix(radix);
     pxuword temp  = pxMagnitudeInteger(value);
     pxb8    sign  = pxDirectionInteger(value) < 0 ? 1 : 0;
 
@@ -601,14 +601,14 @@ pxBuffer32WriteIntegerTail(PxBuffer32* self, pxiword value, PxFmtRadix radix, Px
 }
 
 pxiword
-pxWriterNextInteger(PxWriter* self, pxiword value, PxFmtRadix radix, PxFmtFlag flags)
+pxWriterInteger(PxWriter* self, pxiword value, PxFormatRadix radix, PxFormatFlag flags)
 {
     pxu8 memory[32] = {0};
 
     pxiword size = pxMemory8WriteInteger(
         memory, pxarraylen(pxu8, memory), value, radix, flags);
 
-    return pxWriterNextMemory8(self, memory, size);
+    return pxWriterMemory8(self, memory, size);
 }
 
 #endif // PX_CORE_FORMAT_INTEGER_C

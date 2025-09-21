@@ -92,8 +92,8 @@ pxJsonTokenString(PxString8 string)
 PxJsonToken
 pxJsonTokenUnsigned(PxString8 string)
 {
-    PxFmtRadix radix = PX_FORMAT_RADIX_10;
-    PxFmtFlag  flags = PX_FORMAT_FLAG_PLUS;
+    PxFormatRadix radix = PX_FORMAT_RADIX_10;
+    PxFormatFlag  flags = PX_FORMAT_FLAG_PLUS;
 
     pxuword value = 0;
 
@@ -110,8 +110,8 @@ pxJsonTokenUnsigned(PxString8 string)
 PxJsonToken
 pxJsonTokenInteger(PxString8 string)
 {
-    PxFmtRadix radix = PX_FORMAT_RADIX_10;
-    PxFmtFlag  flags = PX_FORMAT_FLAG_PLUS;
+    PxFormatRadix radix = PX_FORMAT_RADIX_10;
+    PxFormatFlag  flags = PX_FORMAT_FLAG_PLUS;
 
     pxiword value = 0;
 
@@ -128,8 +128,8 @@ pxJsonTokenInteger(PxString8 string)
 PxJsonToken
 pxJsonTokenFloating(PxString8 string)
 {
-    PxFmtRadix radix = PX_FORMAT_RADIX_10;
-    PxFmtFlag  flags = PX_FORMAT_FLAG_PLUS;
+    PxFormatRadix radix = PX_FORMAT_RADIX_10;
+    PxFormatFlag  flags = PX_FORMAT_FLAG_PLUS;
 
     pxfword value = 0;
 
@@ -507,7 +507,7 @@ pxJsonSkipSpaces(PxReader* reader)
     pxu8 byte = pxReaderPeekByte(reader, 0);
 
     while (pxUnicodeIsAsciiCntrl(byte) != 0 && byte != 0)
-        byte = pxReaderNextByte(reader, 1);
+        byte = pxReaderByte(reader, 1);
 
     return byte;
 }

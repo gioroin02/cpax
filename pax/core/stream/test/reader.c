@@ -27,7 +27,7 @@ main(int argc, char** argv)
     PxArena arena = pxArenaMake(memory, pxsize(memory));
 
     PxBuffer8 source = pxBuffer8Reserve(&arena, 256);
-    PxReader  reader = pxReaderFromInput(pxInputFromBuffer8(&source), &arena, 4);
+    PxReader  reader = pxReaderFromSource(pxSourceFromBuffer8(&source), &arena, 4);
 
     pxBuffer8WriteString8Tail(&source, pxs8("ciao\narrivederci"));
 

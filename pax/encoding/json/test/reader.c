@@ -116,7 +116,7 @@ main(int argc, char** argv)
 {
     PxArena   arena       = pxMemoryReserve(16);
     PxBuffer8 source      = pxBuffer8Reserve(&arena, 256);
-    PxReader  buff_reader = pxReaderFromInput(pxInputFromBuffer8(&source), &arena, 256);
+    PxReader  buff_reader = pxReaderFromSource(pxSourceFromBuffer8(&source), &arena, 256);
 
     Entity entity = {0};
 

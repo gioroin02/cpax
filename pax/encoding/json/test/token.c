@@ -113,7 +113,7 @@ main(int argc, char** argv)
 
     printf("\n");
 
-    PxReader reader = pxReaderFromInput(pxInputFromBuffer8(&source), &arena, 256);
+    PxReader reader = pxReaderFromSource(pxSourceFromBuffer8(&source), &arena, 256);
 
     showJsonToken(&reader, &arena);
 }

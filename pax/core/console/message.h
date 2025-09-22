@@ -2,6 +2,7 @@
 #define PX_CORE_CONSOLE_MESSAGE_H
 
 #include "escape.h"
+#include "color.h"
 
 #define PX_CONSOLE_STYLE_RGB_UNITS pxas(pxiword, 3)
 
@@ -17,10 +18,10 @@ typedef enum PxConsoleMsgType
     PX_CONSOLE_MSG_MOUSE_MOVE,
     PX_CONSOLE_MSG_MOUSE_SCROLL,
 
-    PX_CONSOLE_MSG_STYLE_TEXT_8,
+    PX_CONSOLE_MSG_STYLE_TEXT_16,
     PX_CONSOLE_MSG_STYLE_TEXT_256,
     PX_CONSOLE_MSG_STYLE_TEXT_RGB,
-    PX_CONSOLE_MSG_STYLE_BACK_8,
+    PX_CONSOLE_MSG_STYLE_BACK_16,
     PX_CONSOLE_MSG_STYLE_BACK_256,
     PX_CONSOLE_MSG_STYLE_BACK_RGB,
     PX_CONSOLE_MSG_STYLE_CLEAR,
@@ -159,11 +160,11 @@ typedef struct PxConsoleMsgMouseScroll
 }
 PxConsoleMsgMouseScroll;
 
-typedef struct PxConsoleMsgStyle8
+typedef struct PxConsoleMsgStyle16
 {
     pxu8 index;
 }
-PxConsoleMsgStyle8;
+PxConsoleMsgStyle16;
 
 typedef struct PxConsoleMsgStyle256
 {
@@ -200,7 +201,7 @@ typedef struct PxConsoleMsg
         PxConsoleMsgMouseMove    mouse_move;
         PxConsoleMsgMouseScroll  mouse_scroll;
 
-        PxConsoleMsgStyle8   style_8;
+        PxConsoleMsgStyle16  style_16;
         PxConsoleMsgStyle256 style_256;
         PxConsoleMsgStyleRGB style_rgb;
 
@@ -228,7 +229,7 @@ PxConsoleMsg
 pxConsoleMsgKeybdRelease(pxiword button, pxuword modifs, pxi32 unicode);
 
 PxConsoleMsg
-pxConsoleMsgStyleText8(pxu8 index);
+pxConsoleMsgStyleText16(pxu8 index);
 
 PxConsoleMsg
 pxConsoleMsgStyleText256(pxu8 index);
@@ -237,13 +238,19 @@ PxConsoleMsg
 pxConsoleMsgStyleTextRGB(pxu8 r, pxu8 g, pxu8 b);
 
 PxConsoleMsg
-pxConsoleMsgStyleBack8(pxu8 index);
+pxConsoleMsgStyleText(PxConsoleColor value);
+
+PxConsoleMsg
+pxConsoleMsgStyleBack16(pxu8 index);
 
 PxConsoleMsg
 pxConsoleMsgStyleBack256(pxu8 index);
 
 PxConsoleMsg
 pxConsoleMsgStyleBackRGB(pxu8 r, pxu8 g, pxu8 b);
+
+PxConsoleMsg
+pxConsoleMsgStyleBack(PxConsoleColor value);
 
 PxConsoleMsg
 pxConsoleMsgStyleClear();
@@ -304,14 +311,7 @@ pxConsoleQueueWriteList(PxConsoleQueue* self, PxConsoleMsg* values, pxiword leng
 pxb8
 pxConsoleQueueReadMsg(PxConsoleQueue* self, PxArena* arena, PxConsoleMsg* value);
 
-/* Reader */
-
-pxb8
-pxReaderConsoleQueue(PxReader* self, PxConsoleQueue* value);
-
-/* Writer */
-
-pxb8
-pxWriterConsoleQueue(PxWriter* self, PxConsoleQueue* value);
+PxBuffer8*
+pxConsoleQueueBuffer8(PxConsoleQueue* self);
 
 #endif // PX_CORE_CONSOLE_MESSAGE_H

@@ -1,12 +1,12 @@
-#ifndef PX_CORE_STREAM_OUTPUT_C
-#define PX_CORE_STREAM_OUTPUT_C
+#ifndef PX_CORE_STREAM_TARGET_C
+#define PX_CORE_STREAM_TARGET_C
 
-#include "output.h"
+#include "target.h"
 
-PxOutput
-pxOutputFromBuffer8(PxBuffer8* self)
+PxTarget
+pxTargetFromBuffer8(PxBuffer8* self)
 {
-    PxOutput result = {0};
+    PxTarget result = {0};
 
     if (self == 0) return result;
 
@@ -17,9 +17,9 @@ pxOutputFromBuffer8(PxBuffer8* self)
 }
 
 pxiword
-pxOutputMemory8(PxOutput self, pxu8* memory, pxiword length)
+pxTargetMemory8(PxTarget self, pxu8* memory, pxiword length)
 {
-    PxOutputProc* proc = pxas(PxOutputProc*, self.proc);
+    PxTargetProc* proc = pxas(PxTargetProc*, self.proc);
 
     if (proc != 0)
         return proc(self.ctxt, memory, length);
@@ -28,7 +28,7 @@ pxOutputMemory8(PxOutput self, pxu8* memory, pxiword length)
 }
 
 pxiword
-pxOutputBuffer8(PxOutput self, PxBuffer8* value)
+pxTargetBuffer8(PxTarget self, PxBuffer8* value)
 {
     pxBuffer8Normalize(value);
 
@@ -38,7 +38,7 @@ pxOutputBuffer8(PxOutput self, PxBuffer8* value)
     pxiword temp   = 0;
 
     for (;size < length; size += temp) {
-        temp = pxOutputMemory8(self,
+        temp = pxTargetMemory8(self,
             memory + size, length - size);
 
         if (temp == 0) break;
@@ -51,13 +51,13 @@ pxOutputBuffer8(PxOutput self, PxBuffer8* value)
 }
 
 pxiword
-pxOutputByte(PxOutput self, pxu8 value)
+pxTargetByte(PxTarget self, pxu8 value)
 {
-    return pxOutputMemory8(self, &value, 1);
+    return pxTargetMemory8(self, &value, 1);
 }
 
 pxiword
-pxOutputString8(PxOutput self, PxString8 value)
+pxTargetString8(PxTarget self, PxString8 value)
 {
     pxu8*   memory = value.memory;
     pxiword length = value.length;
@@ -65,7 +65,7 @@ pxOutputString8(PxOutput self, PxString8 value)
     pxiword temp   = 0;
 
     for (;size < length; size += temp) {
-        temp = pxOutputMemory8(self,
+        temp = pxTargetMemory8(self,
             memory + size, length - size);
 
         if (temp == 0) break;
@@ -75,16 +75,16 @@ pxOutputString8(PxOutput self, PxString8 value)
 }
 
 pxiword
-pxOutputUnicode(PxOutput self, pxi32 value)
+pxTargetUnicode(PxTarget self, pxi32 value)
 {
     pxiword result = 0;
     PxUtf8  utf8   = {0};
 
     if (pxUtf8Encode(&utf8, value) == 0) return result;
 
-    result = pxOutputMemory8(self, utf8.items, utf8.size);
+    result = pxTargetMemory8(self, utf8.items, utf8.size);
 
     return result;
 }
 
-#endif // PX_CORE_STREAM_OUTPUT_C
+#endif // PX_CORE_STREAM_TARGET_C

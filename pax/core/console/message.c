@@ -32,12 +32,12 @@ pxConsoleMsgKeybdRelease(pxiword button, pxuword modifs, pxi32 unicode)
 }
 
 PxConsoleMsg
-pxConsoleMsgStyleText8(pxu8 index)
+pxConsoleMsgStyleText16(pxu8 index)
 {
     return (PxConsoleMsg) {
-        .type = PX_CONSOLE_MSG_STYLE_TEXT_8,
+        .type = PX_CONSOLE_MSG_STYLE_TEXT_16,
 
-        .style_8 = {
+        .style_16 = {
             .index = index,
         },
     };
@@ -70,12 +70,32 @@ pxConsoleMsgStyleTextRGB(pxu8 r, pxu8 g, pxu8 b)
 }
 
 PxConsoleMsg
-pxConsoleMsgStyleBack8(pxu8 index)
+pxConsoleMsgStyleText(PxConsoleColor value)
+{
+    switch (value.type) {
+        case PX_CONSOLE_COLOR_16:
+            return pxConsoleMsgStyleText16(value.color_16.index);
+
+        case PX_CONSOLE_COLOR_256:
+            return pxConsoleMsgStyleText256(value.color_256.index);
+
+        case PX_CONSOLE_COLOR_RGB:
+            return pxConsoleMsgStyleTextRGB(value.color_rgb.r,
+                value.color_rgb.g, value.color_rgb.b);
+
+        default: break;
+    }
+
+    return (PxConsoleMsg) {0};
+}
+
+PxConsoleMsg
+pxConsoleMsgStyleBack16(pxu8 index)
 {
     return (PxConsoleMsg) {
-        .type = PX_CONSOLE_MSG_STYLE_BACK_8,
+        .type = PX_CONSOLE_MSG_STYLE_BACK_16,
 
-        .style_8 = {
+        .style_16 = {
             .index = index,
         },
     };
@@ -105,6 +125,26 @@ pxConsoleMsgStyleBackRGB(pxu8 r, pxu8 g, pxu8 b)
             .b = b,
         },
     };
+}
+
+PxConsoleMsg
+pxConsoleMsgStyleBack(PxConsoleColor value)
+{
+    switch (value.type) {
+        case PX_CONSOLE_COLOR_16:
+            return pxConsoleMsgStyleBack16(value.color_16.index);
+
+        case PX_CONSOLE_COLOR_256:
+            return pxConsoleMsgStyleBack256(value.color_256.index);
+
+        case PX_CONSOLE_COLOR_RGB:
+            return pxConsoleMsgStyleBackRGB(value.color_rgb.r,
+                value.color_rgb.g, value.color_rgb.b);
+
+        default: break;
+    }
+
+    return (PxConsoleMsg) {0};
 }
 
 PxConsoleMsg
@@ -256,9 +296,15 @@ pxConsoleEscSeqncFromConsoleMsg(PxConsoleMsg value)
     PxConsoleEscSeqnc result = {0};
 
     switch (value.type) {
-        case PX_CONSOLE_MSG_STYLE_TEXT_8: {
+        case PX_CONSOLE_MSG_STYLE_TEXT_16: {
+            pxu8 style = value.style_16.index;
+            pxu8 index = 0;
+
+            if (style >= 0 && style < 8)  index = (style % 8) + 30;
+            if (style >= 8 && style < 16) index = (style % 8) + 90;
+
             result = pxConsoleEscSeqncMake((PxConsoleEscGroup[]) {
-                pxConsoleEscGroupMake((pxuword[]) {30 + value.style_8.index}, 1)
+                pxConsoleEscGroupMake((pxuword[]) {index}, 1)
             }, 1);
 
             result.func  = PX_ASCII_LOWER_M;
@@ -289,9 +335,15 @@ pxConsoleEscSeqncFromConsoleMsg(PxConsoleMsg value)
             result.flags = PX_CONSOLE_ESC_FLAG_CSI;
         } break;
 
-        case PX_CONSOLE_MSG_STYLE_BACK_8: {
+        case PX_CONSOLE_MSG_STYLE_BACK_16: {
+            pxu8 style = value.style_16.index;
+            pxu8 index = 0;
+
+            if (style >= 0 && style < 8)  index = (style % 8) + 40;
+            if (style >= 8 && style < 16) index = (style % 8) + 100;
+
             result = pxConsoleEscSeqncMake((PxConsoleEscGroup[]) {
-                pxConsoleEscGroupMake((pxuword[]) {40 + value.style_8.index}, 1)
+                pxConsoleEscGroupMake((pxuword[]) {index}, 1)
             }, 1);
 
             result.func  = PX_ASCII_LOWER_M;
@@ -474,6 +526,8 @@ pxb8
 pxConsoleQueueWriteMsg(PxConsoleQueue* self, PxConsoleMsg value)
 {
     switch (value.type) {
+        case PX_CONSOLE_MSG_NONE: break;
+
         case PX_CONSOLE_MSG_STRING_8: {
             pxBuffer8WriteString8Tail(&self->buffer, value.string_8);
         } break;
@@ -549,78 +603,75 @@ pxb8
 pxConsoleQueueReadMsg(PxConsoleQueue* self, PxArena* arena, PxConsoleMsg* value)
 {
     PxConsoleMsg result = {0};
-    PxBuffer8*   buffer = &self->buffer;
 
     pxu8 byte = 0;
 
-    if (pxBuffer8ReadMemory8Head(buffer, &byte, 1) == 0) return 0;
+    if (pxBuffer8GetForw(&self->buffer, 0, &byte) == 0)
+        return 0;
 
-    if (byte != PX_ASCII_ESCAPE) {
-        pxBuffer8DropHead(buffer, 1);
+    if (byte == PX_ASCII_ESCAPE) {
+        byte = pxBuffer8GetForwOr(&self->buffer, 1, 0);
 
-        if (value != 0)
-            *value = pxConsoleMsgUnicode(byte);
+        switch (byte) {
+            case PX_ASCII_SQUARE_LEFT: {
+                for (pxiword i = 2; i < self->buffer.size; i += 1) {
+                    pxu8 byte = pxBuffer8GetForwOr(&self->buffer, i, 0);
 
-        return 1;
-    }
+                    switch (byte) {
+                        case PX_ASCII_TILDE:
+                        case PX_ASCII_UPPER_A:
+                        case PX_ASCII_UPPER_B:
+                        case PX_ASCII_UPPER_C:
+                        case PX_ASCII_UPPER_D:
+                        case PX_ASCII_UPPER_F:
+                        case PX_ASCII_UPPER_H:
+                        case PX_ASCII_LOWER_H:
+                        case PX_ASCII_LOWER_L:
+                        case PX_ASCII_LOWER_M:
+                        case PX_ASCII_LOWER_U: {
+                            PxConsoleEscSeqnc escape = {0};
 
-    byte = pxBuffer8GetForwOr(buffer, 1, 0);
+                            PxString8 string = pxBuffer8ReadString8Head(
+                                &self->buffer, arena, i + 1);
 
-    switch (byte) {
-        case PX_ASCII_SQUARE_LEFT: {
-            for (pxiword i = 2; i < buffer->size; i += 1) {
-                pxu8 byte = pxBuffer8GetForwOr(buffer, i, 0);
+                            pxConsoleEscSeqncFromString8(string, &escape);
 
-                switch (byte) {
-                    case PX_ASCII_TILDE:
-                    case PX_ASCII_UPPER_A:
-                    case PX_ASCII_UPPER_B:
-                    case PX_ASCII_UPPER_C:
-                    case PX_ASCII_UPPER_D:
-                    case PX_ASCII_UPPER_F:
-                    case PX_ASCII_UPPER_H:
-                    case PX_ASCII_LOWER_H:
-                    case PX_ASCII_LOWER_L:
-                    case PX_ASCII_LOWER_M:
-                    case PX_ASCII_LOWER_U: {
-                        PxConsoleEscSeqnc escape = {0};
+                            if (value != 0)
+                                pxConsoleMsgFromConsoleEscSeqnc(escape);
 
-                        PxString8 string =
-                            pxBuffer8ReadString8Head(buffer, arena, i + 1);
+                            return 1;
+                        } break;
 
-                        pxConsoleEscSeqncFromString8(string, &escape);
-
-                        if (value != 0)
-                            pxConsoleMsgFromConsoleEscSeqnc(escape);
-
-                        return 1;
-                    } break;
-
-                    default: break;
+                        default: break;
+                    }
                 }
-            }
-        } break;
+            } break;
+
+            default: {
+                PxConsoleMsg message = pxConsoleMsgKeybdPress(
+                    PX_CONSOLE_KEYBD_ESCAPE, 0, byte);
+
+                pxBuffer8DropHead(&self->buffer, 1);
+
+                if (value != 0) *value = message;
+
+                return 1;
+            } break;
+        }
     }
 
-    return 0;
+    pxBuffer8DropHead(&self->buffer, 1);
+
+    if (value != 0)
+        *value = pxConsoleMsgUnicode(byte);
+
+    return 1;
 }
 
-pxb8
-pxReaderConsoleQueue(PxReader* self, PxConsoleQueue* value)
+PxBuffer8*
+pxConsoleQueueBuffer8(PxConsoleQueue* self)
 {
-    pxiword size =
-        pxReaderBuffer8(self, &value->buffer, 0, 0);
-
-    return size != 0 ? 1 : 0;
-}
-
-pxb8
-pxWriterConsoleQueue(PxWriter* self, PxConsoleQueue* value)
-{
-    pxiword size =
-        pxWriterBuffer8(self, &value->buffer);
-
-    return size != 0 ? 1 : 0;
+    return &self->buffer;
 }
 
 #endif // PX_CORE_CONSOLE_MESSAGE_C

@@ -1,12 +1,12 @@
-#ifndef PX_CORE_STREAM_INPUT_C
-#define PX_CORE_STREAM_INPUT_C
+#ifndef PX_CORE_STREAM_SOURCE_C
+#define PX_CORE_STREAM_SOURCE_C
 
-#include "input.h"
+#include "source.h"
 
-PxInput
-pxInputFromBuffer8(PxBuffer8* self)
+PxSource
+pxSourceFromBuffer8(PxBuffer8* self)
 {
-    PxInput result = {0};
+    PxSource result = {0};
 
     if (self == 0) return result;
 
@@ -17,9 +17,9 @@ pxInputFromBuffer8(PxBuffer8* self)
 }
 
 pxiword
-pxInputMemory8(PxInput self, pxu8* memory, pxiword length)
+pxSourceMemory8(PxSource self, pxu8* memory, pxiword length)
 {
-    PxInputProc* proc = pxas(PxInputProc*, self.proc);
+    PxSourceProc* proc = pxas(PxSourceProc*, self.proc);
 
     if (proc != 0)
         return proc(self.ctxt, memory, length);
@@ -28,14 +28,14 @@ pxInputMemory8(PxInput self, pxu8* memory, pxiword length)
 }
 
 pxiword
-pxInputBuffer8(PxInput self, PxBuffer8* buffer)
+pxSourceBuffer8(PxSource self, PxBuffer8* buffer)
 {
     pxBuffer8Normalize(buffer);
 
     pxu8*   memory = buffer->memory + buffer->size;
     pxiword length = buffer->length - buffer->size;
 
-    pxiword size = pxInputMemory8(self, memory, length);
+    pxiword size = pxSourceMemory8(self, memory, length);
 
     buffer->size += size;
     buffer->tail  = (buffer->tail + size) % buffer->length;
@@ -44,11 +44,11 @@ pxInputBuffer8(PxInput self, PxBuffer8* buffer)
 }
 
 pxiword
-pxInputByte(PxInput self, pxu8* value)
+pxSourceByte(PxSource self, pxu8* value)
 {
     pxu8 temp = 0;
 
-    pxiword result = pxInputMemory8(self, &temp, 1);
+    pxiword result = pxSourceMemory8(self, &temp, 1);
 
     if (value != 0) *value = temp;
 
@@ -56,13 +56,13 @@ pxInputByte(PxInput self, pxu8* value)
 }
 
 PxString8
-pxInputString8(PxInput self, PxArena* arena, pxiword length)
+pxSourceString8(PxSource self, PxArena* arena, pxiword length)
 {
     pxiword offset = pxArenaOffset(arena);
     pxu8*   memory = pxArenaReserve(arena, pxu8, length + 1);
 
     pxiword size =
-        pxInputMemory8(self, memory, length);
+        pxSourceMemory8(self, memory, length);
 
     if (size < length)
         pxArenaRewind(arena, offset + size + 1);
@@ -70,4 +70,4 @@ pxInputString8(PxInput self, PxArena* arena, pxiword length)
     return pxString8Make(memory, size);
 }
 
-#endif // PX_CORE_STREAM_INPUT_C
+#endif // PX_CORE_STREAM_SOURCE_C

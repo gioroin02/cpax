@@ -4,14 +4,14 @@
 #include "writer.h"
 
 PxWriter
-pxWriterFromOutput(PxOutput output, PxArena* arena, pxiword length)
+pxWriterFromTarget(PxTarget target, PxArena* arena, pxiword length)
 {
     PxWriter result = {0};
 
     result.buffer = pxBuffer8Reserve(arena, length);
 
     if (result.buffer.length > 0)
-        result.output = output;
+        result.target = target;
 
     return result;
 }
@@ -19,7 +19,7 @@ pxWriterFromOutput(PxOutput output, PxArena* arena, pxiword length)
 pxiword
 pxWriterFlush(PxWriter* self)
 {
-    return pxOutputBuffer8(self->output, &self->buffer);
+    return pxTargetBuffer8(self->target, &self->buffer);
 }
 
 pxiword

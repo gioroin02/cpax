@@ -1,7 +1,7 @@
 #ifndef PX_CORE_STREAM_READER_H
 #define PX_CORE_STREAM_READER_H
 
-#include "input.h"
+#include "source.h"
 
 #define pxReaderMemory8Line(self, memory, length, index) \
     pxReaderMemory8(self, memory, length, index, PX_ASCII_LINE_FEED)
@@ -18,12 +18,12 @@
 typedef struct PxReader
 {
     PxBuffer8 buffer;
-    PxInput   input;
+    PxSource  source;
 }
 PxReader;
 
 PxReader
-pxReaderFromInput(PxInput input, PxArena* arena, pxiword length);
+pxReaderFromSource(PxSource source, PxArena* arena, pxiword length);
 
 pxiword
 pxReaderFill(PxReader* self);

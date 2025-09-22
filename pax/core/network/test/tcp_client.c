@@ -89,14 +89,14 @@ main(int argc, char** argv)
     client.request  = pxBuffer8Reserve(&arena, PX_MEMORY_KIB);
     client.response = pxBuffer8Reserve(&arena, PX_MEMORY_KIB);
 
-    PxInput  input  = pxInputFromSocketTcp(client.socket);
-    PxOutput output = pxOutputFromSocketTcp(client.socket);
+    PxSource source = pxSourceFromSocketTcp(client.socket);
+    PxTarget target = pxTargetFromSocketTcp(client.socket);
 
     pxBuffer8WriteString8Tail(&client.request, CLIENT_MSG);
 
-    pxOutputBuffer8(output, &client.request);
+    pxTargetBuffer8(target, &client.request);
 
-    pxiword size = pxInputBuffer8(input, &client.response);
+    pxiword size = pxSourceBuffer8(source, &client.response);
 
     if (size != 0) {
         PxString8 string = pxBuffer8ReadString8Head(

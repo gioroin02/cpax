@@ -78,7 +78,7 @@ main(int argc, char** argv)
 {
     PxArena   arena       = pxMemoryReserve(16);
     PxBuffer8 source      = pxBuffer8Reserve(&arena, 256);
-    PxWriter  buff_writer = pxWriterFromOutput(pxOutputFromBuffer8(&source), &arena, 256);
+    PxWriter  buff_writer = pxWriterFromTarget(pxTargetFromBuffer8(&source), &arena, 256);
 
     PxJsonWriter writer =
         pxJsonWriterReserve(&arena, 16, &buff_writer);

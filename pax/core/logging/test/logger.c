@@ -8,7 +8,7 @@ main(int argc, char** argv)
     PxArena arena = pxMemoryReserve(16);
 
     PxConsole console = pxConsoleCreate(&arena);
-    PxWriter  writer  = pxWriterFromOutput(pxOutputFromConsole(console), &arena, 1024);
+    PxWriter  writer  = pxWriterFromTarget(pxTargetFromConsole(console), &arena, 1024);
 
     PxLogger logger = pxLoggerMake(&writer, PX_REPORT_LEVEL_WARN,
         PX_REPORT_FLAG_LEVEL | PX_REPORT_FLAG_COLOR);

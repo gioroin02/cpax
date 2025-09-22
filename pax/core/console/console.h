@@ -25,10 +25,10 @@ pxConsoleWriteMemory8(PxConsole self, pxu8* memory, pxiword length);
 pxiword
 pxConsoleReadMemory8(PxConsole self, pxu8* memory, pxiword length);
 
-PxInput
-pxInputFromConsole(PxConsole self);
+PxSource
+pxSourceFromConsole(PxConsole self);
 
-PxOutput
-pxOutputFromConsole(PxConsole self);
+PxTarget
+pxTargetFromConsole(PxConsole self);
 
 #endif // PX_CORE_CONSOLE_CONSOLE_H

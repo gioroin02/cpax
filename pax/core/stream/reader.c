@@ -4,14 +4,14 @@
 #include "reader.h"
 
 PxReader
-pxReaderFromInput(PxInput input, PxArena* arena, pxiword length)
+pxReaderFromSource(PxSource source, PxArena* arena, pxiword length)
 {
     PxReader result = {0};
 
     result.buffer = pxBuffer8Reserve(arena, length);
 
     if (result.buffer.length > 0)
-        result.input = input;
+        result.source = source;
 
     return result;
 }
@@ -19,7 +19,7 @@ pxReaderFromInput(PxInput input, PxArena* arena, pxiword length)
 pxiword
 pxReaderFill(PxReader* self)
 {
-    return pxInputBuffer8(self->input, &self->buffer);
+    return pxSourceBuffer8(self->source, &self->buffer);
 }
 
 pxu8

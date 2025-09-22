@@ -1,17 +1,17 @@
 #ifndef PX_CORE_STREAM_WRITER_H
 #define PX_CORE_STREAM_WRITER_H
 
-#include "output.h"
+#include "target.h"
 
 typedef struct PxWriter
 {
     PxBuffer8 buffer;
-    PxOutput  output;
+    PxTarget  target;
 }
 PxWriter;
 
 PxWriter
-pxWriterFromOutput(PxOutput, PxArena* arena, pxiword length);
+pxWriterFromTarget(PxTarget, PxArena* arena, pxiword length);
 
 pxiword
 pxWriterFlush(PxWriter* self);

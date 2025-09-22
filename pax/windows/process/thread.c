@@ -15,6 +15,8 @@ struct PxWindowsThread
     DWORD  ident;
 };
 
+typedef LPTHREAD_START_ROUTINE PxWindowsThreadProc;
+
 PxWindowsThread*
 pxWindowsThreadCreate(PxArena* arena, void* ctxt, void* proc)
 {
@@ -24,8 +26,7 @@ pxWindowsThreadCreate(PxArena* arena, void* ctxt, void* proc)
         pxArenaReserve(arena, PxWindowsThread, 1);
 
     if (result != 0) {
-        LPTHREAD_START_ROUTINE routine =
-            pxas(LPTHREAD_START_ROUTINE, proc);
+        PxWindowsThreadProc routine = pxas(PxWindowsThreadProc, proc);
 
         result->handle = CreateThread(0, 0,
             routine, ctxt, 0, &result->ident);

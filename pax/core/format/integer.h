@@ -46,29 +46,4 @@ pxString32FromInteger(PxArena* arena, pxiword value, PxFormatRadix radix, PxForm
 pxb8
 pxIntegerFromString32(PxString32 string, pxiword* value, PxFormatRadix radix, PxFormatFlag flags);
 
-/* Buffer */
-
-pxiword
-pxBuffer8WriteIntegerHead(PxBuffer8* self, pxiword value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer8WriteIntegerTail(PxBuffer8* self, pxiword value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer16WriteIntegerHead(PxBuffer16* self, pxiword value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer16WriteIntegerTail(PxBuffer16* self, pxiword value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer32WriteIntegerHead(PxBuffer32* self, pxiword value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer32WriteIntegerTail(PxBuffer32* self, pxiword value, PxFormatRadix radix, PxFormatFlag flags);
-
-/* Writer */
-
-pxiword
-pxWriterInteger(PxWriter* self, pxiword value, PxFormatRadix radix, PxFormatFlag flags);
-
 #endif // PX_CORE_FORMAT_INTEGER_H

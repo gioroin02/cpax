@@ -5,12 +5,12 @@
 
 #include <time.h>
 
-#define RED(x) "\x1b[31m" x "\x1b[0m"
-#define GRN(x) "\x1b[32m" x "\x1b[0m"
-#define YLW(x) "\x1b[33m" x "\x1b[0m"
-#define BLU(x) "\x1b[34m" x "\x1b[0m"
-#define MAG(x) "\x1b[35m" x "\x1b[0m"
-#define CYA(x) "\x1b[36m" x "\x1b[0m"
+#define RED(x) "\x1b[91m" x "\x1b[0m"
+#define GRN(x) "\x1b[92m" x "\x1b[0m"
+#define YLW(x) "\x1b[93m" x "\x1b[0m"
+#define BLU(x) "\x1b[94m" x "\x1b[0m"
+#define MAG(x) "\x1b[95m" x "\x1b[0m"
+#define CYA(x) "\x1b[96m" x "\x1b[0m"
 
 #define TRUE  GRN("T")
 #define FALSE RED("F")

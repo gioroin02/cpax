@@ -46,29 +46,4 @@ pxString32FromBoolean(PxArena* arena, pxbword value, PxFormatFlag flags);
 pxb8
 pxBooleanFromString32(PxString32 string, pxbword* value, PxFormatFlag flags);
 
-/* Buffer */
-
-pxiword
-pxBuffer8WriteBooleanHead(PxBuffer8* self, pxbword value, PxFormatFlag flags);
-
-pxiword
-pxBuffer8WriteBooleanTail(PxBuffer8* self, pxbword value, PxFormatFlag flags);
-
-pxiword
-pxBuffer16WriteBooleanHead(PxBuffer16* self, pxbword value, PxFormatFlag flags);
-
-pxiword
-pxBuffer16WriteBooleanTail(PxBuffer16* self, pxbword value, PxFormatFlag flags);
-
-pxiword
-pxBuffer32WriteBooleanHead(PxBuffer32* self, pxbword value, PxFormatFlag flags);
-
-pxiword
-pxBuffer32WriteBooleanTail(PxBuffer32* self, pxbword value, PxFormatFlag flags);
-
-/* Writer */
-
-pxiword
-pxWriterBoolean(PxWriter* self, pxbword, PxFormatFlag flags);
-
 #endif // PX_CORE_FORMAT_BOOLEAN_H

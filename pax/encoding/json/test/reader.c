@@ -3,21 +3,12 @@
 
 #include <stdio.h>
 
-#define COLOR_RESET "\x1b[0m"
-
-#define FRONT_RED    "\x1b[31m"
-#define FRONT_GREEN  "\x1b[32m"
-#define FRONT_YELLOW "\x1b[33m"
-#define FRONT_BLUE   "\x1b[34m"
-#define FRONT_PURPLE "\x1b[35m"
-#define FRONT_AZURE  "\x1b[36m"
-
-#define RED(expr)    FRONT_RED    expr COLOR_RESET
-#define GREEN(expr)  FRONT_GREEN  expr COLOR_RESET
-#define YELLOW(expr) FRONT_YELLOW expr COLOR_RESET
-#define BLUE(expr)   FRONT_BLUE   expr COLOR_RESET
-#define PURPLE(expr) FRONT_PURPLE expr COLOR_RESET
-#define AZURE(expr)  FRONT_AZURE  expr COLOR_RESET
+#define RED(x) "\x1b[91m" x "\x1b[0m"
+#define GRN(x) "\x1b[92m" x "\x1b[0m"
+#define YLW(x) "\x1b[93m" x "\x1b[0m"
+#define BLU(x) "\x1b[94m" x "\x1b[0m"
+#define MAG(x) "\x1b[95m" x "\x1b[0m"
+#define CYA(x) "\x1b[96m" x "\x1b[0m"
 
 typedef pxiword EntityTag;
 
@@ -114,21 +105,24 @@ entityReadJson(Entity* self, PxJsonReader* reader, PxArena* arena)
 int
 main(int argc, char** argv)
 {
-    PxArena   arena       = pxMemoryReserve(16);
-    PxBuffer8 source      = pxBuffer8Reserve(&arena, 256);
-    PxReader  buff_reader = pxReaderFromSource(pxSourceFromBuffer8(&source), &arena, 256);
+    PxArena   arena = pxMemoryReserve(16);
+    PxBuffer8 items = pxBuffer8Reserve(&arena, 256);
+
+    PxBuffer8 buffer = pxBuffer8Reserve(&arena, 256);
+
+    PxSource source = pxBufferedSource(pxSourceFromBuffer8(&items), &buffer);
 
     Entity entity = {0};
 
-    pxBuffer8WriteString8Tail(&source, ENTITY);
+    pxBuffer8WriteString8Tail(&items, ENTITY);
 
-    printf(YELLOW("[start]") "\n%.*s\n" YELLOW("[stop]") "\n",
-        pxas(int, source.size), source.memory);
+    printf(YLW("[start]") "\n%.*s\n" YLW("[stop]") "\n",
+        pxas(int, items.size), items.memory);
 
     printf("\n");
 
     PxJsonReader reader =
-        pxJsonReaderReserve(&arena, 16, &buff_reader);
+        pxJsonReaderReserve(source, &arena, 16);
 
     entityReadJson(&entity, &reader, &arena);
 

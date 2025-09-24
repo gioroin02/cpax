@@ -41,9 +41,9 @@ PxReportLevel;
 
 typedef enum PxReportFlag
 {
-    PX_REPORT_FLAG_NONE  = 0x0,
-    PX_REPORT_FLAG_LEVEL = 0x1,
-    PX_REPORT_FLAG_COLOR = 0x2,
+    PX_REPORT_FLAG_NONE  = 0,
+    PX_REPORT_FLAG_LEVEL = 1 << 0,
+    PX_REPORT_FLAG_COLOR = 1 << 1,
 }
 PxReportFlag;
 
@@ -52,12 +52,12 @@ typedef struct PxLogger
     PxReportLevel level;
     PxReportFlag  flags;
 
-    PxWriter* writer;
+    PxTarget target;
 }
 PxLogger;
 
 PxLogger
-pxLoggerMake(PxWriter* writer, PxReportLevel level, PxReportFlag flags);
+pxLoggerMake(PxTarget target, PxReportLevel level, PxReportFlag flags);
 
 PxReportLevel
 pxLoggerSetLevel(PxLogger* self, PxReportLevel level);
@@ -72,29 +72,29 @@ pxb8
 pxLoggerWriteStop(PxLogger* self, PxReportLevel level);
 
 pxb8
-pxLoggerWriteFmt(PxLogger* self, PxString8 format, PxPrintCmd* values, pxiword length, PxReportLevel level);
+pxLoggerWriteFormat(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length, PxReportLevel level);
 
 /* Logging levels */
 
 pxb8
-pxLoggerPrintFmt(PxLogger* self, PxString8 format, PxPrintCmd* values, pxiword length);
+pxLoggerPrintFmt(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length);
 
 pxb8
-pxLoggerFatalFmt(PxLogger* self, PxString8 format, PxPrintCmd* values, pxiword length);
+pxLoggerFatalFmt(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length);
 
 pxb8
-pxLoggerErrorFmt(PxLogger* self, PxString8 format, PxPrintCmd* values, pxiword length);
+pxLoggerErrorFmt(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length);
 
 pxb8
-pxLoggerWarnFmt(PxLogger* self, PxString8 format, PxPrintCmd* values, pxiword length);
+pxLoggerWarnFmt(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length);
 
 pxb8
-pxLoggerInfoFmt(PxLogger* self, PxString8 format, PxPrintCmd* values, pxiword length);
+pxLoggerInfoFmt(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length);
 
 pxb8
-pxLoggerDebugFmt(PxLogger* self, PxString8 format, PxPrintCmd* values, pxiword length);
+pxLoggerDebugFmt(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length);
 
 pxb8
-pxLoggerTraceFmt(PxLogger* self, PxString8 format, PxPrintCmd* values, pxiword length);
+pxLoggerTraceFmt(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length);
 
 #endif // PX_CORE_LOGGING_LOGGER_H

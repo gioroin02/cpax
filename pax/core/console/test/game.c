@@ -179,10 +179,10 @@ mainPolling(PollingThread* self)
     if (self == 0) return 0;
 
     while (1) {
-        pxiword size = pxSourceBuffer8(self->source, &self->buffer);
+        pxiword size = pxSourceReadBuffer8(self->source, &self->buffer);
 
         if (size > 0)
-            size = pxTargetBuffer8(self->target, &self->buffer);
+            size = pxTargetWriteBuffer8(self->target, &self->buffer);
 
         if (size <= 0) break;
     }
@@ -243,7 +243,7 @@ gameStart(Game* self, PxArena* arena)
     pxConsoleQueueWriteMsg(&self->output, pxConsoleMsgReset());
     pxConsoleQueueWriteMsg(&self->output, pxConsoleMsgCursorHide());
 
-    pxTargetBuffer8(self->con_target, pxConsoleQueueBuffer8(&self->output));
+    pxTargetWriteBuffer8(self->con_target, pxConsoleQueueBuffer8(&self->output));
 
     PollingThread polling = {
         .source = self->con_source,
@@ -264,7 +264,7 @@ gameStop(Game* self, PxArena* arena)
 {
     pxConsoleQueueWriteMsg(&self->output, pxConsoleMsgReset());
 
-    pxTargetBuffer8(self->con_target, pxConsoleQueueBuffer8(&self->output));
+    pxTargetWriteBuffer8(self->con_target, pxConsoleQueueBuffer8(&self->output));
 
     pxConsoleSetMode(self->console, PX_CONSOLE_MODE_DEFAULT);
 }
@@ -274,7 +274,7 @@ gameInput(Game* self, PxArena* arena)
 {
     PxConsoleMsg message = {0};
 
-    pxSourceBuffer8(self->cnl_source, pxConsoleQueueBuffer8(&self->input));
+    pxSourceReadBuffer8(self->cnl_source, pxConsoleQueueBuffer8(&self->input));
 
     self->move_up    = 0;
     self->move_down  = 0;
@@ -327,7 +327,7 @@ gamePaint(Game* self, PxArena* arena)
     if (pxConsoleBatchIsDirty(&self->batch) != 0)
         pxConsoleQueueWriteBatch(&self->output, &self->batch);
 
-    pxTargetBuffer8(self->con_target, pxConsoleQueueBuffer8(&self->output));
+    pxTargetWriteBuffer8(self->con_target, pxConsoleQueueBuffer8(&self->output));
 }
 
 void

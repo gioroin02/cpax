@@ -31,16 +31,18 @@ typedef enum PxJsonMsgType
     PX_JSON_MSG_BOOLEAN,
     PX_JSON_MSG_NULL,
 
+    PX_JSON_MSG_DELEGATE,
+
     PX_JSON_MSG_COUNT,
 }
 PxJsonMsgType;
 
-typedef struct PxJsonMsgError
+typedef struct PxJsonMsgDelegate
 {
-    PxString8 subject;
-    PxString8 content;
+    void* ctxt;
+    void* proc;
 }
-PxJsonMsgError;
+PxJsonMsgDelegate;
 
 typedef struct PxJsonMsg
 {
@@ -49,22 +51,22 @@ typedef struct PxJsonMsg
 
     union
     {
-        PxJsonMsgError error;
-
         PxString8 string_8;
         pxuword   unsigned_word;
         pxiword   integer_word;
         pxfword   floating_word;
         pxbword   boolean_word;
+
+        PxJsonMsgDelegate delegate;
     };
 }
 PxJsonMsg;
 
 PxJsonMsg
-pxJsonMsgNone();
+pxJsonMsgMake(PxJsonMsgType type);
 
 PxJsonMsg
-pxJsonMsgError(PxString8 subject, PxString8 message);
+pxJsonMsgError();
 
 PxJsonMsg
 pxJsonMsgObjectOpen();
@@ -98,6 +100,9 @@ pxJsonMsgBoolean(pxbword value);
 
 PxJsonMsg
 pxJsonMsgNull();
+
+PxJsonMsg
+pxJsonMsgDelegate(void* ctxt, void* proc);
 
 PxJsonMsg
 pxJsonMsgCount();

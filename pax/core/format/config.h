@@ -15,14 +15,17 @@ PxFormatRadix;
 
 typedef enum PxFormatFlag
 {
-    PX_FORMAT_FLAG_NONE  = 0x0,
-    PX_FORMAT_FLAG_PLUS  = 0x1,
-    PX_FORMAT_FLAG_UPPER = 0x2,
+    PX_FORMAT_FLAG_NONE  = 0,
+    PX_FORMAT_FLAG_PLUS  = 1 << 0,
+    PX_FORMAT_FLAG_UPPER = 1 << 1,
 }
 PxFormatFlag;
 
 pxuword
 pxMagnitudeFormatRadix(PxFormatRadix radix);
+
+pxb8
+pxUnicodeIsDigit(pxi32 value, PxFormatRadix radix, PxFormatFlag flags);
 
 pxi32
 pxUnicodeFromDigit(pxuword value, PxFormatRadix radix, PxFormatFlag flags);

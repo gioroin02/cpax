@@ -65,7 +65,7 @@ pxArenaClear(PxArena* self)
 pxiword
 pxArenaOffset(PxArena* self)
 {
-    return self->offset;
+    return pxArenaAlignForw(self, 16);
 }
 
 pxb8

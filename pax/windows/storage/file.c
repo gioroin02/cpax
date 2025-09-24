@@ -80,9 +80,8 @@ pxWindowsFileCreate(PxArena* arena, PxString8 base, PxString8 name, PxFileMode m
     pxiword offset = pxArenaOffset(arena);
     pxiword access = 0;
 
-    if ((mode & PX_FILE_MODE_READ)  != 0) access |= GENERIC_READ;
-    if ((mode & PX_FILE_MODE_WRITE) != 0) access |= GENERIC_WRITE;
-    if ((mode & PX_FILE_MODE_EXEC)  != 0) access |= GENERIC_EXECUTE;
+    if ((mode & PX_FILE_MODE_RD) != 0) access |= GENERIC_READ;
+    if ((mode & PX_FILE_MODE_WR) != 0) access |= GENERIC_WRITE;
 
     PxWindowsFile* result = pxArenaReserve(arena, PxWindowsFile, 1);
 
@@ -119,9 +118,8 @@ pxWindowsFileReplace(PxArena* arena, PxString8 base, PxString8 name, PxFileMode 
     pxiword offset = pxArenaOffset(arena);
     pxiword access = 0;
 
-    if ((mode & PX_FILE_MODE_READ)  != 0) access |= GENERIC_READ;
-    if ((mode & PX_FILE_MODE_WRITE) != 0) access |= GENERIC_WRITE;
-    if ((mode & PX_FILE_MODE_EXEC)  != 0) access |= GENERIC_EXECUTE;
+    if ((mode & PX_FILE_MODE_RD) != 0) access |= GENERIC_READ;
+    if ((mode & PX_FILE_MODE_WR) != 0) access |= GENERIC_WRITE;
 
     PxWindowsFile* result = pxArenaReserve(arena, PxWindowsFile, 1);
 
@@ -158,9 +156,8 @@ pxWindowsFileOpen(PxArena* arena, PxString8 base, PxString8 name, PxFileMode mod
     pxiword offset = pxArenaOffset(arena);
     pxiword access = 0;
 
-    if ((mode & PX_FILE_MODE_READ)  != 0) access |= GENERIC_READ;
-    if ((mode & PX_FILE_MODE_WRITE) != 0) access |= GENERIC_WRITE;
-    if ((mode & PX_FILE_MODE_EXEC)  != 0) access |= GENERIC_EXECUTE;
+    if ((mode & PX_FILE_MODE_RD) != 0) access |= GENERIC_READ;
+    if ((mode & PX_FILE_MODE_WR) != 0) access |= GENERIC_WRITE;
 
     PxWindowsFile* result = pxArenaReserve(arena, PxWindowsFile, 1);
 

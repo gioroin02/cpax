@@ -18,6 +18,36 @@ pxMagnitudeFormatRadix(PxFormatRadix radix)
     return 1;
 }
 
+pxb8
+pxUnicodeIsDigit(pxi32 value, PxFormatRadix radix, PxFormatFlag flags)
+{
+    switch (radix) {
+        case PX_FORMAT_RADIX_2:
+        case PX_FORMAT_RADIX_8:
+        case PX_FORMAT_RADIX_10: {
+            if (value >= PX_ASCII_ZERO && value <= PX_ASCII_NINE)
+                return 1;
+        } break;
+
+        case PX_FORMAT_RADIX_16: {
+            if (value >= PX_ASCII_ZERO && value <= PX_ASCII_NINE)
+                return 1;
+
+            if (value >= PX_ASCII_UPPER_A && value <= PX_ASCII_UPPER_F) {
+                if ((flags & PX_FORMAT_FLAG_UPPER) != 0)
+                    return 1;
+            }
+
+            if (value >= PX_ASCII_LOWER_A && value <= PX_ASCII_LOWER_F)
+                return 1;
+        } break;
+
+        default: break;
+    }
+
+    return 0;
+}
+
 pxi32
 pxUnicodeFromDigit(pxuword value, PxFormatRadix radix, PxFormatFlag flags)
 {

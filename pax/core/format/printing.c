@@ -25,390 +25,164 @@ pxString8MatchFmtSpec(PxString8 string)
     return pxString8Make(memory + 1, index - 1);
 }
 
-PxPrintCmd
-pxPrintCmdString8(PxString8 value)
+pxiword
+pxTargetPrintUnsigned(PxTarget target, pxuword value, PxFormatRadix radix, PxFormatFlag flags)
 {
-    return (PxPrintCmd) {
-        .type  = PX_PRINT_CMD_STRING_8,
-        .radix = PX_FORMAT_RADIX_10,
-        .flags = PX_FORMAT_FLAG_NONE,
+    pxu8 memory[64] = {0};
 
-        .string_8 = value,
-    };
-}
+    pxiword size = pxMemory8WriteUnsigned(
+        memory, pxarraylen(pxu8, memory), value, radix, flags);
 
-PxPrintCmd
-pxPrintCmdString16(PxString16 value)
-{
-    return (PxPrintCmd) {
-        .type  = PX_PRINT_CMD_STRING_16,
-        .radix = PX_FORMAT_RADIX_10,
-        .flags = PX_FORMAT_FLAG_NONE,
-
-        .string_16 = value,
-    };
-}
-
-PxPrintCmd
-pxPrintCmdString32(PxString32 value)
-{
-    return (PxPrintCmd) {
-        .type  = PX_PRINT_CMD_STRING_32,
-        .radix = PX_FORMAT_RADIX_10,
-        .flags = PX_FORMAT_FLAG_NONE,
-
-        .string_32 = value,
-    };
-}
-
-PxPrintCmd
-pxPrintCmdUnicode(pxi32 value)
-{
-    return (PxPrintCmd) {
-        .type  = PX_PRINT_CMD_UNICODE,
-        .radix = PX_FORMAT_RADIX_10,
-        .flags = PX_FORMAT_FLAG_NONE,
-
-        .unicode = value,
-    };
-}
-
-PxPrintCmd
-pxPrintCmdUnsigned(pxuword value)
-{
-    return (PxPrintCmd) {
-        .type  = PX_PRINT_CMD_UNSIGNED,
-        .radix = PX_FORMAT_RADIX_10,
-        .flags = PX_FORMAT_FLAG_NONE,
-
-        .unsigned_word = value,
-    };
-}
-
-PxPrintCmd
-pxPrintCmdInteger(pxiword value)
-{
-    return (PxPrintCmd) {
-        .type  = PX_PRINT_CMD_INTEGER,
-        .radix = PX_FORMAT_RADIX_10,
-        .flags = PX_FORMAT_FLAG_NONE,
-
-        .integer_word = value,
-    };
-}
-
-PxPrintCmd
-pxPrintCmdFloating(pxfword value)
-{
-    return (PxPrintCmd) {
-        .type  = PX_PRINT_CMD_FLOATING,
-        .radix = PX_FORMAT_RADIX_10,
-        .flags = PX_FORMAT_FLAG_NONE,
-
-        .floating_word = value,
-    };
-}
-
-PxPrintCmd
-pxPrintCmdBoolean(pxbword value)
-{
-    return (PxPrintCmd) {
-        .type  = PX_PRINT_CMD_BOOLEAN,
-        .radix = PX_FORMAT_RADIX_10,
-        .flags = PX_FORMAT_FLAG_NONE,
-
-        .boolean_word = value,
-    };
-}
-
-pxb8
-pxBuffer8PrintCmdHead(PxBuffer8* self, PxPrintCmd value)
-{
-    switch (value.type) {
-        case PX_PRINT_CMD_STRING_8: {
-            if (value.string_8.length <= 0) return 1;
-
-            if (pxBuffer8WriteString8Head(self, value.string_8) != 0)
-                return 1;
-        } break;
-
-        case PX_PRINT_CMD_STRING_16: {
-            if (value.string_16.length <= 0) return 1;
-
-            if (pxBuffer8WriteString16Head(self, value.string_16) != 0)
-                return 1;
-        } break;
-
-        case PX_PRINT_CMD_STRING_32: {
-            if (value.string_32.length <= 0) return 1;
-
-            if (pxBuffer8WriteString32Head(self, value.string_32) != 0)
-                return 1;
-        } break;
-
-        case PX_PRINT_CMD_UNICODE: {
-            if (pxBuffer8WriteUnicodeHead(self, value.unicode) != 0)
-                return 1;
-        } break;
-
-        case PX_PRINT_CMD_UNSIGNED: {
-            pxiword size = pxBuffer8WriteUnsignedHead(self,
-                value.unsigned_word, value.radix, value.flags);
-
-            if (size > 0) return 1;
-        } break;
-
-        case PX_PRINT_CMD_INTEGER: {
-            pxiword size = pxBuffer8WriteIntegerHead(self,
-                value.integer_word, value.radix, value.flags);
-
-            if (size > 0) return 1;
-        } break;
-
-        case PX_PRINT_CMD_FLOATING: {
-            pxiword size = 1; /* pxBuffer8WriteFloatingHead(self,
-                value.floating_word, value.radix, value.flags); */
-
-            if (size > 0) return 1;
-        } break;
-
-        case PX_PRINT_CMD_BOOLEAN: {
-            pxiword size = pxBuffer8WriteBooleanHead(self,
-                value.boolean_word, value.flags);
-
-            if (size > 0) return 1;
-        } break;
-
-        default: break;
-    }
-
-    return 0;
-}
-
-pxb8
-pxBuffer8PrintCmdTail(PxBuffer8* self, PxPrintCmd value)
-{
-    switch (value.type) {
-        case PX_PRINT_CMD_STRING_8: {
-            if (value.string_8.length <= 0) return 1;
-
-            if (pxBuffer8WriteString8Tail(self, value.string_8) != 0)
-                return 1;
-        } break;
-
-        case PX_PRINT_CMD_STRING_16: {
-            if (value.string_16.length <= 0) return 1;
-
-            if (pxBuffer8WriteString16Tail(self, value.string_16) != 0)
-                return 1;
-        } break;
-
-        case PX_PRINT_CMD_STRING_32: {
-            if (value.string_32.length <= 0) return 1;
-
-            if (pxBuffer8WriteString32Tail(self, value.string_32) != 0)
-                return 1;
-        } break;
-
-        case PX_PRINT_CMD_UNICODE: {
-            if (pxBuffer8WriteUnicodeTail(self, value.unicode) != 0)
-                return 1;
-        } break;
-
-        case PX_PRINT_CMD_UNSIGNED: {
-            pxiword size = pxBuffer8WriteUnsignedTail(self,
-                value.unsigned_word, value.radix, value.flags);
-
-            if (size > 0) return 1;
-        } break;
-
-        case PX_PRINT_CMD_INTEGER: {
-            pxiword size = pxBuffer8WriteIntegerTail(self,
-                value.integer_word, value.radix, value.flags);
-
-            if (size > 0) return 1;
-        } break;
-
-        case PX_PRINT_CMD_FLOATING: {
-            pxiword size = 1; /* pxBuffer8WriteFloatingTail(self,
-                value.floating_word, value.radix, value.flags); */
-
-            if (size > 0) return 1;
-        } break;
-
-        case PX_PRINT_CMD_BOOLEAN: {
-            pxiword size = pxBuffer8WriteBooleanTail(self,
-                value.boolean_word, value.flags);
-
-            if (size > 0) return 1;
-        } break;
-
-        default: break;
-    }
-
-    return 0;
-}
-
-pxb8
-pxBuffer8PrintListHead(PxBuffer8* self, PxPrintCmd* values, pxiword length)
-{
-    pxiword size  = self->size;
-    pxb8    state = 0;
-
-    for (pxiword i = length; i > 0; i -= 1) {
-        state =
-            pxBuffer8PrintCmdHead(self, values[i - 1]);
-
-        if (state == 0) break;
-    }
-
-    if (state == 0)
-        pxBuffer8DropHead(self, self->size - size);
-
-    return state;
-}
-
-pxb8
-pxBuffer8PrintListTail(PxBuffer8* self, PxPrintCmd* values, pxiword length)
-{
-    pxiword size  = self->size;
-    pxb8    state = 0;
-
-    for (pxiword i = 0; i < length; i += 1) {
-        state =
-            pxBuffer8PrintCmdTail(self, values[i]);
-
-        if (state == 0) break;
-    }
-
-    if (state == 0)
-        pxBuffer8DropTail(self, self->size - size);
-
-    return state;
-}
-
-pxb8
-pxBuffer8PrintFmtTail(PxBuffer8* self, PxString8 format, PxPrintCmd* values, pxiword length)
-{
-    PxString8 left  = {0};
-    PxString8 right = format;
-
-    pxiword size  = self->size;
-    pxiword index = 0;
-    pxb8    state = 0;
-
-    while (right.length > 0) {
-        pxString8Split(right, pxs8("$"), &left, &right);
-
-        state = pxBuffer8PrintCmdTail(self, pxPrintCmdString8(left));
-
-        if (state == 0 || right.length <= 0) break;
-
-        left  = pxString8MatchFmtSpec(right);
-        right = pxString8SliceHead(right, left.length + 2);
-
-        state = pxIntegerFromString8(left, &index, 10, 0);
-
-        if (state == 0 || index < 0 || index >= length)
-            continue;
-
-        state = pxBuffer8PrintCmdTail(self, values[index]);
-
-        if (state == 0) break;
-    }
-
-    if (state == 0)
-        pxBuffer8DropTail(self, self->size - size);
-
-    return state;
+    return pxTargetWriteMemory8(target, memory, size);
 }
 
 pxiword
-pxWriterPrintCmd(PxWriter* self, PxPrintCmd value)
+pxTargetPrintInteger(PxTarget target, pxiword value, PxFormatRadix radix, PxFormatFlag flags)
 {
+    pxu8 memory[64] = {0};
+
+    pxiword size = pxMemory8WriteInteger(
+        memory, pxarraylen(pxu8, memory), value, radix, flags);
+
+    return pxTargetWriteMemory8(target, memory, size);
+}
+
+pxiword
+pxTargetPrintBoolean(PxTarget target, pxbword value, PxFormatFlag flags)
+{
+    pxu8 memory[64] = {0};
+
+    pxiword size = pxMemory8WriteBoolean(
+        memory, pxarraylen(pxu8, memory), value, flags);
+
+    return pxTargetWriteMemory8(target, memory, size);
+}
+
+pxb8
+pxTargetFormatMsg(PxTarget target, PxFormatMsg value, pxiword* size)
+{
+    pxiword result = 0;
+    pxb8    state  = 0;
+
     switch (value.type) {
-        case PX_PRINT_CMD_STRING_8: {
-            return pxWriterString8(self, value.string_8);
+        case PX_FORMAT_MSG_STRING_8: {
+            result = pxTargetWriteString8(target, value.string_8);
+
+            if (result == value.string_8.length)
+                state = 1;
         } break;
 
-        case PX_PRINT_CMD_STRING_16: {
-            return pxWriterString16(self, value.string_16);
+        case PX_FORMAT_MSG_STRING_16: {
+            result = pxTargetWriteString16(target, value.string_16);
+
+            if (result == value.string_16.length)
+                state = 1;
         } break;
 
-        case PX_PRINT_CMD_STRING_32: {
-            return pxWriterString32(self, value.string_32);
+        case PX_FORMAT_MSG_STRING_32: {
+            result = pxTargetWriteString32(target, value.string_32);
+
+            if (result == value.string_32.length)
+                state = 1;
         } break;
 
-        case PX_PRINT_CMD_UNICODE: {
-            return pxWriterUnicode(self, value.unicode);
+        case PX_FORMAT_MSG_UNICODE: {
+            result = pxTargetWriteUnicode(target, value.unicode);
+
+            if (result != 0) state = 1;
         } break;
 
-        case PX_PRINT_CMD_UNSIGNED: {
-            return pxWriterUnsigned(self,
+        case PX_FORMAT_MSG_UNSIGNED: {
+            result = pxTargetPrintUnsigned(target,
                 value.unsigned_word, value.radix, value.flags);
+
+            if (result != 0) state = 1;
         } break;
 
-        case PX_PRINT_CMD_INTEGER: {
-            return pxWriterInteger(self,
+        case PX_FORMAT_MSG_INTEGER: {
+            result = pxTargetPrintInteger(target,
                 value.integer_word, value.radix, value.flags);
+
+            if (result != 0) state = 1;
         } break;
 
-        case PX_PRINT_CMD_FLOATING: {
-            return 0; /* pxWriterFloating(self,
-                value.floating_word, value.radix, value.flags); */
+        case PX_FORMAT_MSG_FLOATING: {
+            /* result = pxTargetPrintFloating(target,
+                value.floating_word, value.radix, value.flags);
+
+            if (result != 0) */ state = 1;
         } break;
 
-        case PX_PRINT_CMD_BOOLEAN: {
-            return pxWriterBoolean(self,
+        case PX_FORMAT_MSG_BOOLEAN: {
+            result = pxTargetPrintBoolean(target,
                 value.boolean_word, value.flags);
+
+            if (result != 0) state = 1;
         } break;
 
         default: break;
     }
 
-    return 0;
+    if (size != 0) *size = result;
+
+    return state;
 }
 
-pxiword
-pxWriterPrintList(PxWriter* self, PxPrintCmd* values, pxiword length)
+pxb8
+pxTargetPrintList(PxTarget target, PxFormatMsg* values, pxiword length, pxiword* size)
 {
     pxiword result = 0;
 
-    for (pxiword i = 0; i < length; i += 1)
-        result += pxWriterPrintCmd(self, values[i]);
+    for (pxiword i = 0; i < length; i += 1) {
+        pxiword temp = 0;
 
-    return result;
+        if (pxTargetFormatMsg(target, values[i], &temp) == 0)
+            return 0;
+
+        result += temp;
+    }
+
+    if (size != 0) *size = result;
+
+    return 1;
 }
 
-pxiword
-pxWriterFmt(PxWriter* self, PxString8 format, PxPrintCmd* values, pxiword length)
+pxb8
+pxTargetPrintFormat(PxTarget target, PxString8 format, PxFormatMsg* values, pxiword length, pxiword* size)
 {
     PxString8 left  = {0};
     PxString8 right = format;
 
     pxiword result = 0;
     pxiword index  = 0;
-    pxb8    state  = 0;
 
     while (right.length > 0) {
+        pxiword temp = 0;
+
         pxString8Split(right, pxs8("$"), &left, &right);
 
-        result += pxWriterPrintCmd(self, pxPrintCmdString8(left));
+        if (pxTargetFormatMsg(target, pxFormatMsgString8(left), &temp) == 0)
+            return 0;
 
-        if (right.length <= 0) break;
+        result += temp;
 
         left  = pxString8MatchFmtSpec(right);
         right = pxString8SliceHead(right, left.length + 2);
 
-        state = pxIntegerFromString8(left, &index, 10, 0);
-
-        if (state == 0 || index < 0 || index >= length)
+        if (pxIntegerFromString8(left, &index, 10, 0) == 0)
             continue;
 
-        result += pxWriterPrintCmd(self, values[index]);
+        if (left.length > 0 && index >= 0 && index < length) {
+            if (pxTargetFormatMsg(target, values[index], &temp) == 0)
+                return 0;
+
+            result += temp;
+        }
     }
 
-    return result;
+    if (size != 0) *size = result;
+
+    return 1;
 }
 
 #endif // PX_CORE_FORMAT_PRINTING_C

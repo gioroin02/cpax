@@ -7,16 +7,14 @@ main(int argc, char** argv)
 {
     PxArena arena = pxMemoryReserve(16);
 
-    PxFile file = 0;
+    PxFile file = pxStandardInput(&arena);
 
     if (argc >= 2) {
         PxString8 base = pxs8(".");
         PxString8 name = pxString8FromMemory(argv[1], 128);
 
-        file = pxFileOpen(&arena,
-            base, name, PX_FILE_MODE_READ);
-    } else
-        file = pxStandardInput(&arena);
+        file = pxFileOpen(&arena, base, name, PX_FILE_MODE_RD);
+    }
 
     if (file != 0) printf("%p\n", file);
 
@@ -24,7 +22,7 @@ main(int argc, char** argv)
     PxSource  source = pxSourceFromFile(file);
 
     while (1) {
-        if (pxSourceBuffer8(source, &buffer) == 0)
+        if (pxSourceReadBuffer8(source, &buffer) == 0)
             break;
 
         printf("%.*s", pxas(int, buffer.size),

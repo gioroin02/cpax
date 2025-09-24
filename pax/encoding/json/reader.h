@@ -1,22 +1,31 @@
 #ifndef PX_ENCODING_JSON_READER_H
 #define PX_ENCODING_JSON_READER_H
 
-#include "token.h"
+#include "scanner.h"
 #include "message.h"
+
+typedef enum PxJsonReaderFlag
+{
+    PX_JSON_READER_NONE = 0,
+    PX_JSON_READER_COMMA = 1 << 0,
+    PX_JSON_READER_COLON = 1 << 1,
+}
+PxJsonReaderFlag;
 
 typedef struct PxJsonReader
 {
-    PxQueue   stack;
-    PxString8 name;
-    pxb8      colon;
-    pxb8      comma;
+    PxSource source;
+    PxQueue  stack;
 
-    PxReader* reader;
+    PxJsonReaderFlag flags;
+
+    PxString8   name;
+    PxJsonToken token;
 }
 PxJsonReader;
 
 PxJsonReader
-pxJsonReaderReserve(PxArena* arena, pxiword length, PxReader* reader);
+pxJsonReaderReserve(PxSource source, PxArena* arena, pxiword length);
 
 PxJsonMsg
 pxJsonReaderMsg(PxJsonReader* self, PxArena* arena);

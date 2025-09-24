@@ -3,21 +3,12 @@
 
 #include <stdio.h>
 
-#define COLOR_RESET "\x1b[0m"
-
-#define FRONT_RED    "\x1b[31m"
-#define FRONT_GREEN  "\x1b[32m"
-#define FRONT_YELLOW "\x1b[33m"
-#define FRONT_BLUE   "\x1b[34m"
-#define FRONT_PURPLE "\x1b[35m"
-#define FRONT_AZURE  "\x1b[36m"
-
-#define RED(expr)    FRONT_RED    expr COLOR_RESET
-#define GREEN(expr)  FRONT_GREEN  expr COLOR_RESET
-#define YELLOW(expr) FRONT_YELLOW expr COLOR_RESET
-#define BLUE(expr)   FRONT_BLUE   expr COLOR_RESET
-#define PURPLE(expr) FRONT_PURPLE expr COLOR_RESET
-#define AZURE(expr)  FRONT_AZURE  expr COLOR_RESET
+#define RED(x) "\x1b[91m" x "\x1b[0m"
+#define GRN(x) "\x1b[92m" x "\x1b[0m"
+#define YLW(x) "\x1b[93m" x "\x1b[0m"
+#define BLU(x) "\x1b[94m" x "\x1b[0m"
+#define MAG(x) "\x1b[95m" x "\x1b[0m"
+#define CYA(x) "\x1b[96m" x "\x1b[0m"
 
 typedef pxiword EntityTag;
 
@@ -60,10 +51,8 @@ entityWriteJson(Entity* self, PxJsonWriter* writer, PxArena* arena)
 {
     pxJsonWriterObjectOpen(writer, arena);
 
-    pxJsonWriterObjectItem(writer, arena,
-        &self->tags, &entityTagsWriteJson, pxs8("tags"));
-
     pxJsonWriterList(writer, arena, (PxJsonMsg[]) {
+        pxJsonMsgPair(pxs8("tags"), pxJsonMsgDelegate(&self->tags, &entityTagsWriteJson)),
         pxJsonMsgPair(pxs8("name"), pxJsonMsgString(self->name)),
         pxJsonMsgPair(pxs8("code"), pxJsonMsgUnsigned(self->code)),
     }, 2);
@@ -76,15 +65,21 @@ entityWriteJson(Entity* self, PxJsonWriter* writer, PxArena* arena)
 int
 main(int argc, char** argv)
 {
-    PxArena   arena       = pxMemoryReserve(16);
-    PxBuffer8 source      = pxBuffer8Reserve(&arena, 256);
-    PxWriter  buff_writer = pxWriterFromTarget(pxTargetFromBuffer8(&source), &arena, 256);
+    PxArena   arena  = pxMemoryReserve(16);
+    PxBuffer8 buffer = pxBuffer8Reserve(&arena, 256);
+    PxTarget  target = pxTargetFromBuffer8(&buffer);
 
-    PxJsonWriter writer =
-        pxJsonWriterReserve(&arena, 16, &buff_writer);
+    PxJsonWriter writer = pxJsonWriterReserve(target, &arena, 16);
 
-    entityWriteJson(&(Entity) {.name = pxs8("gio"), .code = 156, .tags = {.items = {1, 2, 3}, .size = 3}}, &writer, &arena);
+    entityWriteJson(&(Entity) {
+        .name = pxs8("gio"),
+        .code = 156,
+        .tags = {
+            .items = {1, 2, 3},
+            .size = 3
+        }
+    }, &writer, &arena);
 
-    printf(YELLOW("[start]") "\n%.*s\n" YELLOW("[stop]") "\n",
-        pxas(int, source.size), source.memory);
+    printf(YLW("[start]") "\n%.*s\n" YLW("[stop]") "\n",
+        pxas(int, buffer.size), buffer.memory);
 }

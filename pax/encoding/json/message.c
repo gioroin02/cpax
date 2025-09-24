@@ -4,23 +4,16 @@
 #include "message.h"
 
 PxJsonMsg
-pxJsonMsgNone()
+pxJsonMsgMake(PxJsonMsgType type)
 {
-    return (PxJsonMsg) {
-        .type = PX_JSON_MSG_NONE,
-    };
+    return (PxJsonMsg) {.type = type};
 }
 
 PxJsonMsg
-pxJsonMsgError(PxString8 subject, PxString8 content)
+pxJsonMsgError()
 {
     return (PxJsonMsg) {
         .type = PX_JSON_MSG_ERROR,
-
-        .error = {
-            .subject = subject,
-            .content = content,
-        },
     };
 }
 
@@ -115,6 +108,19 @@ pxJsonMsgNull()
 {
     return (PxJsonMsg) {
         .type = PX_JSON_MSG_NULL,
+    };
+}
+
+PxJsonMsg
+pxJsonMsgDelegate(void* ctxt, void* proc)
+{
+    return (PxJsonMsg) {
+        .type = PX_JSON_MSG_DELEGATE,
+
+        .delegate = {
+            .ctxt = ctxt,
+            .proc = proc,
+        },
     };
 }
 

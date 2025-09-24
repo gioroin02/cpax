@@ -46,29 +46,4 @@ pxString32FromUnsigned(PxArena* arena, pxuword value, PxFormatRadix radix, PxFor
 pxb8
 pxUnsignedFromString32(PxString32 string, pxuword* value, PxFormatRadix radix, PxFormatFlag flags);
 
-/* Buffer */
-
-pxiword
-pxBuffer8WriteUnsignedHead(PxBuffer8* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer8WriteUnsignedTail(PxBuffer8* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer16WriteUnsignedHead(PxBuffer16* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer16WriteUnsignedTail(PxBuffer16* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer32WriteUnsignedHead(PxBuffer32* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
-
-pxiword
-pxBuffer32WriteUnsignedTail(PxBuffer32* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
-
-/* Writer */
-
-pxiword
-pxWriterUnsigned(PxWriter* self, pxuword value, PxFormatRadix radix, PxFormatFlag flags);
-
 #endif // PX_CORE_FORMAT_UNSIGNED_H

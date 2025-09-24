@@ -7,6 +7,9 @@
 #include "integer.c"
 #include "boolean.c"
 
+#include "message.c"
+
 #include "printing.c"
+#include "matching.c"
 
 #endif // PX_CORE_FORMAT_EXPORT_C

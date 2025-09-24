@@ -46,10 +46,10 @@ PxConsoleMsgType;
 
 typedef enum PxConsoleKeybdModif
 {
-    PX_CONSOLE_MODIF_NONE  = 0x0,
-    PX_CONSOLE_MODIF_CTRL  = 0x1,
-    PX_CONSOLE_MODIF_ALT   = 0x2,
-    PX_CONSOLE_MODIF_SHIFT = 0x4,
+    PX_CONSOLE_MODIF_NONE  = 0,
+    PX_CONSOLE_MODIF_CTRL  = 1 << 0,
+    PX_CONSOLE_MODIF_ALT   = 1 << 1,
+    PX_CONSOLE_MODIF_SHIFT = 1 << 2,
 }
 PxConsoleKeybdModif;
 

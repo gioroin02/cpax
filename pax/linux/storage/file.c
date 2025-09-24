@@ -78,12 +78,11 @@ pxLinuxFileCreate(PxArena* arena, PxString8 base, PxString8 name, PxFileMode mod
     pxiword offset = pxArenaOffset(arena);
     pxiword access = O_CREAT | O_EXCL;
 
-    pxiword mask = PX_FILE_MODE_READ | PX_FILE_MODE_WRITE;
+    if ((mode & PX_FILE_MODE_RD_WR) == PX_FILE_MODE_RD_WR)
+        access |= O_RDWR;
 
-    if ((mode & mask) == mask) access |= O_RDWR;
-
-    if ((mode & PX_FILE_MODE_READ)  != 0) access |= O_RDONLY;
-    if ((mode & PX_FILE_MODE_WRITE) != 0) access |= O_WRONLY;
+    if ((mode & PX_FILE_MODE_RD) != 0) access |= O_RDONLY;
+    if ((mode & PX_FILE_MODE_WR) != 0) access |= O_WRONLY;
 
     PxLinuxFile* result = pxArenaReserve(arena, PxLinuxFile, 1);
 
@@ -117,12 +116,11 @@ pxLinuxFileReplace(PxArena* arena, PxString8 base, PxString8 name, PxFileMode mo
     pxiword offset = pxArenaOffset(arena);
     pxiword access = O_CREAT | O_TRUNC;
 
-    pxiword mask = PX_FILE_MODE_READ | PX_FILE_MODE_WRITE;
+    if ((mode & PX_FILE_MODE_RD_WR) == PX_FILE_MODE_RD_WR)
+        access |= O_RDWR;
 
-    if ((mode & mask) == mask) access |= O_RDWR;
-
-    if ((mode & PX_FILE_MODE_READ)  != 0) access |= O_RDONLY;
-    if ((mode & PX_FILE_MODE_WRITE) != 0) access |= O_WRONLY;
+    if ((mode & PX_FILE_MODE_RD) != 0) access |= O_RDONLY;
+    if ((mode & PX_FILE_MODE_WR) != 0) access |= O_WRONLY;
 
     PxLinuxFile* result = pxArenaReserve(arena, PxLinuxFile, 1);
 
@@ -156,12 +154,11 @@ pxLinuxFileOpen(PxArena* arena, PxString8 base, PxString8 name, PxFileMode mode)
     pxiword offset = pxArenaOffset(arena);
     pxiword access = O_APPEND;
 
-    pxiword mask = PX_FILE_MODE_READ | PX_FILE_MODE_WRITE;
+    if ((mode & PX_FILE_MODE_RD_WR) == PX_FILE_MODE_RD_WR)
+        access |= O_RDWR;
 
-    if ((mode & mask) == mask) access |= O_RDWR;
-
-    if ((mode & PX_FILE_MODE_READ)  != 0) access |= O_RDONLY;
-    if ((mode & PX_FILE_MODE_WRITE) != 0) access |= O_WRONLY;
+    if ((mode & PX_FILE_MODE_RD) != 0) access |= O_RDONLY;
+    if ((mode & PX_FILE_MODE_WR) != 0) access |= O_WRONLY;
 
     PxLinuxFile* result = pxArenaReserve(arena, PxLinuxFile, 1);
 

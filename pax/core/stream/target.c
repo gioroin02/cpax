@@ -3,6 +3,27 @@
 
 #include "target.h"
 
+static pxiword
+pxTargetWrite(PxTarget self, pxu8* memory, pxiword length)
+{
+    PxTargetProc* proc = pxas(PxTargetProc*, self.proc);
+
+    if (proc != 0)
+        return proc(self.ctxt, memory, length);
+
+    return 0;
+}
+
+PxTarget
+pxBufferedTarget(PxTarget self, PxBuffer8* buffer)
+{
+    PxTarget result = self;
+
+    result.buffer = buffer;
+
+    return result;
+}
+
 PxTarget
 pxTargetFromBuffer8(PxBuffer8* self)
 {
@@ -17,32 +38,84 @@ pxTargetFromBuffer8(PxBuffer8* self)
 }
 
 pxiword
-pxTargetMemory8(PxTarget self, pxu8* memory, pxiword length)
+pxTargetFlush(PxTarget self)
 {
-    PxTargetProc* proc = pxas(PxTargetProc*, self.proc);
+    if (self.buffer == 0) return 0;
 
-    if (proc != 0)
-        return proc(self.ctxt, memory, length);
+    pxBuffer8Normalize(self.buffer);
 
-    return 0;
+    pxu8*   memory = self.buffer->memory;
+    pxiword length = self.buffer->size;
+
+    pxiword size = pxTargetWrite(self, memory, length);
+
+    self.buffer->size -= size;
+    self.buffer->head  = (self.buffer->head + size) % self.buffer->length;
+
+    return size;
 }
 
 pxiword
-pxTargetBuffer8(PxTarget self, PxBuffer8* value)
+pxTargetWriteMemory8(PxTarget self, pxu8* memory, pxiword length)
+{
+    if (self.buffer == 0) return pxTargetWrite(self, memory, length);
+
+    pxiword size = self.buffer->length - self.buffer->size;
+
+    if (length > self.buffer->length || length > size) {
+        if (pxTargetFlush(self) <= 0) return 0;
+
+        if (length > self.buffer->length)
+            return pxTargetWrite(self, memory, length);
+    }
+
+    return pxBuffer8WriteMemory8Tail(self.buffer, memory, length);
+}
+
+pxiword
+pxTargetWriteMemory16(PxTarget self, pxu16* memory, pxiword length)
+{
+    pxiword index  = 0;
+    pxiword result = 0;
+
+    while (index < length) {
+        pxi32 unicode = 0;
+
+        index  += pxUtf16ReadForw(memory, length, index, &unicode);
+        result += pxTargetWriteUnicode(self, unicode);
+    }
+
+    return result;
+}
+
+pxiword
+pxTargetWriteMemory32(PxTarget self, pxu32* memory, pxiword length)
+{
+    pxiword index  = 0;
+    pxiword result = 0;
+
+    while (index < length) {
+        pxi32 unicode = 0;
+
+        index  += pxUtf32ReadForw(memory, length, index, &unicode);
+        result += pxTargetWriteUnicode(self, unicode);
+    }
+
+    return result;
+}
+
+pxiword
+pxTargetWriteBuffer8(PxTarget self, PxBuffer8* value)
 {
     pxBuffer8Normalize(value);
 
     pxu8*   memory = value->memory;
     pxiword length = value->size;
     pxiword size   = 0;
-    pxiword temp   = 0;
+    pxiword temp   = 1;
 
-    for (;size < length; size += temp) {
-        temp = pxTargetMemory8(self,
-            memory + size, length - size);
-
-        if (temp == 0) break;
-    }
+    for (; size < length && temp != 0; size += temp)
+        temp = pxTargetWriteMemory8(self, memory + size, length - size);
 
     value->size -= size;
     value->head  = (value->head + size) % value->length;
@@ -51,38 +124,100 @@ pxTargetBuffer8(PxTarget self, PxBuffer8* value)
 }
 
 pxiword
-pxTargetByte(PxTarget self, pxu8 value)
+pxTargetWriteBuffer16(PxTarget self, PxBuffer16* value)
 {
-    return pxTargetMemory8(self, &value, 1);
-}
+    pxBuffer16Normalize(value);
 
-pxiword
-pxTargetString8(PxTarget self, PxString8 value)
-{
-    pxu8*   memory = value.memory;
-    pxiword length = value.length;
+    pxu16*  memory = value->memory;
+    pxiword length = value->size;
     pxiword size   = 0;
-    pxiword temp   = 0;
+    pxiword temp   = 1;
 
-    for (;size < length; size += temp) {
-        temp = pxTargetMemory8(self,
-            memory + size, length - size);
+    for (; size < length && temp != 0; size += temp)
+        temp = pxTargetWriteMemory16(self, memory + size, length - size);
 
-        if (temp == 0) break;
-    }
+    value->size -= size;
+    value->head  = (value->head + size) % value->length;
 
     return size;
 }
 
 pxiword
-pxTargetUnicode(PxTarget self, pxi32 value)
+pxTargetWriteBuffer32(PxTarget self, PxBuffer32* value)
+{
+    pxBuffer32Normalize(value);
+
+    pxu32*  memory = value->memory;
+    pxiword length = value->size;
+    pxiword size   = 0;
+    pxiword temp   = 1;
+
+    for (; size < length && temp != 0; size += temp)
+        temp = pxTargetWriteMemory32(self, memory + size, length - size);
+
+    value->size -= size;
+    value->head  = (value->head + size) % value->length;
+
+    return size;
+}
+
+pxiword
+pxTargetWriteByte(PxTarget self, pxu8 value)
+{
+    return pxTargetWriteMemory8(self, &value, 1);
+}
+
+pxiword
+pxTargetWriteString8(PxTarget self, PxString8 value)
+{
+    pxu8*   memory = value.memory;
+    pxiword length = value.length;
+    pxiword size   = 0;
+    pxiword temp   = 1;
+
+    for (; size < length && temp != 0; size += temp)
+        temp = pxTargetWriteMemory8(self, memory + size, length - size);
+
+    return size;
+}
+
+pxiword
+pxTargetWriteString16(PxTarget self, PxString16 value)
+{
+    pxu16*  memory = value.memory;
+    pxiword length = value.length;
+    pxiword size   = 0;
+    pxiword temp   = 1;
+
+    for (; size < length && temp != 0; size += temp)
+        temp = pxTargetWriteMemory16(self, memory + size, length - size);
+
+    return size;
+}
+
+pxiword
+pxTargetWriteString32(PxTarget self, PxString32 value)
+{
+    pxu32*  memory = value.memory;
+    pxiword length = value.length;
+    pxiword size   = 0;
+    pxiword temp   = 1;
+
+    for (; size < length && temp != 0; size += temp)
+        temp = pxTargetWriteMemory32(self, memory + size, length - size);
+
+    return size;
+}
+
+pxiword
+pxTargetWriteUnicode(PxTarget self, pxi32 value)
 {
     pxiword result = 0;
     PxUtf8  utf8   = {0};
 
     if (pxUtf8Encode(&utf8, value) == 0) return result;
 
-    result = pxTargetMemory8(self, utf8.items, utf8.size);
+    result = pxTargetWriteMemory8(self, utf8.items, utf8.size);
 
     return result;
 }

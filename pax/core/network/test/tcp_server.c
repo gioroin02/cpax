@@ -2,12 +2,12 @@
 
 #include <stdio.h>
 
-#define RED(x) "\x1b[31m" x "\x1b[0m"
-#define GRN(x) "\x1b[32m" x "\x1b[0m"
-#define YLW(x) "\x1b[33m" x "\x1b[0m"
-#define BLU(x) "\x1b[34m" x "\x1b[0m"
-#define MAG(x) "\x1b[35m" x "\x1b[0m"
-#define CYA(x) "\x1b[36m" x "\x1b[0m"
+#define RED(x) "\x1b[91m" x "\x1b[0m"
+#define GRN(x) "\x1b[92m" x "\x1b[0m"
+#define YLW(x) "\x1b[93m" x "\x1b[0m"
+#define BLU(x) "\x1b[94m" x "\x1b[0m"
+#define MAG(x) "\x1b[95m" x "\x1b[0m"
+#define CYA(x) "\x1b[96m" x "\x1b[0m"
 
 #define FATAL MAG("FATAL")
 #define ERROR RED("ERROR")
@@ -110,7 +110,7 @@ main(int argc, char** argv)
         PxSource source = pxSourceFromSocketTcp(session.socket);
         PxTarget target = pxTargetFromSocketTcp(session.socket);
 
-        pxiword size = pxSourceBuffer8(source, &session.request);
+        pxiword size = pxSourceReadBuffer8(source, &session.request);
 
         if (size != 0) {
             PxString8 string = pxBuffer8ReadString8Head(
@@ -120,7 +120,7 @@ main(int argc, char** argv)
 
             pxBuffer8WriteString8Tail(&session.response, SERVER_MSG);
 
-            pxTargetBuffer8(target, &session.response);
+            pxTargetWriteBuffer8(target, &session.response);
         }
 
         pxSocketTcpDestroy(session.socket);

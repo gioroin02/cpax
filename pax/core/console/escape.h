@@ -8,9 +8,9 @@
 
 typedef enum PxConsoleEscFlag
 {
-    PX_CONSOLE_ESC_FLAG_NONE = 0x0,
-    PX_CONSOLE_ESC_FLAG_CSI  = 0x1,
-    PX_CONSOLE_ESC_FLAG_PRIV = 0x2,
+    PX_CONSOLE_ESC_FLAG_NONE = 0,
+    PX_CONSOLE_ESC_FLAG_CSI  = 1 << 0,
+    PX_CONSOLE_ESC_FLAG_PRIV = 1 << 1,
 }
 PxConsoleEscFlag;
 

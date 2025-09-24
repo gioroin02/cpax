@@ -525,23 +525,25 @@ pxConsoleMsgFromConsoleEscSeqnc(PxConsoleEscSeqnc value)
 pxb8
 pxConsoleQueueWriteMsg(PxConsoleQueue* self, PxConsoleMsg value)
 {
+    PxTarget target = pxTargetFromBuffer8(&self->buffer);
+
     switch (value.type) {
         case PX_CONSOLE_MSG_NONE: break;
 
         case PX_CONSOLE_MSG_STRING_8: {
-            pxBuffer8WriteString8Tail(&self->buffer, value.string_8);
+            pxTargetWriteString8(target, value.string_8);
         } break;
 
         case PX_CONSOLE_MSG_STRING_16:{
-            pxBuffer8WriteString16Tail(&self->buffer, value.string_16);
+            pxTargetWriteString16(target, value.string_16);
         } break;
 
         case PX_CONSOLE_MSG_STRING_32:{
-            pxBuffer8WriteString32Tail(&self->buffer, value.string_32);
+            pxTargetWriteString32(target, value.string_32);
         } break;
 
         case PX_CONSOLE_MSG_UNICODE: {
-            pxBuffer8WriteUnicodeTail(&self->buffer, value.unicode);
+            pxTargetWriteUnicode(target, value.unicode);
         } break;
 
         default: {
@@ -550,31 +552,33 @@ pxConsoleQueueWriteMsg(PxConsoleQueue* self, PxConsoleMsg value)
             PxFormatRadix radix = PX_FORMAT_RADIX_10;
             PxFormatFlag  flags = PX_FORMAT_FLAG_NONE;
 
-            pxBuffer8WriteString8Tail(&self->buffer, pxs8("\x1b"));
+            pxTargetWriteString8(target, pxs8("\x1b"));
 
             if ((escape.flags & PX_CONSOLE_ESC_FLAG_CSI) != 0)
-                pxBuffer8WriteString8Tail(&self->buffer, pxs8("["));
+                pxTargetWriteString8(target, pxs8("["));
 
             if ((escape.flags & PX_CONSOLE_ESC_FLAG_PRIV) != 0)
-                pxBuffer8WriteString8Tail(&self->buffer, pxs8("?"));
+                pxTargetWriteString8(target, pxs8("?"));
 
             for (pxiword j = 0; j < escape.size; j += 1) {
                 PxConsoleEscGroup* group = &escape.items[j];
 
                 for (pxiword i = 0; i < group->size; i += 1) {
-                    pxBuffer8WriteUnsignedTail(&self->buffer, group->items[i], radix, flags);
+                    pxTargetPrintUnsigned(target, group->items[i], radix, flags);
 
                     if (i + 1 < group->size)
-                        pxBuffer8WriteString8Tail(&self->buffer, pxs8(":"));
+                        pxTargetWriteString8(target, pxs8(":"));
                 }
 
                 if (j + 1 < escape.size)
-                    pxBuffer8WriteString8Tail(&self->buffer, pxs8(";"));
+                    pxTargetWriteString8(target, pxs8(";"));
             }
 
-            pxBuffer8WriteUnicodeTail(&self->buffer, escape.func);
+            pxTargetWriteUnicode(target, escape.func);
         } break;
     }
+
+    pxTargetFlush(target);
 
     return 1;
 }

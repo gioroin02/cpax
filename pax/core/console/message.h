@@ -4,7 +4,7 @@
 #include "escape.h"
 #include "color.h"
 
-#define PX_CONSOLE_STYLE_RGB_UNITS pxas(pxiword, 3)
+#define PX_CONSOLE_STYLE_RGB_UNITS px_as(pxiword, 3)
 
 typedef enum PxConsoleMsgType
 {

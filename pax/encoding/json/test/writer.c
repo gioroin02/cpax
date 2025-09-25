@@ -12,7 +12,7 @@
 
 typedef pxiword EntityTag;
 
-#define ENTITY_TAGS_ITEMS pxas(pxiword, 16)
+#define ENTITY_TAGS_ITEMS px_as(pxiword, 16)
 
 typedef struct EntityTags
 {
@@ -81,5 +81,5 @@ main(int argc, char** argv)
     }, &writer, &arena);
 
     printf(YLW("[start]") "\n%.*s\n" YLW("[stop]") "\n",
-        pxas(int, buffer.size), buffer.memory);
+        px_as(int, buffer.size), buffer.memory);
 }

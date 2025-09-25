@@ -80,7 +80,7 @@ pxLoggerWriteStop(PxLogger* self, PxReportLevel level)
 }
 
 pxb8
-pxLoggerWriteFormat(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length, PxReportLevel level)
+pxLoggerWriteFormat(PxLogger* self, PxReportLevel level, PxString8 format, PxFormatMsg* values, pxiword length)
 {
     if (level == PX_REPORT_LEVEL_NONE)
         return 0;
@@ -97,45 +97,45 @@ pxLoggerWriteFormat(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiwo
 }
 
 pxb8
-pxLoggerPrintFmt(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length)
+pxLoggerPrintFormat(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length)
 {
-    return pxLoggerWriteFormat(self, format, values, length, PX_REPORT_LEVEL_PRINT);
+    return pxLoggerWriteFormat(self, PX_REPORT_LEVEL_PRINT, format, values, length);
 }
 
 pxb8
-pxLoggerFatalFmt(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length)
+pxLoggerFatalFormat(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length)
 {
-    return pxLoggerWriteFormat(self, format, values, length, PX_REPORT_LEVEL_FATAL);
+    return pxLoggerWriteFormat(self, PX_REPORT_LEVEL_FATAL, format, values, length);
 }
 
 pxb8
-pxLoggerErrorFmt(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length)
+pxLoggerErrorFormat(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length)
 {
-    return pxLoggerWriteFormat(self, format, values, length, PX_REPORT_LEVEL_ERROR);
+    return pxLoggerWriteFormat(self, PX_REPORT_LEVEL_ERROR, format, values, length);
 }
 
 pxb8
-pxLoggerWarnFmt(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length)
+pxLoggerWarnFormat(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length)
 {
-    return pxLoggerWriteFormat(self, format, values, length, PX_REPORT_LEVEL_WARN);
+    return pxLoggerWriteFormat(self, PX_REPORT_LEVEL_WARN, format, values, length);
 }
 
 pxb8
-pxLoggerInfoFmt(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length)
+pxLoggerInfoFormat(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length)
 {
-    return pxLoggerWriteFormat(self, format, values, length, PX_REPORT_LEVEL_INFO);
+    return pxLoggerWriteFormat(self, PX_REPORT_LEVEL_INFO, format, values, length);
 }
 
 pxb8
-pxLoggerDebugFmt(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length)
+pxLoggerDebugFormat(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length)
 {
-    return pxLoggerWriteFormat(self, format, values, length, PX_REPORT_LEVEL_DEBUG);
+    return pxLoggerWriteFormat(self, PX_REPORT_LEVEL_DEBUG, format, values, length);
 }
 
 pxb8
-pxLoggerTraceFmt(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length)
+pxLoggerTraceFormat(PxLogger* self, PxString8 format, PxFormatMsg* values, pxiword length)
 {
-    return pxLoggerWriteFormat(self, format, values, length, PX_REPORT_LEVEL_TRACE);
+    return pxLoggerWriteFormat(self, PX_REPORT_LEVEL_TRACE, format, values, length);
 }
 
 #endif // PX_CORE_LOGGING_LOGGER_C

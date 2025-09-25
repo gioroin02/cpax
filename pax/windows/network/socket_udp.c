@@ -18,19 +18,19 @@ typedef struct sockaddr         PxSock;
 typedef struct sockaddr_in      PxSockIp4;
 typedef struct sockaddr_in6     PxSockIp6;
 
-#define PX_SOCK_DATA_SIZE pxsize(PxSockData)
-#define PX_SOCK_IP4_SIZE  pxsize(PxSockIp4)
-#define PX_SOCK_IP6_SIZE  pxsize(PxSockIp6)
+#define PX_SOCK_DATA_SIZE px_size(PxSockData)
+#define PX_SOCK_IP4_SIZE  px_size(PxSockIp4)
+#define PX_SOCK_IP6_SIZE  px_size(PxSockIp6)
 
-#define pxSock(x)    pxas(PxSock*, x)
-#define pxSockIp4(x) pxas(PxSockIp4*, x)
-#define pxSockIp6(x) pxas(PxSockIp6*, x)
+#define pxSock(x)    px_as(PxSock*, x)
+#define pxSockIp4(x) px_as(PxSockIp4*, x)
+#define pxSockIp6(x) px_as(PxSockIp6*, x)
 
-#define pxSockIp4Addr(x) pxas(void*,  &pxSockIp4(x)->sin_addr.s_addr)
-#define pxSockIp4Port(x) pxas(pxu16*, &pxSockIp4(x)->sin_port)
+#define pxSockIp4Addr(x) px_as(void*,  &pxSockIp4(x)->sin_addr.s_addr)
+#define pxSockIp4Port(x) px_as(pxu16*, &pxSockIp4(x)->sin_port)
 
-#define pxSockIp6Addr(x) pxas(void*,  pxSockIp6(x)->sin6_addr.s6_addr)
-#define pxSockIp6Port(x) pxas(pxu16*, &pxSockIp6(x)->sin6_port)
+#define pxSockIp6Addr(x) px_as(void*,  pxSockIp6(x)->sin6_addr.s6_addr)
+#define pxSockIp6Port(x) px_as(pxu16*, &pxSockIp6(x)->sin6_port)
 
 #endif // PX_WINDOWS_NETWORK_SOCKET
 
@@ -264,7 +264,7 @@ pxWindowsSocketUdpAccept(PxWindowsSocketUdp* self, PxArena* arena)
         pxiword    size = PX_SOCK_DATA_SIZE;
 
         result->handle = accept(self->handle,
-            pxSock(&data), pxas(int*, &size));
+            pxSock(&data), px_as(int*, &size));
 
         if (result->handle != INVALID_SOCKET) {
             result->addr = data;
@@ -279,13 +279,13 @@ pxWindowsSocketUdpAccept(PxWindowsSocketUdp* self, PxArena* arena)
 }
 
 pxiword
-pxWindowsSocketUdpWriteMemory8(PxWindowsSocketUdp* self, pxu8* memory, pxiword length)
+pxWindowsSocketUdpWrite(PxWindowsSocketUdp* self, pxu8* memory, pxiword length)
 {
     pxiword temp = 0;
 
     for (pxiword i = 0; i < length;) {
-        char* mem = pxas(char*, memory + i);
-        int   len = pxas(int,   length - i);
+        char* mem = px_as(char*, memory + i);
+        int   len = px_as(int,   length - i);
 
         temp = send(self->handle, mem, len, 0);
 
@@ -299,7 +299,7 @@ pxWindowsSocketUdpWriteMemory8(PxWindowsSocketUdp* self, pxu8* memory, pxiword l
 }
 
 pxiword
-pxWindowsSocketUdpWriteMemory8Host(PxWindowsSocketUdp* self, pxu8* memory, pxiword length, PxAddr addr, pxu16 port)
+pxWindowsSocketUdpWriteHost(PxWindowsSocketUdp* self, pxu8* memory, pxiword length, PxAddr addr, pxu16 port)
 {
     PxSockData data = {0};
     pxiword    size = 0;
@@ -339,8 +339,8 @@ pxWindowsSocketUdpWriteMemory8Host(PxWindowsSocketUdp* self, pxu8* memory, pxiwo
     pxiword temp = 0;
 
     for (pxiword i = 0; i < length;) {
-        char* mem = pxas(char*, memory + i);
-        int   len = pxas(int,   length - i);
+        char* mem = px_as(char*, memory + i);
+        int   len = px_as(int,   length - i);
 
         temp = sendto(self->handle, mem, len, 0,
             pxSock(&data), size);
@@ -355,12 +355,12 @@ pxWindowsSocketUdpWriteMemory8Host(PxWindowsSocketUdp* self, pxu8* memory, pxiwo
 }
 
 pxiword
-pxWindowsSocketUdpReadMemory8(PxWindowsSocketUdp* self, pxu8* memory, pxiword length)
+pxWindowsSocketUdpRead(PxWindowsSocketUdp* self, pxu8* memory, pxiword length)
 {
     pxiword temp = 0;
 
-    char* mem = pxas(char*, memory);
-    int   len = pxas(int,   length);
+    char* mem = px_as(char*, memory);
+    int   len = px_as(int,   length);
 
     temp = recv(self->handle, mem, len, 0);
 
@@ -371,17 +371,17 @@ pxWindowsSocketUdpReadMemory8(PxWindowsSocketUdp* self, pxu8* memory, pxiword le
 }
 
 pxiword
-pxWindowsSocketUdpReadMemory8Host(PxWindowsSocketUdp* self, pxu8* memory, pxiword length, PxAddr* addr, pxu16* port)
+pxWindowsSocketUdpReadHost(PxWindowsSocketUdp* self, pxu8* memory, pxiword length, PxAddr* addr, pxu16* port)
 {
     PxSockData data = {0};
     pxiword    size = PX_SOCK_DATA_SIZE;
     pxiword    temp = 0;
 
-    char* mem = pxas(char*, memory);
-    int   len = pxas(int,   length);
+    char* mem = px_as(char*, memory);
+    int   len = px_as(int,   length);
 
     temp = recvfrom(self->handle, mem, len, 0,
-        pxSock(&data), pxas(int*, &size));
+        pxSock(&data), px_as(int*, &size));
 
     if (temp <= 0 || temp > length) return 0;
 

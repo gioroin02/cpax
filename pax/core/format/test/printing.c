@@ -23,7 +23,7 @@ main(int argc, char** argv)
 
     string = pxBuffer8ReadString8Head(&buffer, &arena, buffer.size);
 
-    printf("'\x1b[34m%s\x1b[0m' (%lli)\n", string.memory, size);
+    printf("'\x1b[94m%s\x1b[0m' (%lli)\n", string.memory, size);
 
     pxTargetPrintFormat(target, pxs8("coords = {x = ${0}, y = ${1}, z = ${-1}}"),
         (PxFormatMsg[]) {
@@ -33,11 +33,11 @@ main(int argc, char** argv)
 
     string = pxBuffer8ReadString8Head(&buffer, &arena, buffer.size);
 
-    printf("'\x1b[34m%s\x1b[0m' (%lli)\n", string.memory, size);
+    printf("'\x1b[94m%s\x1b[0m' (%lli)\n", string.memory, size);
 
     pxTargetPrintFormat(target, pxs8("coords = {x = 0, y = 1, z = 2}"), 0, 0, &size);
 
     string = pxBuffer8ReadString8Head(&buffer, &arena, buffer.size);
 
-    printf("'\x1b[34m%s\x1b[0m' (%lli)\n", string.memory, size);
+    printf("'\x1b[94m%s\x1b[0m' (%lli)\n", string.memory, size);
 }

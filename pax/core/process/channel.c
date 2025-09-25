@@ -29,7 +29,7 @@ pxChannelIsOpen(PxChannel* self)
 }
 
 pxiword
-pxChannelWriteMemory8(PxChannel* self, pxu8* memory, pxiword length)
+pxChannelWrite(PxChannel* self, pxu8* memory, pxiword length)
 {
     pxiword size = 0;
 
@@ -44,7 +44,7 @@ pxChannelWriteMemory8(PxChannel* self, pxu8* memory, pxiword length)
 }
 
 pxiword
-pxChannelReadMemory8(PxChannel* self, pxu8* memory, pxiword length)
+pxChannelRead(PxChannel* self, pxu8* memory, pxiword length)
 {
     pxiword size = 0;
 
@@ -66,7 +66,7 @@ pxSourceFromChannel(PxChannel* self)
     if (self == 0) return result;
 
     result.ctxt = self;
-    result.proc = &pxChannelReadMemory8;
+    result.proc = &pxChannelRead;
 
     return result;
 }
@@ -79,7 +79,7 @@ pxTargetFromChannel(PxChannel* self)
     if (self == 0) return result;
 
     result.ctxt = self;
-    result.proc = &pxChannelWriteMemory8;
+    result.proc = &pxChannelWrite;
 
     return result;
 }

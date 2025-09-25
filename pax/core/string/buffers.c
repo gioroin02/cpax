@@ -25,7 +25,7 @@ pxiword
 pxBuffer8WriteMemory16Head(PxBuffer8* self, pxu16* memory, pxiword length)
 {
     pxiword temp = pxUtf8UnitsFromMemory16(memory, length);
-    pxiword size = pxmin(temp, self->length - self->size);
+    pxiword size = px_min(temp, self->length - self->size);
 
     if (size <= 0 || size > self->length) return 0;
 
@@ -62,7 +62,7 @@ pxiword
 pxBuffer8WriteMemory32Head(PxBuffer8* self, pxu32* memory, pxiword length)
 {
     pxiword temp = pxUtf8UnitsFromMemory32(memory, length);
-    pxiword size = pxmin(temp, self->length - self->size);
+    pxiword size = px_min(temp, self->length - self->size);
 
     if (size <= 0 || size > self->length) return 0;
 
@@ -135,7 +135,7 @@ pxiword
 pxBuffer8WriteMemory16Tail(PxBuffer8* self, pxu16* memory, pxiword length)
 {
     pxiword temp = pxUtf8UnitsFromMemory16(memory, length);
-    pxiword size = pxmin(temp, self->length - self->size);
+    pxiword size = px_min(temp, self->length - self->size);
 
     if (size <= 0 || size > self->length) return 0;
 
@@ -172,7 +172,7 @@ pxiword
 pxBuffer8WriteMemory32Tail(PxBuffer8* self, pxu32* memory, pxiword length)
 {
     pxiword temp = pxUtf8UnitsFromMemory32(memory, length);
-    pxiword size = pxmin(temp, self->length - self->size);
+    pxiword size = px_min(temp, self->length - self->size);
 
     if (size <= 0 || size > self->length) return 0;
 
@@ -226,7 +226,7 @@ pxBuffer8WriteString32Tail(PxBuffer8* self, PxString32 string)
 PxString8
 pxBuffer8ReadString8Head(PxBuffer8* self, PxArena* arena, pxiword length)
 {
-    pxiword size = pxmin(self->size, length);
+    pxiword size = px_min(self->size, length);
 
     if (size <= 0 || size > self->size) return (PxString8) {0};
 
@@ -245,7 +245,7 @@ pxBuffer8ReadString8Head(PxBuffer8* self, PxArena* arena, pxiword length)
 PxString8
 pxBuffer8ReadString8Tail(PxBuffer8* self, PxArena* arena, pxiword length)
 {
-    pxiword size = pxmin(self->size, length);
+    pxiword size = px_min(self->size, length);
 
     if (size <= 0 || size > self->size) return (PxString8) {0};
 
@@ -264,7 +264,7 @@ pxBuffer8ReadString8Tail(PxBuffer8* self, PxArena* arena, pxiword length)
 PxString8
 pxBuffer8PeekString8Head(PxBuffer8* self, PxArena* arena, pxiword length)
 {
-    pxiword size = pxmin(self->size, length);
+    pxiword size = px_min(self->size, length);
 
     if (size <= 0 || size > self->size) return (PxString8) {0};
 
@@ -283,7 +283,7 @@ pxBuffer8PeekString8Head(PxBuffer8* self, PxArena* arena, pxiword length)
 PxString8
 pxBuffer8PeekString8Tail(PxBuffer8* self, PxArena* arena, pxiword length)
 {
-    pxiword size = pxmin(self->size, length);
+    pxiword size = px_min(self->size, length);
 
     if (size <= 0 || size > self->size) return (PxString8) {0};
 

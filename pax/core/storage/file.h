@@ -30,10 +30,10 @@ pxb8
 pxFileDestroy(PxArena* arena, PxString8 base, PxString8 name);
 
 pxiword
-pxFileWriteMemory8(PxFile self, pxu8* memory, pxiword length);
+pxFileWrite(PxFile self, pxu8* memory, pxiword length);
 
 pxiword
-pxFileReadMemory8(PxFile self, pxu8* memory, pxiword length);
+pxFileRead(PxFile self, pxu8* memory, pxiword length);
 
 PxSource
 pxSourceFromFile(PxFile self);

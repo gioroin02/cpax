@@ -4,7 +4,7 @@
 #include "unicode.h"
 
 #define pxString32Vargs(x, ...) \
-    (PxString32) {pxvargs(pxu32, x, __VA_ARGS__), pxvargslen(pxu32, x, __VA_ARGS__)}
+    (PxString32) {px_array_from_vargs(pxu32, x, __VA_ARGS__), px_size_vargs(pxu32, x, __VA_ARGS__)}
 
 typedef struct PxString32
 {

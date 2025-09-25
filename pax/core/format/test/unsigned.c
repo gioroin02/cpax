@@ -16,6 +16,6 @@ main(int argc, char** argv)
     pxiword read = pxMemory8ReadUnsigned(buffer.memory, buffer.size, &value,
         PX_FORMAT_RADIX_16, PX_FORMAT_FLAG_UPPER | PX_FORMAT_FLAG_PLUS);
 
-    printf("'%.*s' [%lli], %llu, %lli, %s\n", pxas(int, wrote), buffer.memory, wrote,
+    printf("'%.*s' [%lli], %llu, %lli, %s\n", px_as(int, wrote), buffer.memory, wrote,
         value, read, read == wrote ? "ok" : "ko");
 }

@@ -306,14 +306,14 @@ gameStep(Game* self, PxArena* arena, pxf32 total, pxf32 slice)
     if (x >= 0 && x < self->batch.width)  self->x = x;
     if (y >= 0 && y < self->batch.height) self->y = y;
 
-    pxf32 comp_r = pxbetween((1 + sin(total + 0)) * 128, 1, 255);
-    pxf32 comp_g = pxbetween((1 + sin(total + 1)) * 128, 1, 255);
-    pxf32 comp_b = pxbetween((1 + sin(total + 2)) * 128, 1, 255);
+    pxf32 comp_r = px_between((1 + sin(total + 0)) * 128, 1, 255);
+    pxf32 comp_g = px_between((1 + sin(total + 1)) * 128, 1, 255);
+    pxf32 comp_b = px_between((1 + sin(total + 2)) * 128, 1, 255);
 
     self->text = pxConsoleColor16((self->text.color_16.index + 8) % 16);
 
     self->back = pxConsoleColorRGB(
-        pxas(pxu8, comp_r), pxas(pxu8, comp_g), pxas(pxu8, comp_b));
+        px_as(pxu8, comp_r), px_as(pxu8, comp_g), px_as(pxu8, comp_b));
 }
 
 void
@@ -338,7 +338,7 @@ gameLoop(Game* self, PxArena* arena, pxuword steps)
     gameStart(self, arena);
 
     pxf32 time_total = 0;
-    pxf32 time_slice = 1.0 / pxas(pxf32, steps);
+    pxf32 time_slice = 1.0 / px_as(pxf32, steps);
     pxf32 time_simul = 0;
 
     while (self->active != 0) {

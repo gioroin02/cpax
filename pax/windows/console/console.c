@@ -69,14 +69,14 @@ pxWindowsConsoleModeMessage(PxWindowsConsole* self)
 }
 
 pxiword
-pxWindowsConsoleWriteMemory8(PxWindowsConsole* self, pxu8* memory, pxiword length)
+pxWindowsConsoleWrite(PxWindowsConsole* self, pxu8* memory, pxiword length)
 {
     HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
     DWORD  temp   = 0;
 
     for (pxiword i = 0; i < length;) {
-        char* mem = pxas(char*, memory + i);
-        int   len = pxas(int,   length - i);
+        char* mem = px_as(char*, memory + i);
+        int   len = px_as(int,   length - i);
 
         pxb32 state = WriteFile(output, mem, len, &temp, 0);
 
@@ -90,13 +90,13 @@ pxWindowsConsoleWriteMemory8(PxWindowsConsole* self, pxu8* memory, pxiword lengt
 }
 
 pxiword
-pxWindowsConsoleReadMemory8(PxWindowsConsole* self, pxu8* memory, pxiword length)
+pxWindowsConsoleRead(PxWindowsConsole* self, pxu8* memory, pxiword length)
 {
     HANDLE input = GetStdHandle(STD_INPUT_HANDLE);
     DWORD  temp  = 0;
 
-    char* mem = pxas(char*, memory);
-    int   len = pxas(int,   length);
+    char* mem = px_as(char*, memory);
+    int   len = px_as(int,   length);
 
     pxb32 state = ReadFile(input, mem, len, &temp, 0);
 

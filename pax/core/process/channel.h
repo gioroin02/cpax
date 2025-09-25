@@ -20,10 +20,10 @@ pxb8
 pxChannelIsOpen(PxChannel* self);
 
 pxiword
-pxChannelWriteMemory8(PxChannel* self, pxu8* memory, pxiword length);
+pxChannelWrite(PxChannel* self, pxu8* memory, pxiword length);
 
 pxiword
-pxChannelReadMemory8(PxChannel* self, pxu8* memory, pxiword length);
+pxChannelRead(PxChannel* self, pxu8* memory, pxiword length);
 
 PxSource
 pxSourceFromChannel(PxChannel* self);

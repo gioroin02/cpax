@@ -6,7 +6,7 @@
 #define PX_ADDR_IP4_ANY       ((PxAddrIp4) {0})
 #define PX_ADDR_IP4_LOCALHOST ((PxAddrIp4) {.a = 127, .d = 1})
 
-#define PX_ADDR_IP4_GROUPS pxas(pxiword, 4)
+#define PX_ADDR_IP4_GROUPS px_as(pxiword, 4)
 
 typedef union PxAddrIp4
 {

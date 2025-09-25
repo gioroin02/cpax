@@ -26,7 +26,7 @@ pxWindowsThreadCreate(PxArena* arena, void* ctxt, void* proc)
         pxArenaReserve(arena, PxWindowsThread, 1);
 
     if (result != 0) {
-        PxWindowsThreadProc routine = pxas(PxWindowsThreadProc, proc);
+        PxWindowsThreadProc routine = px_as(PxWindowsThreadProc, proc);
 
         result->handle = CreateThread(0, 0,
             routine, ctxt, 0, &result->ident);

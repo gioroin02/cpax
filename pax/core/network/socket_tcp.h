@@ -30,10 +30,10 @@ PxSocketTcp
 pxSocketTcpAccept(PxSocketTcp self, PxArena* arena);
 
 pxiword
-pxSocketTcpWriteMemory8(PxSocketTcp self, pxu8* memory, pxiword length);
+pxSocketTcpWrite(PxSocketTcp self, pxu8* memory, pxiword length);
 
 pxiword
-pxSocketTcpReadMemory8(PxSocketTcp self, pxu8* memory, pxiword length);
+pxSocketTcpRead(PxSocketTcp self, pxu8* memory, pxiword length);
 
 PxSource
 pxSourceFromSocketTcp(PxSocketTcp self);

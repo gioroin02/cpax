@@ -50,7 +50,7 @@ pxLinuxClockElapsed(PxLinuxClock* self)
     pxuword seconds  = self->curr.tv_sec  - self->last.tv_sec;
     pxuword nseconds = self->curr.tv_nsec - self->last.tv_nsec;
 
-    return pxas(pxf32, seconds + nseconds) / pxas(pxf32, 1.0e9);
+    return px_as(pxf32, seconds + nseconds) / px_as(pxf32, 1.0e9);
 }
 
 #endif // PX_LINUX_TIME_CLOCK_C

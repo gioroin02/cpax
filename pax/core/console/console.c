@@ -7,21 +7,21 @@
 
     #include "../../windows/console/console.c"
 
-    #define __pxConsoleCreate__       pxWindowsConsoleCreate
-    #define __pxConsoleModeDefault__  pxWindowsConsoleModeDefault
-    #define __pxConsoleModeMessage__  pxWindowsConsoleModeMessage
-    #define __pxConsoleWriteMemory8__ pxWindowsConsoleWriteMemory8
-    #define __pxConsoleReadMemory8__  pxWindowsConsoleReadMemory8
+    #define __pxConsoleCreate__      pxWindowsConsoleCreate
+    #define __pxConsoleModeDefault__ pxWindowsConsoleModeDefault
+    #define __pxConsoleModeMessage__ pxWindowsConsoleModeMessage
+    #define __pxConsoleWrite__       pxWindowsConsoleWrite
+    #define __pxConsoleRead__        pxWindowsConsoleRead
 
 #elif PX_SYSTEM == PX_SYSTEM_LINUX
 
     #include "../../linux/console/console.c"
 
-    #define __pxConsoleCreate__       pxLinuxConsoleCreate
-    #define __pxConsoleModeDefault__  pxLinuxConsoleModeDefault
-    #define __pxConsoleModeMessage__  pxLinuxConsoleModeMessage
-    #define __pxConsoleWriteMemory8__ pxLinuxConsoleWriteMemory8
-    #define __pxConsoleReadMemory8__  pxLinuxConsoleReadMemory8
+    #define __pxConsoleCreate__      pxLinuxConsoleCreate
+    #define __pxConsoleModeDefault__ pxLinuxConsoleModeDefault
+    #define __pxConsoleModeMessage__ pxLinuxConsoleModeMessage
+    #define __pxConsoleWrite__       pxLinuxConsoleWrite
+    #define __pxConsoleRead__        pxLinuxConsoleRead
 
 #else
 
@@ -52,15 +52,15 @@ pxConsoleSetMode(PxConsole self, PxConsoleMode mode)
 }
 
 pxiword
-pxConsoleWriteMemory8(PxConsole self, pxu8* memory, pxiword length)
+pxConsoleWrite(PxConsole self, pxu8* memory, pxiword length)
 {
-    return __pxConsoleWriteMemory8__(self, memory, length);
+    return __pxConsoleWrite__(self, memory, length);
 }
 
 pxiword
-pxConsoleReadMemory8(PxConsole self, pxu8* memory, pxiword length)
+pxConsoleRead(PxConsole self, pxu8* memory, pxiword length)
 {
-    return __pxConsoleReadMemory8__(self, memory, length);
+    return __pxConsoleRead__(self, memory, length);
 }
 
 PxSource
@@ -71,7 +71,7 @@ pxSourceFromConsole(PxConsole self)
     if (self == 0) return result;
 
     result.ctxt = self;
-    result.proc = &pxConsoleReadMemory8;
+    result.proc = &pxConsoleRead;
 
     return result;
 }
@@ -84,7 +84,7 @@ pxTargetFromConsole(PxConsole self)
     if (self == 0) return result;
 
     result.ctxt = self;
-    result.proc = &pxConsoleWriteMemory8;
+    result.proc = &pxConsoleWrite;
 
     return result;
 }

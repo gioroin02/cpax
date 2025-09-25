@@ -7,52 +7,52 @@ pxu8
 pxMagnitudeInteger8(pxi8 value)
 {
     if (value < 0)
-        return -pxas(pxu8, value);
+        return -px_as(pxu8, value);
 
-    return pxas(pxu8, value);
+    return px_as(pxu8, value);
 }
 
 pxu16
 pxMagnitudeInteger16(pxi16 value)
 {
     if (value < 0)
-        return -pxas(pxu16, value);
+        return -px_as(pxu16, value);
 
-    return pxas(pxu16, value);
+    return px_as(pxu16, value);
 }
 
 pxu32
 pxMagnitudeInteger32(pxi32 value)
 {
     if (value < 0)
-        return -pxas(pxu32, value);
+        return -px_as(pxu32, value);
 
-    return pxas(pxu32, value);
+    return px_as(pxu32, value);
 }
 
 pxu64
 pxMagnitudeInteger64(pxi64 value)
 {
     if (value < 0)
-        return -pxas(pxu64, value);
+        return -px_as(pxu64, value);
 
-    return pxas(pxu64, value);
+    return px_as(pxu64, value);
 }
 
 pxuword
 pxMagnitudeInteger(pxiword value)
 {
     if (value < 0)
-        return -pxas(pxuword, value);
+        return -px_as(pxuword, value);
 
-    return pxas(pxuword, value);
+    return px_as(pxuword, value);
 }
 
 pxf32
 pxMagnitudeFloating32(pxf32 value)
 {
     pxu32* bits =
-        pxas(pxu32*, &value);
+        px_as(pxu32*, &value);
 
     *bits &= ~PX_F32_SIGN_MASK;
 
@@ -63,7 +63,7 @@ pxf64
 pxMagnitudeFloating64(pxf64 value)
 {
     pxu64* bits =
-        pxas(pxu64*, &value);
+        px_as(pxu64*, &value);
 
     *bits &= ~PX_F64_SIGN_MASK;
 
@@ -74,7 +74,7 @@ pxfword
 pxMagnitudeFloating(pxfword value)
 {
     pxuword* bits =
-        pxas(pxuword*, &value);
+        px_as(pxuword*, &value);
 
     *bits &= ~PX_FWORD_SIGN_MASK;
 

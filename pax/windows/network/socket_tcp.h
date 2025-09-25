@@ -30,9 +30,9 @@ PxWindowsSocketTcp*
 pxWindowsSocketTcpAccept(PxWindowsSocketTcp* self, PxArena* arena);
 
 pxiword
-pxWindowsSocketTcpWriteMemory8(PxWindowsSocketTcp* self, pxu8* memory, pxiword length);
+pxWindowsSocketTcpWrite(PxWindowsSocketTcp* self, pxu8* memory, pxiword length);
 
 pxiword
-pxWindowsSocketTcpReadMemory8(PxWindowsSocketTcp* self, pxu8* memory, pxiword length);
+pxWindowsSocketTcpRead(PxWindowsSocketTcp* self, pxu8* memory, pxiword length);
 
 #endif // PX_WINDOWS_NETWORK_SOCKET_TCP_H

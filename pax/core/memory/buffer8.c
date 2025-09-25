@@ -62,7 +62,7 @@ pxBuffer8CopyAmount(PxArena* arena, PxBuffer8 value, pxiword length)
 
     if (result.length <= 0) return result;
 
-    result.size = pxmin(result.length, value.size);
+    result.size = px_min(result.length, value.size);
     result.tail = result.size;
 
     for (pxiword i = 0; i < result.size; i += 1)
@@ -184,7 +184,7 @@ pxBuffer8GetBackOr(PxBuffer8* self, pxiword index, pxu8 value)
 pxiword
 pxBuffer8DropHead(PxBuffer8* self, pxiword amount)
 {
-    amount = pxmin(amount, self->size);
+    amount = px_min(amount, self->size);
 
     if (amount > 0) {
         pxiword next = self->head + amount;
@@ -199,7 +199,7 @@ pxBuffer8DropHead(PxBuffer8* self, pxiword amount)
 pxiword
 pxBuffer8DropTail(PxBuffer8* self, pxiword amount)
 {
-    amount = pxmin(amount, self->size);
+    amount = px_min(amount, self->size);
 
     if (amount > 0) {
         pxiword prev = self->tail + self->length - amount;
@@ -214,7 +214,7 @@ pxBuffer8DropTail(PxBuffer8* self, pxiword amount)
 pxiword
 pxBuffer8WriteHead(PxBuffer8* self, PxBuffer8* buffer)
 {
-    pxiword size = pxmin(buffer->size, self->length - self->size);
+    pxiword size = px_min(buffer->size, self->length - self->size);
 
     if (size <= 0 || size > self->length) return 0;
 
@@ -237,7 +237,7 @@ pxBuffer8WriteHead(PxBuffer8* self, PxBuffer8* buffer)
 pxiword
 pxBuffer8WriteMemory8Head(PxBuffer8* self, pxu8* memory, pxiword length)
 {
-    pxiword size = pxmin(length, self->length - self->size);
+    pxiword size = px_min(length, self->length - self->size);
 
     if (size <= 0 || size > self->length) return 0;
 
@@ -255,7 +255,7 @@ pxBuffer8WriteMemory8Head(PxBuffer8* self, pxu8* memory, pxiword length)
 pxiword
 pxBuffer8WriteTail(PxBuffer8* self, PxBuffer8* buffer)
 {
-    pxiword size = pxmin(buffer->size, self->length - self->size);
+    pxiword size = px_min(buffer->size, self->length - self->size);
 
     if (size <= 0 || size > self->length) return 0;
 
@@ -278,7 +278,7 @@ pxBuffer8WriteTail(PxBuffer8* self, PxBuffer8* buffer)
 pxiword
 pxBuffer8WriteMemory8Tail(PxBuffer8* self, pxu8* memory, pxiword length)
 {
-    pxiword size = pxmin(length, self->length - self->size);
+    pxiword size = px_min(length, self->length - self->size);
 
     if (size <= 0 || size > self->length) return 0;
 
@@ -296,7 +296,7 @@ pxBuffer8WriteMemory8Tail(PxBuffer8* self, pxu8* memory, pxiword length)
 pxiword
 pxBuffer8ReadHead(PxBuffer8* self, PxBuffer8* buffer)
 {
-    pxiword size = pxmin(self->size, buffer->length - buffer->size);
+    pxiword size = px_min(self->size, buffer->length - buffer->size);
 
     if (size <= 0 || size > self->size) return 0;
 
@@ -319,7 +319,7 @@ pxBuffer8ReadHead(PxBuffer8* self, PxBuffer8* buffer)
 pxiword
 pxBuffer8ReadMemory8Head(PxBuffer8* self, pxu8* memory, pxiword length)
 {
-    pxiword size = pxmin(self->size, length);
+    pxiword size = px_min(self->size, length);
 
     if (size <= 0 || size > self->size) return 0;
 
@@ -337,7 +337,7 @@ pxBuffer8ReadMemory8Head(PxBuffer8* self, pxu8* memory, pxiword length)
 pxiword
 pxBuffer8ReadTail(PxBuffer8* self, PxBuffer8* buffer)
 {
-    pxiword size = pxmin(self->size, buffer->length - buffer->size);
+    pxiword size = px_min(self->size, buffer->length - buffer->size);
 
     if (size <= 0 || size > self->size) return 0;
 
@@ -360,7 +360,7 @@ pxBuffer8ReadTail(PxBuffer8* self, PxBuffer8* buffer)
 pxiword
 pxBuffer8ReadMemory8Tail(PxBuffer8* self, pxu8* memory, pxiword length)
 {
-    pxiword size = pxmin(self->size, length);
+    pxiword size = px_min(self->size, length);
 
     if (size <= 0 || size > self->size) return 0;
 
@@ -378,7 +378,7 @@ pxBuffer8ReadMemory8Tail(PxBuffer8* self, pxu8* memory, pxiword length)
 pxiword
 pxBuffer8PeekHead(PxBuffer8* self, PxBuffer8* buffer)
 {
-    pxiword size = pxmin(self->size, buffer->length - buffer->size);
+    pxiword size = px_min(self->size, buffer->length - buffer->size);
 
     if (size <= 0 || size > self->size) return 0;
 
@@ -396,7 +396,7 @@ pxBuffer8PeekHead(PxBuffer8* self, PxBuffer8* buffer)
 pxiword
 pxBuffer8PeekMemory8Head(PxBuffer8* self, pxu8* memory, pxiword length)
 {
-    pxiword size = pxmin(self->size, length);
+    pxiword size = px_min(self->size, length);
 
     if (size <= 0 || size > self->size) return 0;
 
@@ -409,7 +409,7 @@ pxBuffer8PeekMemory8Head(PxBuffer8* self, pxu8* memory, pxiword length)
 pxiword
 pxBuffer8PeekTail(PxBuffer8* self, PxBuffer8* buffer)
 {
-    pxiword size = pxmin(self->size, buffer->length - buffer->size);
+    pxiword size = px_min(self->size, buffer->length - buffer->size);
 
     if (size <= 0 || size > self->size) return 0;
 
@@ -430,7 +430,7 @@ pxBuffer8PeekTail(PxBuffer8* self, PxBuffer8* buffer)
 pxiword
 pxBuffer8PeekMemory8Tail(PxBuffer8* self, pxu8* memory, pxiword length)
 {
-    pxiword size = pxmin(self->size, length);
+    pxiword size = px_min(self->size, length);
 
     if (size <= 0 || size > self->size) return 0;
 

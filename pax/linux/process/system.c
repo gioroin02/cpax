@@ -22,7 +22,7 @@ pxLinuxProcessCoreAmount()
     long result = sysconf(_SC_NPROCESSORS_ONLN);
 
     if (result > 0)
-        return pxas(pxiword, result);
+        return px_as(pxiword, result);
 
     return 0;
 }
@@ -41,7 +41,7 @@ pxLinuxCurrentThreadSleep(pxuword millis)
 pxiword
 pxLinuxCurrentThreadIdent()
 {
-    return pxas(pxiword, pthread_self());
+    return px_as(pxiword, pthread_self());
 }
 
 #endif // PX_LINUX_PROCESS_SYSTEM_C

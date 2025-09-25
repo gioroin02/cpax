@@ -3,8 +3,8 @@
 
 #include "import.h"
 
-#define PX_CONSOLE_ESC_GROUPS pxas(pxiword, 5)
-#define PX_CONSOLE_ESC_VALUES pxas(pxiword, 5)
+#define PX_CONSOLE_ESC_GROUPS px_as(pxiword, 5)
+#define PX_CONSOLE_ESC_VALUES px_as(pxiword, 5)
 
 typedef enum PxConsoleEscFlag
 {

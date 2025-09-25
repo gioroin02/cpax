@@ -18,19 +18,19 @@ typedef struct sockaddr         PxSock;
 typedef struct sockaddr_in      PxSockIp4;
 typedef struct sockaddr_in6     PxSockIp6;
 
-#define PX_SOCK_DATA_SIZE pxsize(PxSockData)
-#define PX_SOCK_IP4_SIZE  pxsize(PxSockIp4)
-#define PX_SOCK_IP6_SIZE  pxsize(PxSockIp6)
+#define PX_SOCK_DATA_SIZE px_size(PxSockData)
+#define PX_SOCK_IP4_SIZE  px_size(PxSockIp4)
+#define PX_SOCK_IP6_SIZE  px_size(PxSockIp6)
 
-#define pxSock(x)    pxas(PxSock*, x)
-#define pxSockIp4(x) pxas(PxSockIp4*, x)
-#define pxSockIp6(x) pxas(PxSockIp6*, x)
+#define pxSock(x)    px_as(PxSock*, x)
+#define pxSockIp4(x) px_as(PxSockIp4*, x)
+#define pxSockIp6(x) px_as(PxSockIp6*, x)
 
-#define pxSockIp4Addr(x) pxas(void*,  &pxSockIp4(x)->sin_addr.s_addr)
-#define pxSockIp4Port(x) pxas(pxu16*, &pxSockIp4(x)->sin_port)
+#define pxSockIp4Addr(x) px_as(void*,  &pxSockIp4(x)->sin_addr.s_addr)
+#define pxSockIp4Port(x) px_as(pxu16*, &pxSockIp4(x)->sin_port)
 
-#define pxSockIp6Addr(x) pxas(void*,  pxSockIp6(x)->sin6_addr.s6_addr)
-#define pxSockIp6Port(x) pxas(pxu16*, &pxSockIp6(x)->sin6_port)
+#define pxSockIp6Addr(x) px_as(void*,  pxSockIp6(x)->sin6_addr.s6_addr)
+#define pxSockIp6Port(x) px_as(pxu16*, &pxSockIp6(x)->sin6_port)
 
 #endif // PX_LINUX_NETWORK_SOCKET
 
@@ -274,7 +274,7 @@ pxLinuxSocketTcpAccept(PxLinuxSocketTcp* self, PxArena* arena)
 
         do {
             result->handle = accept(self->handle,
-                pxSock(&data), pxas(PxSockSize*, &size));
+                pxSock(&data), px_as(PxSockSize*, &size));
         } while (result->handle == -1 && errno == EINTR);
 
         if (result->handle != -1) {
@@ -290,13 +290,13 @@ pxLinuxSocketTcpAccept(PxLinuxSocketTcp* self, PxArena* arena)
 }
 
 pxiword
-pxLinuxSocketTcpWriteMemory8(PxLinuxSocketTcp* self, pxu8* memory, pxiword length)
+pxLinuxSocketTcpWrite(PxLinuxSocketTcp* self, pxu8* memory, pxiword length)
 {
     pxiword temp = 0;
 
     for (pxiword i = 0; i < length;) {
-        char* mem = pxas(char*, memory + i);
-        int   len = pxas(int,   length - i);
+        char* mem = px_as(char*, memory + i);
+        int   len = px_as(int,   length - i);
 
         do {
             temp = send(self->handle, mem, len, 0);
@@ -312,12 +312,12 @@ pxLinuxSocketTcpWriteMemory8(PxLinuxSocketTcp* self, pxu8* memory, pxiword lengt
 }
 
 pxiword
-pxLinuxSocketTcpReadMemory8(PxLinuxSocketTcp* self, pxu8* memory, pxiword length)
+pxLinuxSocketTcpRead(PxLinuxSocketTcp* self, pxu8* memory, pxiword length)
 {
     pxiword temp = 0;
 
-    char* mem = pxas(char*, memory);
-    int   len = pxas(int,   length);
+    char* mem = px_as(char*, memory);
+    int   len = px_as(int,   length);
 
     do {
         temp = recv(self->handle, mem, len, 0);

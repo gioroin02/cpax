@@ -30,9 +30,9 @@ pxb8
 pxLinuxFileDestroy(PxArena* arena, PxString8 base, PxString8 name);
 
 pxiword
-pxLinuxFileWriteMemory8(PxLinuxFile* self, pxu8* memory, pxiword length);
+pxLinuxFileWrite(PxLinuxFile* self, pxu8* memory, pxiword length);
 
 pxiword
-pxLinuxFileReadMemory8(PxLinuxFile* self, pxu8* memory, pxiword length);
+pxLinuxFileRead(PxLinuxFile* self, pxu8* memory, pxiword length);
 
 #endif // PX_LINUX_STORAGE_FILE_H

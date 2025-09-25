@@ -21,7 +21,7 @@ pxLinuxThreadCreate(PxArena* arena, void* ctxt, void* proc)
         pxArenaReserve(arena, PxLinuxThread, 1);
 
     if (result != 0) {
-        PxLinuxThreadProc routine = pxas(PxLinuxThreadProc, proc);
+        PxLinuxThreadProc routine = px_as(PxLinuxThreadProc, proc);
 
         int state = pthread_create(
             &result->handle, 0, routine, ctxt);

@@ -6,7 +6,7 @@
 #define PX_ADDR_IP6_ANY       ((PxAddrIp6) {0})
 #define PX_ADDR_IP6_LOCALHOST ((PxAddrIp6) {.h = 1})
 
-#define PX_ADDR_IP6_GROUPS pxas(pxiword, 8)
+#define PX_ADDR_IP6_GROUPS px_as(pxiword, 8)
 
 typedef union PxAddrIp6
 {

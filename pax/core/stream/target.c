@@ -6,7 +6,7 @@
 static pxiword
 pxTargetWrite(PxTarget self, pxu8* memory, pxiword length)
 {
-    PxTargetProc* proc = pxas(PxTargetProc*, self.proc);
+    PxTargetProc* proc = px_as(PxTargetProc*, self.proc);
 
     if (proc != 0)
         return proc(self.ctxt, memory, length);

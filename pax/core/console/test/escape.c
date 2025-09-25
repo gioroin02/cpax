@@ -31,7 +31,7 @@ showConsoleEscSeqncFromString8(PxString8 string)
 
     pxb8 state = pxConsoleEscSeqncFromString8(string, &escape);
 
-    printf("\x1b[34m'");
+    printf("\x1b[94m'");
 
     for (pxiword i = 0; i < string.length; i += 1) {
         pxu8 byte = string.memory[i];
@@ -45,7 +45,7 @@ showConsoleEscSeqncFromString8(PxString8 string)
             printf(" ");
     }
 
-    printf("'\x1b[0m -> %s\n", state != 0 ? "\x1b[32mT\x1b[0m" : "\x1b[31mF\x1b[0m");
+    printf("'\x1b[0m -> %s\n", state != 0 ? "\x1b[92mT\x1b[0m" : "\x1b[91mF\x1b[0m");
 
     if (state != 0) showConsoleEscSeqnc(escape);
 }

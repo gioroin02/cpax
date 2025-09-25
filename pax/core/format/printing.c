@@ -4,7 +4,7 @@
 #include "printing.h"
 
 static PxString8
-pxString8MatchFmtSpec(PxString8 string)
+pxString8MatchFormatSpec(PxString8 string)
 {
     pxu8*   memory = string.memory;
     pxiword length = string.length;
@@ -31,7 +31,7 @@ pxTargetPrintUnsigned(PxTarget target, pxuword value, PxFormatRadix radix, PxFor
     pxu8 memory[64] = {0};
 
     pxiword size = pxMemory8WriteUnsigned(
-        memory, pxarraylen(pxu8, memory), value, radix, flags);
+        memory, px_size_array(pxu8, memory), value, radix, flags);
 
     return pxTargetWriteMemory8(target, memory, size);
 }
@@ -42,7 +42,7 @@ pxTargetPrintInteger(PxTarget target, pxiword value, PxFormatRadix radix, PxForm
     pxu8 memory[64] = {0};
 
     pxiword size = pxMemory8WriteInteger(
-        memory, pxarraylen(pxu8, memory), value, radix, flags);
+        memory, px_size_array(pxu8, memory), value, radix, flags);
 
     return pxTargetWriteMemory8(target, memory, size);
 }
@@ -53,7 +53,7 @@ pxTargetPrintBoolean(PxTarget target, pxbword value, PxFormatFlag flags)
     pxu8 memory[64] = {0};
 
     pxiword size = pxMemory8WriteBoolean(
-        memory, pxarraylen(pxu8, memory), value, flags);
+        memory, px_size_array(pxu8, memory), value, flags);
 
     return pxTargetWriteMemory8(target, memory, size);
 }
@@ -166,7 +166,7 @@ pxTargetPrintFormat(PxTarget target, PxString8 format, PxFormatMsg* values, pxiw
 
         result += temp;
 
-        left  = pxString8MatchFmtSpec(right);
+        left  = pxString8MatchFormatSpec(right);
         right = pxString8SliceHead(right, left.length + 2);
 
         if (pxIntegerFromString8(left, &index, 10, 0) == 0)

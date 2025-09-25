@@ -38,8 +38,8 @@ main(int argc, char** argv)
     PxArena   arena  = pxArenaMake(memory, PX_MEMORY_KIB);
     PxBuffer8 buffer = pxBuffer8Reserve(&arena, 10);
 
-    pxBuffer8WriteMemory8Tail(&buffer, pxas(pxu8*, "coda"), 4);
-    pxBuffer8WriteMemory8Head(&buffer, pxas(pxu8*, "testa"), 5);
+    pxBuffer8WriteMemory8Tail(&buffer, px_as(pxu8*, "coda"), 4);
+    pxBuffer8WriteMemory8Head(&buffer, px_as(pxu8*, "testa"), 5);
 
     #define TEMP 3
 

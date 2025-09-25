@@ -226,13 +226,13 @@ pxLinuxFileDestroy(PxArena* arena, PxString8 base, PxString8 name)
 }
 
 pxiword
-pxLinuxFileWriteMemory8(PxLinuxFile* self, pxu8* memory, pxiword length)
+pxLinuxFileWrite(PxLinuxFile* self, pxu8* memory, pxiword length)
 {
     pxiword temp = 0;
 
     for (pxiword i = 0; i < length;) {
-        char* mem = pxas(char*, memory + i);
-        int   len = pxas(int,   length - i);
+        char* mem = px_as(char*, memory + i);
+        int   len = px_as(int,   length - i);
 
         do {
             temp = write(self->handle, mem, len);
@@ -248,12 +248,12 @@ pxLinuxFileWriteMemory8(PxLinuxFile* self, pxu8* memory, pxiword length)
 }
 
 pxiword
-pxLinuxFileReadMemory8(PxLinuxFile* self, pxu8* memory, pxiword length)
+pxLinuxFileRead(PxLinuxFile* self, pxu8* memory, pxiword length)
 {
     pxiword temp = 0;
 
-    char* mem = pxas(char*, memory);
-    int   len = pxas(int,   length);
+    char* mem = px_as(char*, memory);
+    int   len = px_as(int,   length);
 
     do {
         temp = read(self->handle, mem, len);

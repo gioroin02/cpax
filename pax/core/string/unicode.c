@@ -70,24 +70,24 @@ pxUtf8Encode(PxUtf8* self, pxi32 value)
     self->size = 0;
 
     switch (units) {
-        case 1: self->a = pxas(pxu8, value); break;
+        case 1: self->a = px_as(pxu8, value); break;
 
         case 2:
-            self->a = pxas(pxu8, ((value >> 6) & 0xff) | 0xc0);
-            self->b = pxas(pxu8, ((value >> 0) & 0x3f) | 0x80);
+            self->a = px_as(pxu8, ((value >> 6) & 0xff) | 0xc0);
+            self->b = px_as(pxu8, ((value >> 0) & 0x3f) | 0x80);
         break;
 
         case 3:
-            self->a = pxas(pxu8, ((value >> 12) & 0xff) | 0xe0);
-            self->b = pxas(pxu8, ((value >>  6) & 0x3f) | 0x80);
-            self->c = pxas(pxu8, ((value >>  0) & 0x3f) | 0x80);
+            self->a = px_as(pxu8, ((value >> 12) & 0xff) | 0xe0);
+            self->b = px_as(pxu8, ((value >>  6) & 0x3f) | 0x80);
+            self->c = px_as(pxu8, ((value >>  0) & 0x3f) | 0x80);
         break;
 
         case 4:
-            self->a = pxas(pxu8, ((value >> 18) & 0xff) | 0xf0);
-            self->b = pxas(pxu8, ((value >> 12) & 0x3f) | 0x80);
-            self->c = pxas(pxu8, ((value >>  6) & 0x3f) | 0x80);
-            self->d = pxas(pxu8, ((value >>  0) & 0x3f) | 0x80);
+            self->a = px_as(pxu8, ((value >> 18) & 0xff) | 0xf0);
+            self->b = px_as(pxu8, ((value >> 12) & 0x3f) | 0x80);
+            self->c = px_as(pxu8, ((value >>  6) & 0x3f) | 0x80);
+            self->d = px_as(pxu8, ((value >>  0) & 0x3f) | 0x80);
         break;
 
         default: return 0;
@@ -321,11 +321,11 @@ pxUtf16Encode(PxUtf16* self, pxi32 value)
     self->size = 0;
 
     switch (units) {
-        case 1: self->a = pxas(pxu16, value); break;
+        case 1: self->a = px_as(pxu16, value); break;
 
         case 2:
-            self->a = pxas(pxu16, (((value - 0x10000) >> 10) & 0xffff) | 0xd800);
-            self->b = pxas(pxu16, (((value - 0x10000) >>  0) & 0x03ff) | 0xdc00);
+            self->a = px_as(pxu16, (((value - 0x10000) >> 10) & 0xffff) | 0xd800);
+            self->b = px_as(pxu16, (((value - 0x10000) >>  0) & 0x03ff) | 0xdc00);
         break;
 
         default: return 0;
@@ -520,7 +520,7 @@ pxUtf32Encode(PxUtf32* self, pxi32 value)
 
     switch (units) {
         case 1:
-            self->a = pxas(pxu32, value);
+            self->a = px_as(pxu32, value);
         break;
 
         default: return 0;

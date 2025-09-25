@@ -25,7 +25,7 @@ main(int argc, char** argv)
         if (pxSourceReadBuffer8(source, &buffer) == 0)
             break;
 
-        printf("%.*s", pxas(int, buffer.size),
+        printf("%.*s", px_as(int, buffer.size),
             buffer.memory);
 
         pxBuffer8Clear(&buffer);

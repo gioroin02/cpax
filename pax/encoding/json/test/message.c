@@ -51,23 +51,23 @@ showJsonMsg(PxJsonReader* reader, PxArena* arena)
             break;
 
             case PX_JSON_MSG_NAME:
-                printf(CYA("'%.*s'"), pxas(int, message.name.length),
+                printf(CYA("'%.*s'"), px_as(int, message.name.length),
                     message.name.memory);
             break;
 
             case PX_JSON_MSG_STRING: {
                 if (message.name.length > 0) {
-                    printf(CYA("'%.*s'") ": ", pxas(int, message.name.length),
+                    printf(CYA("'%.*s'") ": ", px_as(int, message.name.length),
                         message.name.memory);
                 }
 
                 printf(BLU("'%.*s'"),
-                    pxas(int, message.string_8.length), message.string_8.memory);
+                    px_as(int, message.string_8.length), message.string_8.memory);
             } break;
 
             case PX_JSON_MSG_UNSIGNED: {
                 if (message.name.length > 0) {
-                    printf(CYA("'%.*s'") ": ", pxas(int, message.name.length),
+                    printf(CYA("'%.*s'") ": ", px_as(int, message.name.length),
                         message.name.memory);
                 }
 
@@ -76,7 +76,7 @@ showJsonMsg(PxJsonReader* reader, PxArena* arena)
 
             case PX_JSON_MSG_INTEGER: {
                 if (message.name.length > 0) {
-                    printf(CYA("'%.*s'") ": ", pxas(int, message.name.length),
+                    printf(CYA("'%.*s'") ": ", px_as(int, message.name.length),
                         message.name.memory);
                 }
 
@@ -85,7 +85,7 @@ showJsonMsg(PxJsonReader* reader, PxArena* arena)
 
             case PX_JSON_MSG_FLOATING: {
                 if (message.name.length > 0) {
-                    printf(CYA("'%.*s'") ": ", pxas(int, message.name.length),
+                    printf(CYA("'%.*s'") ": ", px_as(int, message.name.length),
                         message.name.memory);
                 }
 
@@ -94,7 +94,7 @@ showJsonMsg(PxJsonReader* reader, PxArena* arena)
 
             case PX_JSON_MSG_BOOLEAN: {
                 if (message.name.length > 0) {
-                    printf(CYA("'%.*s'") ": ", pxas(int, message.name.length),
+                    printf(CYA("'%.*s'") ": ", px_as(int, message.name.length),
                         message.name.memory);
                 }
 
@@ -103,7 +103,7 @@ showJsonMsg(PxJsonReader* reader, PxArena* arena)
 
             case PX_JSON_MSG_NULL: {
                 if (message.name.length > 0) {
-                    printf(CYA("'%.*s'") ": ", pxas(int, message.name.length),
+                    printf(CYA("'%.*s'") ": ", px_as(int, message.name.length),
                         message.name.memory);
                 }
 
@@ -130,7 +130,7 @@ main(int argc, char** argv)
     pxBuffer8WriteString8Tail(&items, ENTITY);
 
     printf(YLW("[start]") "\n%.*s\n" YLW("[stop]") "\n",
-        pxas(int, items.size), items.memory);
+        px_as(int, items.size), items.memory);
 
     printf("\n");
 

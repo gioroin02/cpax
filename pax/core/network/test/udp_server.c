@@ -96,7 +96,7 @@ main(int argc, char** argv)
         PxAddr addr = {0};
         pxu16  port = 0;
 
-        server.request.size = pxSocketUdpReadMemory8Host(server.socket,
+        server.request.size = pxSocketUdpReadHost(server.socket,
             server.request.memory, server.request.length, &addr, &port);
 
         if (server.request.size != 0) {
@@ -107,7 +107,7 @@ main(int argc, char** argv)
 
             pxBuffer8WriteString8Tail(&server.response, SERVER_MSG);
 
-            pxSocketUdpWriteMemory8Host(server.socket,
+            pxSocketUdpWriteHost(server.socket,
                 server.response.memory, server.response.size, addr, port);
 
             server.response.size = 0;

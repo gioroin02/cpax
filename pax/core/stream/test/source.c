@@ -70,7 +70,7 @@ main(int argc, char** argv)
 {
     pxu8 memory[PX_MEMORY_KIB] = {0};
 
-    PxArena arena = pxArenaMake(memory, pxsize(memory));
+    PxArena arena = pxArenaMake(memory, px_size(memory));
 
     PxBuffer8 items = pxBuffer8Reserve(&arena, 16);
 

@@ -3,7 +3,7 @@
 
 #include "import.h"
 
-#define PX_ASCII_POINTS pxas(pxiword, 128)
+#define PX_ASCII_POINTS px_as(pxiword, 128)
 
 typedef enum PxAscii
 {
@@ -138,9 +138,9 @@ typedef enum PxAscii
 }
 PxAscii;
 
-#define PX_UTF8_UNITS  pxas(pxiword, 4)
-#define PX_UTF16_UNITS pxas(pxiword, 2)
-#define PX_UTF32_UNITS pxas(pxiword, 1)
+#define PX_UTF8_UNITS  px_as(pxiword, 4)
+#define PX_UTF16_UNITS px_as(pxiword, 2)
+#define PX_UTF32_UNITS px_as(pxiword, 1)
 
 typedef struct PxUtf8
 {

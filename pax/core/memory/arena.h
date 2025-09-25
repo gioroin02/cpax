@@ -4,10 +4,10 @@
 #include "import.h"
 
 #define pxArenaReserve(self, t, amount) \
-    pxas(t*, pxArenaReserveMemory(self, amount, pxsize(t)))
+    px_as(t*, pxArenaReserveMemory(self, amount, px_size(t)))
 
 #define pxArenaCopy(self, value, t, amount) \
-    pxas(t*, pxArenaCopyMemory(self, value, amount, pxsize(t)))
+    px_as(t*, pxArenaCopyMemory(self, value, amount, px_size(t)))
 
 typedef struct PxArena
 {

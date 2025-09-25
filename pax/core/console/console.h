@@ -20,10 +20,10 @@ pxb8
 pxConsoleSetMode(PxConsole self, PxConsoleMode mode);
 
 pxiword
-pxConsoleWriteMemory8(PxConsole self, pxu8* memory, pxiword length);
+pxConsoleWrite(PxConsole self, pxu8* memory, pxiword length);
 
 pxiword
-pxConsoleReadMemory8(PxConsole self, pxu8* memory, pxiword length);
+pxConsoleRead(PxConsole self, pxu8* memory, pxiword length);
 
 PxSource
 pxSourceFromConsole(PxConsole self);

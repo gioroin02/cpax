@@ -37,7 +37,7 @@ pxArrayCopyAmount(PxArena* arena, PxArray* value, pxiword amount)
 
     if (result.length <= 0) return result;
 
-    result.size = pxmin(result.length, value->size);
+    result.size = px_min(result.length, value->size);
 
     for (pxiword i = 0; i < result.size; i += 1) {
         pxMemoryCopy(result.memory + i * stride,

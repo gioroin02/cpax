@@ -11,13 +11,13 @@
     #define __pxStandardOutput__ pxWindowsStandardOutput
     #define __pxStandardError__  pxWindowsStandardError
 
-    #define __pxFileCreate__       pxWindowsFileCreate
-    #define __pxFileReplace__      pxWindowsFileReplace
-    #define __pxFileOpen__         pxWindowsFileOpen
-    #define __pxFileClose__        pxWindowsFileClose
-    #define __pxFileDestroy__      pxWindowsFileDestroy
-    #define __pxFileWriteMemory8__ pxWindowsFileWriteMemory8
-    #define __pxFileReadMemory8__  pxWindowsFileReadMemory8
+    #define __pxFileCreate__  pxWindowsFileCreate
+    #define __pxFileReplace__ pxWindowsFileReplace
+    #define __pxFileOpen__    pxWindowsFileOpen
+    #define __pxFileClose__   pxWindowsFileClose
+    #define __pxFileDestroy__ pxWindowsFileDestroy
+    #define __pxFileWrite__   pxWindowsFileWrite
+    #define __pxFileRead__    pxWindowsFileRead
 
 #elif PX_SYSTEM == PX_SYSTEM_LINUX
 
@@ -27,13 +27,13 @@
     #define __pxStandardOutput__ pxLinuxStandardOutput
     #define __pxStandardError__  pxLinuxStandardError
 
-    #define __pxFileCreate__       pxLinuxFileCreate
-    #define __pxFileReplace__      pxLinuxFileReplace
-    #define __pxFileOpen__         pxLinuxFileOpen
-    #define __pxFileClose__        pxLinuxFileClose
-    #define __pxFileDestroy__      pxLinuxFileDestroy
-    #define __pxFileWriteMemory8__ pxLinuxFileWriteMemory8
-    #define __pxFileReadMemory8__  pxLinuxFileReadMemory8
+    #define __pxFileCreate__  pxLinuxFileCreate
+    #define __pxFileReplace__ pxLinuxFileReplace
+    #define __pxFileOpen__    pxLinuxFileOpen
+    #define __pxFileClose__   pxLinuxFileClose
+    #define __pxFileDestroy__ pxLinuxFileDestroy
+    #define __pxFileWrite__   pxLinuxFileWrite
+    #define __pxFileRead__    pxLinuxFileRead
 
 #else
 
@@ -90,15 +90,15 @@ pxFileDestroy(PxArena* arena, PxString8 base, PxString8 name)
 }
 
 pxiword
-pxFileWriteMemory8(PxFile self, pxu8* memory, pxiword length)
+pxFileWrite(PxFile self, pxu8* memory, pxiword length)
 {
-    return __pxFileWriteMemory8__(self, memory, length);
+    return __pxFileWrite__(self, memory, length);
 }
 
 pxiword
-pxFileReadMemory8(PxFile self, pxu8* memory, pxiword length)
+pxFileRead(PxFile self, pxu8* memory, pxiword length)
 {
-    return __pxFileReadMemory8__(self, memory, length);
+    return __pxFileRead__(self, memory, length);
 }
 
 PxSource
@@ -109,7 +109,7 @@ pxSourceFromFile(PxFile self)
     if (self == 0) return result;
 
     result.ctxt = self;
-    result.proc = &pxFileReadMemory8;
+    result.proc = &pxFileRead;
 
     return result;
 }
@@ -122,7 +122,7 @@ pxTargetFromFile(PxFile self)
     if (self == 0) return result;
 
     result.ctxt = self;
-    result.proc = &pxFileWriteMemory8;
+    result.proc = &pxFileWrite;
 
     return result;
 }

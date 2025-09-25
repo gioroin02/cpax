@@ -30,15 +30,15 @@ PxSocketUdp
 pxSocketUdpAccept(PxSocketUdp self, PxArena* arena);
 
 pxiword
-pxSocketUdpWriteMemory8(PxSocketUdp self, pxu8* memory, pxiword length);
+pxSocketUdpWrite(PxSocketUdp self, pxu8* memory, pxiword length);
 
 pxiword
-pxSocketUdpWriteMemory8Host(PxSocketUdp self, pxu8* memory, pxiword length, PxAddr addr, pxu16 port);
+pxSocketUdpWriteHost(PxSocketUdp self, pxu8* memory, pxiword length, PxAddr addr, pxu16 port);
 
 pxiword
-pxSocketUdpReadMemory8(PxSocketUdp self, pxu8* memory, pxiword length);
+pxSocketUdpRead(PxSocketUdp self, pxu8* memory, pxiword length);
 
 pxiword
-pxSocketUdpReadMemory8Host(PxSocketUdp self, pxu8* memory, pxiword length, PxAddr* addr, pxu16* port);
+pxSocketUdpReadHost(PxSocketUdp self, pxu8* memory, pxiword length, PxAddr* addr, pxu16* port);
 
 #endif // PX_CORE_NETWORK_SOCKET_UDP_H

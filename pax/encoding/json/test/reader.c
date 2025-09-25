@@ -12,7 +12,7 @@
 
 typedef pxiword EntityTag;
 
-#define ENTITY_TAGS_ITEMS pxas(pxiword, 16)
+#define ENTITY_TAGS_ITEMS px_as(pxiword, 16)
 
 typedef struct EntityTags
 {
@@ -117,7 +117,7 @@ main(int argc, char** argv)
     pxBuffer8WriteString8Tail(&items, ENTITY);
 
     printf(YLW("[start]") "\n%.*s\n" YLW("[stop]") "\n",
-        pxas(int, items.size), items.memory);
+        px_as(int, items.size), items.memory);
 
     printf("\n");
 
@@ -127,7 +127,7 @@ main(int argc, char** argv)
     entityReadJson(&entity, &reader, &arena);
 
     printf("name = %.*s\n",
-        pxas(int, entity.name.length), entity.name.memory);
+        px_as(int, entity.name.length), entity.name.memory);
 
     printf("code = %llu\n", entity.code);
 

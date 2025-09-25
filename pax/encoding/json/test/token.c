@@ -60,7 +60,7 @@ showJsonToken(PxSource source, PxArena* arena)
 
             case PX_JSON_TOKEN_STRING:
                 printf(BLU("'%.*s'"),
-                    pxas(int, token.string_8.length), token.string_8.memory);
+                    px_as(int, token.string_8.length), token.string_8.memory);
             break;
 
             case PX_JSON_TOKEN_UNSIGNED:
@@ -99,7 +99,7 @@ main(int argc, char** argv)
     pxBuffer8WriteString8Tail(&items, ENTITY);
 
     printf(YLW("[start]") "\n%.*s\n" YLW("[stop]") "\n",
-        pxas(int, items.size), items.memory);
+        px_as(int, items.size), items.memory);
 
     printf("\n");
 

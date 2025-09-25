@@ -4,43 +4,43 @@
 #include "import.h"
 
 #define pxArrayReserve(arena, t, length) \
-    pxArrayReserveMemory(arena, length, pxsize(t))
+    pxArrayReserveMemory(arena, length, px_size(t))
 
 #define pxArrayInsert(self, index, t, x) \
-    pxArrayInsertMemory(self, index, x, pxsize(t))
+    pxArrayInsertMemory(self, index, x, px_size(t))
 
 #define pxArrayInsertHead(self, t, x) \
-    pxArrayInsertHeadMemory(self, x, pxsize(t))
+    pxArrayInsertHeadMemory(self, x, px_size(t))
 
 #define pxArrayInsertTail(self, t, x) \
-    pxArrayInsertTailMemory(self, x, pxsize(t))
+    pxArrayInsertTailMemory(self, x, px_size(t))
 
 #define pxArrayRemove(self, index, t, x) \
-    pxArrayRemoveMemory(self, index, x, pxsize(t))
+    pxArrayRemoveMemory(self, index, x, px_size(t))
 
 #define pxArrayRemoveHead(self, t, x) \
-    pxArrayRemoveHeadMemory(self, x, pxsize(t))
+    pxArrayRemoveHeadMemory(self, x, px_size(t))
 
 #define pxArrayRemoveTail(self, t, x) \
-    pxArrayRemoveTailMemory(self, x, pxsize(t))
+    pxArrayRemoveTailMemory(self, x, px_size(t))
 
 #define pxArrayUpdate(self, index, t, x) \
-    pxArrayUpdateMemory(self, index, x, pxsize(t))
+    pxArrayUpdateMemory(self, index, x, px_size(t))
 
 #define pxArrayUpdateHead(self, t, x) \
-    pxArrayUpdateHeadMemory(self, x, pxsize(t))
+    pxArrayUpdateHeadMemory(self, x, px_size(t))
 
 #define pxArrayUpdateTail(self, t, x) \
-    pxArrayUpdateTailMemory(self, x, pxsize(t))
+    pxArrayUpdateTailMemory(self, x, px_size(t))
 
 #define pxArrayRead(self, index, t, x) \
-    pxArrayReadMemory(self, index, x, pxsize(t))
+    pxArrayReadMemory(self, index, x, px_size(t))
 
 #define pxArrayReadHead(self, t, x) \
-    pxArrayReadHeadMemory(self, x, pxsize(t))
+    pxArrayReadHeadMemory(self, x, px_size(t))
 
 #define pxArrayReadTail(self, t, x) \
-    pxArrayReadTailMemory(self, x, pxsize(t))
+    pxArrayReadTailMemory(self, x, px_size(t))
 
 typedef struct
 {

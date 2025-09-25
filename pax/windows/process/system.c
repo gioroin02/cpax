@@ -16,7 +16,7 @@ pxWindowsProcessCoreAmount()
 
     GetSystemInfo(&info);
 
-    return pxas(pxiword, info.dwNumberOfProcessors);
+    return px_as(pxiword, info.dwNumberOfProcessors);
 }
 
 void
@@ -28,7 +28,7 @@ pxWindowsCurrentThreadSleep(pxuword millis)
 pxiword
 pxWindowsCurrentThreadIdent()
 {
-    return pxas(pxiword, GetCurrentThreadId());
+    return px_as(pxiword, GetCurrentThreadId());
 }
 
 #endif // PX_WINDOWS_PROCESS_SYSTEM_C

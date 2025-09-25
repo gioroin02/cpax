@@ -60,6 +60,8 @@ pxUnicodeIsBooleanDigit(pxi32 value, PxFormatFlag flags)
 PxString8
 pxSourceMatchUnsigned(PxSource source, PxArena* arena, pxiword length, PxFormatRadix radix, PxFormatFlag flags)
 {
+    if (length <= 0) return pxString8Make(0, 0);
+
     pxiword offset = pxArenaOffset(arena);
     pxu8*   memory = pxArenaReserve(arena, pxu8, length + 1);
 
@@ -85,6 +87,8 @@ pxSourceMatchUnsigned(PxSource source, PxArena* arena, pxiword length, PxFormatR
 PxString8
 pxSourceMatchInteger(PxSource source, PxArena* arena, pxiword length, PxFormatRadix radix, PxFormatFlag flags)
 {
+    if (length <= 0) return pxString8Make(0, 0);
+
     pxiword offset = pxArenaOffset(arena);
     pxu8*   memory = pxArenaReserve(arena, pxu8, length + 1);
 
@@ -110,6 +114,8 @@ pxSourceMatchInteger(PxSource source, PxArena* arena, pxiword length, PxFormatRa
 PxString8
 pxSourceMatchBoolean(PxSource source, PxArena* arena, pxiword length, PxFormatFlag flags)
 {
+    if (length <= 0) return pxString8Make(0, 0);
+
     pxiword offset = pxArenaOffset(arena);
     pxu8*   memory = pxArenaReserve(arena, pxu8, length + 1);
 

@@ -4,10 +4,10 @@
 #include "unicode.h"
 
 #define pxs8(x) \
-    (PxString8) {pxas(pxu8*, x), pxarraylen(pxu8, x) - 1}
+    (PxString8) {px_as(pxu8*, x), px_size_array(pxu8, x) - 1}
 
 #define pxString8Vargs(x, ...) \
-    (PxString8) {pxvargs(pxu8, x, __VA_ARGS__), pxvargslen(pxu8, x, __VA_ARGS__)}
+    (PxString8) {px_array_from_vargs(pxu8, x, __VA_ARGS__), px_size_vargs(pxu8, x, __VA_ARGS__)}
 
 typedef struct PxString8
 {

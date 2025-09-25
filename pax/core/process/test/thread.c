@@ -30,7 +30,7 @@ pollingProc(Context* context)
     for (pxiword i = 0; i < 26; i += 1) {
         pxu8 byte = 'A' + i;
 
-        pxChannelWriteMemory8(&context->channel, &byte, 1);
+        pxChannelWrite(&context->channel, &byte, 1);
 
         pxCurrentThreadSleep(rand() % 500);
     }
@@ -57,7 +57,7 @@ main(int argc, char** argv)
 
     while (pxChannelIsOpen(&context.channel) != 0) {
         pxu8    byte = 0;
-        pxiword size = pxChannelReadMemory8(&context.channel, &byte, 1);
+        pxiword size = pxChannelRead(&context.channel, &byte, 1);
 
         if (size != 0) printf("%c\n", byte);
     }

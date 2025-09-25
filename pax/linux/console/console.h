@@ -15,9 +15,9 @@ pxb8
 pxLinuxConsoleModeMessage(PxLinuxConsole* self);
 
 pxiword
-pxLinuxConsoleWriteMemory8(PxLinuxConsole* self, pxu8* memory, pxiword length);
+pxLinuxConsoleWrite(PxLinuxConsole* self, pxu8* memory, pxiword length);
 
 pxiword
-pxLinuxConsoleReadMemory8(PxLinuxConsole* self, pxu8* memory, pxiword length);
+pxLinuxConsoleRead(PxLinuxConsole* self, pxu8* memory, pxiword length);
 
 #endif // PX_LINUX_CONSOLE_CONSOLE_H

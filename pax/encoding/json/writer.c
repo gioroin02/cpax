@@ -194,7 +194,7 @@ pxJsonWriterMsg(PxJsonWriter* self, PxArena* arena, PxJsonMsg message)
         } break;
 
         case PX_JSON_MSG_DELEGATE: {
-            PxJsonWriterProc* proc = pxas(PxJsonWriterProc*, message.delegate.proc);
+            PxJsonWriterProc* proc = px_as(PxJsonWriterProc*, message.delegate.proc);
 
             if ((self->flags & PX_JSON_WRITER_COMMA) != 0)
                 pxTargetWriteByte(self->target, PX_ASCII_COMMA);
@@ -234,7 +234,7 @@ pxJsonWriterList(PxJsonWriter* self, PxArena* arena, PxJsonMsg* values, pxiword 
 pxb8
 pxJsonWriterObjectItem(PxJsonWriter* self, PxArena* arena, void* ctxt, void* proc, PxString8 name)
 {
-    PxJsonWriterProc* temp = pxas(PxJsonWriterProc*, proc);
+    PxJsonWriterProc* temp = px_as(PxJsonWriterProc*, proc);
 
     pxJsonWriterMsg(self, arena, pxJsonMsgName(name));
 
@@ -259,7 +259,7 @@ pxJsonWriterObjectClose(PxJsonWriter* self, PxArena* arena)
 pxb8
 pxJsonWriterArrayItem(PxJsonWriter* self, PxArena* arena, void* ctxt, void* proc)
 {
-    PxJsonWriterProc* temp = pxas(PxJsonWriterProc*, proc);
+    PxJsonWriterProc* temp = px_as(PxJsonWriterProc*, proc);
 
     if (proc != 0)
         return temp(ctxt, self, arena);

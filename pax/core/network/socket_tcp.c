@@ -7,31 +7,31 @@
 
     #include "../../windows/network/socket_tcp.c"
 
-    #define __pxSocketTcpCreate__       pxWindowsSocketTcpCreate
-    #define __pxSocketTcpDestroy__      pxWindowsSocketTcpDestroy
-    #define __pxSocketTcpGetAddr__      pxWindowsSocketTcpGetAddr
-    #define __pxSocketTcpGetPort__      pxWindowsSocketTcpGetPort
-    #define __pxSocketTcpBind__         pxWindowsSocketTcpBind
-    #define __pxSocketTcpListen__       pxWindowsSocketTcpListen
-    #define __pxSocketTcpConnect__      pxWindowsSocketTcpConnect
-    #define __pxSocketTcpAccept__       pxWindowsSocketTcpAccept
-    #define __pxSocketTcpWriteMemory8__ pxWindowsSocketTcpWriteMemory8
-    #define __pxSocketTcpReadMemory8__  pxWindowsSocketTcpReadMemory8
+    #define __pxSocketTcpCreate__  pxWindowsSocketTcpCreate
+    #define __pxSocketTcpDestroy__ pxWindowsSocketTcpDestroy
+    #define __pxSocketTcpGetAddr__ pxWindowsSocketTcpGetAddr
+    #define __pxSocketTcpGetPort__ pxWindowsSocketTcpGetPort
+    #define __pxSocketTcpBind__    pxWindowsSocketTcpBind
+    #define __pxSocketTcpListen__  pxWindowsSocketTcpListen
+    #define __pxSocketTcpConnect__ pxWindowsSocketTcpConnect
+    #define __pxSocketTcpAccept__  pxWindowsSocketTcpAccept
+    #define __pxSocketTcpWrite__   pxWindowsSocketTcpWrite
+    #define __pxSocketTcpRead__    pxWindowsSocketTcpRead
 
 #elif PX_SYSTEM == PX_SYSTEM_LINUX
 
     #include "../../linux/network/socket_tcp.c"
 
-    #define __pxSocketTcpCreate__       pxLinuxSocketTcpCreate
-    #define __pxSocketTcpDestroy__      pxLinuxSocketTcpDestroy
-    #define __pxSocketTcpGetAddr__      pxLinuxSocketTcpGetAddr
-    #define __pxSocketTcpGetPort__      pxLinuxSocketTcpGetPort
-    #define __pxSocketTcpBind__         pxLinuxSocketTcpBind
-    #define __pxSocketTcpListen__       pxLinuxSocketTcpListen
-    #define __pxSocketTcpConnect__      pxLinuxSocketTcpConnect
-    #define __pxSocketTcpAccept__       pxLinuxSocketTcpAccept
-    #define __pxSocketTcpWriteMemory8__ pxLinuxSocketTcpWriteMemory8
-    #define __pxSocketTcpReadMemory8__  pxLinuxSocketTcpReadMemory8
+    #define __pxSocketTcpCreate__  pxLinuxSocketTcpCreate
+    #define __pxSocketTcpDestroy__ pxLinuxSocketTcpDestroy
+    #define __pxSocketTcpGetAddr__ pxLinuxSocketTcpGetAddr
+    #define __pxSocketTcpGetPort__ pxLinuxSocketTcpGetPort
+    #define __pxSocketTcpBind__    pxLinuxSocketTcpBind
+    #define __pxSocketTcpListen__  pxLinuxSocketTcpListen
+    #define __pxSocketTcpConnect__ pxLinuxSocketTcpConnect
+    #define __pxSocketTcpAccept__  pxLinuxSocketTcpAccept
+    #define __pxSocketTcpWrite__   pxLinuxSocketTcpWrite
+    #define __pxSocketTcpRead__    pxLinuxSocketTcpRead
 
 #else
 
@@ -88,15 +88,15 @@ pxSocketTcpAccept(PxSocketTcp self, PxArena* arena)
 }
 
 pxiword
-pxSocketTcpWriteMemory8(PxSocketTcp self, pxu8* memory, pxiword length)
+pxSocketTcpWrite(PxSocketTcp self, pxu8* memory, pxiword length)
 {
-    return __pxSocketTcpWriteMemory8__(self, memory, length);
+    return __pxSocketTcpWrite__(self, memory, length);
 }
 
 pxiword
-pxSocketTcpReadMemory8(PxSocketTcp self, pxu8* memory, pxiword length)
+pxSocketTcpRead(PxSocketTcp self, pxu8* memory, pxiword length)
 {
-    return __pxSocketTcpReadMemory8__(self, memory, length);
+    return __pxSocketTcpRead__(self, memory, length);
 }
 
 PxSource
@@ -107,7 +107,7 @@ pxSourceFromSocketTcp(PxSocketTcp self)
     if (self == 0) return result;
 
     result.ctxt = self;
-    result.proc = &pxSocketTcpReadMemory8;
+    result.proc = &pxSocketTcpRead;
 
     return result;
 }
@@ -120,7 +120,7 @@ pxTargetFromSocketTcp(PxSocketTcp self)
     if (self == 0) return result;
 
     result.ctxt = self;
-    result.proc = &pxSocketTcpWriteMemory8;
+    result.proc = &pxSocketTcpWrite;
 
     return result;
 }

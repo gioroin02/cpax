@@ -6,7 +6,7 @@
 static pxiword
 pxSourceRead(PxSource self, pxu8* memory, pxiword length)
 {
-    PxSourceProc* proc = pxas(PxSourceProc*, self.proc);
+    PxSourceProc* proc = px_as(PxSourceProc*, self.proc);
 
     if (proc != 0)
         return proc(self.ctxt, memory, length);
